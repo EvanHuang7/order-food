@@ -24,38 +24,48 @@ enum PaymentStatus {
 }
 
 model Customer {
-  id          Int    @id @default(autoincrement())
-  cognitoId   String @unique
-  name        String
-  email       String @unique
-  phoneNumber String
+  id            Int          @id @default(autoincrement())
+  cognitoId     String       @unique
+  name          String
+  email         String       @unique
+  phoneNumber   String
+  locationId    Int          @unique
 
-  orders      Order[]
+  location      Location     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location
+  orders        Order[]      // 1-to-many: Customer has many Orders
+  favoriteRests FavoriteRestaurant[] // many-to-many via join table FavoriteRestaurant
+  paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional)
+  notifications Notification[] // 1-to-many: Customer can have many Notifications
 }
 
 model Restaurant {
+  id          Int       @id @default(autoincrement())
+  cognitoId   String    @unique
+  name        String
+  email       String    @unique
+  phoneNumber String
+  description String?
+  photoUrls   String[]
+  locationId  Int       @unique
+
+  openTime    String    // e.g. "09:00"
+  closeTime   String    // e.g. "21:00"
+  categories  String[]  // array of category names as strings
+
+  location      Location         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
+  menuItems     MenuItem[]       // 1-to-many: Restaurant has many MenuItems
+  orders        Order[]          // 1-to-many: Restaurant has many Orders
+  favoriteBy    FavoriteRestaurant[] // many-to-many inverse relation for customers who favorited this restaurant
+}
+
+model Driver {
   id          Int      @id @default(autoincrement())
   cognitoId   String   @unique
   name        String
   email       String   @unique
   phoneNumber String
-  description String?
-  photoUrls   String[]
-  locationId  Int
 
-  location    Location @relation(fields: [locationId], references: [id])
-  menuItems   MenuItem[]
-  orders      Order[]
-}
-
-model Driver {
-  id          Int    @id @default(autoincrement())
-  cognitoId   String @unique
-  name        String
-  email       String @unique
-  phoneNumber String
-
-  orders      Order[]
+  orders      Order[]  // 1-to-many: Driver has many Orders
 }
 
 model MenuItem {
@@ -66,8 +76,8 @@ model MenuItem {
   photoUrl     String?
   restaurantId Int
 
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-  orderItems   OrderItem[]
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many MenuItems belong to one Restaurant
+  orderItems   OrderItem[] // 1-to-many: MenuItem can appear in many OrderItems
 }
 
 model Order {
@@ -79,11 +89,11 @@ model Order {
   restaurantId Int
   driverId     Int?
 
-  customer     Customer   @relation(fields: [customerId], references: [id])
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-  driver       Driver?    @relation(fields: [driverId], references: [id])
-  items        OrderItem[]
-  payment      Payment?
+  customer     Customer   @relation(fields: [customerId], references: [id]) // many-to-1: Many Orders belong to one Customer
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many Orders belong to one Restaurant
+  driver       Driver?    @relation(fields: [driverId], references: [id]) // many-to-1 (optional): Many Orders may belong to one Driver
+  items        OrderItem[] // 1-to-many: Order has many OrderItems
+  payment      Payment?    // 1-to-1 (optional): Order may have one Payment
 }
 
 model OrderItem {
@@ -93,8 +103,8 @@ model OrderItem {
   orderId    Int
   menuItemId Int
 
-  order      Order    @relation(fields: [orderId], references: [id])
-  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id]) // many-to-1: Many OrderItems belong to one Order
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id]) // many-to-1: Many OrderItems refer to one MenuItem
 }
 
 model Payment {
@@ -104,14 +114,50 @@ model Payment {
   paymentDate  DateTime
   orderId      Int           @unique
 
-  order        Order         @relation(fields: [orderId], references: [id])
+  order        Order         @relation(fields: [orderId], references: [id]) // 1-to-1: Payment belongs to exactly one Order
 }
 
 model Location {
-  id         Int    @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   address    String
   city       String
   state      String
   country    String
   postalCode String
+
+  customer   Customer?   // optional back relation, 1-to-1 with Customer
+  restaurant Restaurant? // optional back relation, 1-to-1 with Restaurant
+}
+
+// Many-to-many join table for customer favorites restaurants
+model FavoriteRestaurant {
+  customerId   Int
+  restaurantId Int
+
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  restaurant  Restaurant  @relation(fields: [restaurantId], references: [id])
+
+  @@id([customerId, restaurantId])
+}
+
+model PaymentInfo {
+  id              Int       @id @default(autoincrement())
+  customerId      Int       @unique
+  cardHolderName  String
+  cardNumberHash  String    // store securely (hashed or tokenized)
+  expiryMonth     Int
+  expiryYear      Int
+  billingAddress  String
+
+  customer        Customer  @relation(fields: [customerId], references: [id]) // 1-to-1: PaymentInfo belongs to one Customer
+}
+
+model Notification {
+  id           Int       @id @default(autoincrement())
+  customerId   Int
+  message      String
+  sentAt       DateTime  @default(now())
+  read         Boolean   @default(false)
+
+  customer     Customer  @relation(fields: [customerId], references: [id]) // many-to-1: many notifications per customer
 }
