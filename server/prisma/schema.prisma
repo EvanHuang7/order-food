@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  Pending
+  Accepted
+  Preparing
+  PickedUp
+  Delivered
+  Cancelled
+}
+
+enum PaymentStatus {
+  Pending
+  Paid
+  Refunded
+  Failed
+}
+
+model Customer {
+  id          Int    @id @default(autoincrement())
+  cognitoId   String @unique
+  name        String
+  email       String @unique
+  phoneNumber String
+
+  orders      Order[]
+}
+
+model Restaurant {
+  id          Int      @id @default(autoincrement())
+  cognitoId   String   @unique
+  name        String
+  email       String   @unique
+  phoneNumber String
+  description String?
+  photoUrls   String[]
+  locationId  Int
+
+  location    Location @relation(fields: [locationId], references: [id])
+  menuItems   MenuItem[]
+  orders      Order[]
+}
+
+model Driver {
+  id          Int    @id @default(autoincrement())
+  cognitoId   String @unique
+  name        String
+  email       String @unique
+  phoneNumber String
+
+  orders      Order[]
+}
+
+model MenuItem {
+  id           Int       @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Float
+  photoUrl     String?
+  restaurantId Int
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  orderItems   OrderItem[]
+}
+
+model Order {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  status       OrderStatus
+  totalPrice   Float
+  customerId   Int
+  restaurantId Int
+  driverId     Int?
+
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  driver       Driver?    @relation(fields: [driverId], references: [id])
+  items        OrderItem[]
+  payment      Payment?
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  quantity   Int
+  price      Float
+  orderId    Int
+  menuItemId Int
+
+  order      Order    @relation(fields: [orderId], references: [id])
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+}
+
+model Payment {
+  id           Int           @id @default(autoincrement())
+  amount       Float
+  status       PaymentStatus
+  paymentDate  DateTime
+  orderId      Int           @unique
+
+  order        Order         @relation(fields: [orderId], references: [id])
+}
+
+model Location {
+  id         Int    @id @default(autoincrement())
+  address    String
+  city       String
+  state      String
+  country    String
+  postalCode String
+}
