@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "createdAt": "2025-05-18T14:00:00Z",
+    "status": "Preparing",
+    "totalPrice": 24.98,
+    "customerId": 1,
+    "restaurantId": 1,
+    "driverId": 1
+  }
+]

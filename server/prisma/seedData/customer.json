@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "cognitoId": "cognito-user-1",
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "phoneNumber": "+1234567890",
+    "locationId": 1
+  },
+  {
+    "id": 2,
+    "cognitoId": "cognito-user-2",
+    "name": "Bob Smith",
+    "email": "bob@example.com",
+    "phoneNumber": "+1234567891",
+    "locationId": 2
+  }
+]

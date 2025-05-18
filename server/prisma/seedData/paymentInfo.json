@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "customerId": 1,
+    "cardHolderName": "Alice Johnson",
+    "cardNumberHash": "hashed_card_123",
+    "expiryMonth": 12,
+    "expiryYear": 2026,
+    "billingAddress": "123 Main St, New York, NY 10001"
+  }
+]

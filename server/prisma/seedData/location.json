@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "address": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "postalCode": "10001"
+  },
+  {
+    "id": 2,
+    "address": "456 Elm St",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "postalCode": "10002"
+  },
+  {
+    "id": 3,
+    "address": "789 Oak Ave",
+    "city": "Brooklyn",
+    "state": "NY",
+    "country": "USA",
+    "postalCode": "11201"
+  }
+]

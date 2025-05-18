@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "cognitoId": "cognito-rest-1",
+    "name": "Tasty Pizza",
+    "email": "contact@tastypizza.com",
+    "phoneNumber": "+1987654321",
+    "description": "Best pizza in town",
+    "photoUrls": ["https://example.com/pizza1.jpg"],
+    "locationId": 3,
+    "openTime": "10:00",
+    "closeTime": "22:00",
+    "categories": ["Pizza", "Italian"]
+  }
+]

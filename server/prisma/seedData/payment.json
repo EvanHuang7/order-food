@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "amount": 24.98,
+    "status": "Paid",
+    "paymentDate": "2025-05-18T14:05:00Z",
+    "orderId": 1
+  }
+]

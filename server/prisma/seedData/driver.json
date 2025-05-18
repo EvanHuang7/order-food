@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "cognitoId": "cognito-driver-1",
+    "name": "Charlie Davis",
+    "email": "charlie@driver.com",
+    "phoneNumber": "+1123456789"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "quantity": 1,
+    "price": 12.99,
+    "orderId": 1,
+    "menuItemId": 1
+  },
+  {
+    "id": 2,
+    "quantity": 1,
+    "price": 11.99,
+    "orderId": 1,
+    "menuItemId": 2
+  }
+]

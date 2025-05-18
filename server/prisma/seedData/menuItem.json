@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Pepperoni Pizza",
+    "description": "Classic pepperoni with cheese",
+    "price": 12.99,
+    "photoUrl": "https://example.com/pepperoni.jpg",
+    "restaurantId": 1
+  },
+  {
+    "id": 2,
+    "name": "Veggie Pizza",
+    "description": "Loaded with vegetables",
+    "price": 11.99,
+    "photoUrl": "https://example.com/veggie.jpg",
+    "restaurantId": 1
+  }
+]
