@@ -4,10 +4,7 @@ import { wktToGeoJSON } from "@terraformer/wkt";
 
 const prisma = new PrismaClient();
 
-export const getDriver = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getDriver = async (req: Request, res: Response): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     const driver = await prisma.driver.findUnique({
@@ -15,27 +12,31 @@ export const getDriver = async (
     });
 
     if (driver) {
-      return res.json(driver);
+      res.json(driver);
+      return;
     } else {
-      return res.status(404).json({ message: "Driver not found" });
+      res.status(404).json({ message: "Driver not found" });
+      return;
     }
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error retrieving driver: ${error.message}` });
+    return;
   }
 };
 
 export const createDriver = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId, name, email, phoneNumber } = req.body;
 
     // Check input
     if (!cognitoId || !name || !email || !phoneNumber) {
-      return res.status(400).json({ message: "Missing required fields" });
+      res.status(400).json({ message: "Missing required fields" });
+      return;
     }
 
     // Check if there is existing in db before create
@@ -45,7 +46,8 @@ export const createDriver = async (
       },
     });
     if (existing) {
-      return res.status(409).json({ message: "Drivier already exists" });
+      res.status(409).json({ message: "Drivier already exists" });
+      return;
     }
 
     // Create driver
@@ -58,11 +60,13 @@ export const createDriver = async (
       },
     });
 
-    return res.status(201).json(driver);
+    res.status(201).json(driver);
+    return;
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error creating driver: ${error.message}` });
+    return;
   }
 };
 
@@ -70,7 +74,7 @@ export const createDriver = async (
 export const updateDriver = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     const { name, phoneNumber } = req.body;
@@ -83,10 +87,12 @@ export const updateDriver = async (
       },
     });
 
-    return res.json(updateDriver);
+    res.json(updateDriver);
+    return;
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error updating driver: ${error.message}` });
+    return;
   }
 };

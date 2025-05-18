@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export const getCustomer = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     const customer = await prisma.customer.findUnique({
@@ -25,27 +25,31 @@ export const getCustomer = async (
     });
 
     if (customer) {
-      return res.json(customer);
+      res.json(customer);
+      return;
     } else {
-      return res.status(404).json({ message: "Customer not found" });
+      res.status(404).json({ message: "Customer not found" });
+      return;
     }
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error retrieving customer: ${error.message}` });
+    return;
   }
 };
 
 export const createCustomer = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId, name, email, phoneNumber } = req.body;
 
     // Check input
     if (!cognitoId || !name || !email || !phoneNumber) {
-      return res.status(400).json({ message: "Missing required fields" });
+      res.status(400).json({ message: "Missing required fields" });
+      return;
     }
 
     // Check if there is existing in db before create
@@ -55,7 +59,8 @@ export const createCustomer = async (
       },
     });
     if (existing) {
-      return res.status(409).json({ message: "Customer already exists" });
+      res.status(409).json({ message: "Customer already exists" });
+      return;
     }
 
     // Create customer
@@ -68,11 +73,13 @@ export const createCustomer = async (
       },
     });
 
-    return res.status(201).json(customer);
+    res.status(201).json(customer);
+    return;
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error creating customer: ${error.message}` });
+    return;
   }
 };
 
@@ -80,7 +87,7 @@ export const createCustomer = async (
 export const updateCustomer = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     const { name, phoneNumber } = req.body;
@@ -93,10 +100,12 @@ export const updateCustomer = async (
       },
     });
 
-    return res.json(updateCustomer);
+    res.json(updateCustomer);
+    return;
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error updating customer: ${error.message}` });
+    return;
   }
 };

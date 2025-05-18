@@ -12,7 +12,7 @@ const s3Client = new S3Client({
 export const getRestaurant = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     const restaurant = await prisma.restaurant.findUnique({
@@ -28,27 +28,31 @@ export const getRestaurant = async (
     });
 
     if (restaurant) {
-      return res.json(restaurant);
+      res.json(restaurant);
+      return;
     } else {
-      return res.status(404).json({ message: "Restaurant not found" });
+      res.status(404).json({ message: "Restaurant not found" });
+      return;
     }
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error retrieving restaurant: ${error.message}` });
+    return;
   }
 };
 
 export const createRestaurant = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId, name, email, phoneNumber } = req.body;
 
     // Check input
     if (!cognitoId || !name || !email || !phoneNumber) {
-      return res.status(400).json({ message: "Missing required fields" });
+      res.status(400).json({ message: "Missing required fields" });
+      return;
     }
 
     // Check if there is existing in db before create
@@ -58,7 +62,8 @@ export const createRestaurant = async (
       },
     });
     if (existing) {
-      return res.status(409).json({ message: "Restaurant already exists" });
+      res.status(409).json({ message: "Restaurant already exists" });
+      return;
     }
 
     // Create restaurant
@@ -71,18 +76,20 @@ export const createRestaurant = async (
       },
     });
 
-    return res.status(201).json(restaurant);
+    res.status(201).json(restaurant);
+    return;
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error creating restaurant: ${error.message}` });
+    return;
   }
 };
 
 export const updateRestaurant = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     const files = req.files as Express.Multer.File[];
@@ -123,10 +130,12 @@ export const updateRestaurant = async (
       },
     });
 
-    return res.json(updateRestaurant);
+    res.json(updateRestaurant);
+    return;
   } catch (error: any) {
-    return res
+    res
       .status(500)
       .json({ message: `Error updating restaurant: ${error.message}` });
+    return;
   }
 };
