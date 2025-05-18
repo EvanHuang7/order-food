@@ -17,6 +17,20 @@ function toCamelCase(str: string): string {
 }
 
 async function resetSequence(modelName: string) {
+  const idFieldModels = [
+    "Location",
+    "Customer",
+    "Driver",
+    "Restaurant",
+    "MenuItem",
+    "Order",
+    "Payment",
+    "OrderItem",
+    "Notification",
+    "PaymentInfo",
+  ];
+  if (!idFieldModels.includes(modelName)) return;
+
   const quotedModelName = `"${toPascalCase(modelName)}"`;
 
   const maxIdResult = await (
@@ -80,7 +94,7 @@ async function main() {
   await deleteAllData(orderedFileNames);
 
   // Seed data
-  for (const fileName of orderedFileNames.reverse()) {
+  for (const fileName of orderedFileNames) {
     const filePath = path.join(dataDirectory, fileName);
     const jsonData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
     const modelName = toPascalCase(
