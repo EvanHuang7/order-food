@@ -29,9 +29,9 @@ model Customer {
   name          String
   email         String       @unique
   phoneNumber   String
-  locationId    Int          @unique
+  locationId    Int?          @unique
 
-  location      Location     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location
+  location      Location?     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location
   orders        Order[]      // 1-to-many: Customer has many Orders
   favoriteRests FavoriteRestaurant[] // many-to-many via join table FavoriteRestaurant
   paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional)
@@ -46,13 +46,13 @@ model Restaurant {
   phoneNumber String
   description String?
   photoUrls   String[]
-  locationId  Int       @unique
+  locationId  Int?       @unique
 
   openTime    String    // e.g. "09:00"
   closeTime   String    // e.g. "21:00"
   categories  String[]  // array of category names as strings
 
-  location      Location         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
+  location      Location?         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
   menuItems     MenuItem[]       // 1-to-many: Restaurant has many MenuItems
   orders        Order[]          // 1-to-many: Restaurant has many Orders
   favoriteBy    FavoriteRestaurant[] // many-to-many inverse relation for customers who favorited this restaurant
