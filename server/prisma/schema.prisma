@@ -45,12 +45,11 @@ model Restaurant {
   email       String    @unique
   phoneNumber String
   description String?
-  photoUrls   String[]
+  photoUrls   String[]  @default([])
+  openTime    String?    // e.g. "09:00"
+  closeTime   String?    // e.g. "21:00"
+  categories  String[]  @default([])  // array of category names as strings
   locationId  Int?       @unique
-
-  openTime    String    // e.g. "09:00"
-  closeTime   String    // e.g. "21:00"
-  categories  String[]  // array of category names as strings
 
   location      Location?         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
   menuItems     MenuItem[]       // 1-to-many: Restaurant has many MenuItems
