@@ -26,9 +26,9 @@ app.get("/", (req, res) => {
   res.send("This is home route");
 });
 
-app.use("/customers", authMiddleware(["customer"]), customerRoutes);
-app.use("/restaurants", authMiddleware(["restaurant"]), restaurantRoutes);
-app.use("/drivers", authMiddleware(["driver"]), driverRoutes);
+app.use("/customer", authMiddleware(["customer"]), customerRoutes);
+app.use("/restaurant", authMiddleware(["restaurant"]), restaurantRoutes);
+app.use("/driver", authMiddleware(["driver"]), driverRoutes);
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3002;

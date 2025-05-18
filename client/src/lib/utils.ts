@@ -41,13 +41,13 @@ export const createNewUserInDatabase = async (
   let createEndpoint = "";
   switch (userRole?.toLowerCase()) {
     case "customer":
-      createEndpoint = "/customers";
+      createEndpoint = "/customer";
       break;
     case "restaurant":
-      createEndpoint = "/restaurants";
+      createEndpoint = "/restaurant";
       break;
     case "driver":
-      createEndpoint = "/drivers";
+      createEndpoint = "/driver";
       break;
     default:
       throw new Error(`Invalid user role: ${userRole}`);
