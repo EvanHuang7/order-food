@@ -1,8 +1,8 @@
 import {
   Wifi,
   Coffee,
-  KnifeFork,
-  Drink,
+  Utensils,
+  CupSoda,
   Star,
   Calendar,
   Clock,
@@ -26,8 +26,8 @@ export enum CategoryEnum {
 export const CategoryEnumIcons: Record<CategoryEnum, LucideIcon> = {
   WiFi: Wifi,
   Coffee: Coffee,
-  Food: KnifeFork,
-  Drinks: Drink,
+  Food: Utensils,
+  Drinks: CupSoda,
   OutdoorSeating: Star,
   Delivery: Calendar,
   Takeout: Clock,

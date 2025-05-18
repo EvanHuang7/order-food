@@ -47,7 +47,7 @@ export const createCustomer = async (
     const { cognitoId, name, email, phoneNumber } = req.body;
 
     // Check input
-    if (!cognitoId || !name || !email || !phoneNumber) {
+    if (!cognitoId || !name || !email) {
       res.status(400).json({ message: "Missing required fields" });
       return;
     }
