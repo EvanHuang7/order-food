@@ -9,6 +9,7 @@ import {
   RadioGroupField,
   useAuthenticator,
   View,
+  Image,
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useRouter, usePathname } from "next/navigation";
@@ -27,19 +28,33 @@ Amplify.configure({
 const components = {
   Header() {
     return (
-      <View className="mt-4 mb-7">
-        <Heading level={3} className="!text-2xl !font-bold">
-          Order
-          <span className="text-secondary-500 font-light hover:!text-primary-300">
-            Food
-          </span>
-        </Heading>
-        <p className="text-muted-foreground mt-2">
-          <span className="font-bold">Welcome!</span> Please sign in to continue
-        </p>
+      <View className="mt-4 mb-7 flex items-center space-x-4">
+        {/* App Icon */}
+        <Image
+          src="/order-food-logo.svg"
+          alt="OrderFood Logo"
+          width={48}
+          height={48}
+          className="w-12 h-12"
+        />
+
+        {/* Title + Subtitle */}
+        <div>
+          <Heading level={3} className="!text-2xl !font-bold">
+            Order
+            <span className="text-secondary-500 font-light hover:!text-primary-300">
+              Food
+            </span>
+          </Heading>
+          <p className="text-muted-foreground mt-1">
+            <span className="font-bold">Welcome!</span> Please sign in to
+            continue
+          </p>
+        </div>
       </View>
     );
   },
+
   SignIn: {
     Footer() {
       const { toSignUp } = useAuthenticator();

@@ -54,7 +54,7 @@ const Navbar = () => {
           >
             <div className="flex items-center gap-3">
               <Image
-                src="/logo.svg"
+                src="/order-food-logo.svg"
                 alt="OrderFood Logo"
                 width={24}
                 height={24}
@@ -97,12 +97,6 @@ const Navbar = () => {
             </Button>
           )}
         </div>
-        {/* Text in none dashboard page */}
-        {!isDashboardPage && (
-          <p className="text-primary-200 hidden md:block">
-            Discover your perfect rental apartment with our advanced search
-          </p>
-        )}
         <div className="flex items-center gap-5">
           {/* Buttons when logged in user */}
           {authUser ? (
