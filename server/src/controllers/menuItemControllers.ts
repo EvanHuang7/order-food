@@ -36,7 +36,7 @@ export const createRestaurantMenuItem = async (
 ): Promise<void> => {
   try {
     const { name, description, price, restaurantId } = req.body;
-    const files = req.files as Express.Multer.File[];
+    const file = req.file as Express.Multer.File;
 
     if (!name || !price || !restaurantId) {
       res.status(400).json({ message: "Missing required fields" });
@@ -64,13 +64,17 @@ export const createRestaurantMenuItem = async (
     //   })
     // );
 
+    // Convert types explicitly
+    const parsedPrice = parseFloat(price);
+    const parsedRestaurantId = parseInt(restaurantId, 10);
+
     const menuItem = await prisma.menuItem.create({
       data: {
         name,
         description,
-        price,
+        price: parsedPrice,
         photoUrl,
-        restaurantId,
+        restaurantId: parsedRestaurantId,
       },
     });
 
@@ -89,7 +93,7 @@ export const updateRestaurantMenuItem = async (
   try {
     const { menuItemId } = req.params;
     const { name, description, price } = req.body;
-    const files = req.files as Express.Multer.File[];
+    const file = req.file as Express.Multer.File;
 
     if (!name || !price) {
       res.status(400).json({ message: "Missing required fields" });
