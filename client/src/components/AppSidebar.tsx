@@ -119,7 +119,7 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
                   <Link href={link.href} className="w-full" scroll={false}>
                     <div className="flex items-center gap-3">
                       <link.icon
-                        className={`h-5 w-5 ${
+                        className={`h-5 w-5 flex-shrink-0 ${
                           isActive ? "text-blue-600" : "text-gray-600"
                         }`}
                       />
