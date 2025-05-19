@@ -126,7 +126,7 @@ export const api = createApi({
         });
 
         return {
-          url: "restaurants",
+          url: "restaurant",
           params,
         };
       },

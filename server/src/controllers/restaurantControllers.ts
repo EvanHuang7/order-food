@@ -109,7 +109,7 @@ export const getRestaurants = async (
       LEFT JOIN "Location" l ON r."locationId" = l.id
       ${
         whereConditions.length > 0
-          ? Prisma.sql`WHERE ${Prisma.join(whereConditions, Prisma.sql` AND `)}`
+          ? Prisma.sql`WHERE ${Prisma.join(whereConditions, " AND ")}`
           : Prisma.empty
       }
     `;
