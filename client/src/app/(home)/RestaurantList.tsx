@@ -1,3 +1,4 @@
+import React from "react";
 import {
   useGetAuthUserQuery,
   useGetCustomerQuery,
@@ -5,9 +6,8 @@ import {
 } from "@/state/api";
 import { useAppSelector } from "@/state/redux";
 import { FavoriteRestaurant } from "@/types/prismaTypes";
-import Card from "@/components/Card";
-import React from "react";
-import CardCompact from "@/components/CardCompact";
+import RestaurantCard from "@/components/RestaurantCard";
+import RestaurantCardCompact from "@/components/RestaurantCardCompact";
 
 const RestaurantList = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -64,7 +64,7 @@ const RestaurantList = () => {
         <div className="p-4 w-full">
           {restaurants?.map((restaurant) =>
             viewMode === "grid" ? (
-              <Card
+              <RestaurantCard
                 key={restaurant.id}
                 restaurant={restaurant}
                 isFavorite={
@@ -78,7 +78,7 @@ const RestaurantList = () => {
                 restaurantLink={`/restaurant/${restaurant.id}`}
               />
             ) : (
-              <CardCompact
+              <RestaurantCardCompact
                 key={restaurant.id}
                 restaurant={restaurant}
                 isFavorite={
