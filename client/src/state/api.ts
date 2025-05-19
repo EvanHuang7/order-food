@@ -1,4 +1,4 @@
-import { createNewUserInDatabase, withToast } from "@/lib/utils";
+import { cleanParams, createNewUserInDatabase, withToast } from "@/lib/utils";
 import { Customer, Restaurant, Driver, MenuItem } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
@@ -17,7 +17,7 @@ export const api = createApi({
     },
   }),
   reducerPath: "api",
-  tagTypes: ["Customer", "Restaurant", "Driver", "MenuItems"],
+  tagTypes: ["Customer", "Restaurant", "Driver", "MenuItems", "Restaurants"],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
@@ -109,6 +109,37 @@ export const api = createApi({
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           error: "Failed to load restaurant profile.",
+        });
+      },
+    }),
+
+    getRestaurants: build.query<
+      Restaurant[],
+      Partial<FiltersState> & { favoriteIds?: number[] }
+    >({
+      query: (filters) => {
+        const params = cleanParams({
+          favoriteIds: filters.favoriteIds?.join(","),
+          priceMin: filters.priceRange?.[0],
+          priceMax: filters.priceRange?.[1],
+          categories: filters.categories?.join(","),
+        });
+
+        return {
+          url: "restaurants",
+          params,
+        };
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Restaurants" as const, id })),
+              { type: "Restaurants", id: "LIST" },
+            ]
+          : [{ type: "Restaurants", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to fetch restaurants.",
         });
       },
     }),
@@ -220,6 +251,7 @@ export const {
   useGetCustomerQuery,
   useUpdateCustomerInfoMutation,
   useGetRestaurantQuery,
+  useGetRestaurantsQuery,
   useUpdateRestaurantInfoMutation,
   useGetDriverQuery,
   useUpdateDriverInfoMutation,
