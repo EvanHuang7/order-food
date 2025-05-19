@@ -31,34 +31,36 @@ const RestaurantCard = ({
             onError={() => setImgSrc("/placeholder.jpg")}
           />
         </div>
-
-        {showFavoriteButton && (
-          <button
-            className="absolute bottom-4 right-4 bg-white hover:bg-white/90 rounded-full p-2 cursor-pointer"
-            onClick={onFavoriteToggle}
-          >
-            <Heart
-              className={`w-5 h-5 ${
-                isFavorite ? "text-red-500 fill-red-500" : "text-gray-600"
-              }`}
-            />
-          </button>
-        )}
       </div>
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-1">
-          {restaurantLink ? (
-            <Link
-              href={restaurantLink}
-              className="hover:underline hover:text-blue-600"
-              scroll={false}
+        <div className="flex justify-between items-start">
+          <h2 className="text-xl font-bold mb-1">
+            {restaurantLink ? (
+              <Link
+                href={restaurantLink}
+                className="hover:underline hover:text-blue-600"
+                scroll={false}
+              >
+                {restaurant.name}
+              </Link>
+            ) : (
+              restaurant.name
+            )}
+          </h2>
+          {showFavoriteButton && (
+            <button
+              className="bg-white rounded-full p-1"
+              onClick={onFavoriteToggle}
             >
-              {restaurant.name}
-            </Link>
-          ) : (
-            restaurant.name
+              <Heart
+                className={`w-5 h-5 ${
+                  isFavorite ? "text-red-500 fill-red-500" : "text-gray-600"
+                }`}
+              />
+            </button>
           )}
-        </h2>
+        </div>
+
         <p className="text-gray-600 mb-2">
           {restaurant?.location?.address}, {restaurant?.location?.city}
         </p>
