@@ -177,7 +177,7 @@ export const api = createApi({
       },
     }),
 
-    createRestaurantMenuItem: build.mutation<MenuItem, Partial<MenuItem>>({
+    createRestaurantMenuItem: build.mutation<MenuItem, FormData>({
       query: (newMenuItem) => ({
         url: `menuItem`,
         method: "POST",

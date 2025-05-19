@@ -11,8 +11,8 @@ export type SettingsFormData = z.infer<typeof settingsSchema>;
 export const menuItemSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
-  price: z.coerce.number().positive().min(0).int(),
-  photoUrl: z.instanceof(File).optional(),
+  price: z.coerce.number().positive().min(0),
+  photoUrl: z.any().optional(),
 });
 
 export type MenuItemFormData = z.infer<typeof menuItemSchema>;

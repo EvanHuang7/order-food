@@ -42,16 +42,25 @@ const MenuItemModal = ({
       return;
     }
 
-    await createRestaurantMenuItem({
-      ...data,
-      restaurantId: restaurantId,
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === "photoUrl") {
+        const file = value as File;
+        formData.append("photo", file);
+      } else {
+        formData.append(key, String(value));
+      }
     });
+
+    formData.append("restaurantId", String(restaurantId));
+
+    await createRestaurantMenuItem(formData);
     onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white">
+      <DialogContent className="bg-white max-h-[80vh] overflow-y-auto p-6">
         <DialogHeader className="mb-4">
           <DialogTitle>Add new menu item for your restaurant</DialogTitle>
         </DialogHeader>
