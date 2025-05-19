@@ -96,6 +96,12 @@ export const updateRestaurant = async (
     const { name, phoneNumber, description, openTime, closeTime, categories } =
       req.body;
 
+    // Check input
+    if (!name) {
+      res.status(400).json({ message: "Missing required fields" });
+      return;
+    }
+
     // Upload photos to AWS S3 bucket
     const photoUrls: string[] = [];
     // TODO: enable it afer setting up S3 bucket

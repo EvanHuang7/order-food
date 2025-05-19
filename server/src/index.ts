@@ -9,6 +9,7 @@ import { authMiddleware } from "./middleware/authMiddleware";
 import customerRoutes from "./routes/customerRoutes";
 import restaurantRoutes from "./routes/restaurantRoutes";
 import driverRoutes from "./routes/driverRoutes";
+import menuItemRoutes from "./routes/menuItemRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/customer", authMiddleware(["customer"]), customerRoutes);
 app.use("/restaurant", authMiddleware(["restaurant"]), restaurantRoutes);
 app.use("/driver", authMiddleware(["driver"]), driverRoutes);
+app.use("/menuItem", menuItemRoutes);
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3002;
