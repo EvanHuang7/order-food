@@ -1,5 +1,9 @@
-import { getRandomAverageRating, getRandomNumberOfReviews } from "@/lib/utils";
-import { Bath, Bed, Heart, House, Star } from "lucide-react";
+import {
+  getRandomAverageRating,
+  getRandomCookTime,
+  getRandomNumberOfReviews,
+} from "@/lib/utils";
+import { Heart, Clock, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -17,6 +21,7 @@ const RestaurantCardCompact = ({
 
   const averageRating = getRandomAverageRating();
   const numberOfReviews = getRandomNumberOfReviews();
+  const cookTime = getRandomCookTime();
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
@@ -33,7 +38,7 @@ const RestaurantCardCompact = ({
       <div className="w-2/3 p-4 flex flex-col justify-between">
         <div>
           <div className="flex justify-between items-start">
-            <h2 className="text-xl font-bold mb-1">
+            <h2 className="text-xl font-bold mb-1 truncate">
               {restaurantLink ? (
                 <Link
                   href={restaurantLink}
@@ -59,16 +64,23 @@ const RestaurantCardCompact = ({
               </button>
             )}
           </div>
-          <p className="text-gray-600 mb-1 text-sm">
+          <p className="text-gray-600 mb-1 text-sm truncate">
             {restaurant?.location?.address}, {restaurant?.location?.city}
           </p>
           <div className="flex text-sm items-center">
             <Star className="w-3 h-3 text-yellow-400 mr-1" />
             <span className="font-semibold">{averageRating.toFixed(1)}</span>
-            <span className="text-gray-600 ml-1">({numberOfReviews}+)</span>
+            <span className="text-gray-600 ml-1">
+              ({numberOfReviews} Reviews)
+            </span>
           </div>
         </div>
         <div className="flex justify-between items-center text-sm">
+          <div className="flex gap-2 text-gray-600">
+            <span className="flex items-center">
+              <Clock className="w-4 h-4 mr-1" /> {cookTime} mins
+            </span>
+          </div>
           <p className="text-base font-bold">
             price
             <span className="text-gray-600 text-xs font-normal">

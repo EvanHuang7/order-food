@@ -34,7 +34,7 @@ const RestaurantCard = ({
       </div>
       <div className="p-4">
         <div className="flex justify-between items-start">
-          <h2 className="text-xl font-bold mb-1">
+          <h2 className="text-xl font-bold mb-1 truncate">
             {restaurantLink ? (
               <Link
                 href={restaurantLink}
@@ -61,14 +61,16 @@ const RestaurantCard = ({
           )}
         </div>
 
-        <p className="text-gray-600 mb-2">
+        <p className="text-gray-600 mb-2 truncate">
           {restaurant?.location?.address}, {restaurant?.location?.city}
         </p>
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-2">
             <Star className="w-4 h-4 text-yellow-400 mr-1" />
             <span className="font-semibold">{averageRating.toFixed(1)}</span>
-            <span className="text-gray-600 ml-1">({numberOfReviews}+)</span>
+            <span className="text-gray-600 ml-1">
+              ({numberOfReviews} Reviews)
+            </span>
           </div>
           <p className="text-lg font-bold mb-3">
             price+{" "}
