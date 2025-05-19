@@ -1,5 +1,5 @@
 import { createNewUserInDatabase, withToast } from "@/lib/utils";
-import { Customer, Restaurant, Driver } from "@/types/prismaTypes";
+import { Customer, Restaurant, Driver, MenuItem } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { FiltersState } from ".";
@@ -17,7 +17,7 @@ export const api = createApi({
     },
   }),
   reducerPath: "api",
-  tagTypes: ["Customer", "Restaurant", "Driver"],
+  tagTypes: ["Customer", "Restaurant", "Driver", "MenuItems"],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
@@ -159,6 +159,59 @@ export const api = createApi({
         });
       },
     }),
+
+    // MenuItem related endpoints
+    getRestaurantMenuItems: build.query<MenuItem[], string>({
+      query: (restaurantId) => `menuItem/${restaurantId}/menuItems`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "MenuItems" as const, id })),
+              { type: "MenuItems", id: "LIST" },
+            ]
+          : [{ type: "MenuItems", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to load restaurant menu items.",
+        });
+      },
+    }),
+
+    createRestaurantMenuItem: build.mutation<MenuItem, Partial<MenuItem>>({
+      query: (newMenuItem) => ({
+        url: `menuItem`,
+        method: "POST",
+        body: newMenuItem,
+      }),
+      invalidatesTags: [{ type: "MenuItems", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Menu item created successfully!",
+          error: "Failed to create menu item.",
+        });
+      },
+    }),
+
+    updateRestaurantMenuItem: build.mutation<
+      MenuItem,
+      { menuItemId: string } & Partial<MenuItem>
+    >({
+      query: ({ menuItemId, ...updatedMenuItem }) => ({
+        url: `menuItem/${menuItemId}`,
+        method: "PUT",
+        body: updatedMenuItem,
+      }),
+      invalidatesTags: (result) => [
+        { type: "MenuItems", id: result?.id },
+        { type: "MenuItems", id: "LIST" },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Menu item info updated successfully!",
+          error: "Failed to update menu item info.",
+        });
+      },
+    }),
   }),
 });
 
@@ -170,4 +223,7 @@ export const {
   useUpdateRestaurantInfoMutation,
   useGetDriverQuery,
   useUpdateDriverInfoMutation,
+  useGetRestaurantMenuItemsQuery,
+  useCreateRestaurantMenuItemMutation,
+  useUpdateRestaurantMenuItemMutation,
 } = api;
