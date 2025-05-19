@@ -23,6 +23,12 @@ declare global {
     userType: "customer" | "restaurant" | "driver";
   }
 
+  interface SettingsFormProps {
+    initialData: SettingsFormData;
+    onSubmit: (data: SettingsFormData) => Promise<void>;
+    userType: "customer" | "restaurant" | "driver";
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;
