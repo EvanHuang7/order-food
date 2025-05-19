@@ -9,7 +9,10 @@ const MenuItemCard = ({
   onMenuItemSelect,
   showSelectButton = true,
 }: MenuItemCardProps) => {
-  const [imgSrc, setImgSrc] = useState(menuItem.photoUrl || "/placeholder.jpg");
+  const [imgSrc, setImgSrc] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * 9) + 1;
+    return `/food/food${randomIndex}.jpg`;
+  });
   const averageRating = getRandomAverageRating();
   const numberOfReviews = getRandomNumberOfReviews();
 
@@ -23,7 +26,7 @@ const MenuItemCard = ({
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgSrc("/placeholder.jpg")}
+            onError={() => setImgSrc("/food/food1.jpg")}
           />
         </div>
         {showSelectButton && (
@@ -54,7 +57,7 @@ const MenuItemCard = ({
           </div>
           <p className="text-lg font-bold mb-3">
             ${menuItem.price}{" "}
-            <span className="text-gray-600 text-base font-normal"> /month</span>
+            <span className="text-gray-600 text-base font-normal"> /each</span>
           </p>
         </div>
         <hr />
