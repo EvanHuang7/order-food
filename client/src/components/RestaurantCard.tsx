@@ -1,3 +1,4 @@
+import { getRandomAverageRating, getRandomNumberOfReviews } from "@/lib/utils";
 import { Bath, Bed, Heart, House, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +14,9 @@ const RestaurantCard = ({
   const [imgSrc, setImgSrc] = useState(
     restaurant.photoUrls?.[0] || "/placeholder.jpg"
   );
+
+  const averageRating = getRandomAverageRating();
+  const numberOfReviews = getRandomNumberOfReviews();
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full mb-5">
@@ -61,11 +65,11 @@ const RestaurantCard = ({
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-2">
             <Star className="w-4 h-4 text-yellow-400 mr-1" />
-            <span className="font-semibold">rating</span>
-            <span className="text-gray-600 ml-1">numberOfReviews</span>
+            <span className="font-semibold">{averageRating.toFixed(1)}</span>
+            <span className="text-gray-600 ml-1">({numberOfReviews}+)</span>
           </div>
           <p className="text-lg font-bold mb-3">
-            price{" "}
+            price+{" "}
             <span className="text-gray-600 text-base font-normal"> /meal</span>
           </p>
         </div>

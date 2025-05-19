@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import SettingsForm from "@/components/SettingsForm";
 import {
   useGetAuthUserQuery,
@@ -11,7 +12,7 @@ const CustomerSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [updateCustomer] = useUpdateCustomerInfoMutation();
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
 
   const initialData = {
     name: authUser?.userInfo.name,

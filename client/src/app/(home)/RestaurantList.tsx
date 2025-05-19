@@ -8,6 +8,7 @@ import { useAppSelector } from "@/state/redux";
 import { FavoriteRestaurant } from "@/types/prismaTypes";
 import RestaurantCard from "@/components/RestaurantCard";
 import RestaurantCardCompact from "@/components/RestaurantCardCompact";
+import Loading from "@/components/Loading";
 
 const RestaurantList = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -49,7 +50,7 @@ const RestaurantList = () => {
     // }
   };
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
   if (isError || !restaurants) return <div>Failed to fetch restaurants</div>;
 
   return (
@@ -60,7 +61,7 @@ const RestaurantList = () => {
           restaurants in your city
         </span>
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4 gap-8 lg:gap-12 xl:gap-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4 gap-4 lg:gap-6 xl:gap-8">
         {restaurants?.map((restaurant) =>
           viewMode === "grid" ? (
             <RestaurantCard

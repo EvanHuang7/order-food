@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import SettingsForm from "@/components/SettingsForm";
 import { useGetAuthUserQuery, useUpdateDriverInfoMutation } from "@/state/api";
 import React from "react";
@@ -8,7 +9,7 @@ const DriverSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [updateDriver] = useUpdateDriverInfoMutation();
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
 
   const initialData = {
     name: authUser?.userInfo.name,
