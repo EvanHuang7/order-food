@@ -54,46 +54,44 @@ const RestaurantList = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-sm px-4 font-bold">
+      <h3 className="text-sm px-5 font-bold mb-2">
         {restaurants.length}{" "}
         <span className="text-gray-700 font-normal">
-          Places in restaurant location
+          restaurants in your city
         </span>
       </h3>
-      <div className="flex">
-        <div className="p-4 w-full">
-          {restaurants?.map((restaurant) =>
-            viewMode === "grid" ? (
-              <RestaurantCard
-                key={restaurant.id}
-                restaurant={restaurant}
-                isFavorite={
-                  customer?.favoriteRests?.some(
-                    (fav: FavoriteRestaurant) =>
-                      fav.restaurant.id === restaurant.id
-                  ) || false
-                }
-                onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
-                showFavoriteButton={!!authUser}
-                restaurantLink={`/restaurant/${restaurant.id}`}
-              />
-            ) : (
-              <RestaurantCardCompact
-                key={restaurant.id}
-                restaurant={restaurant}
-                isFavorite={
-                  customer?.favoriteRests?.some(
-                    (fav: FavoriteRestaurant) =>
-                      fav.restaurant.id === restaurant.id
-                  ) || false
-                }
-                onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
-                showFavoriteButton={!!authUser}
-                restaurantLink={`/restaurant/${restaurant.id}`}
-              />
-            )
-          )}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4 gap-8 lg:gap-12 xl:gap-16">
+        {restaurants?.map((restaurant) =>
+          viewMode === "grid" ? (
+            <RestaurantCard
+              key={restaurant.id}
+              restaurant={restaurant}
+              isFavorite={
+                customer?.favoriteRests?.some(
+                  (fav: FavoriteRestaurant) =>
+                    fav.restaurant.id === restaurant.id
+                ) || false
+              }
+              onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
+              showFavoriteButton={!!authUser}
+              restaurantLink={`/restaurant/${restaurant.id}`}
+            />
+          ) : (
+            <RestaurantCardCompact
+              key={restaurant.id}
+              restaurant={restaurant}
+              isFavorite={
+                customer?.favoriteRests?.some(
+                  (fav: FavoriteRestaurant) =>
+                    fav.restaurant.id === restaurant.id
+                ) || false
+              }
+              onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
+              showFavoriteButton={!!authUser}
+              restaurantLink={`/restaurant/${restaurant.id}`}
+            />
+          )
+        )}
       </div>
     </div>
   );

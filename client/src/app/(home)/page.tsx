@@ -36,27 +36,9 @@ const HomePage = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      className="w-full mx-auto px-5 flex flex-col"
-      style={{
-        height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
-      }}
-    >
+    <div>
       <FiltersBar />
-      <div className="flex justify-between flex-1 overflow-hidden gap-3 mb-5">
-        <div
-          className={`h-full overflow-auto transition-all duration-300 ease-in-out ${
-            isFiltersFullOpen
-              ? "w-3/12 opacity-100 visible"
-              : "w-0 opacity-0 invisible"
-          }`}
-        >
-          <FiltersFull />
-        </div>
-        <div className="basis-4/12 overflow-y-auto">
-          <RestaurantList />
-        </div>
-      </div>
+      <RestaurantList />
     </div>
   );
 };
