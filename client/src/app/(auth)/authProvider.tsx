@@ -13,6 +13,7 @@ import {
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useRouter, usePathname } from "next/navigation";
+import Loading from "@/components/Loading";
 
 // https://docs.amplify.aws/gen1/javascript/tools/libraries/configure-categories/
 Amplify.configure({
@@ -166,29 +167,40 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
     pathname.startsWith("/restaurant") ||
     pathname.startsWith("/driver");
 
-  // Redirect authenticated users away from auth pages
+  // Auth pages with authenticated user case
+  // Redirect authenticated users to home if they are in Auth pages
   useEffect(() => {
     if (user && isAuthPage) {
       router.push("/");
     }
   }, [user, isAuthPage, router]);
 
-  // Allow access to public pages without authentication
+  // Public home pages case, no authentication required
   if (!isAuthPage && !isDashboardPage) {
     return <>{children}</>;
   }
 
-  // Signup (no user), signin (no user) and dashboard page routes cases
-  // Authenticator component only displayed when no logged in user
+  // Dashboard pages with authenticated user case
+  if (user && isDashboardPage) {
+    return <>{children}</>;
+  }
+
+  // Auth pages with no authenticated user and
+  // Dashboard pages with no authenticated user cases
   return (
     <div className="h-full">
-      <Authenticator
-        initialState={pathname.includes("signup") ? "signUp" : "signIn"}
-        components={components}
-        formFields={formFields}
-      >
-        {() => <>{children}</>}
-      </Authenticator>
+      {/* Authenticator component only displayed when no logged in user */}
+      {!user ? (
+        <Authenticator
+          initialState={pathname.includes("signup") ? "signUp" : "signIn"}
+          components={components}
+          formFields={formFields}
+        >
+          {() => <>{children}</>}
+        </Authenticator>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
