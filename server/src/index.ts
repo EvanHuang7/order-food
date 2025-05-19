@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/customer", authMiddleware(["customer"]), customerRoutes);
-app.use("/restaurant", authMiddleware(["restaurant"]), restaurantRoutes);
+app.use("/restaurant", restaurantRoutes);
 app.use("/driver", authMiddleware(["driver"]), driverRoutes);
 app.use("/menuItem", menuItemRoutes);
 

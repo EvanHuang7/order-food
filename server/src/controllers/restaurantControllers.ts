@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
 import { S3Client } from "@aws-sdk/client-s3";
 
@@ -39,6 +39,88 @@ export const getRestaurant = async (
       .status(500)
       .json({ message: `Error retrieving restaurant: ${error.message}` });
     return;
+  }
+};
+
+export const getRestaurants = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { favoriteIds, priceMin, priceMax, categories } = req.query;
+
+    let whereConditions: Prisma.Sql[] = [];
+
+    if (favoriteIds) {
+      const favoriteIdsArray = (favoriteIds as string)
+        .split(",")
+        .map((id) => parseInt(id.trim()))
+        .filter(Boolean);
+
+      if (favoriteIdsArray.length > 0) {
+        whereConditions.push(
+          Prisma.sql`r.id IN (${Prisma.join(favoriteIdsArray)})`
+        );
+      }
+    }
+
+    // TODO: store price range in restaurant
+
+    // if (priceMin) {
+    //   whereConditions.push(
+    //     Prisma.sql`p."price" >= ${Number(priceMin)}`
+    //   );
+    // }
+
+    // if (priceMax) {
+    //   whereConditions.push(
+    //     Prisma.sql`p."price" <= ${Number(priceMax)}`
+    //   );
+    // }
+
+    if (categories && categories !== "any") {
+      const categoriesArray = (categories as string)
+        .split(",")
+        .map((cat) => cat.trim())
+        .filter(Boolean);
+
+      if (categoriesArray.length > 0) {
+        whereConditions.push(
+          Prisma.sql`r.categories @> ${Prisma.join(
+            [categoriesArray],
+            ","
+          )}::text[]`
+        );
+      }
+    }
+
+    const completeQuery = Prisma.sql`
+      SELECT 
+        r.*,
+        json_build_object(
+          'id', l.id,
+          'address', l.address,
+          'city', l.city,
+          'state', l.state,
+          'country', l.country,
+          'postalCode', l."postalCode"
+        ) AS location
+      FROM "Restaurant" r
+      LEFT JOIN "Location" l ON r."locationId" = l.id
+      ${
+        whereConditions.length > 0
+          ? Prisma.sql`WHERE ${Prisma.join(whereConditions, Prisma.sql` AND `)}`
+          : Prisma.empty
+      }
+    `;
+
+    const restaurants = await prisma.$queryRaw(completeQuery);
+
+    res.json(restaurants);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Error retrieving restaurants: ${error.message}` });
   }
 };
 
