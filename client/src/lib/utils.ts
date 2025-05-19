@@ -10,6 +10,19 @@ export function formatEnumString(str: string) {
   return str.replace(/([A-Z])/g, " $1").trim();
 }
 
+export function getRandomAverageRating(): number {
+  const min = 4;
+  const max = 5;
+  const rating = Math.random() * (max - min) + min;
+  return Math.round(rating * 10) / 10; // rounds to 1 decimal place
+}
+
+export function getRandomNumberOfReviews(): number {
+  const min = 1;
+  const max = 20;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 type MutationMessages = {
   success?: string;
   error: string;

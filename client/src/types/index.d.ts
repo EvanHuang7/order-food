@@ -29,6 +29,13 @@ declare global {
     userType: "customer" | "restaurant" | "driver";
   }
 
+  interface CardProps {
+    menuItem: MenuItem;
+    selectedNumber: number;
+    onMenuItemSelect: () => void;
+    showSelectButton?: boolean;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;
