@@ -45,8 +45,8 @@ const MenuItemCard = ({
         )}
       </div>
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-1">{menuItem.name}</h2>
-        <p className="text-gray-600 mb-2">{menuItem?.description}</p>
+        <h2 className="text-xl font-bold mb-1 truncate">{menuItem.name}</h2>
+        <p className="text-gray-600 mb-2 truncate">{menuItem?.description}</p>
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-2">
             <Star className="w-4 h-4 text-yellow-400 mr-1" />
