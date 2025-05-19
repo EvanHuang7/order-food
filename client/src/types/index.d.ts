@@ -42,6 +42,22 @@ declare global {
     restaurantId: number;
   }
 
+  interface RestaurantCardProps {
+    restaurant: Restaurant;
+    isFavorite: boolean;
+    onFavoriteToggle: () => void;
+    showFavoriteButton?: boolean;
+    restaurantLink?: string;
+  }
+
+  interface RestaurantCardCompactProps {
+    restaurant: Restaurant;
+    isFavorite: boolean;
+    onFavoriteToggle: () => void;
+    showFavoriteButton?: boolean;
+    restaurantLink?: string;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;
