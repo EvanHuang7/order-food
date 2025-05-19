@@ -29,11 +29,17 @@ declare global {
     userType: "customer" | "restaurant" | "driver";
   }
 
-  interface CardProps {
+  interface MenuItemCardProps {
     menuItem: MenuItem;
     selectedNumber: number;
     onMenuItemSelect: () => void;
     showSelectButton?: boolean;
+  }
+
+  interface MenuItemModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    restaurantId: number;
   }
 
   interface User {
