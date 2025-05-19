@@ -73,14 +73,13 @@ const AllRestaurants = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-sm px-5 font-bold mb-2">
+      <h3 className="text-sm px-5 font-bold mb-3">
         {restaurants.length}{" "}
-        <span className="text-gray-700 font-normal">
-          restaurants in your city
-        </span>
+        <span className="text-gray-700 font-normal">restaurants in </span>
+        Saskatoon <span className="text-gray-700 font-normal">city</span>
       </h3>
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4 gap-4 lg:gap-6 xl:gap-8"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 gap-6"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
