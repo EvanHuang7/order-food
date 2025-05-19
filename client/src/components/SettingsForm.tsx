@@ -50,7 +50,7 @@ const SettingsForm = ({
               name="email"
               label="Email"
               type="email"
-              disabled={!editMode}
+              disabled={true}
             />
             <CustomFormField
               name="phoneNumber"

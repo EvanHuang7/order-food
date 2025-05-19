@@ -40,13 +40,15 @@ const Navbar = () => {
       style={{ height: `${NAVBAR_HEIGHT}px` }}
     >
       <div className="flex justify-between items-center w-full py-3 px-8 bg-primary-700 text-white">
+        {/* Left part */}
         <div className="flex items-center gap-4 md:gap-6">
+          {/* Side bar button in small screen */}
           {isDashboardPage && (
             <div className="md:hidden">
               <SidebarTrigger />
             </div>
           )}
-          {/* Logo */}
+          {/* Logo and app name */}
           <Link
             href="/"
             className="cursor-pointer hover:!text-primary-300"
@@ -68,35 +70,8 @@ const Navbar = () => {
               </div>
             </div>
           </Link>
-          {/* Buttons when logged in user in dashboard page */}
-          {isDashboardPage && authUser && (
-            <Button
-              variant="secondary"
-              className="md:ml-4 bg-primary-50 text-primary-700 hover:bg-secondary-500 hover:text-primary-50"
-              onClick={() =>
-                router.push(
-                  authUser.userRole?.toLowerCase() === "customer"
-                    ? "/customer"
-                    : "/search"
-                )
-              }
-            >
-              {authUser.userRole?.toLowerCase() === "customer" ? (
-                <>
-                  <Plus className="h-4 w-4" />
-                  <span className="hidden md:block ml-2">Add New Property</span>
-                </>
-              ) : (
-                <>
-                  <Search className="h-4 w-4" />
-                  <span className="hidden md:block ml-2">
-                    Search Properties
-                  </span>
-                </>
-              )}
-            </Button>
-          )}
         </div>
+        {/* Right part */}
         <div className="flex items-center gap-5">
           {/* Buttons when logged in user */}
           {authUser ? (
@@ -128,8 +103,10 @@ const Navbar = () => {
                     onClick={() =>
                       router.push(
                         authUser.userRole?.toLowerCase() === "customer"
-                          ? "/customer"
-                          : "/restaurant",
+                          ? "/customer/settings"
+                          : authUser.userRole?.toLowerCase() === "restaurant"
+                          ? "/restaurant/settings"
+                          : "/driver/settings",
                         { scroll: false }
                       )
                     }
@@ -141,7 +118,7 @@ const Navbar = () => {
                     className="cursor-pointer hover:!bg-primary-700 hover:!text-primary-100"
                     onClick={() =>
                       router.push(
-                        `/${authUser.userRole?.toLowerCase()}s/settings`,
+                        `/${authUser.userRole?.toLowerCase()}/settings`,
                         { scroll: false }
                       )
                     }
