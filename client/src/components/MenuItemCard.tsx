@@ -8,7 +8,7 @@ const MenuItemCard = ({
   selectedNumber,
   onMenuItemSelect,
   showSelectButton = true,
-}: CardProps) => {
+}: MenuItemCardProps) => {
   const [imgSrc, setImgSrc] = useState(menuItem.photoUrl || "/placeholder.jpg");
   const averageRating = getRandomAverageRating();
   const numberOfReviews = getRandomNumberOfReviews();
