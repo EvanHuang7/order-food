@@ -19,6 +19,10 @@ declare global {
     isDashboard: boolean;
   }
 
+  interface AppSidebarProps {
+    userType: "customer" | "restaurant" | "driver";
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;
