@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { cleanParams } from "@/lib/utils";
 import { setFilters } from "@/state";
 import FiltersFull from "./FiltersFull";
-import RestaurantList from "./RestaurantList";
+import AllRestaurants from "./AllRestaurants";
 import FiltersBar from "./FiltersBar";
 
 const HomePage = () => {
@@ -37,7 +37,7 @@ const HomePage = () => {
   return (
     <div>
       <FiltersBar />
-      <RestaurantList />
+      <AllRestaurants />
     </div>
   );
 };
