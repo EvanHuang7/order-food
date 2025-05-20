@@ -30,6 +30,8 @@ model Customer {
   email         String       @unique
   phoneNumber   String
   locationId    Int?          @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   location      Location?     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location
   paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional)
@@ -51,6 +53,8 @@ model Restaurant {
   closeTime   String?    // e.g. "21:00"
   categories  String[]  @default([])  // array of category names as strings
   locationId  Int?       @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   location      Location?         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
   menuItems     MenuItem[]       // 1-to-many: Restaurant has many MenuItems
@@ -64,6 +68,8 @@ model Driver {
   name        String
   email       String   @unique
   phoneNumber String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   orders      Order[]  // 1-to-many: Driver has many Orders
 }
@@ -75,6 +81,8 @@ model MenuItem {
   price        Float
   photoUrl     String?
   restaurantId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many MenuItems belong to one Restaurant
   orderItems   OrderItem[] // 1-to-many: MenuItem can appear in many OrderItems
@@ -82,19 +90,20 @@ model MenuItem {
 
 model Order {
   id           Int        @id @default(autoincrement())
-  createdAt    DateTime   @default(now())
   status       OrderStatus
   totalPrice   Float
   customerId   Int
   restaurantId Int
   driverId     Int?
-  paymentId    Int?      // optional for unpaid
+  paymentId    Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   customer     Customer   @relation(fields: [customerId], references: [id]) // many-to-1: Many Orders belong to one Customer
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many Orders belong to one Restaurant
   driver       Driver?    @relation(fields: [driverId], references: [id]) // many-to-1 (optional): Many Orders may belong to one Driver
   items        OrderItem[] // 1-to-many: Order has many OrderItems
-  payment      Payment?  @relation(fields: [paymentId], references: [id])    // many-to-1 (optional): Many Orders belong to one Payments
+  payment      Payment  @relation(fields: [paymentId], references: [id])    // many-to-1 Many Orders belong to one Payments
 }
 
 model OrderItem {
@@ -103,6 +112,8 @@ model OrderItem {
   price      Float
   orderId    Int
   menuItemId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   order      Order    @relation(fields: [orderId], references: [id]) // many-to-1: Many OrderItems belong to one Order
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id]) // many-to-1: Many OrderItems refer to one MenuItem
@@ -114,18 +125,39 @@ model Payment {
   amount       Float
   status       PaymentStatus
   paymentDate  DateTime
+  provider     String? // e.g., "stripe", "paypal"
+  methodToken  String? // optional: the token used for this specific payment
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   customer     Customer   @relation(fields: [customerId], references: [id]) // many-to-1: Many Payments belong to one Customer
   orders       Order[]   // One payment -> many orders
+}
+
+model PaymentInfo {
+  id             Int    @id @default(autoincrement())
+  customerId     Int    @unique
+  provider       String // e.g., "stripe"
+  methodToken    String // e.g., Stripe's payment_method ID
+  last4          String
+  brand          String // e.g., "Visa"
+  expiryMonth    Int
+  expiryYear     Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
+
+  customer        Customer  @relation(fields: [customerId], references: [id]) // 1-to-1: PaymentInfo belongs to one Customer
 }
 
 model Location {
   id         Int      @id @default(autoincrement())
   address    String
   city       String
-  state      String
+  province      String
   country    String
   postalCode String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   customer   Customer?   // optional back relation, 1-to-1 with Customer
   restaurant Restaurant? // optional back relation, 1-to-1 with Restaurant
@@ -140,18 +172,6 @@ model FavoriteRestaurant {
   restaurant  Restaurant  @relation(fields: [restaurantId], references: [id])
 
   @@id([customerId, restaurantId])
-}
-
-model PaymentInfo {
-  id              Int       @id @default(autoincrement())
-  customerId      Int       @unique
-  cardHolderName  String
-  cardNumberHash  String    // store securely (hashed or tokenized)
-  expiryMonth     Int
-  expiryYear      Int
-  billingAddress  String
-
-  customer        Customer  @relation(fields: [customerId], references: [id]) // 1-to-1: PaymentInfo belongs to one Customer
 }
 
 model Notification {
