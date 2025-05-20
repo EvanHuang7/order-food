@@ -98,7 +98,7 @@ const AllRestaurants = () => {
                 }
                 onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
                 showFavoriteButton={!!authUser}
-                restaurantLink={`/restaurant/${restaurant.id}`}
+                restaurantLink={`/${restaurant.id}`}
               />
             ) : (
               <RestaurantCardCompact
@@ -111,7 +111,7 @@ const AllRestaurants = () => {
                 }
                 onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
                 showFavoriteButton={!!authUser}
-                restaurantLink={`/restaurant/${restaurant.id}`}
+                restaurantLink={`/${restaurant.id}`}
               />
             )}
           </motion.div>
