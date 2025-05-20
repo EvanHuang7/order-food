@@ -94,15 +94,15 @@ const ShoppingCartSheet = () => {
                         />
 
                         {/* Name, price and quantity */}
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-0 max-w-[200px] break-words">
                           <p className="font-medium">{item.name}</p>
                           <p className="text-sm text-gray-500">
                             ${item.price.toFixed(2)} × {item.quantity}
                           </p>
                         </div>
 
-                        {/* Controls */}
-                        <div className="flex items-center gap-1">
+                        {/* Button controls */}
+                        <div className="flex items-center gap-1 flex-shrink-0">
                           <Button
                             size="icon"
                             variant="ghost"
