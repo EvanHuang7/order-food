@@ -58,6 +58,14 @@ declare global {
     restaurantLink?: string;
   }
 
+  interface ImagePreviewsProps {
+    images: string[];
+  }
+
+  interface AiCallWidgetProps {
+    restaurantId: string;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;
