@@ -12,11 +12,7 @@ const upload = multer({ storage: storage });
 
 const router = express.Router();
 
-router.get(
-  "/:restaurantId/menuItems",
-  authMiddleware(["customer", "restaurant", "driver"]),
-  getRestaurantMenuItems
-);
+router.get("/:restaurantId/menuItems", getRestaurantMenuItems);
 router.post(
   "/",
   authMiddleware(["restaurant"]),

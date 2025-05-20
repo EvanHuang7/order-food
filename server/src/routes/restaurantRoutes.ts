@@ -9,16 +9,8 @@ import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-router.get(
-  "/:cognitoId",
-  authMiddleware(["customer", "restaurant", "driver"]),
-  getRestaurant
-);
-router.get(
-  "/",
-  authMiddleware(["customer", "restaurant", "driver"]),
-  getRestaurants
-);
+router.get("/", getRestaurants);
+router.get("/:cognitoId", authMiddleware(["restaurant"]), getRestaurant);
 router.post("/", authMiddleware(["restaurant"]), createRestaurant);
 router.put("/:cognitoId", authMiddleware(["restaurant"]), updateRestaurant);
 

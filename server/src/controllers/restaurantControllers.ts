@@ -101,7 +101,7 @@ export const getRestaurants = async (
           'id', l.id,
           'address', l.address,
           'city', l.city,
-          'state', l.state,
+          'province', l.province,
           'country', l.country,
           'postalCode', l."postalCode"
         ) AS location
