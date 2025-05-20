@@ -27,9 +27,6 @@ export const getRestaurantMenuItems = async (
   }
 };
 
-/**
- * Create a new menu item for a restaurant
- */
 export const createRestaurantMenuItem = async (
   req: Request,
   res: Response
