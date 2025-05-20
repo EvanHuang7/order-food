@@ -32,9 +32,10 @@ model Customer {
   locationId    Int?          @unique
 
   location      Location?     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location
+  paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional)
+  payments      Payment[]    // 1-to-many: Customer has many Payments
   orders        Order[]      // 1-to-many: Customer has many Orders
   favoriteRests FavoriteRestaurant[] // many-to-many via join table FavoriteRestaurant
-  paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional)
   notifications Notification[] // 1-to-many: Customer can have many Notifications
 }
 
@@ -109,9 +110,12 @@ model OrderItem {
 
 model Payment {
   id           Int    @id @default(autoincrement())
+  customerId   Int
   amount       Float
   status       PaymentStatus
   paymentDate  DateTime
+
+  customer     Customer   @relation(fields: [customerId], references: [id]) // many-to-1: Many Payments belong to one Customer
   orders       Order[]   // One payment -> many orders
 }
 
