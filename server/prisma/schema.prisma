@@ -87,12 +87,13 @@ model Order {
   customerId   Int
   restaurantId Int
   driverId     Int?
+  paymentId    Int?      // optional for unpaid
 
   customer     Customer   @relation(fields: [customerId], references: [id]) // many-to-1: Many Orders belong to one Customer
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many Orders belong to one Restaurant
   driver       Driver?    @relation(fields: [driverId], references: [id]) // many-to-1 (optional): Many Orders may belong to one Driver
   items        OrderItem[] // 1-to-many: Order has many OrderItems
-  payment      Payment?    // 1-to-1 (optional): Order may have one Payment
+  payment      Payment?  @relation(fields: [paymentId], references: [id])    // many-to-1 (optional): Many Orders belong to one Payments
 }
 
 model OrderItem {
@@ -107,13 +108,11 @@ model OrderItem {
 }
 
 model Payment {
-  id           Int           @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   amount       Float
   status       PaymentStatus
   paymentDate  DateTime
-  orderId      Int           @unique
-
-  order        Order         @relation(fields: [orderId], references: [id]) // 1-to-1: Payment belongs to exactly one Order
+  orders       Order[]   // One payment -> many orders
 }
 
 model Location {
