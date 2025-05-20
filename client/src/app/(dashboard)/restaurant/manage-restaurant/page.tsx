@@ -51,8 +51,6 @@ const ManageRestaurant = () => {
           <MenuItemCard
             key={menuItem.id}
             menuItem={menuItem}
-            selectedNumber={0}
-            onMenuItemSelect={() => {}}
             showSelectButton={false}
           />
         ))}

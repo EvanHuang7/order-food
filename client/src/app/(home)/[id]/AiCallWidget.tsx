@@ -8,6 +8,7 @@ const AiCallWidget = ({ restaurantId }: AiCallWidgetProps) => {
   const { data: authUser } = useGetAuthUserQuery();
   const router = useRouter();
   // TODO: get Restaurant info
+  // TODO: add a new API to get restaurant by id
 
   const handleButtonClick = () => {
     if (authUser) {

@@ -31,8 +31,6 @@ declare global {
 
   interface MenuItemCardProps {
     menuItem: MenuItem;
-    selectedNumber: number;
-    onMenuItemSelect: () => void;
     showSelectButton?: boolean;
   }
 

@@ -3,23 +3,37 @@ import {
   getRandomNumberOfReviews,
   getRandomPopularity,
 } from "@/lib/utils";
+import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { Flame, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { addItemToShoppingCart, removeItemFromShoppingCart } from "@/state";
 
 const MenuItemCard = ({
   menuItem,
-  selectedNumber,
-  onMenuItemSelect,
   showSelectButton = true,
 }: MenuItemCardProps) => {
   const [imgSrc, setImgSrc] = useState(() => {
     const randomIndex = Math.floor(Math.random() * 9) + 1;
     return `/food/food${randomIndex}.jpg`;
   });
+
+  const dispatch = useAppDispatch();
+  const selectedItem = useAppSelector((state) =>
+    state.global.shoppingCart.find((item: any) => item.id === menuItem.id)
+  );
+  const selectedNumber = selectedItem?.quantity || 0;
+
   const averageRating = getRandomAverageRating();
   const numberOfReviews = getRandomNumberOfReviews();
   const itemPopularity = getRandomPopularity();
+
+  const handleAddItem = () => {
+    dispatch(addItemToShoppingCart(menuItem));
+  };
+  const handleRemoveItem = () => {
+    dispatch(removeItemFromShoppingCart(menuItem.id));
+  };
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
@@ -36,18 +50,40 @@ const MenuItemCard = ({
         />
         {/* Item select button */}
         {showSelectButton && (
-          <button
-            className="absolute bottom-1 right-1 bg-white hover:bg-white/90 rounded-full p-1 cursor-pointer"
-            onClick={onMenuItemSelect}
-          >
-            <Plus
-              className={`w-5 h-5 ${
-                selectedNumber > 0
-                  ? "text-red-500 fill-red-500"
-                  : "text-gray-600"
-              }`}
-            />
-          </button>
+          <div className="absolute bottom-1 right-1 flex items-center gap-1 bg-white rounded-full p-1 shadow-md">
+            {selectedNumber > 0 ? (
+              <>
+                {/* Decrease button */}
+                <button
+                  onClick={() => handleRemoveItem()}
+                  className="w-6 h-6 text-red-500 hover:bg-red-100 rounded-full flex items-center justify-center"
+                >
+                  -
+                </button>
+
+                {/* Quantity display */}
+                <span className="text-sm font-medium min-w-[20px] text-center">
+                  {selectedNumber}
+                </span>
+
+                {/* Increase button */}
+                <button
+                  onClick={() => handleAddItem()}
+                  className="w-6 h-6 text-green-600 hover:bg-green-100 rounded-full flex items-center justify-center"
+                >
+                  +
+                </button>
+              </>
+            ) : (
+              // If not in cart, show only +
+              <button
+                onClick={() => handleAddItem()}
+                className="w-6 h-6 text-gray-600 hover:bg-gray-100 rounded-full flex items-center justify-center"
+              >
+                <Plus className="w-5 h-5" />
+              </button>
+            )}
+          </div>
         )}
       </div>
       {/* Right part */}
