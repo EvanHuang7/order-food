@@ -1,8 +1,16 @@
 import { cleanParams, createNewUserInDatabase, withToast } from "@/lib/utils";
-import { Customer, Restaurant, Driver, MenuItem } from "@/types/prismaTypes";
+import {
+  Customer,
+  Restaurant,
+  Driver,
+  MenuItem,
+  Order,
+  Payment,
+  OrderStatus,
+} from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
-import { FiltersState } from ".";
+import { FiltersState, ShoppingCartItem } from ".";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -17,7 +25,15 @@ export const api = createApi({
     },
   }),
   reducerPath: "api",
-  tagTypes: ["Customer", "Restaurant", "Driver", "MenuItems", "Restaurants"],
+  tagTypes: [
+    "Customer",
+    "Restaurant",
+    "Driver",
+    "MenuItems",
+    "Restaurants",
+    "Payments",
+    "Orders",
+  ],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
@@ -243,18 +259,130 @@ export const api = createApi({
         });
       },
     }),
+
+    // Order related endpoints
+    getOrder: build.query<Order, string>({
+      query: (orderId) => `order/${orderId}`,
+      providesTags: (result) => [{ type: "Orders", id: result?.id }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get order.",
+        });
+      },
+    }),
+
+    getOrders: build.query<Order[], void>({
+      query: () => `order`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Orders" as const, id })),
+              { type: "Orders", id: "LIST" },
+            ]
+          : [{ type: "Orders", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get orders.",
+        });
+      },
+    }),
+
+    createOrders: build.mutation<
+      { payment: Payment; orders: Order[] },
+      { customerId: string; items: ShoppingCartItem[] }
+    >({
+      query: ({ customerId, items }) => ({
+        url: `order`,
+        method: "POST",
+        body: { customerId, items },
+      }),
+      invalidatesTags: (result, error, arg) => {
+        if (result?.payment?.id) {
+          return [
+            { type: "Payments", id: result.payment.id },
+            { type: "Payments", id: "LIST" },
+            { type: "Orders", id: "LIST" },
+          ];
+        }
+        return [
+          { type: "Payments", id: "LIST" },
+          { type: "Orders", id: "LIST" },
+        ];
+      },
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Order placed successfully!",
+          error: "Failed to place order.",
+        });
+      },
+    }),
+
+    updateOrder: build.mutation<
+      Order,
+      {
+        orderId: string;
+        status: OrderStatus;
+        driverId: string;
+      }
+    >({
+      query: ({ orderId, status, driverId }) => ({
+        url: `order/${orderId}`,
+        method: "PUT",
+        body: { status, driverId },
+      }),
+      invalidatesTags: (result) => [
+        { type: "Orders", id: result?.id },
+        { type: "Orders", id: "LIST" },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Order updated successfully!",
+          error: "Failed to update order.",
+        });
+      },
+    }),
+    // Payment related endpoints
+    getPayment: build.query<Payment, string>({
+      query: (paymentId) => `payment/${paymentId}`,
+      providesTags: (result) => [{ type: "Payments", id: result?.id }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get payment.",
+        });
+      },
+    }),
+
+    getPayments: build.query<Payment[], void>({
+      query: () => `payment`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Payments" as const, id })),
+              { type: "Payments", id: "LIST" },
+            ]
+          : [{ type: "Payments", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get payments.",
+        });
+      },
+    }),
   }),
 });
 
 export const {
   useGetAuthUserQuery,
+  // Customer related endpoints
   useGetCustomerQuery,
   useUpdateCustomerInfoMutation,
+  // Restaurant related endpoints
   useGetRestaurantQuery,
   useGetRestaurantsQuery,
   useUpdateRestaurantInfoMutation,
+  // Driver related endpoints
   useGetDriverQuery,
   useUpdateDriverInfoMutation,
+  // MenuItem related endpoints
   useGetRestaurantMenuItemsQuery,
   useCreateRestaurantMenuItemMutation,
   useUpdateRestaurantMenuItemMutation,
