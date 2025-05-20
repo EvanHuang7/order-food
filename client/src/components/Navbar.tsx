@@ -22,6 +22,7 @@ import ShoppingCartSheet from "./ShoppingCartSheet";
 
 const Navbar = () => {
   const { data: authUser } = useGetAuthUserQuery();
+  const userRole = authUser?.userRole?.toLowerCase();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -87,7 +88,7 @@ const Navbar = () => {
               </div>
 
               {/* Shopping cart button for logged in customer */}
-              {authUser && <ShoppingCartSheet />}
+              {authUser && userRole === "customer" && <ShoppingCartSheet />}
 
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none">

@@ -154,7 +154,7 @@ const ShoppingCartSheet = () => {
         )}
 
         <Button
-          className="w-full mt-4"
+          className="w-full mt-4 bg-primary-700 text-white hover:bg-primary-600"
           disabled={isEmpty}
           variant={isEmpty ? "secondary" : "default"}
         >

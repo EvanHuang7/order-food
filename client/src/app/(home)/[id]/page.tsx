@@ -33,7 +33,7 @@ const SingleRestaurant = () => {
       <div className="flex flex-col md:flex-row gap-3 items-start">
         {/* Menu Items */}
         <div className="flex-1 order-2 w-full md:order-1">
-          <div className="grid grid-cols-1 w-full md:w-auto md:grid-cols-2 xl:grid-cols-3 pt-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-3 gap-6">
             {restaurantMenuItems?.map((menuItem) => (
               <MenuItemCard
                 key={menuItem.id}
