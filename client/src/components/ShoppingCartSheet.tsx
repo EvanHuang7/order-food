@@ -17,7 +17,8 @@ import {
   clearItemFromShoppingCart,
 } from "@/state";
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
+import Image from "next/image";
 
 const ShoppingCartSheet = () => {
   const shoppingCart = useAppSelector((state) => state.global.shoppingCart);
@@ -35,13 +36,17 @@ const ShoppingCartSheet = () => {
   }, [shoppingCart]);
 
   const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = shoppingCart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   const isEmpty = totalItems === 0;
 
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative">
-          <ShoppingCart className="w-5 h-5" />
+          <ShoppingCart className="w-7 h-7" />
           {totalItems > 0 && (
             <span className="absolute -top-1 -right-1 text-xs bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
               {totalItems}
@@ -56,7 +61,7 @@ const ShoppingCartSheet = () => {
           <SheetDescription>Review your selected menu items.</SheetDescription>
         </SheetHeader>
 
-        <ScrollArea className="mt-4 h-[calc(100vh-200px)] pr-2">
+        <ScrollArea className="mt-4 h-[calc(100vh-240px)] pr-2">
           {isEmpty ? (
             <p className="text-gray-500 text-center mt-10">
               Your cart is empty.
@@ -76,15 +81,28 @@ const ShoppingCartSheet = () => {
                     {items.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center justify-between border p-2 rounded-md"
+                        className="flex items-center gap-3 border p-2 rounded-md"
                       >
-                        <div>
+                        {/* Item Image */}
+                        <Image
+                          src={item.image || "/food/food7.jpg"}
+                          alt={item.name}
+                          width={56}
+                          height={56}
+                          className="rounded object-cover"
+                          style={{ width: "56px", height: "56px" }}
+                        />
+
+                        {/* Name, price and quantity */}
+                        <div className="flex-1">
                           <p className="font-medium">{item.name}</p>
                           <p className="text-sm text-gray-500">
-                            ${item.price} × {item.quantity}
+                            ${item.price.toFixed(2)} × {item.quantity}
                           </p>
                         </div>
-                        <div className="flex items-center gap-2">
+
+                        {/* Controls */}
+                        <div className="flex items-center gap-1">
                           <Button
                             size="icon"
                             variant="ghost"
@@ -128,8 +146,15 @@ const ShoppingCartSheet = () => {
           )}
         </ScrollArea>
 
+        {/* Total Price */}
+        {!isEmpty && (
+          <div className="mt-4 text-right font-semibold text-lg">
+            Total: ${totalPrice.toFixed(2)}
+          </div>
+        )}
+
         <Button
-          className="w-full mt-6"
+          className="w-full mt-4"
           disabled={isEmpty}
           variant={isEmpty ? "secondary" : "default"}
         >
