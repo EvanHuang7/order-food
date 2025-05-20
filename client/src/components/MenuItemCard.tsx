@@ -3,7 +3,7 @@ import {
   getRandomNumberOfReviews,
   getRandomPopularity,
 } from "@/lib/utils";
-import { Flame, Heart, Star } from "lucide-react";
+import { Flame, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -23,8 +23,9 @@ const MenuItemCard = ({
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
-      {/* Left part, Menu item image */}
+      {/* Left part */}
       <div className="relative w-1/3">
+        {/* Item image */}
         <Image
           src={imgSrc}
           alt={menuItem.name}
@@ -33,27 +34,28 @@ const MenuItemCard = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onError={() => setImgSrc("/food/food1.jpg")}
         />
+        {/* Item select button */}
+        {showSelectButton && (
+          <button
+            className="absolute bottom-1 right-1 bg-white hover:bg-white/90 rounded-full p-1 cursor-pointer"
+            onClick={onMenuItemSelect}
+          >
+            <Plus
+              className={`w-5 h-5 ${
+                selectedNumber > 0
+                  ? "text-red-500 fill-red-500"
+                  : "text-gray-600"
+              }`}
+            />
+          </button>
+        )}
       </div>
       {/* Right part */}
       <div className="w-2/3 p-4 flex flex-col justify-between">
         <div>
-          {/* Item name and select button */}
+          {/* Item name */}
           <div className="flex justify-between items-start">
             <h2 className="text-xl font-bold mb-1 truncate">{menuItem.name}</h2>
-            {showSelectButton && (
-              <button
-                className="bg-white rounded-full p-1"
-                onClick={onMenuItemSelect}
-              >
-                <Heart
-                  className={`w-4 h-4 ${
-                    selectedNumber > 0
-                      ? "text-red-500 fill-red-500"
-                      : "text-gray-600"
-                  }`}
-                />
-              </button>
-            )}
           </div>
           {/* Item description, rating,review */}
           <p className="text-gray-600 mb-1 text-sm truncate">
