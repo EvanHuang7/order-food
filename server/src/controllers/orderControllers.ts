@@ -3,12 +3,16 @@ import { OrderStatus, PaymentStatus, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createOrders = async (req: Request, res: Response) => {
+export const createOrders = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { customerId, items } = req.body;
 
     if (!customerId || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ message: "Missing required fields" });
+      res.status(400).json({ message: "Missing required fields" });
+      return;
     }
 
     // Group items by restaurant
@@ -83,6 +87,58 @@ export const createOrders = async (req: Request, res: Response) => {
   }
 };
 
+export const getOrder = async (req: Request, res: Response): Promise<void> => {
+  const { orderId } = req.params;
+  const user = req.user;
+  const orderIdNum = parseInt(orderId);
+
+  if (!user) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  if (isNaN(orderIdNum)) {
+    res.status(400).json({ message: "Invalid order ID" });
+    return;
+  }
+
+  try {
+    const order = await prisma.order.findUnique({
+      where: { id: orderIdNum },
+      include: {
+        customer: true,
+        restaurant: true,
+        driver: true,
+        payment: true,
+        items: {
+          include: {
+            menuItem: true,
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      res.status(404).json({ message: "Order not found" });
+      return;
+    }
+
+    // Authorization check
+    if (
+      (user.role === "customer" && String(order.customerId) !== user.id) ||
+      (user.role === "restaurant" && String(order.restaurantId) !== user.id) ||
+      (user.role === "driver" && String(order.driverId) !== user.id)
+    ) {
+      res.status(403).json({ message: "Unauthorized access to this order" });
+      return;
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    console.error("Error retrieving order:", error);
+    res.status(500).json({ message: "Failed to retrieve order" });
+  }
+};
+
 export const getOrders = async (req: Request, res: Response): Promise<void> => {
   try {
     const { user } = req as any;
@@ -152,9 +208,14 @@ export const updateOrder = async (
   try {
     const { orderId } = req.params;
     const { status, driverId } = req.body;
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
 
-    const userRole = req.user.role;
-    const userId = req.user.id;
+    const userRole = user.role;
+    const userId = user.id;
 
     const order = await prisma.order.findUnique({
       where: { id: Number(orderId) },
@@ -167,7 +228,7 @@ export const updateOrder = async (
 
     // Role-based authorization logic
     if (userRole === "customer") {
-      if (order.customerId !== userId) {
+      if (String(order.customerId) !== userId) {
         res.status(403).json({ message: "Unauthorized: not your order" });
         return;
       }
@@ -183,7 +244,7 @@ export const updateOrder = async (
         return;
       }
     } else if (userRole === "restaurant") {
-      if (order.restaurantId !== userId) {
+      if (String(order.restaurantId) !== userId) {
         res
           .status(403)
           .json({ message: "Unauthorized: not your restaurant's order" });
@@ -203,7 +264,7 @@ export const updateOrder = async (
       }
     } else if (userRole === "driver") {
       // Driver can update driverId only if unassigned or assigned to self
-      if (order.driverId && order.driverId !== userId) {
+      if (order.driverId && String(order.driverId) !== userId) {
         res
           .status(403)
           .json({ message: "Unauthorized: not your assigned order" });

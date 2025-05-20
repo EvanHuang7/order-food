@@ -14,7 +14,7 @@ router.get(
   authMiddleware(["customer", "restaurant", "driver"]),
   getOrder
 );
-router.post(
+router.get(
   "/",
   authMiddleware(["customer", "restaurant", "driver"]),
   getOrders
