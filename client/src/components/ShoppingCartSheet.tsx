@@ -26,7 +26,7 @@ const ShoppingCartSheet = () => {
 
   const groupedByRestaurant = useMemo(() => {
     const grouped: Record<string, typeof shoppingCart> = {};
-    for (const item of shoppingCart) {
+    for (const item of shoppingCart as any) {
       if (!grouped[item.restaurantId]) {
         grouped[item.restaurantId] = [];
       }
@@ -37,7 +37,7 @@ const ShoppingCartSheet = () => {
 
   const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = shoppingCart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item: any) => sum + item.price * item.quantity,
     0
   );
   const isEmpty = totalItems === 0;
@@ -69,7 +69,7 @@ const ShoppingCartSheet = () => {
           ) : (
             Object.entries(groupedByRestaurant).map(([restaurantId, items]) => {
               const subtotal = items.reduce(
-                (sum, item) => sum + item.price * item.quantity,
+                (sum, item: any) => sum + item.price * item.quantity,
                 0
               );
               return (
@@ -78,14 +78,14 @@ const ShoppingCartSheet = () => {
                     Restaurant #{restaurantId}
                   </h3>
                   <div className="space-y-4">
-                    {items.map((item) => (
+                    {items.map((item: any) => (
                       <div
                         key={item.id}
                         className="flex items-center gap-3 border p-2 rounded-md"
                       >
                         {/* Item Image */}
                         <Image
-                          src={item.image || "/food/food7.jpg"}
+                          src={item?.photoUrl || "/food/food7.jpg"}
                           alt={item.name}
                           width={56}
                           height={56}

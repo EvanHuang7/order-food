@@ -6,7 +6,7 @@ export interface FiltersState {
   priceRange: [number, number] | [null, null];
 }
 
-interface ShoppingCartItem extends MenuItem {
+export interface ShoppingCartItem extends MenuItem {
   quantity: number;
 }
 
