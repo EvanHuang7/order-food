@@ -87,11 +87,7 @@ const Navbar = () => {
               </div>
 
               {/* Shopping cart button for logged in customer */}
-              {authUser && (
-                <div>
-                  <ShoppingCartSheet />
-                </div>
-              )}
+              {authUser && <ShoppingCartSheet />}
 
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none">

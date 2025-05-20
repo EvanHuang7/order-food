@@ -45,14 +45,14 @@ const ShoppingCartSheet = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="relative">
-          <ShoppingCart className="w-7 h-7" />
+        <div className="relative cursor-pointer hover:opacity-80 transition">
+          <ShoppingCart className="w-6 h-6 text-primary-200 hover:text-primary-400" />
           {totalItems > 0 && (
-            <span className="absolute -top-1 -right-1 text-xs bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
               {totalItems}
             </span>
           )}
-        </Button>
+        </div>
       </SheetTrigger>
 
       <SheetContent side="right" className="w-[400px] sm:w-[450px]">
