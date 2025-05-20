@@ -1,15 +1,35 @@
 [
   {
     "id": 1,
-    "cognitoId": "cognito-rest-1",
-    "name": "Tasty Pizza",
-    "email": "contact@tastypizza.com",
-    "phoneNumber": "+1987654321",
-    "description": "Best pizza in town",
-    "photoUrls": ["https://example.com/pizza1.jpg"],
-    "locationId": 3,
-    "openTime": "10:00",
+    "cognitoId": "restaurant-cognito-001",
+    "name": "Maple Delight",
+    "email": "contact@mapledelight.ca",
+    "phoneNumber": "+1-416-555-1234",
+    "description": "Authentic Canadian cuisine with a modern twist.",
+    "photoUrls": [
+      "https://example.com/photos/mapledelight1.jpg",
+      "https://example.com/photos/mapledelight2.jpg"
+    ],
+    "openTime": "09:00",
     "closeTime": "22:00",
-    "categories": ["Pizza", "Italian"]
+    "categories": ["Canadian", "Breakfast", "Dinner"],
+    "locationId": 1,
+    "createdAt": "2025-05-01T08:00:00.000Z",
+    "updatedAt": "2025-05-01T08:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "cognitoId": "restaurant-cognito-002",
+    "name": "Sushi Wave",
+    "email": "info@sushiwave.ca",
+    "phoneNumber": "+1-604-555-5678",
+    "description": "Fresh sushi and Japanese dishes with ocean views.",
+    "photoUrls": ["https://example.com/photos/sushiwave1.jpg"],
+    "openTime": "11:00",
+    "closeTime": "21:00",
+    "categories": ["Japanese", "Sushi", "Seafood"],
+    "locationId": 2,
+    "createdAt": "2025-04-20T10:00:00.000Z",
+    "updatedAt": "2025-04-20T10:00:00.000Z"
   }
 ]

@@ -1,18 +1,42 @@
 [
   {
     "id": 1,
-    "name": "Pepperoni Pizza",
-    "description": "Classic pepperoni with cheese",
-    "price": 12.99,
-    "photoUrl": "https://example.com/pepperoni.jpg",
-    "restaurantId": 1
+    "name": "Classic Cheeseburger",
+    "description": "Juicy beef patty with cheddar cheese, lettuce, tomato, and pickles.",
+    "price": 9.99,
+    "photoUrl": "https://example.com/images/cheeseburger.jpg",
+    "restaurantId": 1,
+    "createdAt": "2025-05-20T10:00:00.000Z",
+    "updatedAt": "2025-05-20T10:00:00.000Z"
   },
   {
     "id": 2,
     "name": "Veggie Pizza",
-    "description": "Loaded with vegetables",
-    "price": 11.99,
-    "photoUrl": "https://example.com/veggie.jpg",
-    "restaurantId": 1
+    "description": "Thin crust pizza topped with mushrooms, peppers, onions, and olives.",
+    "price": 12.5,
+    "photoUrl": "https://example.com/images/veggie-pizza.jpg",
+    "restaurantId": 1,
+    "createdAt": "2025-05-20T10:15:00.000Z",
+    "updatedAt": "2025-05-20T10:15:00.000Z"
+  },
+  {
+    "id": 3,
+    "name": "Spaghetti Carbonara",
+    "description": "Classic Italian pasta with pancetta, eggs, Parmesan, and black pepper.",
+    "price": 14.0,
+    "photoUrl": "https://example.com/images/carbonara.jpg",
+    "restaurantId": 2,
+    "createdAt": "2025-05-20T10:30:00.000Z",
+    "updatedAt": "2025-05-20T10:30:00.000Z"
+  },
+  {
+    "id": 4,
+    "name": "Caesar Salad",
+    "description": "Romaine lettuce, Parmesan, croutons, and Caesar dressing.",
+    "price": 8.5,
+    "photoUrl": "https://example.com/images/caesar-salad.jpg",
+    "restaurantId": 2,
+    "createdAt": "2025-05-20T10:45:00.000Z",
+    "updatedAt": "2025-05-20T10:45:00.000Z"
   }
 ]

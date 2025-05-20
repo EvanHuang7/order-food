@@ -1,18 +1,32 @@
 [
   {
     "id": 1,
-    "cognitoId": "cognito-user-1",
+    "cognitoId": "us-east-1:12345678-90ab-cdef-1234-567890abcdef",
     "name": "Alice Johnson",
-    "email": "alice@example.com",
-    "phoneNumber": "+1234567890",
-    "locationId": 1
+    "email": "alice.johnson@example.com",
+    "phoneNumber": "+12345678901",
+    "locationId": 1,
+    "createdAt": "2025-05-20T08:00:00.000Z",
+    "updatedAt": "2025-05-20T08:00:00.000Z"
   },
   {
     "id": 2,
-    "cognitoId": "cognito-user-2",
+    "cognitoId": "us-east-1:abcdef12-3456-7890-abcd-ef1234567890",
     "name": "Bob Smith",
-    "email": "bob@example.com",
-    "phoneNumber": "+1234567891",
-    "locationId": 2
+    "email": "bob.smith@example.com",
+    "phoneNumber": "+19876543210",
+    "locationId": 2,
+    "createdAt": "2025-05-20T08:10:00.000Z",
+    "updatedAt": "2025-05-20T08:10:00.000Z"
+  },
+  {
+    "id": 3,
+    "cognitoId": "us-east-1:fedcba98-7654-3210-fedc-ba9876543210",
+    "name": "Charlie Davis",
+    "email": "charlie.davis@example.com",
+    "phoneNumber": "+11234567890",
+    "locationId": null,
+    "createdAt": "2025-05-20T08:20:00.000Z",
+    "updatedAt": "2025-05-20T08:20:00.000Z"
   }
 ]

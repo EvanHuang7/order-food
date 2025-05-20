@@ -1,26 +1,32 @@
 [
   {
     "id": 1,
-    "address": "123 Main St",
-    "city": "New York",
-    "state": "NY",
-    "country": "USA",
-    "postalCode": "10001"
+    "address": "123 Maple Street",
+    "city": "Toronto",
+    "province": "Ontario",
+    "country": "Canada",
+    "postalCode": "M5H 2N2",
+    "createdAt": "2025-05-20T08:00:00.000Z",
+    "updatedAt": "2025-05-20T08:00:00.000Z"
   },
   {
     "id": 2,
-    "address": "456 Elm St",
-    "city": "New York",
-    "state": "NY",
-    "country": "USA",
-    "postalCode": "10002"
+    "address": "456 Oak Avenue",
+    "city": "Vancouver",
+    "province": "British Columbia",
+    "country": "Canada",
+    "postalCode": "V6B 1A1",
+    "createdAt": "2025-05-20T08:30:00.000Z",
+    "updatedAt": "2025-05-20T08:30:00.000Z"
   },
   {
     "id": 3,
-    "address": "789 Oak Ave",
-    "city": "Brooklyn",
-    "state": "NY",
-    "country": "USA",
-    "postalCode": "11201"
+    "address": "789 Pine Lane",
+    "city": "Montreal",
+    "province": "Quebec",
+    "country": "Canada",
+    "postalCode": "H3B 2Y5",
+    "createdAt": "2025-05-20T09:00:00.000Z",
+    "updatedAt": "2025-05-20T09:00:00.000Z"
   }
 ]

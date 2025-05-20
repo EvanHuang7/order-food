@@ -12,6 +12,8 @@ CREATE TABLE "Customer" (
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
     "locationId" INTEGER,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
 );
@@ -29,6 +31,8 @@ CREATE TABLE "Restaurant" (
     "closeTime" TEXT,
     "categories" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "locationId" INTEGER,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Restaurant_pkey" PRIMARY KEY ("id")
 );
@@ -40,6 +44,8 @@ CREATE TABLE "Driver" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Driver_pkey" PRIMARY KEY ("id")
 );
@@ -52,6 +58,8 @@ CREATE TABLE "MenuItem" (
     "price" DOUBLE PRECISION NOT NULL,
     "photoUrl" TEXT,
     "restaurantId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "MenuItem_pkey" PRIMARY KEY ("id")
 );
@@ -59,12 +67,14 @@ CREATE TABLE "MenuItem" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" "OrderStatus" NOT NULL,
     "totalPrice" DOUBLE PRECISION NOT NULL,
     "customerId" INTEGER NOT NULL,
     "restaurantId" INTEGER NOT NULL,
     "driverId" INTEGER,
+    "paymentId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
@@ -76,6 +86,8 @@ CREATE TABLE "OrderItem" (
     "price" DOUBLE PRECISION NOT NULL,
     "orderId" INTEGER NOT NULL,
     "menuItemId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
 );
@@ -83,12 +95,32 @@ CREATE TABLE "OrderItem" (
 -- CreateTable
 CREATE TABLE "Payment" (
     "id" SERIAL NOT NULL,
+    "customerId" INTEGER NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
     "status" "PaymentStatus" NOT NULL,
     "paymentDate" TIMESTAMP(3) NOT NULL,
-    "orderId" INTEGER NOT NULL,
+    "provider" TEXT,
+    "methodToken" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PaymentInfo" (
+    "id" SERIAL NOT NULL,
+    "customerId" INTEGER NOT NULL,
+    "provider" TEXT NOT NULL,
+    "methodToken" TEXT NOT NULL,
+    "last4" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "expiryMonth" INTEGER NOT NULL,
+    "expiryYear" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "PaymentInfo_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -96,9 +128,11 @@ CREATE TABLE "Location" (
     "id" SERIAL NOT NULL,
     "address" TEXT NOT NULL,
     "city" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
+    "province" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "postalCode" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
@@ -109,19 +143,6 @@ CREATE TABLE "FavoriteRestaurant" (
     "restaurantId" INTEGER NOT NULL,
 
     CONSTRAINT "FavoriteRestaurant_pkey" PRIMARY KEY ("customerId","restaurantId")
-);
-
--- CreateTable
-CREATE TABLE "PaymentInfo" (
-    "id" SERIAL NOT NULL,
-    "customerId" INTEGER NOT NULL,
-    "cardHolderName" TEXT NOT NULL,
-    "cardNumberHash" TEXT NOT NULL,
-    "expiryMonth" INTEGER NOT NULL,
-    "expiryYear" INTEGER NOT NULL,
-    "billingAddress" TEXT NOT NULL,
-
-    CONSTRAINT "PaymentInfo_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -160,9 +181,6 @@ CREATE UNIQUE INDEX "Driver_cognitoId_key" ON "Driver"("cognitoId");
 CREATE UNIQUE INDEX "Driver_email_key" ON "Driver"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Payment_orderId_key" ON "Payment"("orderId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "PaymentInfo_customerId_key" ON "PaymentInfo"("customerId");
 
 -- AddForeignKey
@@ -184,22 +202,25 @@ ALTER TABLE "Order" ADD CONSTRAINT "Order_restaurantId_fkey" FOREIGN KEY ("resta
 ALTER TABLE "Order" ADD CONSTRAINT "Order_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_paymentId_fkey" FOREIGN KEY ("paymentId") REFERENCES "Payment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_menuItemId_fkey" FOREIGN KEY ("menuItemId") REFERENCES "MenuItem"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Payment" ADD CONSTRAINT "Payment_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Payment" ADD CONSTRAINT "Payment_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PaymentInfo" ADD CONSTRAINT "PaymentInfo_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FavoriteRestaurant" ADD CONSTRAINT "FavoriteRestaurant_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FavoriteRestaurant" ADD CONSTRAINT "FavoriteRestaurant_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "Restaurant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PaymentInfo" ADD CONSTRAINT "PaymentInfo_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

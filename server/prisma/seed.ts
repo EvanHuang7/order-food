@@ -77,13 +77,13 @@ async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
   const orderedFileNames = [
-    "location.json", // No dependencies
+    "location.json", // Independent
     "customer.json", // Depends on location
     "driver.json", // Depends on location
     "restaurant.json", // Depends on location
     "menuItem.json", // Depends on restaurant
-    "order.json", // Depends on customer, restaurant, driver
-    "payment.json", // Depends on order
+    "payment.json", // Depends on customer
+    "order.json", // Depends on customer, restaurant, driver, payment
     "orderItem.json", // Depends on order, menuItem
     "notification.json", // Depends on customer
     "paymentInfo.json", // Depends on customer

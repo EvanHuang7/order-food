@@ -1,9 +1,35 @@
 [
   {
     "id": 1,
-    "amount": 24.98,
+    "customerId": 1,
+    "amount": 18.49,
     "status": "Paid",
-    "paymentDate": "2025-05-18T14:05:00Z",
-    "orderId": 1
+    "paymentDate": "2025-05-20T12:05:00.000Z",
+    "provider": "stripe",
+    "methodToken": "pm_1H2aBcDeFgHiJkLmNoPqRsTu",
+    "createdAt": "2025-05-20T12:05:00.000Z",
+    "updatedAt": "2025-05-20T12:05:00.000Z"
+  },
+  {
+    "id": 2,
+    "customerId": 2,
+    "amount": 14.0,
+    "status": "Paid",
+    "paymentDate": "2025-05-20T12:20:00.000Z",
+    "provider": "paypal",
+    "methodToken": "PAYID-L3XqvF8k2R5iCq1",
+    "createdAt": "2025-05-20T12:20:00.000Z",
+    "updatedAt": "2025-05-20T12:20:00.000Z"
+  },
+  {
+    "id": 3,
+    "customerId": 1,
+    "amount": 23.98,
+    "status": "Pending",
+    "paymentDate": "2025-05-19T18:40:00.000Z",
+    "provider": "stripe",
+    "methodToken": "pm_1JZtYkLmNoPqRsTuVwXyZ",
+    "createdAt": "2025-05-19T18:40:00.000Z",
+    "updatedAt": "2025-05-19T18:40:00.000Z"
   }
 ]
