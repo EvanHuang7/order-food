@@ -36,16 +36,17 @@ const MenuItemCard = ({
   };
 
   return (
+    // Consistent horizontal layout across all screen sizes
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
       {/* Left part */}
-      <div className="relative w-1/3">
+      <div className="relative w-1/3 h-full">
         {/* Item image */}
         <Image
           src={imgSrc}
           alt={menuItem.name}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="100vw"
           onError={() => setImgSrc("/food/food1.jpg")}
         />
         {/* Item select button */}
