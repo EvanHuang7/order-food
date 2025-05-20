@@ -3,26 +3,12 @@ import { OrderStatus, PaymentStatus, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// TODO: regenerate Prisma model and update Prisma db
-
 export const createOrders = async (req: Request, res: Response) => {
   try {
-    const { customerId, paymentId, items } = req.body;
+    const { customerId, items } = req.body;
 
     if (!customerId || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    // Validate payment
-    let payment = null;
-    if (paymentId) {
-      payment = await prisma.payment.findUnique({ where: { id: paymentId } });
-      if (!payment) {
-        return res.status(404).json({ message: "Payment not found" });
-      }
-      if (payment.status !== PaymentStatus.Paid) {
-        return res.status(400).json({ message: "Payment is not completed" });
-      }
     }
 
     // Group items by restaurant
@@ -34,12 +20,30 @@ export const createOrders = async (req: Request, res: Response) => {
       groupedItems.get(item.restaurantId)!.push(item);
     }
 
-    // Create order and order items
-    const createdOrders = await prisma.$transaction(async (tx) => {
-      const orders = [];
+    // Calculate total payment amount
+    const totalAmount = items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
 
+    // Use one transaction for payment + orders + orderItems
+    const result = await prisma.$transaction(async (tx) => {
+      // 1. Create payment
+      const payment = await tx.payment.create({
+        data: {
+          customerId,
+          amount: totalAmount,
+          status: PaymentStatus.Pending,
+          paymentDate: new Date(),
+          provider: "placeholder", // Replace if needed
+          methodToken: "placeholder", // Replace if needed
+        },
+      });
+
+      // 2. Create orders & order items
+      const orders = [];
       for (const [restaurantId, restaurantItems] of groupedItems.entries()) {
-        const totalPrice = restaurantItems.reduce(
+        const orderTotal = restaurantItems.reduce(
           (sum, item) => sum + item.price * item.quantity,
           0
         );
@@ -49,8 +53,8 @@ export const createOrders = async (req: Request, res: Response) => {
             customerId,
             restaurantId,
             status: OrderStatus.Pending,
-            totalPrice,
-            paymentId: paymentId ?? null,
+            totalPrice: orderTotal,
+            paymentId: payment.id,
           },
         });
 
@@ -66,45 +70,16 @@ export const createOrders = async (req: Request, res: Response) => {
         orders.push(order);
       }
 
-      return orders;
+      return { payment, orders };
     });
 
-    res.status(201).json({ orders: createdOrders });
+    res.status(201).json(result);
   } catch (error: any) {
     console.error("Error creating orders:", error);
-    res
-      .status(500)
-      .json({ message: "Failed to create orders", error: error.message });
-  }
-};
-
-export const getOrder = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { orderId } = req.params;
-
-    const order = await prisma.order.findUnique({
-      where: { id: Number(orderId) },
-      include: {
-        items: {
-          include: {
-            menuItem: true,
-          },
-        },
-        customer: true,
-        restaurant: true,
-        driver: true,
-        payment: true,
-      },
+    res.status(500).json({
+      message: "Failed to create orders",
+      error: error.message,
     });
-
-    if (!order) {
-      res.status(404).json({ message: "Order not found" });
-      return;
-    }
-
-    res.json(order);
-  } catch (error: any) {
-    res.status(500).json({ message: `Error fetching order: ${error.message}` });
   }
 };
 
@@ -156,6 +131,10 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
         include: { items: true, customer: true, restaurant: true },
         orderBy: { createdAt: "desc" },
       });
+    } else {
+      // Unknown role, deny by default
+      res.status(403).json({ message: "Unauthorized role" });
+      return;
     }
 
     res.json(orders);
@@ -196,24 +175,34 @@ export const updateOrder = async (
         res.status(400).json({ message: "Customers can only cancel orders" });
         return;
       }
-    }
-
-    if (userRole === "restaurant") {
+      // Customers cannot update driverId
+      if (driverId !== undefined) {
+        res
+          .status(403)
+          .json({ message: "Customers cannot update driver assignment" });
+        return;
+      }
+    } else if (userRole === "restaurant") {
       if (order.restaurantId !== userId) {
         res
           .status(403)
           .json({ message: "Unauthorized: not your restaurant's order" });
         return;
       }
-      // Optionally restrict statuses a restaurant can set
       const allowedStatuses = [OrderStatus.Accepted, OrderStatus.Preparing];
       if (!allowedStatuses.includes(status)) {
         res.status(400).json({ message: "Invalid status for restaurant" });
         return;
       }
-    }
-
-    if (userRole === "driver") {
+      // Restaurants cannot update driverId
+      if (driverId !== undefined) {
+        res
+          .status(403)
+          .json({ message: "Restaurants cannot update driver assignment" });
+        return;
+      }
+    } else if (userRole === "driver") {
+      // Driver can update driverId only if unassigned or assigned to self
       if (order.driverId && order.driverId !== userId) {
         res
           .status(403)
@@ -225,13 +214,19 @@ export const updateOrder = async (
         res.status(400).json({ message: "Invalid status for driver" });
         return;
       }
+    } else {
+      // Unknown role, deny by default
+      res.status(403).json({ message: "Unauthorized role" });
+      return;
     }
 
     const updatedOrder = await prisma.order.update({
       where: { id: Number(orderId) },
       data: {
         status,
-        driverId: driverId ?? undefined, // optional
+        // Only set driverId if user is driver, else undefined to prevent update
+        driverId:
+          userRole === "driver" ? driverId ?? order.driverId : order.driverId,
       },
       include: {
         items: true,
