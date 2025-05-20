@@ -66,6 +66,12 @@ export const globalSlice = createSlice({
         }
       }
     },
+    clearItemFromShoppingCart: (state, action: PayloadAction<number>) => {
+      const itemId = action.payload;
+      state.shoppingCart = state.shoppingCart.filter(
+        (item: any) => item.id !== itemId
+      );
+    },
     clearShoppingCart: (state) => {
       state.shoppingCart = [];
     },
@@ -78,6 +84,7 @@ export const {
   setViewMode,
   addItemToShoppingCart,
   removeItemFromShoppingCart,
+  clearItemFromShoppingCart,
   clearShoppingCart,
 } = globalSlice.actions;
 

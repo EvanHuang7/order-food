@@ -18,6 +18,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { SidebarTrigger } from "./ui/sidebar";
+import ShoppingCartSheet from "./ShoppingCartSheet";
 
 const Navbar = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -84,6 +85,13 @@ const Navbar = () => {
                 <Bell className="w-6 h-6 cursor-pointer text-primary-200 hover:text-primary-400" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-700 rounded-full"></span>
               </div>
+
+              {/* Shopping cart button for logged in customer */}
+              {authUser && (
+                <div>
+                  <ShoppingCartSheet />
+                </div>
+              )}
 
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none">
