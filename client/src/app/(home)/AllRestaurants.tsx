@@ -33,9 +33,11 @@ const AllRestaurants = () => {
   const { data: customer } = useGetCustomerQuery(
     authUser?.cognitoInfo?.userId || "",
     {
-      skip: !authUser?.cognitoInfo?.userId,
+      skip: !authUser?.cognitoInfo?.userId || authUser.userRole !== "customer",
     }
   );
+  const showCustomerInteraction =
+    !!authUser && authUser.userRole === "customer";
   // const [addFavorite] = useAddFavoriteRestaurantMutation();
   // const [removeFavorite] = useRemoveFavoriteRestaurantMutation();
   const viewMode = useAppSelector((state) => state.global.viewMode);
@@ -97,7 +99,7 @@ const AllRestaurants = () => {
                   ) || false
                 }
                 onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
-                showFavoriteButton={!!authUser}
+                showFavoriteButton={showCustomerInteraction}
                 restaurantLink={`/${restaurant.id}`}
               />
             ) : (
@@ -110,7 +112,7 @@ const AllRestaurants = () => {
                   ) || false
                 }
                 onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
-                showFavoriteButton={!!authUser}
+                showFavoriteButton={showCustomerInteraction}
                 restaurantLink={`/${restaurant.id}`}
               />
             )}

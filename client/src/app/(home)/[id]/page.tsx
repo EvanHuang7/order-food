@@ -14,6 +14,8 @@ import Loading from "@/components/Loading";
 const SingleRestaurant = () => {
   const { id: restaurantId } = useParams();
   const { data: authUser } = useGetAuthUserQuery();
+  const showCustomerInteraction =
+    !!authUser && authUser.userRole === "customer";
 
   const {
     data: restaurantMenuItems,
@@ -34,11 +36,11 @@ const SingleRestaurant = () => {
         {/* Menu Items */}
         <div className="flex-1 order-2 w-full md:order-1">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-3 gap-6">
-            {restaurantMenuItems?.map((menuItem) => (
+            {restaurantMenuItems?.map((menuItem: any) => (
               <MenuItemCard
                 key={menuItem.id}
                 menuItem={menuItem}
-                showSelectButton={true}
+                showSelectButton={showCustomerInteraction}
               />
             ))}
           </div>

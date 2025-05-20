@@ -16,6 +16,7 @@ const HomePage = () => {
     (state) => state.global.isFiltersFullOpen
   );
 
+  // Set filter with search param in url
   useEffect(() => {
     const initialFilters = Array.from(searchParams.entries()).reduce(
       (acc: any, [key, value]) => {

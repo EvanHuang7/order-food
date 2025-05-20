@@ -6,6 +6,8 @@ import React from "react";
 
 const AiCallWidget = ({ restaurantId }: AiCallWidgetProps) => {
   const { data: authUser } = useGetAuthUserQuery();
+  const showCustomerInteraction =
+    !!authUser && authUser.userRole === "customer";
   const router = useRouter();
   // TODO: get Restaurant info
   // TODO: add a new API to get restaurant by id
@@ -33,12 +35,14 @@ const AiCallWidget = ({ restaurantId }: AiCallWidgetProps) => {
           </div>
         </div>
       </div>
-      <Button
-        className="w-full bg-primary-700 text-white hover:bg-primary-600"
-        onClick={handleButtonClick}
-      >
-        {authUser ? "Start AI call" : "Sign In to Order"}
-      </Button>
+      {showCustomerInteraction && (
+        <Button
+          className="w-full bg-primary-700 text-white hover:bg-primary-600"
+          onClick={handleButtonClick}
+        >
+          {authUser ? "Start AI call" : "Sign In to Order"}
+        </Button>
+      )}
 
       <hr className="my-4" />
       <div className="text-sm">
