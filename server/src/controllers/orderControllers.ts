@@ -151,7 +151,15 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
 
       orders = await prisma.order.findMany({
         where: { customerId: customer.id },
-        include: { items: true, restaurant: true, driver: true },
+        include: {
+          items: {
+            include: {
+              menuItem: true,
+            },
+          },
+          restaurant: true,
+          driver: true,
+        },
         orderBy: { createdAt: "desc" },
       });
     } else if (userType === "restaurant") {
@@ -165,7 +173,15 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
 
       orders = await prisma.order.findMany({
         where: { restaurantId: restaurant.id },
-        include: { items: true, customer: true, driver: true },
+        include: {
+          items: {
+            include: {
+              menuItem: true,
+            },
+          },
+          customer: true,
+          driver: true,
+        },
         orderBy: { createdAt: "desc" },
       });
     } else if (userType === "driver") {
@@ -177,7 +193,15 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
 
       orders = await prisma.order.findMany({
         where: { driverId: driver.id },
-        include: { items: true, customer: true, restaurant: true },
+        include: {
+          items: {
+            include: {
+              menuItem: true,
+            },
+          },
+          customer: true,
+          restaurant: true,
+        },
         orderBy: { createdAt: "desc" },
       });
     }

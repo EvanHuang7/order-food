@@ -70,6 +70,12 @@ declare global {
     children: React.ReactNode;
   }
 
+  interface OrderDetailModalProps {
+    open: boolean;
+    onClose: () => void;
+    order: Order;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;

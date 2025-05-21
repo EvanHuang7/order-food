@@ -1,8 +1,15 @@
 import { cn, formatToLocalString } from "@/lib/utils";
-import { Mail, MapPin, PhoneCall, CircleCheckBig, File } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  PhoneCall,
+  CircleCheckBig,
+  File,
+  CalendarDays,
+} from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import Link from "next/link";
+import OrderDetailModal from "@/components/OrderDetailModal";
 
 const OrderCard = ({ order, userType, children }: OrderCardProps) => {
   let cardName = "";
@@ -66,6 +73,10 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
       : order.status === "Cancelled"
       ? "bg-red-500"
       : "bg-yellow-500";
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
 
   return (
     <div className="border rounded-xl overflow-hidden shadow-sm bg-white mb-4">
@@ -188,10 +199,11 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
           }`}
         >
           <div className="flex flex-wrap items-center">
-            <File className="w-5 h-5 mr-2 flex-shrink-0" />
+            <CalendarDays className="w-5 h-5 mr-2 flex-shrink-0" />
             <span className="mr-2">
               Order placed on {formatToLocalString(order.createdAt)}.
             </span>
+            {/* TODO: Can change to estimated deliver time latter */}
             <CircleCheckBig className="w-5 h-5 mr-2 flex-shrink-0" />
             <span
               className={`font-semibold ${
@@ -208,25 +220,28 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
                 order.status === "Accepted" ||
                 order.status === "Preparing" ||
                 order.status === "PickedUp") &&
-                "This order is pending."}
+                `This order is ${order.status.toLowerCase()}.`}
             </span>
           </div>
         </div>
         {/* Right Buttons section */}
         <div className="flex gap-2">
-          {/* TODO: Change to display order detail in model */}
-          <Link
-            href={`/customer/${order.id}`}
+          <button
             className={`bg-white border border-gray-300 text-gray-700 py-2 px-4 
                                   rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
-            scroll={false}
+            onClick={handleModalOpen}
           >
             <File className="w-5 h-5 mr-2" />
-            Order Details
-          </Link>
+            View Details
+          </button>
           {children}
         </div>
       </div>
+      <OrderDetailModal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        order={order}
+      />
     </div>
   );
 };
