@@ -321,7 +321,7 @@ export const api = createApi({
       Order,
       {
         orderId: string;
-        status: OrderStatus;
+        status: string;
         driverId: string;
       }
     >({

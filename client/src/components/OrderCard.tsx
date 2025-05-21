@@ -3,54 +3,50 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const OrderCard = ({ order, userType, children }: OrderCardProps) => {
-  let cardName;
-  let cardAddress;
-  const [cardImgSrc, setCardImgSrc] = useState("/order-food-logo.svg");
+  let cardName = "";
+  let cardAddress = "";
+  let cardImgSrc = "/order-food-logo.svg";
 
-  let contactPersonRole;
-  let contactPerson;
-  const [contactPersonImgSrc, setContactPersonImgSrc] = useState(
-    "/order-food-logo.svg"
-  );
+  let contactPersonRole = "";
+  let contactPerson: any = {};
+  let contactPersonImgSrc = "/order-food-logo.svg";
 
   // Set card info based on user role
   if (userType === "customer") {
     cardName = order.restaurant.name;
     cardAddress = `${order.restaurant?.location?.address}, ${order.restaurant?.location?.city}, ${order.restaurant?.location?.province}`;
-    setCardImgSrc("/userProfile/restaurant-profile-img.jpg");
+    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Restaurant";
     contactPerson = order?.driverId ? order.driver : order.restaurant;
-    setContactPersonImgSrc(
-      order?.driverId
-        ? "/userProfile/driver-profile-img.jpg"
-        : "/userProfile/restaurant-profile-img.jpg"
-    );
+    contactPersonImgSrc = order?.driverId
+      ? "/userProfile/driver-profile-img.jpg"
+      : "/userProfile/restaurant-profile-img.jpg";
   } else if (userType === "restaurant") {
     cardName = order.customer.name;
     cardAddress = `${order.customer?.location?.address}, ${order.customer?.location?.city}, ${order.customer?.location?.province}`;
-    setCardImgSrc("/userProfile/customer-profile-img.jpg");
+    cardImgSrc = "/userProfile/customer-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Customer";
     contactPerson = order?.driverId ? order.driver : order.customer;
-    setContactPersonImgSrc(
-      order?.driverId
-        ? "/userProfile/driver-profile-img.jpg"
-        : "/userProfile/customer-profile-img.jpg"
-    );
+    contactPersonImgSrc = order?.driverId
+      ? "/userProfile/driver-profile-img.jpg"
+      : "/userProfile/customer-profile-img.jpg";
   } else if (userType === "driver") {
     cardName = order.restaurant.name;
     cardAddress = `${order.restaurant?.location?.address}, ${order.restaurant?.location?.city}, ${order.restaurant?.location?.province}`;
-    setCardImgSrc("/userProfile/restaurant-profile-img.jpg");
+    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Restaurant" : "Customer";
     contactPerson = order?.driverId ? order.restaurant : order.customer;
-    setContactPersonImgSrc(
-      order?.driverId
-        ? "/userProfile/restaurant-profile-img.jpg"
-        : "/userProfile/customer-profile-img.jpg"
-    );
+    contactPersonImgSrc = order?.driverId
+      ? "/userProfile/restaurant-profile-img.jpg"
+      : "/userProfile/customer-profile-img.jpg";
   }
+
+  const [fallbackCardImgSrc, setFallbackCardImgSrc] = useState(cardImgSrc);
+  const [fallbackContactPersonImgSrc, setFallbackContactPersonImgSrc] =
+    useState(contactPersonImgSrc);
 
   const statusColor =
     order.status === "Delivered"
@@ -71,7 +67,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             height={150}
             className="rounded-xl object-cover w-full lg:w-[200px] h-[150px]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setCardImgSrc("/order-food-logo.svg")}
+            onError={() => setFallbackCardImgSrc("/order-food-logo.svg")}
           />
           <div className="flex flex-col justify-between">
             <div>
@@ -135,7 +131,9 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
                 width={40}
                 height={40}
                 className="rounded-full mr-2 min-w-[40px] min-h-[40px]"
-                onError={() => setContactPersonImgSrc("/order-food-logo.svg")}
+                onError={() =>
+                  setFallbackContactPersonImgSrc("/order-food-logo.svg")
+                }
               />
             </div>
             <div className="flex flex-col gap-2">

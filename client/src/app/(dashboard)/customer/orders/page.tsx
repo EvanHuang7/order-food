@@ -9,7 +9,6 @@ import {
   useGetAuthUserQuery,
   useUpdateOrderMutation,
 } from "@/state/api";
-import { OrderStatus } from "@/types/prismaTypes";
 import { CircleCheckBig, Download, File, Hospital } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -21,7 +20,7 @@ const Orders = () => {
   const { data: orders, isLoading, isError } = useGetOrdersQuery();
   const [updateOrder] = useUpdateOrderMutation();
 
-  const handleUpdateOrder = async (orderId: number, status: OrderStatus) => {
+  const handleUpdateOrder = async (orderId: number, status: string) => {
     await updateOrder({ orderId: String(orderId), status, driverId: "" });
   };
 
@@ -121,7 +120,7 @@ const Orders = () => {
                           <button
                             className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
                             onClick={() =>
-                              handleUpdateOrder(order.id, OrderStatus.Delivered)
+                              handleUpdateOrder(order.id, "Delivered")
                             }
                           >
                             Delivered
@@ -129,7 +128,7 @@ const Orders = () => {
                           <button
                             className="px-4 py-2 text-sm text-white bg-red-600 rounded hover:bg-red-500"
                             onClick={() =>
-                              handleUpdateOrder(order.id, OrderStatus.Cancelled)
+                              handleUpdateOrder(order.id, "Cancelled")
                             }
                           >
                             Cancelled
