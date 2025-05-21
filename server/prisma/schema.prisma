@@ -23,6 +23,7 @@ enum PaymentStatus {
   Failed
 }
 
+//TODO: add profileImgUrl to Customer,Restaurant,Driver
 model Customer {
   id            Int          @id @default(autoincrement())
   cognitoId     String       @unique

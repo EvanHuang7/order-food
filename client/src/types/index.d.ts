@@ -64,6 +64,12 @@ declare global {
     restaurantId: string;
   }
 
+  interface OrderCardProps {
+    order: Order;
+    userType: "customer" | "restaurant" | "driver";
+    children: React.ReactNode;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;
