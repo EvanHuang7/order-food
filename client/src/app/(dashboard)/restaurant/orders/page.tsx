@@ -9,8 +9,6 @@ import {
   useGetAuthUserQuery,
   useUpdateOrderMutation,
 } from "@/state/api";
-import { Download, Hospital } from "lucide-react";
-import Link from "next/link";
 import React, { useState } from "react";
 
 const Orders = () => {
@@ -60,59 +58,33 @@ const Orders = () => {
               )
               .map((order) => (
                 <OrderCard key={order.id} order={order} userType="restaurant">
-                  {/* Right Buttons */}
-                  <div className="flex gap-2">
-                    {/* TODO: Change to display order detail in model */}
-                    <Link
-                      href={`/restaurant/${order.id}`}
-                      className={`bg-white border border-gray-300 text-gray-700 py-2 px-4 
-                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
-                      scroll={false}
+                  {/* Buttons when order is Pending */}
+                  {order.status === "Pending" && (
+                    <button
+                      className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
+                      onClick={() => handleUpdateOrder(order.id, "Accepted")}
                     >
-                      <Hospital className="w-5 h-5 mr-2" />
-                      Order Details
-                    </Link>
-                    {/* Buttons of Delivered status */}
-                    {order.status === "Delivered" && (
-                      <button
-                        className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
-                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
-                      >
-                        <Download className="w-5 h-5 mr-2" />
-                        Download Receipt
-                      </button>
-                    )}
-                    {/* Buttons of Pending status */}
-                    {order.status === "Pending" && (
-                      <>
-                        <button
-                          className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
-                          onClick={() =>
-                            handleUpdateOrder(order.id, "Delivered")
-                          }
-                        >
-                          Delivered
-                        </button>
-                        <button
-                          className="px-4 py-2 text-sm text-white bg-red-600 rounded hover:bg-red-500"
-                          onClick={() =>
-                            handleUpdateOrder(order.id, "Cancelled")
-                          }
-                        >
-                          Cancelled
-                        </button>
-                      </>
-                    )}
-                    {/* Buttons of Cancelled status */}
-                    {order.status === "Cancelled" && (
-                      <button
-                        className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center
+                      Accepted
+                    </button>
+                  )}
+                  {/* Buttons when order is Accepted */}
+                  {order.status === "Accepted" && (
+                    <button
+                      className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
+                      onClick={() => handleUpdateOrder(order.id, "Preparing")}
+                    >
+                      Preparing
+                    </button>
+                  )}
+                  {/* Buttons when order is Cancelled */}
+                  {order.status === "Cancelled" && (
+                    <button
+                      className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center
                           justify-center hover:bg-secondary-500 hover:text-primary-50`}
-                      >
-                        Contact User
-                      </button>
-                    )}
-                  </div>
+                    >
+                      Contact User
+                    </button>
+                  )}
                 </OrderCard>
               ))}
           </TabsContent>

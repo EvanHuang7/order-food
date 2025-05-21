@@ -2,6 +2,7 @@ import { cn, formatToLocalString } from "@/lib/utils";
 import { Mail, MapPin, PhoneCall, CircleCheckBig, File } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import Link from "next/link";
 
 const OrderCard = ({ order, userType, children }: OrderCardProps) => {
   let cardName = "";
@@ -48,11 +49,11 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }`;
     cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
-    contactPersonRole = order?.driverId ? "Restaurant" : "Customer";
-    contactPerson = order?.driverId ? order.restaurant : order.customer;
+    contactPersonRole = order?.driverId ? "Customer" : "Restaurant";
+    contactPerson = order?.driverId ? order.customer : order.restaurant;
     contactPersonImgSrc = order?.driverId
-      ? "/userProfile/restaurant-profile-img.jpg"
-      : "/userProfile/customer-profile-img.jpg";
+      ? "/userProfile/customer-profile-img.jpg"
+      : "/userProfile/restaurant-profile-img.jpg";
   }
 
   const [fallbackCardImgSrc, setFallbackCardImgSrc] = useState(cardImgSrc);
@@ -132,7 +133,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <span className="text-gray-500">Delivered:</span>{" "}
             {order.status === "Delivered"
               ? formatToLocalString(order.updatedAt)
-              : ""}
+              : "N/A"}
           </div>
         </div>
 
@@ -162,7 +163,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
               <div className="font-semibold">{contactPerson.name}</div>
               <div className="text-sm flex items-center text-primary-600">
                 <PhoneCall className="w-5 h-5 mr-2" />
-                {contactPerson.phoneNumber}
+                {contactPerson.phoneNumber || "N/A"}
               </div>
               <div className="text-sm flex items-center text-primary-600">
                 <Mail className="w-5 h-5 mr-2" />
@@ -173,10 +174,10 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
         </div>
       </div>
 
-      <hr className="my-4" />
       {/* Colored status banner and buttons */}
+      <hr className="my-4" />
       <div className="flex justify-between gap-5 w-full pb-4 px-4">
-        {/* Colored status banner section */}
+        {/* Left Colored status banner section */}
         <div
           className={`p-4 text-green-700 grow ${
             order.status === "Delivered"
@@ -211,8 +212,20 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             </span>
           </div>
         </div>
-        {/* Buttons section */}
-        {children}
+        {/* Right Buttons section */}
+        <div className="flex gap-2">
+          {/* TODO: Change to display order detail in model */}
+          <Link
+            href={`/customer/${order.id}`}
+            className={`bg-white border border-gray-300 text-gray-700 py-2 px-4 
+                                  rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
+            scroll={false}
+          >
+            <File className="w-5 h-5 mr-2" />
+            Order Details
+          </Link>
+          {children}
+        </div>
       </div>
     </div>
   );
