@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import MenuItemModal from "./MenuItemModal";
 
-// TODO: may change file to manage menu
+// TODO: add buttons to update restuarnt info, like restaurant img, etc
 const ManageRestaurant = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const {

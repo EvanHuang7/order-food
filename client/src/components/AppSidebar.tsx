@@ -10,13 +10,12 @@ import {
   useSidebar,
 } from "./ui/sidebar";
 import {
-  Building,
-  FileText,
   Heart,
   Home,
   Menu,
   Settings,
   NotepadText,
+  NotepadTextDashed,
   Wallet,
   Store,
   X,
@@ -45,7 +44,12 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
       { icon: Settings, label: "Settings", href: "/restaurant/settings" },
     ],
     driver: [
-      { icon: NotepadText, label: "Orders", href: "/driver/orders" },
+      {
+        icon: NotepadTextDashed,
+        label: "Available Orders",
+        href: "/driver/available-orders",
+      },
+      { icon: NotepadText, label: "My Orders", href: "/driver/orders" },
       { icon: Settings, label: "Settings", href: "/driver/settings" },
     ],
   };
