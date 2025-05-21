@@ -37,10 +37,10 @@ export const createOrders = async (
         data: {
           customerId,
           amount: totalAmount,
-          status: PaymentStatus.Pending,
+          status: PaymentStatus.Paid,
           paymentDate: new Date(),
-          provider: "placeholder", // Replace if needed
-          methodToken: "placeholder", // Replace if needed
+          provider: "Stripe", // Replace after test
+          methodToken: "test-token", // Replace after test
         },
       });
 
@@ -64,7 +64,7 @@ export const createOrders = async (
 
         const orderItemsData = restaurantItems.map((item) => ({
           orderId: order.id,
-          menuItemId: item.menuItemId,
+          menuItemId: item.id,
           quantity: item.quantity,
           price: item.price,
         }));

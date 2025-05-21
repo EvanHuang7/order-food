@@ -15,14 +15,21 @@ import {
   addItemToShoppingCart,
   removeItemFromShoppingCart,
   clearItemFromShoppingCart,
+  clearShoppingCart,
 } from "@/state";
-import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
-import { useMemo } from "react";
+import { useGetAuthUserQuery, useCreateOrdersMutation } from "@/state/api";
+import { ShoppingCart, Minus, Plus, Trash2, Loader2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const ShoppingCartSheet = () => {
+  const { data: authUser } = useGetAuthUserQuery();
+  const [createOrders, { isLoading: createOrdersLoading, data }] =
+    useCreateOrdersMutation();
   const shoppingCart = useAppSelector((state) => state.global.shoppingCart);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const groupedByRestaurant = useMemo(() => {
     const grouped: Record<string, typeof shoppingCart> = {};
@@ -42,8 +49,34 @@ const ShoppingCartSheet = () => {
   );
   const isEmpty = totalItems === 0;
 
+  const [open, setOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * 9) + 1;
+    return `/food/food${randomIndex}.jpg`;
+  });
+
+  const handlePlaceOrder = async () => {
+    try {
+      // Use ".unwrap()" to get result.data directly insteead
+      // of getting an {data, error} object.
+      // But we don't need to use result data here.
+      const result = await createOrders({
+        customerId: authUser?.userInfo.id || "",
+        items: shoppingCart,
+      }).unwrap();
+
+      // Clear shoppingCart, close shoppingCart sheet
+      // and redirect customer to orders page
+      dispatch(clearShoppingCart());
+      setOpen(false);
+      router.push("/customer/orders");
+    } catch (error) {
+      console.error("Failed to place order", error);
+    }
+  };
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <div className="relative cursor-pointer hover:opacity-80 transition">
           <ShoppingCart className="w-6 h-6 text-primary-200 hover:text-primary-400" />
@@ -85,12 +118,13 @@ const ShoppingCartSheet = () => {
                       >
                         {/* Item Image */}
                         <Image
-                          src={item?.photoUrl || "/food/food7.jpg"}
+                          src={imgSrc}
                           alt={item.name}
                           width={56}
                           height={56}
                           className="rounded object-cover"
                           style={{ width: "56px", height: "56px" }}
+                          onError={() => setImgSrc("/food/food5.jpg")}
                         />
 
                         {/* Name, price and quantity */}
@@ -153,12 +187,21 @@ const ShoppingCartSheet = () => {
           </div>
         )}
 
+        {/* TODO: Change button to "Proceed to Checkout" after adding checkout page */}
         <Button
           className="w-full mt-4 bg-primary-700 text-white hover:bg-primary-600"
-          disabled={isEmpty}
+          disabled={isEmpty || createOrdersLoading}
           variant={isEmpty ? "secondary" : "default"}
+          onClick={() => handlePlaceOrder()}
         >
-          Proceed to Checkout
+          {createOrdersLoading ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="w-5 h-5 animate-spin text-white" />
+              <span>Order processing...</span>
+            </div>
+          ) : (
+            "Place order now"
+          )}
         </Button>
       </SheetContent>
     </Sheet>

@@ -386,4 +386,12 @@ export const {
   useGetRestaurantMenuItemsQuery,
   useCreateRestaurantMenuItemMutation,
   useUpdateRestaurantMenuItemMutation,
+  // Order related endpoints
+  useGetOrderQuery,
+  useGetOrdersQuery,
+  useCreateOrdersMutation,
+  useUpdateOrderMutation,
+  // Payment related endpoints
+  useGetPaymentQuery,
+  useGetPaymentsQuery,
 } = api;
