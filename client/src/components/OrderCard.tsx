@@ -1,5 +1,5 @@
-import { formatToLocalString } from "@/lib/utils";
-import { Mail, MapPin, PhoneCall } from "lucide-react";
+import { cn, formatToLocalString } from "@/lib/utils";
+import { Mail, MapPin, PhoneCall, CircleCheckBig, File } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -89,19 +89,21 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
               </div>
             </div>
             <div className="flex flex-row justify-between">
-              <div className="text-xl font-semibold">
+              <div
+                className={cn(
+                  "text-base",
+                  userType === "customer" ? "font-bold" : "font-medium"
+                )}
+              >
                 Total: ${order.totalPrice.toFixed(2)}
               </div>
-              {userType !== "customer" &&
-                (userType === "driver" ? (
-                  <div className="text-lg font-semibold">
-                    Deliver fee: ${(order.totalPrice * 0.15).toFixed(2)}
-                  </div>
-                ) : (
-                  <div className="text-lg font-semibold">
-                    You received: ${(order.totalPrice * 0.75).toFixed(2)}
-                  </div>
-                ))}
+              {userType !== "customer" && (
+                <div className="text-base font-bold">
+                  {userType === "driver"
+                    ? `You Received: $${(order.totalPrice * 0.15).toFixed(2)}`
+                    : `You Received: $${(order.totalPrice * 0.75).toFixed(2)}`}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -123,11 +125,11 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <hr className="mt-3" />
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Placed Time:</span>{" "}
+            <span className="text-gray-500">Placed:</span>{" "}
             {formatToLocalString(order.createdAt)}
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Delivered Time:</span>{" "}
+            <span className="text-gray-500">Delivered:</span>{" "}
             {order.status === "Delivered"
               ? formatToLocalString(order.updatedAt)
               : ""}
@@ -172,7 +174,46 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
       </div>
 
       <hr className="my-4" />
-      {children}
+      {/* Colored status banner and buttons */}
+      <div className="flex justify-between gap-5 w-full pb-4 px-4">
+        {/* Colored status banner section */}
+        <div
+          className={`p-4 text-green-700 grow ${
+            order.status === "Delivered"
+              ? "bg-green-100"
+              : order.status === "Cancelled"
+              ? "bg-red-100"
+              : "bg-yellow-100"
+          }`}
+        >
+          <div className="flex flex-wrap items-center">
+            <File className="w-5 h-5 mr-2 flex-shrink-0" />
+            <span className="mr-2">
+              Order placed on {formatToLocalString(order.createdAt)}.
+            </span>
+            <CircleCheckBig className="w-5 h-5 mr-2 flex-shrink-0" />
+            <span
+              className={`font-semibold ${
+                order.status === "Delivered"
+                  ? "text-green-800"
+                  : order.status === "Cancelled"
+                  ? "text-red-800"
+                  : "text-yellow-800"
+              }`}
+            >
+              {order.status === "Delivered" && "This order has been delivered."}
+              {order.status === "Cancelled" && "This order has been cancelled."}
+              {(order.status === "Pending" ||
+                order.status === "Accepted" ||
+                order.status === "Preparing" ||
+                order.status === "PickedUp") &&
+                "This order is pending."}
+            </span>
+          </div>
+        </div>
+        {/* Buttons section */}
+        {children}
+      </div>
     </div>
   );
 };

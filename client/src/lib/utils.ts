@@ -62,7 +62,6 @@ export function formatPriceValue(value: number | null, isMin: boolean) {
 
 export function formatToLocalString(dateStr: string | Date) {
   return new Date(dateStr).toLocaleString(undefined, {
-    year: "numeric",
     month: "short",
     day: "numeric",
     hour: "2-digit",
