@@ -221,7 +221,7 @@ export const updateOrder = async (
         return;
       }
       // Customers cannot update driverId
-      if (driverId !== undefined) {
+      if (driverId !== "") {
         res
           .status(403)
           .json({ message: "Customers cannot update driver assignment" });
@@ -240,7 +240,7 @@ export const updateOrder = async (
         return;
       }
       // Restaurants cannot update driverId
-      if (driverId !== undefined) {
+      if (driverId !== "") {
         res
           .status(403)
           .json({ message: "Restaurants cannot update driver assignment" });

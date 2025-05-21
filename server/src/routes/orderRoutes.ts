@@ -9,6 +9,7 @@ import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
+router.post("/", authMiddleware(["customer"]), createOrders);
 router.get(
   "/:orderId",
   authMiddleware(["customer", "restaurant", "driver"]),
@@ -19,7 +20,6 @@ router.get(
   authMiddleware(["customer", "restaurant", "driver"]),
   getOrders
 );
-router.post("/", authMiddleware(["customer"]), createOrders);
 router.put(
   "/:orderId",
   authMiddleware(["customer", "restaurant", "driver"]),
