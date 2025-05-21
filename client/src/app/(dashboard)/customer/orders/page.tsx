@@ -106,7 +106,7 @@ const Orders = () => {
                           rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
                         scroll={false}
                       >
-                        <Hospital className="w-5 h-5 mr-2" />
+                        <File className="w-5 h-5 mr-2" />
                         Order Details
                       </Link>
                       {/* Buttons of Delivered status */}

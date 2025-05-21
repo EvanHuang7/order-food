@@ -1,3 +1,4 @@
+import { formatToLocalString } from "@/lib/utils";
 import { Mail, MapPin, PhoneCall } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -14,7 +15,11 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
   // Set card info based on user role
   if (userType === "customer") {
     cardName = order.restaurant.name;
-    cardAddress = `${order.restaurant?.location?.address}, ${order.restaurant?.location?.city}, ${order.restaurant?.location?.province}`;
+    cardAddress = `${
+      order.restaurant?.location?.address || "Unknown address"
+    }, ${order.restaurant?.location?.city || "Unknown city"}, ${
+      order.restaurant?.location?.province || "Unknown province"
+    }`;
     cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Restaurant";
@@ -24,7 +29,9 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
       : "/userProfile/restaurant-profile-img.jpg";
   } else if (userType === "restaurant") {
     cardName = order.customer.name;
-    cardAddress = `${order.customer?.location?.address}, ${order.customer?.location?.city}, ${order.customer?.location?.province}`;
+    cardAddress = `${order.customer?.location?.address || "Unknown address"}, ${
+      order.customer?.location?.city || "Unknown city"
+    }, ${order.customer?.location?.province || "Unknown province"}`;
     cardImgSrc = "/userProfile/customer-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Customer";
@@ -34,7 +41,11 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
       : "/userProfile/customer-profile-img.jpg";
   } else if (userType === "driver") {
     cardName = order.restaurant.name;
-    cardAddress = `${order.restaurant?.location?.address}, ${order.restaurant?.location?.city}, ${order.restaurant?.location?.province}`;
+    cardAddress = `${
+      order.restaurant?.location?.address || "Unknown address"
+    }, ${order.restaurant?.location?.city || "Unknown city"}, ${
+      order.restaurant?.location?.province || "Unknown province"
+    }`;
     cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Restaurant" : "Customer";
@@ -57,8 +68,8 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
 
   return (
     <div className="border rounded-xl overflow-hidden shadow-sm bg-white mb-4">
-      <div className="flex flex-col lg:flex-row  items-start lg:items-center justify-between px-6 md:px-4 py-6 gap-6 lg:gap-4">
-        {/* Property Info Section */}
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between px-6 md:px-4 py-6 gap-6 lg:gap-4">
+        {/* Order Info Section */}
         <div className="flex flex-col lg:flex-row gap-5 w-full lg:w-auto">
           <Image
             src={cardImgSrc}
@@ -73,13 +84,24 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <div>
               <h2 className="text-xl font-bold my-2">{cardName}</h2>
               <div className="flex items-center mb-2">
-                <MapPin className="w-5 h-5 mr-1" />
+                <MapPin className="w-5 h-5 mr-1 shrink-0" />
                 <span>{cardAddress}</span>
               </div>
             </div>
-            <div className="text-xl font-semibold">
-              ${order.totalPrice}{" "}
-              <span className="text-sm font-normal">total</span>
+            <div className="flex flex-row justify-between">
+              <div className="text-xl font-semibold">
+                Total: ${order.totalPrice.toFixed(2)}
+              </div>
+              {userType !== "customer" &&
+                (userType === "driver" ? (
+                  <div className="text-lg font-semibold">
+                    Deliver fee: ${(order.totalPrice * 0.15).toFixed(2)}
+                  </div>
+                ) : (
+                  <div className="text-lg font-semibold">
+                    You received: ${(order.totalPrice * 0.75).toFixed(2)}
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -101,16 +123,14 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <hr className="mt-3" />
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Order Placed Date:</span>{" "}
-            {new Date(order.createdAt).toLocaleDateString()}
+            <span className="text-gray-500">Placed Time:</span>{" "}
+            {formatToLocalString(order.createdAt)}
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Last Updated Date:</span>{" "}
-            {new Date(order.updatedAt).toLocaleDateString()}
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Order Delivered Date:</span>{" "}
-            {new Date(order.updatedAt).toLocaleDateString()}
+            <span className="text-gray-500">Delivered Time:</span>{" "}
+            {order.status === "Delivered"
+              ? formatToLocalString(order.updatedAt)
+              : ""}
           </div>
         </div>
 
