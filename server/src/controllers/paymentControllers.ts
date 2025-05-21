@@ -35,20 +35,11 @@ export const getPayments = async (
   res: Response
 ): Promise<void> => {
   try {
-    const cognitoId = req.user?.id;
-
-    // Get customer id
-    const customer = await prisma.customer.findUnique({
-      where: { cognitoId },
-    });
-    if (!customer) {
-      res.status(404).json({ message: "Customer not found" });
-      return;
-    }
+    const { customerId } = req.query;
 
     // Get payments with customerId
     const payments = await prisma.payment.findMany({
-      where: { customerId: customer.id },
+      where: { customerId: Number(customerId) },
       include: {
         orders: true,
       },

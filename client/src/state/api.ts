@@ -352,8 +352,15 @@ export const api = createApi({
       },
     }),
 
-    getPayments: build.query<Payment[], void>({
-      query: () => `payment`,
+    getPayments: build.query<Payment[], Number>({
+      query: (customerId) => {
+        const queryParams = new URLSearchParams();
+        if (customerId) {
+          queryParams.append("customerId", customerId.toString());
+        }
+
+        return `payment?${queryParams.toString()}`;
+      },
       providesTags: (result) =>
         result
           ? [
