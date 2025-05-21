@@ -1,8 +1,10 @@
 import React from "react";
 import {
+  useAddFavoriteRestaurantMutation,
   useGetAuthUserQuery,
   useGetCustomerQuery,
   useGetRestaurantsQuery,
+  useRemoveFavoriteRestaurantMutation,
 } from "@/state/api";
 import { useAppSelector } from "@/state/redux";
 import { FavoriteRestaurant } from "@/types/prismaTypes";
@@ -49,25 +51,27 @@ const AllRestaurants = () => {
     isError,
   } = useGetRestaurantsQuery(filters);
 
+  const [addFavorite] = useAddFavoriteRestaurantMutation();
+  const [removeFavorite] = useRemoveFavoriteRestaurantMutation();
+
   const handleFavoriteToggle = async (restaurantId: number) => {
-    return;
-    // if (!authUser) return;
+    if (!authUser) return;
 
-    // const isFavorite = customer?.favoriteRests?.some(
-    //   (fav: FavoriteRestaurant) => fav.restaurant.id === restaurantId
-    // );
+    const isFavorite = customer?.favoriteRests?.some(
+      (fav: FavoriteRestaurant) => fav.restaurant.id === restaurantId
+    );
 
-    // if (isFavorite) {
-    //   await removeFavorite({
-    //     id: authUser?.userInfo?.id,
-    //     restaurantId,
-    //   });
-    // } else {
-    //   await addFavorite({
-    //     id: authUser?.userInfo?.id,
-    //     restaurantId,
-    //   });
-    // }
+    if (isFavorite) {
+      await removeFavorite({
+        customerId: authUser?.userInfo?.id,
+        restaurantId,
+      });
+    } else {
+      await addFavorite({
+        customerId: authUser?.userInfo?.id,
+        restaurantId,
+      });
+    }
   };
 
   if (isLoading) return <Loading />;

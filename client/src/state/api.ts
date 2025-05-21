@@ -6,7 +6,6 @@ import {
   MenuItem,
   Order,
   Payment,
-  OrderStatus,
 } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
@@ -146,7 +145,10 @@ export const api = createApi({
         url: `/customer/${customerId}/favorites/${restaurantId}`,
         method: "POST",
       }),
-      invalidatesTags: [{ type: "FavoriteRestaurants", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Restaurants", id: "LIST" },
+        { type: "FavoriteRestaurants", id: "LIST" },
+      ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success: "Added to favorites!",
@@ -163,7 +165,10 @@ export const api = createApi({
         url: `/customer/${customerId}/favorites/${restaurantId}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: "FavoriteRestaurants", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Restaurants", id: "LIST" },
+        { type: "FavoriteRestaurants", id: "LIST" },
+      ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success: "Removed from favorites.",
