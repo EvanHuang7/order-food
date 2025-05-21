@@ -33,6 +33,7 @@ export const api = createApi({
     "Restaurants",
     "Payments",
     "Orders",
+    "FavoriteRestaurants",
   ],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
@@ -114,6 +115,59 @@ export const api = createApi({
         await withToast(queryFulfilled, {
           success: "Customer info updated successfully!",
           error: "Failed to update customer info.",
+        });
+      },
+    }),
+
+    getFavoriteRestaurants: build.query<Restaurant[], number>({
+      query: (customerId) => `/customer/${customerId}/favorites`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "FavoriteRestaurants" as const,
+                id,
+              })),
+              { type: "FavoriteRestaurants", id: "LIST" },
+            ]
+          : [{ type: "FavoriteRestaurants", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to load favorite restaurants.",
+        });
+      },
+    }),
+
+    addFavoriteRestaurant: build.mutation<
+      { message: string },
+      { customerId: number; restaurantId: number }
+    >({
+      query: ({ customerId, restaurantId }) => ({
+        url: `/customer/${customerId}/favorites/${restaurantId}`,
+        method: "POST",
+      }),
+      invalidatesTags: [{ type: "FavoriteRestaurants", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Added to favorites!",
+          error: "Failed to add favorite.",
+        });
+      },
+    }),
+
+    removeFavoriteRestaurant: build.mutation<
+      { message: string },
+      { customerId: number; restaurantId: number }
+    >({
+      query: ({ customerId, restaurantId }) => ({
+        url: `/customer/${customerId}/favorites/${restaurantId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "FavoriteRestaurants", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Removed from favorites.",
+          error: "Failed to remove favorite.",
         });
       },
     }),
@@ -388,6 +442,9 @@ export const {
   useGetRestaurantQuery,
   useGetRestaurantsQuery,
   useUpdateRestaurantInfoMutation,
+  useGetFavoriteRestaurantsQuery,
+  useAddFavoriteRestaurantMutation,
+  useRemoveFavoriteRestaurantMutation,
   // Driver related endpoints
   useGetDriverQuery,
   useUpdateDriverInfoMutation,
