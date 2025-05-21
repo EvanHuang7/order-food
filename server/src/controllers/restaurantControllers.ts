@@ -47,6 +47,7 @@ export const getRestaurants = async (
   res: Response
 ): Promise<void> => {
   try {
+    // TODO: remove favoriteIds
     const { favoriteIds, priceMin, priceMax, categories } = req.query;
 
     let whereConditions: Prisma.Sql[] = [];
