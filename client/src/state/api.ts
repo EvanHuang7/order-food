@@ -321,14 +321,15 @@ export const api = createApi({
       Order,
       {
         orderId: string;
+        userId: number;
         status: string;
         driverId: string;
       }
     >({
-      query: ({ orderId, status, driverId }) => ({
+      query: ({ orderId, userId, status, driverId }) => ({
         url: `order/${orderId}`,
         method: "PUT",
-        body: { status, driverId },
+        body: { userId, status, driverId },
       }),
       invalidatesTags: (result) => [
         { type: "Orders", id: result?.id },

@@ -21,7 +21,12 @@ const Orders = () => {
   const [updateOrder] = useUpdateOrderMutation();
 
   const handleUpdateOrder = async (orderId: number, status: string) => {
-    await updateOrder({ orderId: String(orderId), status, driverId: "" });
+    await updateOrder({
+      orderId: String(orderId),
+      userId: authUser?.userInfo.id,
+      status,
+      driverId: "",
+    });
   };
 
   if (isLoading) return <Loading />;

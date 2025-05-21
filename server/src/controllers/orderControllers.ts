@@ -196,10 +196,9 @@ export const updateOrder = async (
 ): Promise<void> => {
   try {
     const { orderId } = req.params;
-    const { status, driverId } = req.body;
+    const { userId, status, driverId } = req.body;
     const user = req.user as any;
     const userRole = user.role;
-    const userId = user.id;
 
     // Get order info to check user's auth for update
     const order = await prisma.order.findUnique({
@@ -212,7 +211,7 @@ export const updateOrder = async (
 
     // Check user's auth for update based on userRole
     if (userRole === "customer") {
-      if (String(order.customerId) !== userId) {
+      if (order.customerId !== userId) {
         res.status(403).json({ message: "Unauthorized: not your order" });
         return;
       }
@@ -228,7 +227,7 @@ export const updateOrder = async (
         return;
       }
     } else if (userRole === "restaurant") {
-      if (String(order.restaurantId) !== userId) {
+      if (order.restaurantId !== userId) {
         res
           .status(403)
           .json({ message: "Unauthorized: not your restaurant's order" });
@@ -248,7 +247,7 @@ export const updateOrder = async (
       }
     } else if (userRole === "driver") {
       // Driver can update driverId only if unassigned or assigned to self
-      if (order.driverId && String(order.driverId) !== userId) {
+      if (order.driverId && order.driverId !== userId) {
         res
           .status(403)
           .json({ message: "Unauthorized: not your assigned order" });
