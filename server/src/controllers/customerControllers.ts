@@ -83,30 +83,60 @@ export const createCustomer = async (
   }
 };
 
-// Only allow to update name and phoneNumber
 export const updateCustomer = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { cognitoId } = req.params;
-    const { name, phoneNumber } = req.body;
+    const { name, phoneNumber, address, city, province, postalCode, country } =
+      req.body;
 
-    const updateCustomer = await prisma.customer.update({
+    // Check if customer has a location or not
+    const existingCustomer = await prisma.customer.findUnique({
       where: { cognitoId },
-      data: {
-        name,
-        phoneNumber,
-      },
+      include: { location: true },
+    });
+    if (!existingCustomer) {
+      res.status(404).json({ message: "Customer not found" });
+      return;
+    }
+
+    // Do write actions in one transaction
+    const updatedCustomer = await prisma.$transaction(async (tx) => {
+      let locationId = existingCustomer.locationId;
+
+      // If location doesn't exist yet, create it
+      if (!locationId) {
+        const newLocation = await tx.location.create({
+          data: { address, city, province, postalCode, country },
+        });
+        locationId = newLocation.id;
+      } else {
+        // Otherwise, update existing location
+        await tx.location.update({
+          where: { id: locationId },
+          data: { address, city, province, postalCode, country },
+        });
+      }
+
+      // Update customer info
+      return await tx.customer.update({
+        where: { cognitoId },
+        data: {
+          name,
+          phoneNumber,
+          locationId,
+        },
+        include: { location: true },
+      });
     });
 
-    res.json(updateCustomer);
-    return;
+    res.json(updatedCustomer);
   } catch (error: any) {
     res
       .status(500)
       .json({ message: `Error updating customer: ${error.message}` });
-    return;
   }
 };
 

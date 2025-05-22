@@ -186,7 +186,6 @@ export const updateRestaurant = async (
       country,
       openTime,
       closeTime,
-      // categories is a string with 1 category here
       categories,
       description,
     } = req.body;
