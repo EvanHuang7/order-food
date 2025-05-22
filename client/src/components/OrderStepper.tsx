@@ -41,8 +41,8 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
                 className={cn(
                   "flex items-center justify-center w-7 h-7 rounded-full border transition-all duration-300",
                   {
-                    "bg-green-500 text-white border-green-500": isCompleted,
-                    "bg-primary-600 text-white border-primary-600": isActive,
+                    "bg-yellow-400 text-white border-yellow-400": isCompleted,
+                    "bg-green-500 text-white border-green-500": isActive,
                     "bg-white text-gray-400 border-gray-300":
                       !isCompleted && !isActive,
                   }
