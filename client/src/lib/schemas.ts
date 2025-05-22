@@ -15,7 +15,6 @@ export const settingsSchema = z.object({
   description: z.string().optional(),
   photoUrls: z.any().optional(),
 });
-
 export type SettingsFormData = z.infer<typeof settingsSchema>;
 
 export const menuItemSchema = z.object({
@@ -24,5 +23,12 @@ export const menuItemSchema = z.object({
   price: z.coerce.number().positive().min(0),
   photoUrl: z.any().optional(),
 });
-
 export type MenuItemFormData = z.infer<typeof menuItemSchema>;
+
+export const paymentCardSchema = z.object({
+  cardNumber: z.string().min(12, "Card number must be at least 12 digits"),
+  expiry: z.string().min(4, "Enter expiry date"),
+  cvc: z.string().min(3, "CVC is too short"),
+  name: z.string().min(1, "Name is required"),
+});
+export type PaymentCardFormData = z.infer<typeof paymentCardSchema>;

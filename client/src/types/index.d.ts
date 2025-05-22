@@ -76,6 +76,11 @@ declare global {
     order: Order;
   }
 
+  interface PaymentCardModalProps {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;

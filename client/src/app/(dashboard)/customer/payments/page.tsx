@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
-import EditPaymentCardModal from "./EditPaymentCardModal";
+import PaymentCardModal from "./PaymentCardModal";
 
 const PaymentMethod = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -69,7 +69,7 @@ const PaymentMethod = () => {
           </div>
         </div>
       </div>
-      <EditPaymentCardModal open={modalOpen} onOpenChange={setModalOpen} />
+      <PaymentCardModal open={modalOpen} onOpenChange={setModalOpen} />
     </div>
   );
 };
