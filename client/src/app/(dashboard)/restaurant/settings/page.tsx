@@ -13,7 +13,8 @@ const RestaurantSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [updateRestaurant] = useUpdateRestaurantInfoMutation();
 
-  if (isLoading) return <Loading />;
+  // Make sure has authUser data when setting initialData
+  if (isLoading || !authUser) return <Loading />;
 
   const initialData = {
     name: authUser?.userInfo.name,
@@ -30,7 +31,7 @@ const RestaurantSettings = () => {
       !!authUser?.userInfo?.categories &&
       authUser?.userInfo?.categories.length > 0
         ? authUser?.userInfo?.categories
-        : CategoryEnum.Food,
+        : [CategoryEnum.Food],
     description: authUser?.userInfo?.description || "",
     photoUrls: [],
   };

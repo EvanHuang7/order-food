@@ -12,7 +12,8 @@ const CustomerSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [updateCustomer] = useUpdateCustomerInfoMutation();
 
-  if (isLoading) return <Loading />;
+  // Make sure has authUser data when setting initialData
+  if (isLoading || !authUser) return <Loading />;
 
   const initialData = {
     name: authUser?.userInfo.name,
@@ -25,7 +26,6 @@ const CustomerSettings = () => {
     country: authUser?.userInfo?.location?.country,
   };
 
-  // TODO: update updateCustomer api to update other info
   const handleSubmit = async (data: typeof initialData) => {
     await updateCustomer({
       cognitoId: authUser?.cognitoInfo?.userId,

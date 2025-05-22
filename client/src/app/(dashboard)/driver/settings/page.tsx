@@ -9,7 +9,8 @@ const DriverSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [updateDriver] = useUpdateDriverInfoMutation();
 
-  if (isLoading) return <Loading />;
+  // Make sure has authUser data when setting initialData
+  if (isLoading || !authUser) return <Loading />;
 
   const initialData = {
     name: authUser?.userInfo.name,
