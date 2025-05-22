@@ -27,7 +27,19 @@ export type MenuItemFormData = z.infer<typeof menuItemSchema>;
 
 export const paymentCardSchema = z.object({
   cardNumber: z.string().min(12, "Card number must be at least 12 digits"),
-  expiry: z.string().min(4, "Enter expiry date"),
+  expiry: z
+    .string()
+    .regex(/^\d{2}\/\d{2}$/, "Expiry must be in MM/YY format")
+    .refine(
+      (val) => {
+        const [mm] = val.split("/");
+        const month = parseInt(mm, 10);
+        return month >= 1 && month <= 12;
+      },
+      {
+        message: "Month must be between 01 and 12",
+      }
+    ),
   cvc: z.string().min(3, "CVC is too short"),
   name: z.string().min(1, "Name is required"),
 });

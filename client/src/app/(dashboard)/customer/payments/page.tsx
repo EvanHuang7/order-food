@@ -18,14 +18,20 @@ import {
   Download,
   Edit,
   FileText,
-  Mail,
+  Clock,
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
+import Image from "next/image";
 import PaymentCardModal from "./PaymentCardModal";
 
 const PaymentMethod = () => {
+  const { data: authUser, isLoading } = useGetAuthUserQuery();
   const [modalOpen, setModalOpen] = React.useState(false);
+
+  // Make sure has authUser data when setting initialData
+  if (isLoading || !authUser) return <Loading />;
+
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden p-6 mt-10 md:mt-0 flex-1">
       <h2 className="text-2xl font-bold mb-4">Payment method</h2>
@@ -34,25 +40,46 @@ const PaymentMethod = () => {
         <div>
           {/* Card Info */}
           <div className="flex gap-10">
-            <div className="w-36 h-20 bg-blue-600 flex items-center justify-center rounded-md">
-              <span className="text-white text-2xl font-bold">VISA</span>
+            <div className="relative w-36 h-20">
+              <Image
+                src="/mastercard.png"
+                alt="MasterCard"
+                fill
+                className="object-cover"
+              />
             </div>
+
             <div className="flex flex-col justify-between">
               <div>
                 <div className="flex items-start gap-5">
-                  <h3 className="text-lg font-semibold">Visa ending in 2026</h3>
+                  <h3 className="text-lg font-semibold">
+                    MasterCard ending in{" "}
+                    {authUser?.userInfo?.paymentInfo
+                      ? `20${String(
+                          authUser?.userInfo?.paymentInfo.expiryYear
+                        )}`
+                      : "N/A"}
+                  </h3>
                   <span className="text-sm font-medium border border-primary-700 text-primary-700 px-3 py-1 rounded-full">
                     Default
                   </span>
                 </div>
                 <div className="text-sm text-gray-500 flex items-center">
                   <CreditCard className="w-4 h-4 mr-1" />
-                  <span>Expiry • 26/06/2026</span>
+                  <span>
+                    {authUser?.userInfo?.paymentInfo
+                      ? `*********${authUser?.userInfo?.paymentInfo.last4}`
+                      : "N/A"}
+                  </span>
                 </div>
               </div>
               <div className="text-sm text-gray-500 flex items-center">
-                <Mail className="w-4 h-4 mr-1" />
-                <span>testPayment@email.com</span>
+                <Clock className="w-4 h-4 mr-1" />
+                <span>
+                  {authUser?.userInfo?.paymentInfo
+                    ? `Expiry • ${authUser?.userInfo?.paymentInfo.expiryMonth}/${authUser?.userInfo?.paymentInfo.expiryYear}`
+                    : "N/A"}
+                </span>
               </div>
             </div>
           </div>

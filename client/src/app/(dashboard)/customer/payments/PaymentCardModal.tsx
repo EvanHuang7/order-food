@@ -1,7 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { CreditCard } from "lucide-react";
 import Image from "next/image";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -15,27 +16,58 @@ import {
 import { Form } from "@/components/ui/form";
 import { CustomFormField } from "@/components/FormField";
 import { paymentCardSchema, PaymentCardFormData } from "@/lib/schemas";
+import Loading from "@/components/Loading";
+import { useGetAuthUserQuery, useUpsertPaymentInfoMutation } from "@/state/api";
 
-//TODO: updat to recieve payment info as input
 const PaymentCardModal = ({ open, onOpenChange }: PaymentCardModalProps) => {
+  const { data: authUser, isLoading } = useGetAuthUserQuery();
+  const [upsertPaymentInfo] = useUpsertPaymentInfoMutation();
+
   const form = useForm<PaymentCardFormData>({
     resolver: zodResolver(paymentCardSchema),
-    //TODO: updat to use payment info as default valuee
     defaultValues: {
-      cardNumber: "",
-      expiry: "",
-      cvc: "",
-      name: "",
+      cardNumber: authUser?.userInfo?.paymentInfo
+        ? `*********${authUser?.userInfo?.paymentInfo.last4}`
+        : "",
+      expiry: authUser?.userInfo?.paymentInfo
+        ? `${authUser?.userInfo?.paymentInfo.expiryMonth}/${authUser?.userInfo?.paymentInfo.expiryYear}`
+        : "",
+      cvc: authUser?.userInfo?.paymentInfo ? "***" : "",
+      name: authUser?.userInfo?.paymentInfo ? "******" : "",
     },
   });
 
+  useEffect(() => {
+    if (open && authUser) {
+      const paymentInfo = authUser.userInfo?.paymentInfo;
+
+      form.reset({
+        cardNumber: paymentInfo ? `*********${paymentInfo.last4}` : "",
+        expiry: paymentInfo
+          ? `${paymentInfo.expiryMonth}/${paymentInfo.expiryYear}`
+          : "",
+        cvc: paymentInfo ? "***" : "",
+        name: paymentInfo ? "******" : "",
+      });
+    }
+  }, [open, authUser, form]);
+
   const onSubmit = async (data: PaymentCardFormData) => {
-    // TODO: call upSert payment info api
-    await new Promise((res) => setTimeout(res, 1000));
-    toast.success("Payment simulated successfully 🎉");
+    const [month, year] = data.expiry.split("/");
+
+    await upsertPaymentInfo({
+      customerId: authUser?.userInfo?.id,
+      last4: data.cardNumber.slice(-4),
+      expiryMonth: Number(month),
+      expiryYear: Number(year),
+    });
+
+    // Close modal
     onOpenChange(false);
-    form.reset();
   };
+
+  // Make sure has authUser data when setting initialData
+  if (isLoading || !authUser) return <Loading />;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

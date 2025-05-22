@@ -214,7 +214,7 @@ export const api = createApi({
       invalidatesTags: (result) => [{ type: "Customer", id: result?.id }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
-          success: "Payment card updated successfully!",
+          success: "Payment card updated successfully! 🎉",
           error: "Failed to update payment card.",
         });
       },
