@@ -87,6 +87,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             {...field}
             rows={3}
             className={`border-gray-200 p-4 ${inputClassName}`}
+            disabled={disabled}
           />
         );
       case "select":
@@ -95,6 +96,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             value={field.value || (initialValue as string)}
             defaultValue={field.value || (initialValue as string)}
             onValueChange={field.onChange}
+            disabled={disabled}
           >
             <SelectTrigger
               className={`w-full border-gray-200 p-4 ${inputClassName}`}
@@ -139,6 +141,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             allowMultiple={true}
             labelIdle={`Drag & Drop your images or <span class="filepond--label-action">Browse</span>`}
             credits={false}
+            disabled={disabled}
           />
         );
       case "number":
