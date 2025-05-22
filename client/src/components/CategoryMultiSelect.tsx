@@ -15,6 +15,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 //TODO: use CategoryEnum instead
+//TODO: polish this component, like X button of each badge and badge color
 const allCategories = [
   "Food",
   "Drinks",

@@ -32,7 +32,7 @@ const SettingsForm = ({
   };
 
   return (
-    <div className="pt-8 pb-5 px-8">
+    <div className="dashboard-container">
       <div className="mb-5">
         <h1 className="text-xl font-semibold">
           {`${userType.charAt(0).toUpperCase() + userType.slice(1)} Settings`}
