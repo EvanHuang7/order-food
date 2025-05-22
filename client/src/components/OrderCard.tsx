@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import React, { useState } from "react";
 import OrderDetailModal from "@/components/OrderDetailModal";
+import OrderStepper from "./OrderStepper";
 
 const OrderCard = ({ order, userType, children }: OrderCardProps) => {
   let cardName = "";
@@ -201,44 +202,27 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
 
       {/* Colored status banner and buttons */}
       <hr className="my-4" />
-      <div className="flex justify-between gap-5 w-full pb-4 px-4">
-        {/* TODO: Change to status bar */}
-        {/* Left Colored status banner section */}
-        <div
-          className={`p-4 text-green-700 grow ${
-            order.status === "Delivered"
-              ? "bg-green-100"
-              : order.status === "Cancelled"
-              ? "bg-red-100"
-              : "bg-yellow-100"
-          }`}
-        >
-          <div className="flex flex-wrap items-center">
-            <CalendarDays className="w-5 h-5 mr-2 flex-shrink-0" />
-            <span className="mr-2">
-              Order placed on {formatToLocalString(order.createdAt)}.
-            </span>
-            {/* TODO: Can change to estimated deliver time latter */}
-            <CircleCheckBig className="w-5 h-5 mr-2 flex-shrink-0" />
-            <span
-              className={`font-semibold ${
-                order.status === "Delivered"
-                  ? "text-green-800"
-                  : order.status === "Cancelled"
-                  ? "text-red-800"
-                  : "text-yellow-800"
-              }`}
-            >
-              {order.status === "Delivered" && "This order has been delivered."}
-              {order.status === "Cancelled" && "This order has been cancelled."}
-              {(order.status === "Pending" ||
-                order.status === "Accepted" ||
-                order.status === "Preparing" ||
-                order.status === "PickedUp") &&
-                `This order is ${order.status.toLowerCase()}.`}
-            </span>
+      <div className="flex flex-col sm:flex-row justify-between gap-5 w-full pb-4 px-4">
+        {/* Left status banner or stepper */}
+        {order.status === "Cancelled" ? (
+          <div className="p-4 text-red-700 grow bg-red-100">
+            <div className="flex flex-wrap items-center">
+              <CalendarDays className="w-5 h-5 mr-2 flex-shrink-0" />
+              <span className="mr-2">
+                Order placed on {formatToLocalString(order.createdAt)}.
+              </span>
+              <CircleCheckBig className="w-5 h-5 mr-2 flex-shrink-0" />
+              <span className="font-semibold text-red-800">
+                This order has been cancelled.
+              </span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="p-4 grow bg-yellow-100 flex flex-col items-center justify-center">
+            <OrderStepper currentStatus={order.status} />
+          </div>
+        )}
+
         {/* Right Buttons section */}
         <div className="flex gap-2">
           <button

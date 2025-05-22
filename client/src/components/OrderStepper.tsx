@@ -1,53 +1,68 @@
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import {
+  Clock,
+  CheckCircle2,
+  ChefHat,
+  Truck,
+  PackageCheck,
+} from "lucide-react";
 import React from "react";
 
-const OrderStepper = ({ currentStep }: OrderStepperProps) => {
+const steps = [
+  { icon: Clock, key: "Pending" },
+  { icon: CheckCircle2, key: "Accepted" },
+  { icon: ChefHat, key: "Preparing" },
+  { icon: Truck, key: "PickedUp" },
+  { icon: PackageCheck, key: "Delivered" },
+];
+
+const statusToStepIndex: Record<string, number> = {
+  Pending: 0,
+  Accepted: 1,
+  Preparing: 2,
+  PickedUp: 3,
+  Delivered: 4,
+};
+
+const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
+  const currentStep = statusToStepIndex[currentStatus] ?? 0;
+
   return (
-    <div className="w-1/2 mb-4 flex flex-col items-center">
-      <div className="w-full flex items-center justify-between mb-2">
-        {[1, 2, 3].map((step, index) => (
-          <React.Fragment key={step}>
-            <div className="flex flex-col items-center">
+    <div className="w-full flex items-center">
+      <div className="w-full max-w-xl flex items-center justify-between px-4">
+        {steps.map((step, index) => {
+          const Icon = step.icon;
+          const isCompleted = index < currentStep;
+          const isActive = index === currentStep;
+
+          return (
+            <React.Fragment key={step.key}>
               <div
                 className={cn(
-                  "w-8 h-8 flex items-center justify-center rounded-full mb-2",
+                  "flex items-center justify-center w-7 h-7 rounded-full border transition-all duration-300",
                   {
-                    "bg-green-500":
-                      currentStep > step || (currentStep === 3 && step === 3),
-                    "bg-primary-700": currentStep === step && step !== 3,
-                    "border border-customgreys-dirtyGrey text-customgreys-dirtyGrey":
-                      currentStep < step,
+                    "bg-green-500 text-white border-green-500": isCompleted,
+                    "bg-primary-600 text-white border-primary-600": isActive,
+                    "bg-white text-gray-400 border-gray-300":
+                      !isCompleted && !isActive,
                   }
                 )}
               >
-                {currentStep > step || (currentStep === 3 && step === 3) ? (
-                  <Check className="w-5 h-5" />
-                ) : (
-                  <span>{step}</span>
-                )}
+                <Icon className="w-5 h-5" />
               </div>
-              <p
-                className={cn("text-sm", {
-                  "text-white-100": currentStep >= step,
-                  "text-customgreys-dirtyGrey": currentStep < step,
-                })}
-              >
-                {step === 1 && "Preparing"}
-                {step === 2 && "Delivering"}
-                {step === 3 && "Delivered"}
-              </p>
-            </div>
-            {index < 2 && (
-              <div
-                className={cn("w-1/4 h-[1px] self-start mt-4", {
-                  "bg-green-500": currentStep > step,
-                  "bg-customgreys-dirtyGrey": currentStep <= step,
-                })}
-              />
-            )}
-          </React.Fragment>
-        ))}
+              {index < steps.length - 1 && (
+                <div className="flex-1 h-1 bg-gray-300 mx-2">
+                  <div
+                    className={cn("h-1 rounded transition-all duration-300", {
+                      "bg-green-500 w-full": index < currentStep,
+                      "bg-gray-300 w-full": index >= currentStep,
+                    })}
+                  />
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );
