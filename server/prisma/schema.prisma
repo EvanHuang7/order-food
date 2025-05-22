@@ -140,7 +140,7 @@ model PaymentInfo {
   customerId     Int    @unique
   provider       String // e.g., "stripe"
   methodToken    String // e.g., Stripe's payment_method ID
-  last4          String
+  last4          String // e.g., "last 4 number of card"
   brand          String // e.g., "Visa"
   expiryMonth    Int
   expiryYear     Int

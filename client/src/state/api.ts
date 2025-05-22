@@ -6,6 +6,7 @@ import {
   MenuItem,
   Order,
   Payment,
+  FavoriteRestaurant,
 } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
@@ -153,7 +154,7 @@ export const api = createApi({
     }),
 
     addFavoriteRestaurant: build.mutation<
-      { message: string },
+      FavoriteRestaurant,
       { customerId: number; restaurantId: number }
     >({
       query: ({ customerId, restaurantId }) => ({
@@ -188,6 +189,33 @@ export const api = createApi({
         await withToast(queryFulfilled, {
           success: "Removed from favorites.",
           error: "Failed to remove favorite.",
+        });
+      },
+    }),
+
+    upsertPaymentInfo: build.mutation<
+      Customer,
+      {
+        customerId: number;
+        last4: string;
+        expiryMonth: number;
+        expiryYear: number;
+      }
+    >({
+      query: ({ customerId, last4, expiryMonth, expiryYear }) => ({
+        url: `/customer/${customerId}/paymentInfo`,
+        method: "POST",
+        body: {
+          last4: last4,
+          expiryMonth: expiryMonth,
+          expiryYear: expiryYear,
+        },
+      }),
+      invalidatesTags: (result) => [{ type: "Customer", id: result?.id }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Payment card updated successfully!",
+          error: "Failed to update payment card.",
         });
       },
     }),
@@ -458,13 +486,14 @@ export const {
   // Customer related endpoints
   useGetCustomerQuery,
   useUpdateCustomerInfoMutation,
+  useGetFavoriteRestaurantsQuery,
+  useAddFavoriteRestaurantMutation,
+  useRemoveFavoriteRestaurantMutation,
+  useUpsertPaymentInfoMutation,
   // Restaurant related endpoints
   useGetRestaurantQuery,
   useGetRestaurantsQuery,
   useUpdateRestaurantInfoMutation,
-  useGetFavoriteRestaurantsQuery,
-  useAddFavoriteRestaurantMutation,
-  useRemoveFavoriteRestaurantMutation,
   // Driver related endpoints
   useGetDriverQuery,
   useUpdateDriverInfoMutation,
