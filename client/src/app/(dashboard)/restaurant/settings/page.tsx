@@ -25,12 +25,12 @@ const RestaurantSettings = () => {
     country: authUser?.userInfo?.location?.country,
     openTime: authUser?.userInfo?.openTime,
     closeTime: authUser?.userInfo?.closeTime,
-    categories: authUser?.userInfo?.categories,
+    categories:
+      !!authUser?.userInfo?.categories &&
+      authUser?.userInfo?.categories.length > 0
+        ? authUser?.userInfo?.categories
+        : "Food",
     description: authUser?.userInfo?.description,
-    photoUrls: authUser?.userInfo?.photoUrls?.map((url: string) => ({
-      source: url,
-      options: { type: "local" },
-    })),
   };
 
   const handleSubmit = async (data: typeof initialData) => {

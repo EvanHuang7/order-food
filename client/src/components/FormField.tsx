@@ -132,8 +132,6 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
         return (
           <FilePond
             className={`${inputClassName}`}
-            // Use to load initial default files in form
-            files={field.value || []}
             onupdatefiles={(fileItems) => {
               const files = fileItems.map((fileItem) => fileItem.file);
               field.onChange(files);
