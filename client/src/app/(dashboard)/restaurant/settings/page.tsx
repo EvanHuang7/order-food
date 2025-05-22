@@ -27,7 +27,7 @@ const RestaurantSettings = () => {
     closeTime: authUser?.userInfo?.closeTime,
     categories: authUser?.userInfo?.categories,
     description: authUser?.userInfo?.description,
-    photoUrls: authUser?.userInfo?.photoUrls?.map((url) => ({
+    photoUrls: authUser?.userInfo?.photoUrls?.map((url: string) => ({
       source: url,
       options: { type: "local" },
     })),

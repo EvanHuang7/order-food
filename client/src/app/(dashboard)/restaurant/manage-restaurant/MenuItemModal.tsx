@@ -44,6 +44,8 @@ const MenuItemModal = ({
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
+      // TODO: make sure it won't break when uploading more than
+      // 1 file and won't break after adding loading initail defaut imgs for restaurant setting page
       if (key === "photoUrl") {
         const file = value as File;
         formData.append("photo", file);
