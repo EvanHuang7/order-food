@@ -8,8 +8,16 @@
   box-sizing: border-box;
 }
 
-html {
-  overflow-y: scroll; /* always show vertical scrollbar */
+/* Hide scrollbar but allow scrolling */
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 html,

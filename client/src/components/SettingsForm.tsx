@@ -130,23 +130,23 @@ const SettingsForm = ({
                       placeholder="e.g. 21:00"
                       disabled={!editMode}
                     />
-                    <CustomFormField
-                      name="categories"
-                      label="Categories"
-                      type="select"
-                      options={Object.keys(CategoryEnum).map((category) => ({
-                        value: category,
-                        label: category,
-                      }))}
-                      disabled={!editMode}
-                    />
-                    <CustomFormField
-                      name="description"
-                      label="Restaurant Description"
-                      type="textarea"
-                      disabled={!editMode}
-                    />
                   </div>
+                  <CustomFormField
+                    name="categories"
+                    label="Categories"
+                    type="select"
+                    options={Object.keys(CategoryEnum).map((category) => ({
+                      value: category,
+                      label: category,
+                    }))}
+                    disabled={!editMode}
+                  />
+                  <CustomFormField
+                    name="description"
+                    label="Restaurant Description"
+                    type="textarea"
+                    disabled={!editMode}
+                  />
                 </div>
 
                 <hr className="my-6 border-gray-200" />
