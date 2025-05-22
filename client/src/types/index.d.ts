@@ -81,6 +81,10 @@ declare global {
     onOpenChange: (open: boolean) => void;
   }
 
+  interface OrderStepperProps {
+    currentStep: number;
+  }
+
   interface User {
     cognitoInfo: AuthUser;
     userInfo: Customer | Restaurant | Driver;

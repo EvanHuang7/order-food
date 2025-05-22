@@ -145,11 +145,17 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <hr className="mt-3" />
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Placed:</span>{" "}
+            <div className="flex flex-row">
+              <CalendarDays className="w-5 h-5 mr-1 flex-shrink-0" />
+              <span className="text-gray-500">Placed:</span>{" "}
+            </div>
             {formatToLocalString(order.createdAt)}
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Delivered:</span>{" "}
+            <div className="flex flex-row">
+              <CircleCheckBig className="w-5 h-5 mr-1 flex-shrink-0" />
+              <span className="text-gray-500">Delivered:</span>{" "}
+            </div>
             {order.status === "Delivered"
               ? formatToLocalString(order.updatedAt)
               : "N/A"}
@@ -196,6 +202,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
       {/* Colored status banner and buttons */}
       <hr className="my-4" />
       <div className="flex justify-between gap-5 w-full pb-4 px-4">
+        {/* TODO: Change to status bar */}
         {/* Left Colored status banner section */}
         <div
           className={`p-4 text-green-700 grow ${
