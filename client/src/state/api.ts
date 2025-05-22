@@ -32,6 +32,7 @@ export const api = createApi({
     "MenuItems",
     "Restaurants",
     "Payments",
+    "AvailableOrdersForDriver",
     "Orders",
     "FavoriteRestaurants",
   ],
@@ -389,6 +390,25 @@ export const api = createApi({
       },
     }),
 
+    getAvailableOrdersForDriver: build.query<Order[], void>({
+      query: () => `order/available-orders`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "AvailableOrdersForDriver" as const,
+                id,
+              })),
+              { type: "AvailableOrdersForDriver", id: "LIST" },
+            ]
+          : [{ type: "AvailableOrdersForDriver", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to available get orders for driver.",
+        });
+      },
+    }),
+
     createOrders: build.mutation<
       { payment: Payment; orders: Order[] },
       { customerId: string; items: ShoppingCartItem[] }
@@ -436,6 +456,8 @@ export const api = createApi({
       invalidatesTags: (result) => [
         { type: "Orders", id: result?.id },
         { type: "Orders", id: "LIST" },
+        { type: "AvailableOrdersForDriver", id: result?.id },
+        { type: "AvailableOrdersForDriver", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
@@ -504,6 +526,7 @@ export const {
   // Order related endpoints
   useGetOrderQuery,
   useGetOrdersQuery,
+  useGetAvailableOrdersForDriverQuery,
   useCreateOrdersMutation,
   useUpdateOrderMutation,
   // Payment related endpoints
