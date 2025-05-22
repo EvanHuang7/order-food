@@ -112,8 +112,16 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
               {userType !== "customer" && (
                 <div className="text-base font-bold">
                   {userType === "driver"
-                    ? `You Received: $${(order.totalPrice * 0.15).toFixed(2)}`
-                    : `You Received: $${(order.totalPrice * 0.75).toFixed(2)}`}
+                    ? `You Received: $${
+                        order.totalPrice * 0.15 >= 5
+                          ? (order.totalPrice * 0.15).toFixed(2)
+                          : 5
+                      }`
+                    : `You Received: $${
+                        order.totalPrice * 0.15 >= 5
+                          ? (order.totalPrice * 0.75).toFixed(2)
+                          : (order.totalPrice * 0.9 - 5).toFixed(2)
+                      }`}
                 </div>
               )}
             </div>
