@@ -7,6 +7,7 @@ import {
   useUpdateRestaurantInfoMutation,
 } from "@/state/api";
 import React from "react";
+import { CategoryEnum } from "@/lib/constants";
 
 const RestaurantSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
@@ -23,14 +24,15 @@ const RestaurantSettings = () => {
     province: authUser?.userInfo?.location?.province,
     postalCode: authUser?.userInfo?.location?.postalCode,
     country: authUser?.userInfo?.location?.country,
-    openTime: authUser?.userInfo?.openTime,
-    closeTime: authUser?.userInfo?.closeTime,
+    openTime: authUser?.userInfo?.openTime || "",
+    closeTime: authUser?.userInfo?.closeTime || "",
     categories:
       !!authUser?.userInfo?.categories &&
       authUser?.userInfo?.categories.length > 0
         ? authUser?.userInfo?.categories
-        : "Food",
-    description: authUser?.userInfo?.description,
+        : CategoryEnum.Food,
+    description: authUser?.userInfo?.description || "",
+    photoUrls: [],
   };
 
   const handleSubmit = async (data: typeof initialData) => {
