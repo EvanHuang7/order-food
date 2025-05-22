@@ -59,6 +59,7 @@ const Orders = () => {
               )
               .map((order) => (
                 <OrderCard key={order.id} order={order} userType="customer">
+                  {/* TODO: Add a view payment modal */}
                   {/* Buttons when order is Delivered */}
                   {order.status === "Delivered" && (
                     <button

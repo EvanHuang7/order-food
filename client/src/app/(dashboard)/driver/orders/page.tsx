@@ -23,7 +23,7 @@ const Orders = () => {
       orderId: String(orderId),
       userId: authUser?.userInfo.id,
       status,
-      driverId: "",
+      driverId: authUser?.userInfo.id,
     });
   };
 

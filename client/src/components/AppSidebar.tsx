@@ -11,12 +11,12 @@ import {
 } from "./ui/sidebar";
 import {
   Heart,
-  Home,
   Menu,
   Settings,
   NotepadText,
   NotepadTextDashed,
   Wallet,
+  CircleDollarSign,
   Store,
   X,
 } from "lucide-react";
@@ -37,6 +37,11 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
     restaurant: [
       { icon: NotepadText, label: "Orders", href: "/restaurant/orders" },
       {
+        icon: CircleDollarSign,
+        label: "Earnings",
+        href: "/restaurant/earnings",
+      },
+      {
         icon: Store,
         label: "Manage Restaurant",
         href: "/restaurant/manage-restaurant",
@@ -50,6 +55,7 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
         href: "/driver/available-orders",
       },
       { icon: NotepadText, label: "My Orders", href: "/driver/orders" },
+      { icon: CircleDollarSign, label: "Earnings", href: "/driver/earnings" },
       { icon: Settings, label: "Settings", href: "/driver/settings" },
     ],
   };
