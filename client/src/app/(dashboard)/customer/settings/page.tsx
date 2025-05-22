@@ -18,8 +18,14 @@ const CustomerSettings = () => {
     name: authUser?.userInfo.name,
     email: authUser?.userInfo.email,
     phoneNumber: authUser?.userInfo.phoneNumber,
+    address: authUser?.userInfo?.location?.address,
+    city: authUser?.userInfo?.location?.city,
+    province: authUser?.userInfo?.location?.province,
+    postalCode: authUser?.userInfo?.location?.postalCode,
+    country: authUser?.userInfo?.location?.country,
   };
 
+  // TODO: update updateCustomer api to update other info
   const handleSubmit = async (data: typeof initialData) => {
     await updateCustomer({
       cognitoId: authUser?.cognitoInfo?.userId,
