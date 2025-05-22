@@ -1,8 +1,9 @@
 import express from "express";
 import {
+  createOrders,
+  getAvailableOrdersForDriver,
   getOrder,
   getOrders,
-  createOrders,
   updateOrder,
 } from "../controllers/orderControllers";
 import { authMiddleware } from "../middleware/authMiddleware";
@@ -10,6 +11,11 @@ import { authMiddleware } from "../middleware/authMiddleware";
 const router = express.Router();
 
 router.post("/", authMiddleware(["customer"]), createOrders);
+router.get(
+  "/available-orders",
+  authMiddleware(["driver"]),
+  getAvailableOrdersForDriver
+);
 router.get(
   "/:orderId",
   authMiddleware(["customer", "restaurant", "driver"]),

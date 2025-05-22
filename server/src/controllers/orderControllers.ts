@@ -89,6 +89,42 @@ export const createOrders = async (
   }
 };
 
+export const getAvailableOrdersForDriver = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    // Get all orders without driverId assgined and status is not cancalled
+    const orders = await prisma.order.findMany({
+      where: {
+        driverId: null, // only orders without a driver assigned
+        status: {
+          not: OrderStatus.Cancelled, // exclude cancelled orders
+        },
+      },
+      include: {
+        items: {
+          include: {
+            menuItem: true,
+          },
+        },
+        customer: true,
+        restaurant: true,
+        driver: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    res.json(orders);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Error fetching orders: ${error.message}` });
+  }
+};
+
 export const getOrder = async (req: Request, res: Response): Promise<void> => {
   try {
     const { orderId } = req.params;
@@ -277,7 +313,8 @@ export const updateOrder = async (
           .json({ message: "Unauthorized: not your assigned order" });
         return;
       }
-      const allowedStatuses = [OrderStatus.PickedUp, OrderStatus.Delivered];
+      // Add "" to list to allow driver only update driverId
+      const allowedStatuses = [OrderStatus.PickedUp, OrderStatus.Delivered, ""];
       if (!allowedStatuses.includes(status)) {
         res.status(400).json({ message: "Invalid status for driver" });
         return;
@@ -288,7 +325,7 @@ export const updateOrder = async (
     const updatedOrder = await prisma.order.update({
       where: { id: Number(orderId) },
       data: {
-        status,
+        status: status || order.status,
         driverId:
           userRole === "driver" ? driverId ?? order.driverId : order.driverId,
       },
