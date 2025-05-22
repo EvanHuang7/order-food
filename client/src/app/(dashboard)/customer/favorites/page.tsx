@@ -53,7 +53,7 @@ const Favorites = () => {
         ))}
       </div>
       {(!favoriteRestaurants || favoriteRestaurants.length === 0) && (
-        <p>You don&lsquo;t have anyfavorite restaurants yet</p>
+        <p>You don&lsquo;t have any favorite restaurants yet</p>
       )}
     </div>
   );

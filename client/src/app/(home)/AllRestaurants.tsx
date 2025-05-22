@@ -40,8 +40,6 @@ const AllRestaurants = () => {
   );
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
-  // const [addFavorite] = useAddFavoriteRestaurantMutation();
-  // const [removeFavorite] = useRemoveFavoriteRestaurantMutation();
   const viewMode = useAppSelector((state) => state.global.viewMode);
   const filters = useAppSelector((state) => state.global.filters);
 

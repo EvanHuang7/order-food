@@ -145,8 +145,8 @@ export const api = createApi({
         url: `/customer/${customerId}/favorites/${restaurantId}`,
         method: "POST",
       }),
-      invalidatesTags: [
-        { type: "Restaurants", id: "LIST" },
+      invalidatesTags: (result, error, { customerId }) => [
+        { type: "Customer", id: customerId },
         { type: "FavoriteRestaurants", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
@@ -165,8 +165,8 @@ export const api = createApi({
         url: `/customer/${customerId}/favorites/${restaurantId}`,
         method: "DELETE",
       }),
-      invalidatesTags: [
-        { type: "Restaurants", id: "LIST" },
+      invalidatesTags: (result, error, { customerId }) => [
+        { type: "Customer", id: customerId },
         { type: "FavoriteRestaurants", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
