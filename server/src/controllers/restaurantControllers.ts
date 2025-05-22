@@ -176,8 +176,20 @@ export const updateRestaurant = async (
   try {
     const { cognitoId } = req.params;
     const files = req.files as Express.Multer.File[];
-    const { name, phoneNumber, description, openTime, closeTime, categories } =
-      req.body;
+    const {
+      name,
+      phoneNumber,
+      address,
+      city,
+      province,
+      postalCode,
+      country,
+      openTime,
+      closeTime,
+      // categories is a string with 1 category here
+      categories,
+      description,
+    } = req.body;
 
     // Check input
     if (!name) {
@@ -187,7 +199,7 @@ export const updateRestaurant = async (
 
     // Upload photos to AWS S3 bucket
     const photoUrls: string[] = [];
-    // TODO: enable it afer setting up S3 bucket
+    // TODO: enable it after setting up S3 bucket
     // const photoUrls = await Promise.all(
     //   files.map(async (file) => {
     //     const uploadParams = {
@@ -206,20 +218,65 @@ export const updateRestaurant = async (
     //   })
     // );
 
-    const updateRestaurant = await prisma.restaurant.update({
+    // Check if restaurant has a location record or not
+    const existingRestaurant = await prisma.restaurant.findUnique({
       where: { cognitoId },
-      data: {
-        name,
-        phoneNumber,
-        description,
-        photoUrls,
-        openTime,
-        closeTime,
-        categories,
-      },
+      include: { location: true },
+    });
+    if (!existingRestaurant) {
+      res.status(404).json({ message: "Restaurant not found" });
+      return;
+    }
+
+    // Do write actions in one transaction
+    const updatedRestaurant = await prisma.$transaction(async (tx) => {
+      let locationId = existingRestaurant.locationId;
+
+      if (locationId) {
+        // Update existing Location
+        await tx.location.update({
+          where: { id: locationId },
+          data: {
+            address,
+            city,
+            province,
+            postalCode,
+            country,
+          },
+        });
+      } else {
+        // Create new Location and link it
+        const newLocation = await tx.location.create({
+          data: {
+            address,
+            city,
+            province,
+            postalCode,
+            country,
+          },
+        });
+
+        locationId = newLocation.id;
+      }
+
+      // Update Restaurant
+      return await tx.restaurant.update({
+        where: { cognitoId },
+        data: {
+          name,
+          phoneNumber,
+          openTime,
+          closeTime,
+          categories,
+          description,
+          // TODO: update photoUrls after enable S3 bucket
+          // photoUrls,
+          locationId,
+        },
+      });
     });
 
-    res.json(updateRestaurant);
+    res.json(updatedRestaurant);
     return;
   } catch (error: any) {
     res

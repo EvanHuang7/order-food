@@ -87,6 +87,21 @@ export const api = createApi({
           return { error: error.message || "Could not fetch user data" };
         }
       },
+
+      providesTags: (result) => {
+        if (!result) return [];
+
+        switch (result.userRole?.toLowerCase()) {
+          case "customer":
+            return [{ type: "Customer", id: result.userInfo.id }];
+          case "restaurant":
+            return [{ type: "Restaurant", id: result.userInfo.id }];
+          case "driver":
+            return [{ type: "Driver", id: result.userInfo.id }];
+          default:
+            return [];
+        }
+      },
     }),
 
     // Customer related endpoints

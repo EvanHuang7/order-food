@@ -6,6 +6,7 @@ import { Form } from "./ui/form";
 import { CustomFormField } from "./FormField";
 import { Button } from "./ui/button";
 import { CategoryEnum } from "@/lib/constants";
+import { CategoryMultiSelect } from "./CategoryMultiSelect";
 
 const SettingsForm = ({
   initialData,
@@ -131,14 +132,9 @@ const SettingsForm = ({
                       disabled={!editMode}
                     />
                   </div>
-                  <CustomFormField
-                    name="categories"
-                    label="Categories"
-                    type="select"
-                    options={Object.keys(CategoryEnum).map((category) => ({
-                      value: category,
-                      label: category,
-                    }))}
+                  <CategoryMultiSelect
+                    value={form.watch("categories") ?? []}
+                    onChange={(val) => form.setValue("categories", val)}
                     disabled={!editMode}
                   />
                   <CustomFormField
