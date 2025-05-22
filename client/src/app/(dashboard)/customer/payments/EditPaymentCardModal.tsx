@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import Image from "next/image";
 
 interface Props {
   open: boolean;
@@ -63,16 +64,26 @@ const EditPaymentCardModal: React.FC<Props> = ({ open, onOpenChange }) => {
                 <input
                   name="cardNumber"
                   placeholder="Card number"
-                  className="w-full px-4 py-2 pr-24 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 pr-28 border border-gray-300 rounded-md"
                   value={form.cardNumber}
                   onChange={handleChange}
                 />
-                <div className="absolute top-1/2 right-3 -translate-y-1/2 flex gap-1">
-                  <div className="w-10 h-6 bg-blue-600 flex items-center justify-center rounded">
-                    <span className="text-white text-xs font-bold">VISA</span>
+                <div className="absolute top-1/2 right-3 -translate-y-1/2 flex gap-1.5">
+                  <div className="w-12 h-8 relative">
+                    <Image
+                      src="/visa.png"
+                      alt="Visa"
+                      fill
+                      className="object-contain rounded"
+                    />
                   </div>
-                  <div className="w-10 h-6 bg-yellow-500 flex items-center justify-center rounded">
-                    <span className="text-white text-xs font-bold">MC</span>
+                  <div className="w-12 h-8 relative">
+                    <Image
+                      src="/mastercard.png"
+                      alt="Mastercard"
+                      fill
+                      className="object-contain rounded"
+                    />
                   </div>
                 </div>
               </div>
