@@ -4,6 +4,9 @@ CREATE TYPE "OrderStatus" AS ENUM ('Pending', 'Accepted', 'Preparing', 'PickedUp
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('Pending', 'Paid', 'Refunded', 'Failed');
 
+-- CreateEnum
+CREATE TYPE "NotificationType" AS ENUM ('FoodDelivered', 'NewMenuItemInFavoriteRest');
+
 -- CreateTable
 CREATE TABLE "Customer" (
     "id" SERIAL NOT NULL,
@@ -11,9 +14,10 @@ CREATE TABLE "Customer" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "locationId" INTEGER,
+    "profileImgUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "locationId" INTEGER,
 
     CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
 );
@@ -25,14 +29,15 @@ CREATE TABLE "Restaurant" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "description" TEXT,
-    "photoUrls" TEXT[] DEFAULT ARRAY[]::TEXT[],
-    "openTime" TEXT,
-    "closeTime" TEXT,
-    "categories" TEXT[] DEFAULT ARRAY[]::TEXT[],
-    "locationId" INTEGER,
+    "profileImgUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "openTime" TEXT,
+    "closeTime" TEXT,
+    "description" TEXT,
+    "categories" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "photoUrls" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "locationId" INTEGER,
 
     CONSTRAINT "Restaurant_pkey" PRIMARY KEY ("id")
 );
@@ -44,6 +49,7 @@ CREATE TABLE "Driver" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
+    "profileImgUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -53,11 +59,11 @@ CREATE TABLE "Driver" (
 -- CreateTable
 CREATE TABLE "MenuItem" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "description" TEXT,
-    "price" DOUBLE PRECISION NOT NULL,
-    "photoUrl" TEXT,
     "restaurantId" INTEGER NOT NULL,
+    "name" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "description" TEXT,
+    "photoUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -67,12 +73,12 @@ CREATE TABLE "MenuItem" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
-    "status" "OrderStatus" NOT NULL,
-    "totalPrice" DOUBLE PRECISION NOT NULL,
     "customerId" INTEGER NOT NULL,
     "restaurantId" INTEGER NOT NULL,
-    "driverId" INTEGER,
     "paymentId" INTEGER NOT NULL,
+    "driverId" INTEGER,
+    "totalPrice" DOUBLE PRECISION NOT NULL,
+    "status" "OrderStatus" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -82,29 +88,14 @@ CREATE TABLE "Order" (
 -- CreateTable
 CREATE TABLE "OrderItem" (
     "id" SERIAL NOT NULL,
-    "quantity" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
     "orderId" INTEGER NOT NULL,
     "menuItemId" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Payment" (
-    "id" SERIAL NOT NULL,
-    "customerId" INTEGER NOT NULL,
-    "amount" DOUBLE PRECISION NOT NULL,
-    "status" "PaymentStatus" NOT NULL,
-    "paymentDate" TIMESTAMP(3) NOT NULL,
-    "provider" TEXT,
-    "methodToken" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -113,14 +104,28 @@ CREATE TABLE "PaymentInfo" (
     "customerId" INTEGER NOT NULL,
     "provider" TEXT NOT NULL,
     "methodToken" TEXT NOT NULL,
-    "last4" TEXT NOT NULL,
     "brand" TEXT NOT NULL,
-    "expiryMonth" INTEGER NOT NULL,
-    "expiryYear" INTEGER NOT NULL,
+    "last4" TEXT NOT NULL,
+    "expiryMonth" TEXT NOT NULL,
+    "expiryYear" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "PaymentInfo_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Payment" (
+    "id" SERIAL NOT NULL,
+    "customerId" INTEGER NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL,
+    "status" "PaymentStatus" NOT NULL,
+    "provider" TEXT,
+    "methodToken" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -146,12 +151,25 @@ CREATE TABLE "FavoriteRestaurant" (
 );
 
 -- CreateTable
+CREATE TABLE "NotificationSetting" (
+    "id" SERIAL NOT NULL,
+    "customerId" INTEGER NOT NULL,
+    "foodDelivered" BOOLEAN NOT NULL DEFAULT false,
+    "newMenuItemInFavoriteRest" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "NotificationSetting_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Notification" (
     "id" SERIAL NOT NULL,
     "customerId" INTEGER NOT NULL,
+    "type" "NotificationType" NOT NULL,
     "message" TEXT NOT NULL,
-    "sentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "read" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
 );
@@ -183,6 +201,9 @@ CREATE UNIQUE INDEX "Driver_email_key" ON "Driver"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "PaymentInfo_customerId_key" ON "PaymentInfo"("customerId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "NotificationSetting_customerId_key" ON "NotificationSetting"("customerId");
+
 -- AddForeignKey
 ALTER TABLE "Customer" ADD CONSTRAINT "Customer_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -211,16 +232,19 @@ ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("or
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_menuItemId_fkey" FOREIGN KEY ("menuItemId") REFERENCES "MenuItem"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Payment" ADD CONSTRAINT "Payment_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PaymentInfo" ADD CONSTRAINT "PaymentInfo_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PaymentInfo" ADD CONSTRAINT "PaymentInfo_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Payment" ADD CONSTRAINT "Payment_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FavoriteRestaurant" ADD CONSTRAINT "FavoriteRestaurant_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FavoriteRestaurant" ADD CONSTRAINT "FavoriteRestaurant_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "Restaurant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "NotificationSetting" ADD CONSTRAINT "NotificationSetting_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
