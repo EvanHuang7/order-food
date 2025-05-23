@@ -13,6 +13,7 @@ import menuItemRoutes from "./routes/menuItemRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
+import { startPgNotificationListener } from "./lib/pg";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -42,4 +43,9 @@ app.use("/notification", authMiddleware(["customer"]), notificationRoutes);
 const port = Number(process.env.PORT) || 3002;
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`);
+});
+
+/* Set up Postgre event listener */
+startPgNotificationListener().catch((err) => {
+  console.error("Failed to start PG notification listener:", err);
 });
