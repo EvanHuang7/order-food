@@ -199,8 +199,8 @@ export const api = createApi({
       {
         customerId: number;
         last4: string;
-        expiryMonth: number;
-        expiryYear: number;
+        expiryMonth: string;
+        expiryYear: string;
       }
     >({
       query: ({ customerId, last4, expiryMonth, expiryYear }) => ({

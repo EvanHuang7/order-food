@@ -44,7 +44,7 @@ export const createCustomer = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { cognitoId, name, email, phoneNumber } = req.body;
+    const { cognitoId, name, email } = req.body;
 
     // Check input
     if (!cognitoId || !name || !email) {
@@ -69,7 +69,8 @@ export const createCustomer = async (
         cognitoId,
         name,
         email,
-        phoneNumber,
+        phoneNumber: "",
+        profileImgUrl: "",
       },
     });
 
@@ -272,7 +273,7 @@ export const upsertPaymentInfo = async (
           data: {
             provider: "Stripe",
             methodToken: "test-random-token",
-            brand: "Visa",
+            brand: "MasterCard",
             last4,
             expiryMonth,
             expiryYear,

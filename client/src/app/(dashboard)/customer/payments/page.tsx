@@ -139,7 +139,7 @@ const PaymentHistory = ({ payments }: { payments: Payment[] }) => {
                   <div className="flex items-center">
                     <FileText className="w-4 h-4 mr-2 shrink-0" />
                     Invoice #{payment.id} -{" "}
-                    {new Date(payment.paymentDate).toLocaleString("default", {
+                    {new Date(payment.createdAt).toLocaleString("default", {
                       month: "short",
                       year: "numeric",
                     })}
@@ -161,7 +161,7 @@ const PaymentHistory = ({ payments }: { payments: Payment[] }) => {
                   </span>
                 </TableCell>
                 <TableCell>
-                  {new Date(payment.paymentDate).toLocaleDateString()}
+                  {new Date(payment.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>${payment.amount.toFixed(2)}</TableCell>
                 <TableCell>

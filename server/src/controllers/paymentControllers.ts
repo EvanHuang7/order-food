@@ -44,7 +44,7 @@ export const getPayments = async (
         orders: true,
       },
       orderBy: {
-        paymentDate: "desc",
+        createdAt: "desc",
       },
     });
 

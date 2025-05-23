@@ -39,7 +39,6 @@ export const createOrders = async (
           customerId,
           amount: totalAmount,
           status: PaymentStatus.Paid,
-          paymentDate: new Date(),
           provider: "Stripe", // Replace after test
           methodToken: "test-token", // Replace after test
         },

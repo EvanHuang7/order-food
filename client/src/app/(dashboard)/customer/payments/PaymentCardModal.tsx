@@ -58,8 +58,8 @@ const PaymentCardModal = ({ open, onOpenChange }: PaymentCardModalProps) => {
     await upsertPaymentInfo({
       customerId: authUser?.userInfo?.id,
       last4: data.cardNumber.slice(-4),
-      expiryMonth: Number(month),
-      expiryYear: Number(year),
+      expiryMonth: month,
+      expiryYear: year,
     });
 
     // Close modal

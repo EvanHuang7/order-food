@@ -23,19 +23,27 @@ enum PaymentStatus {
   Failed
 }
 
-//TODO: add profileImgUrl to Customer,Restaurant,Driver
+enum NotificationType {
+  FoodDelivered
+  NewMenuItemInFavoriteRest
+}
+
+//TODO: Rewrite the seed data json files if need to seed data
 model Customer {
   id            Int          @id @default(autoincrement())
   cognitoId     String       @unique
   name          String
   email         String       @unique
   phoneNumber   String
-  locationId    Int?          @unique
+  profileImgUrl String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
-  location      Location?     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location
-  paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional)
+  locationId    Int?          @unique
+  location      Location?     @relation(fields: [locationId], references: [id]) // 1-to-1: Customer has one unique Location (optional when creating new customer)
+  notificationSetting      NotificationSetting? // 1-to-1: Customer has one unique NotificationSetting(optional when creating new customer)
+  paymentInfo   PaymentInfo? // 1-to-1: Customer has one PaymentInfo (optional when creating new customer)
+
   payments      Payment[]    // 1-to-many: Customer has many Payments
   orders        Order[]      // 1-to-many: Customer has many Orders
   favoriteRests FavoriteRestaurant[] // many-to-many via join table FavoriteRestaurant
@@ -48,15 +56,17 @@ model Restaurant {
   name        String
   email       String    @unique
   phoneNumber String
-  description String?
-  photoUrls   String[]  @default([])
-  openTime    String?    // e.g. "09:00"
-  closeTime   String?    // e.g. "21:00"
-  categories  String[]  @default([])  // array of category names as strings
-  locationId  Int?       @unique
+  profileImgUrl String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
+  openTime    String?    // e.g. "09:00"
+  closeTime   String?    // e.g. "21:00"
+  description String?
+  categories  String[]  @default([])  // array of category names as strings
+  photoUrls   String[]  @default([])
+
+  locationId    Int?       @unique
   location      Location?         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
   menuItems     MenuItem[]       // 1-to-many: Restaurant has many MenuItems
   orders        Order[]          // 1-to-many: Restaurant has many Orders
@@ -69,6 +79,7 @@ model Driver {
   name        String
   email       String   @unique
   phoneNumber String
+  profileImgUrl String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -77,26 +88,26 @@ model Driver {
 
 model MenuItem {
   id           Int       @id @default(autoincrement())
-  name         String
-  description  String?
-  price        Float
-  photoUrl     String?
   restaurantId Int
+  name         String
+  price        Float
+  description  String?
+  photoUrl     String?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
-
+  
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many MenuItems belong to one Restaurant
   orderItems   OrderItem[] // 1-to-many: MenuItem can appear in many OrderItems
 }
 
 model Order {
   id           Int        @id @default(autoincrement())
-  status       OrderStatus
-  totalPrice   Float
   customerId   Int
-  restaurantId Int
-  driverId     Int?
+  restaurantId Int 
   paymentId    Int
+  driverId     Int?
+  totalPrice   Float
+  status       OrderStatus
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -109,10 +120,10 @@ model Order {
 
 model OrderItem {
   id         Int      @id @default(autoincrement())
-  quantity   Int
-  price      Float
   orderId    Int
   menuItemId Int
+  quantity   Int
+  price      Float
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -120,12 +131,26 @@ model OrderItem {
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id]) // many-to-1: Many OrderItems refer to one MenuItem
 }
 
+model PaymentInfo {
+  id             Int    @id @default(autoincrement())
+  customerId     Int    @unique
+  provider       String // e.g., "Stripe"
+  methodToken    String // e.g., Stripe's payment_method ID
+  brand          String // e.g., "Visa/MasterCard"
+  last4          String // e.g., "last 4 number of card"
+  expiryMonth    String
+  expiryYear     String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
+
+  customer        Customer  @relation(fields: [customerId], references: [id]) // 1-to-1: PaymentInfo belongs to one Customer
+}
+
 model Payment {
   id           Int    @id @default(autoincrement())
   customerId   Int
   amount       Float
   status       PaymentStatus
-  paymentDate  DateTime
   provider     String? // e.g., "stripe", "paypal"
   methodToken  String? // optional: the token used for this specific payment
   createdAt    DateTime   @default(now())
@@ -135,26 +160,11 @@ model Payment {
   orders       Order[]   // One payment -> many orders
 }
 
-model PaymentInfo {
-  id             Int    @id @default(autoincrement())
-  customerId     Int    @unique
-  provider       String // e.g., "stripe"
-  methodToken    String // e.g., Stripe's payment_method ID
-  last4          String // e.g., "last 4 number of card"
-  brand          String // e.g., "Visa"
-  expiryMonth    Int
-  expiryYear     Int
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime @updatedAt
-
-  customer        Customer  @relation(fields: [customerId], references: [id]) // 1-to-1: PaymentInfo belongs to one Customer
-}
-
 model Location {
   id         Int      @id @default(autoincrement())
   address    String
   city       String
-  province      String
+  province   String
   country    String
   postalCode String
   createdAt    DateTime   @default(now())
@@ -175,12 +185,24 @@ model FavoriteRestaurant {
   @@id([customerId, restaurantId])
 }
 
+model NotificationSetting {
+  id           Int       @id @default(autoincrement())
+  customerId   Int    @unique
+  foodDelivered Boolean   @default(false)
+  newMenuItemInFavoriteRest  Boolean   @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
+
+  customer        Customer  @relation(fields: [customerId], references: [id]) // 1-to-1: NotificationSetting belongs to one Customer
+}
+
 model Notification {
   id           Int       @id @default(autoincrement())
   customerId   Int
+  type         NotificationType
   message      String
-  sentAt       DateTime  @default(now())
-  read         Boolean   @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime @updatedAt
 
   customer     Customer  @relation(fields: [customerId], references: [id]) // many-to-1: many notifications per customer
 }

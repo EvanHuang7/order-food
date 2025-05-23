@@ -119,7 +119,6 @@ export const createNewUserInDatabase = async (
       cognitoId: user.userId,
       name: user.username,
       email: idToken?.payload?.email || "",
-      phoneNumber: "",
     },
   });
 

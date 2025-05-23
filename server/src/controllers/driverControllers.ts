@@ -31,7 +31,7 @@ export const createDriver = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { cognitoId, name, email, phoneNumber } = req.body;
+    const { cognitoId, name, email } = req.body;
 
     // Check input
     if (!cognitoId || !name || !email) {
@@ -56,7 +56,8 @@ export const createDriver = async (
         cognitoId,
         name,
         email,
-        phoneNumber,
+        phoneNumber: "",
+        profileImgUrl: "",
       },
     });
 
