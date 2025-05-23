@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
+import { snsClient } from "../lib/sns";
+import { PublishCommand } from "@aws-sdk/client-sns";
+import { NotificationType } from "@prisma/client";
 
 export const getRestaurantMenuItems = async (
   req: Request,
@@ -63,18 +66,82 @@ export const createRestaurantMenuItem = async (
     const parsedPrice = parseFloat(price);
     const parsedRestaurantId = parseInt(restaurantId, 10);
 
-    const menuItem = await prisma.menuItem.create({
-      data: {
-        name,
-        description,
-        price: parsedPrice,
-        photoUrl,
-        restaurantId: parsedRestaurantId,
-      },
+    // Do write actions in one transaction
+    const result = await prisma.$transaction(async (tx) => {
+      // Create menuItem
+      const menuItem = await tx.menuItem.create({
+        data: {
+          name,
+          description,
+          price: parsedPrice,
+          photoUrl,
+          restaurantId: parsedRestaurantId,
+        },
+      });
+
+      // Fetch restaurant name
+      const restaurant = await tx.restaurant.findUnique({
+        where: { id: parsedRestaurantId },
+        select: { name: true },
+      });
+      if (!restaurant) {
+        throw new Error("Restaurant not found");
+      }
+
+      // Get customers who favorited this restaurant and are subscribed to this notification type
+      const customersToNotify = await tx.customer.findMany({
+        where: {
+          favoriteRests: {
+            some: {
+              restaurantId: parsedRestaurantId,
+            },
+          },
+          notificationSetting: {
+            newMenuItemInFavoriteRest: true,
+          },
+        },
+        select: {
+          id: true,
+          email: true,
+        },
+      });
+
+      const message = `A new menu item "${name}" has been added at your favorite restaurant "${restaurant.name}"!`;
+
+      // Create notification records
+      await tx.notification.createMany({
+        data: customersToNotify.map((customer) => ({
+          customerId: customer.id,
+          type: NotificationType.NewMenuItemInFavoriteRest,
+          message,
+        })),
+      });
+
+      // Send email via SNS
+      await Promise.all(
+        customersToNotify.map((customer) =>
+          snsClient.send(
+            new PublishCommand({
+              TopicArn: process.env.SNS_TOPIC_NEW_MENU_ITEM,
+              Message: message,
+              Subject: "New Menu Item Alert",
+              MessageAttributes: {
+                email: {
+                  DataType: "String",
+                  StringValue: customer.email,
+                },
+              },
+            })
+          )
+        )
+      );
+
+      return menuItem;
     });
 
-    res.status(201).json(menuItem);
+    res.status(201).json(result);
   } catch (error: any) {
+    console.error("Error creating menu item:", error);
     res
       .status(500)
       .json({ message: `Error creating menu item: ${error.message}` });

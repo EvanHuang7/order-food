@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
-import s3Client from "../lib/s3";
+// import s3Client from "../lib/s3";
 import { Prisma } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
 
