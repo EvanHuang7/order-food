@@ -203,7 +203,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
       {/* Colored status banner and buttons */}
       <hr className="my-4" />
       <div className="flex flex-col sm:flex-row justify-between gap-5 w-full pb-4 px-4">
-        {/* Left status banner or stepper */}
+        {/* Left status banner or stepper section */}
         {order.status === "Cancelled" ? (
           <div className="p-4 text-red-700 grow bg-red-100">
             <div className="flex flex-wrap items-center">
@@ -224,7 +224,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
         )}
 
         {/* Right Buttons section */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-end">
           <button
             className={`bg-white border border-gray-300 text-gray-700 py-2 px-4 
                                   rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
