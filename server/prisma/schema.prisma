@@ -203,11 +203,11 @@ model NotificationSetting {
 
 model Notification {
   id           Int       @id @default(autoincrement())
-  customerId   Int
+  customerId   Int?               // it's "" for SubscribeApp type
   type         NotificationType
   message      String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
-  customer     Customer  @relation(fields: [customerId], references: [id]) // many-to-1: many notifications per customer
+  customer     Customer?  @relation(fields: [customerId], references: [id]) // many-to-1: many notifications per customer
 }

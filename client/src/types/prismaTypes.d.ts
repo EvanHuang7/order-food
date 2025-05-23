@@ -15329,7 +15329,7 @@ export namespace Prisma {
 
   export type NotificationGroupByOutputType = {
     id: number
-    customerId: number
+    customerId: number | null
     type: $Enums.NotificationType
     message: string
     createdAt: Date
@@ -15362,7 +15362,7 @@ export namespace Prisma {
     message?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    customer?: boolean | Notification$customerArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15372,7 +15372,7 @@ export namespace Prisma {
     message?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    customer?: boolean | Notification$customerArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15382,7 +15382,7 @@ export namespace Prisma {
     message?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    customer?: boolean | Notification$customerArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectScalar = {
@@ -15396,23 +15396,23 @@ export namespace Prisma {
 
   export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "type" | "message" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    customer?: boolean | Notification$customerArgs<ExtArgs>
   }
   export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    customer?: boolean | Notification$customerArgs<ExtArgs>
   }
   export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    customer?: boolean | Notification$customerArgs<ExtArgs>
   }
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Notification"
     objects: {
-      customer: Prisma.$CustomerPayload<ExtArgs>
+      customer: Prisma.$CustomerPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      customerId: number
+      customerId: number | null
       type: $Enums.NotificationType
       message: string
       createdAt: Date
@@ -15811,7 +15811,7 @@ export namespace Prisma {
    */
   export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    customer<T extends Notification$customerArgs<ExtArgs> = {}>(args?: Subset<T, Notification$customerArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16240,6 +16240,25 @@ export namespace Prisma {
      * Limit how many Notifications to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Notification.customer
+   */
+  export type Notification$customerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    where?: CustomerWhereInput
   }
 
   /**
@@ -17442,17 +17461,17 @@ export namespace Prisma {
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     id?: IntFilter<"Notification"> | number
-    customerId?: IntFilter<"Notification"> | number
+    customerId?: IntNullableFilter<"Notification"> | number | null
     type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
     message?: StringFilter<"Notification"> | string
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
-    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    customer?: XOR<CustomerNullableScalarRelationFilter, CustomerWhereInput> | null
   }
 
   export type NotificationOrderByWithRelationInput = {
     id?: SortOrder
-    customerId?: SortOrder
+    customerId?: SortOrderInput | SortOrder
     type?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
@@ -17465,17 +17484,17 @@ export namespace Prisma {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
-    customerId?: IntFilter<"Notification"> | number
+    customerId?: IntNullableFilter<"Notification"> | number | null
     type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
     message?: StringFilter<"Notification"> | string
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
-    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    customer?: XOR<CustomerNullableScalarRelationFilter, CustomerWhereInput> | null
   }, "id">
 
   export type NotificationOrderByWithAggregationInput = {
     id?: SortOrder
-    customerId?: SortOrder
+    customerId?: SortOrderInput | SortOrder
     type?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
@@ -17492,7 +17511,7 @@ export namespace Prisma {
     OR?: NotificationScalarWhereWithAggregatesInput[]
     NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Notification"> | number
-    customerId?: IntWithAggregatesFilter<"Notification"> | number
+    customerId?: IntNullableWithAggregatesFilter<"Notification"> | number | null
     type?: EnumNotificationTypeWithAggregatesFilter<"Notification"> | $Enums.NotificationType
     message?: StringWithAggregatesFilter<"Notification"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
@@ -18382,12 +18401,12 @@ export namespace Prisma {
     message: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    customer: CustomerCreateNestedOneWithoutNotificationsInput
+    customer?: CustomerCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateInput = {
     id?: number
-    customerId: number
+    customerId?: number | null
     type: $Enums.NotificationType
     message: string
     createdAt?: Date | string
@@ -18399,12 +18418,12 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutNotificationsNestedInput
+    customer?: CustomerUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    customerId?: IntFieldUpdateOperationsInput | number
+    customerId?: NullableIntFieldUpdateOperationsInput | number | null
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18413,7 +18432,7 @@ export namespace Prisma {
 
   export type NotificationCreateManyInput = {
     id?: number
-    customerId: number
+    customerId?: number | null
     type: $Enums.NotificationType
     message: string
     createdAt?: Date | string
@@ -18429,7 +18448,7 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    customerId?: IntFieldUpdateOperationsInput | number
+    customerId?: NullableIntFieldUpdateOperationsInput | number | null
     type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20199,10 +20218,12 @@ export namespace Prisma {
     set?: $Enums.NotificationType
   }
 
-  export type CustomerUpdateOneRequiredWithoutNotificationsNestedInput = {
+  export type CustomerUpdateOneWithoutNotificationsNestedInput = {
     create?: XOR<CustomerCreateWithoutNotificationsInput, CustomerUncheckedCreateWithoutNotificationsInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutNotificationsInput
     upsert?: CustomerUpsertWithoutNotificationsInput
+    disconnect?: CustomerWhereInput | boolean
+    delete?: CustomerWhereInput | boolean
     connect?: CustomerWhereUniqueInput
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutNotificationsInput, CustomerUpdateWithoutNotificationsInput>, CustomerUncheckedUpdateWithoutNotificationsInput>
   }
@@ -20837,7 +20858,7 @@ export namespace Prisma {
     OR?: NotificationScalarWhereInput[]
     NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
     id?: IntFilter<"Notification"> | number
-    customerId?: IntFilter<"Notification"> | number
+    customerId?: IntNullableFilter<"Notification"> | number | null
     type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
     message?: StringFilter<"Notification"> | string
     createdAt?: DateTimeFilter<"Notification"> | Date | string
