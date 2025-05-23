@@ -1,4 +1,5 @@
 import { Client } from "pg";
+import { pgNotificationHandler } from "../services/pgNotificationHandler";
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -11,11 +12,10 @@ export async function startPgNotificationListener() {
   console.log("📡 Listening for new_notification events from PostgreSQL");
 
   client.on("notification", (msg) => {
-    if (msg.channel === "new_notification") {
-      const payload = msg.payload ? JSON.parse(msg.payload) : null;
+    if (msg.channel === "new_notification" && !!msg.payload) {
+      const payload = JSON.parse(msg.payload);
       console.log("🔔 New notification:", payload);
-
-      // Your business logic here (e.g. send email, call SES, etc.)
+      pgNotificationHandler(payload);
     }
   });
 
