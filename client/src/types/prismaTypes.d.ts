@@ -102,7 +102,8 @@ export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 export const NotificationType: {
   FoodDelivered: 'FoodDelivered',
-  NewMenuItemInFavoriteRest: 'NewMenuItemInFavoriteRest'
+  NewMenuItemInFavoriteRest: 'NewMenuItemInFavoriteRest',
+  SubscribeApp: 'SubscribeApp'
 };
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
@@ -14056,6 +14057,7 @@ export namespace Prisma {
     customerId: number | null
     foodDelivered: boolean | null
     newMenuItemInFavoriteRest: boolean | null
+    subscribeApp: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -14065,6 +14067,7 @@ export namespace Prisma {
     customerId: number | null
     foodDelivered: boolean | null
     newMenuItemInFavoriteRest: boolean | null
+    subscribeApp: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -14074,6 +14077,7 @@ export namespace Prisma {
     customerId: number
     foodDelivered: number
     newMenuItemInFavoriteRest: number
+    subscribeApp: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -14095,6 +14099,7 @@ export namespace Prisma {
     customerId?: true
     foodDelivered?: true
     newMenuItemInFavoriteRest?: true
+    subscribeApp?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14104,6 +14109,7 @@ export namespace Prisma {
     customerId?: true
     foodDelivered?: true
     newMenuItemInFavoriteRest?: true
+    subscribeApp?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14113,6 +14119,7 @@ export namespace Prisma {
     customerId?: true
     foodDelivered?: true
     newMenuItemInFavoriteRest?: true
+    subscribeApp?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -14209,6 +14216,7 @@ export namespace Prisma {
     customerId: number
     foodDelivered: boolean
     newMenuItemInFavoriteRest: boolean
+    subscribeApp: boolean
     createdAt: Date
     updatedAt: Date
     _count: NotificationSettingCountAggregateOutputType | null
@@ -14237,6 +14245,7 @@ export namespace Prisma {
     customerId?: boolean
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -14247,6 +14256,7 @@ export namespace Prisma {
     customerId?: boolean
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -14257,6 +14267,7 @@ export namespace Prisma {
     customerId?: boolean
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -14267,11 +14278,12 @@ export namespace Prisma {
     customerId?: boolean
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NotificationSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "foodDelivered" | "newMenuItemInFavoriteRest" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSetting"]>
+  export type NotificationSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "foodDelivered" | "newMenuItemInFavoriteRest" | "subscribeApp" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSetting"]>
   export type NotificationSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
@@ -14292,6 +14304,7 @@ export namespace Prisma {
       customerId: number
       foodDelivered: boolean
       newMenuItemInFavoriteRest: boolean
+      subscribeApp: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["notificationSetting"]>
@@ -14722,6 +14735,7 @@ export namespace Prisma {
     readonly customerId: FieldRef<"NotificationSetting", 'Int'>
     readonly foodDelivered: FieldRef<"NotificationSetting", 'Boolean'>
     readonly newMenuItemInFavoriteRest: FieldRef<"NotificationSetting", 'Boolean'>
+    readonly subscribeApp: FieldRef<"NotificationSetting", 'Boolean'>
     readonly createdAt: FieldRef<"NotificationSetting", 'DateTime'>
     readonly updatedAt: FieldRef<"NotificationSetting", 'DateTime'>
   }
@@ -16409,6 +16423,7 @@ export namespace Prisma {
     customerId: 'customerId',
     foodDelivered: 'foodDelivered',
     newMenuItemInFavoriteRest: 'newMenuItemInFavoriteRest',
+    subscribeApp: 'subscribeApp',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -17363,6 +17378,7 @@ export namespace Prisma {
     customerId?: IntFilter<"NotificationSetting"> | number
     foodDelivered?: BoolFilter<"NotificationSetting"> | boolean
     newMenuItemInFavoriteRest?: BoolFilter<"NotificationSetting"> | boolean
+    subscribeApp?: BoolFilter<"NotificationSetting"> | boolean
     createdAt?: DateTimeFilter<"NotificationSetting"> | Date | string
     updatedAt?: DateTimeFilter<"NotificationSetting"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -17373,6 +17389,7 @@ export namespace Prisma {
     customerId?: SortOrder
     foodDelivered?: SortOrder
     newMenuItemInFavoriteRest?: SortOrder
+    subscribeApp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
@@ -17386,6 +17403,7 @@ export namespace Prisma {
     NOT?: NotificationSettingWhereInput | NotificationSettingWhereInput[]
     foodDelivered?: BoolFilter<"NotificationSetting"> | boolean
     newMenuItemInFavoriteRest?: BoolFilter<"NotificationSetting"> | boolean
+    subscribeApp?: BoolFilter<"NotificationSetting"> | boolean
     createdAt?: DateTimeFilter<"NotificationSetting"> | Date | string
     updatedAt?: DateTimeFilter<"NotificationSetting"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -17396,6 +17414,7 @@ export namespace Prisma {
     customerId?: SortOrder
     foodDelivered?: SortOrder
     newMenuItemInFavoriteRest?: SortOrder
+    subscribeApp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: NotificationSettingCountOrderByAggregateInput
@@ -17413,6 +17432,7 @@ export namespace Prisma {
     customerId?: IntWithAggregatesFilter<"NotificationSetting"> | number
     foodDelivered?: BoolWithAggregatesFilter<"NotificationSetting"> | boolean
     newMenuItemInFavoriteRest?: BoolWithAggregatesFilter<"NotificationSetting"> | boolean
+    subscribeApp?: BoolWithAggregatesFilter<"NotificationSetting"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"NotificationSetting"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"NotificationSetting"> | Date | string
   }
@@ -18294,6 +18314,7 @@ export namespace Prisma {
   export type NotificationSettingCreateInput = {
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutNotificationSettingInput
@@ -18304,6 +18325,7 @@ export namespace Prisma {
     customerId: number
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18311,6 +18333,7 @@ export namespace Prisma {
   export type NotificationSettingUpdateInput = {
     foodDelivered?: BoolFieldUpdateOperationsInput | boolean
     newMenuItemInFavoriteRest?: BoolFieldUpdateOperationsInput | boolean
+    subscribeApp?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutNotificationSettingNestedInput
@@ -18321,6 +18344,7 @@ export namespace Prisma {
     customerId?: IntFieldUpdateOperationsInput | number
     foodDelivered?: BoolFieldUpdateOperationsInput | boolean
     newMenuItemInFavoriteRest?: BoolFieldUpdateOperationsInput | boolean
+    subscribeApp?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18330,6 +18354,7 @@ export namespace Prisma {
     customerId: number
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18337,6 +18362,7 @@ export namespace Prisma {
   export type NotificationSettingUpdateManyMutationInput = {
     foodDelivered?: BoolFieldUpdateOperationsInput | boolean
     newMenuItemInFavoriteRest?: BoolFieldUpdateOperationsInput | boolean
+    subscribeApp?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18346,6 +18372,7 @@ export namespace Prisma {
     customerId?: IntFieldUpdateOperationsInput | number
     foodDelivered?: BoolFieldUpdateOperationsInput | boolean
     newMenuItemInFavoriteRest?: BoolFieldUpdateOperationsInput | boolean
+    subscribeApp?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19207,6 +19234,7 @@ export namespace Prisma {
     customerId?: SortOrder
     foodDelivered?: SortOrder
     newMenuItemInFavoriteRest?: SortOrder
+    subscribeApp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19221,6 +19249,7 @@ export namespace Prisma {
     customerId?: SortOrder
     foodDelivered?: SortOrder
     newMenuItemInFavoriteRest?: SortOrder
+    subscribeApp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19230,6 +19259,7 @@ export namespace Prisma {
     customerId?: SortOrder
     foodDelivered?: SortOrder
     newMenuItemInFavoriteRest?: SortOrder
+    subscribeApp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -20451,6 +20481,7 @@ export namespace Prisma {
   export type NotificationSettingCreateWithoutCustomerInput = {
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20459,6 +20490,7 @@ export namespace Prisma {
     id?: number
     foodDelivered?: boolean
     newMenuItemInFavoriteRest?: boolean
+    subscribeApp?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20651,6 +20683,7 @@ export namespace Prisma {
   export type NotificationSettingUpdateWithoutCustomerInput = {
     foodDelivered?: BoolFieldUpdateOperationsInput | boolean
     newMenuItemInFavoriteRest?: BoolFieldUpdateOperationsInput | boolean
+    subscribeApp?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20659,6 +20692,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     foodDelivered?: BoolFieldUpdateOperationsInput | boolean
     newMenuItemInFavoriteRest?: BoolFieldUpdateOperationsInput | boolean
+    subscribeApp?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
