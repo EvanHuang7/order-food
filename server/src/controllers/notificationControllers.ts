@@ -1,15 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import {
-  SNSClient,
   SubscribeCommand,
   UnsubscribeCommand,
   ListSubscriptionsByTopicCommand,
-  PublishCommand,
 } from "@aws-sdk/client-sns";
+import { snsClient } from "../lib/sns";
 
 const prisma = new PrismaClient();
-export const snsClient = new SNSClient({ region: "us-east-1" });
 
 const getTopicArnByType = (type: string): string | undefined => {
   if (type === "foodDelivered") return process.env.SNS_TOPIC_FOOD_DELIVERED;

@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import { OrderStatus, PaymentStatus, PrismaClient } from "@prisma/client";
+import {
+  NotificationType,
+  OrderStatus,
+  PaymentStatus,
+  PrismaClient,
+} from "@prisma/client";
+import { PublishCommand } from "@aws-sdk/client-sns";
+import { snsClient } from "../lib/sns";
 
 const prisma = new PrismaClient();
 
@@ -262,6 +269,21 @@ export const updateOrder = async (
     // Get order info to check user's auth for update
     const order = await prisma.order.findUnique({
       where: { id: Number(orderId) },
+      include: {
+        customer: {
+          include: {
+            notificationSetting: true,
+          },
+        },
+        restaurant: true,
+        driver: true,
+        payment: true,
+        items: {
+          include: {
+            menuItem: true,
+          },
+        },
+      },
     });
     if (!order) {
       res.status(404).json({ message: "Order not found" });
@@ -320,18 +342,51 @@ export const updateOrder = async (
       }
     }
 
-    // Update order status or driverId if user is driver
-    const updatedOrder = await prisma.order.update({
-      where: { id: Number(orderId) },
-      data: {
-        status: status || order.status,
-        driverId:
-          userRole === "driver" ? driverId ?? order.driverId : order.driverId,
-      },
-      include: {
-        items: true,
-        driver: true,
-      },
+    const shouldNotify =
+      (status === OrderStatus.PickedUp || status === OrderStatus.Delivered) &&
+      order.customer.notificationSetting?.foodDelivered;
+
+    let newNotification = null;
+
+    // Do write actions in one transaction
+    const updatedOrder = await prisma.$transaction(async (tx) => {
+      // Update order
+      const updatedOrder = await tx.order.update({
+        where: { id: Number(orderId) },
+        data: {
+          status: status || order.status,
+          driverId:
+            userRole === "driver" ? driverId ?? order.driverId : order.driverId,
+        },
+        include: {
+          items: true,
+          driver: true,
+        },
+      });
+
+      if (shouldNotify) {
+        // Create Notification record
+        newNotification = await tx.notification.create({
+          data: {
+            customerId: order.customerId,
+            type: NotificationType.FoodDelivered,
+            message: `Your order has been ${status.toLowerCase()}.`,
+          },
+        });
+
+        // Send email via AWS SNS
+        const publishCmd = new PublishCommand({
+          TopicArn: process.env.SNS_TOPIC_FOOD_DELIVERED,
+          Message: `Hi ${
+            order.customer.name
+          }, your order has been ${status.toLowerCase()}.`,
+          Subject: `Order ${status}`,
+        });
+
+        await snsClient.send(publishCmd);
+      }
+
+      return updatedOrder;
     });
 
     res.json(updatedOrder);
