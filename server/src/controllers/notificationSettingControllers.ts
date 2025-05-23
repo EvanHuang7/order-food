@@ -7,21 +7,20 @@ import {
 } from "@aws-sdk/client-sns";
 import { snsClient } from "../lib/sns";
 
-const getTopicArnByType = (type: string): string | undefined => {
-  if (type === "foodDelivered") return process.env.SNS_TOPIC_FOOD_DELIVERED;
-  if (type === "newMenuItemInFavoriteRest")
-    return process.env.SNS_TOPIC_NEW_MENU_ITEM;
-  return undefined;
-};
+const allowedTypes = [
+  "foodDelivered",
+  "newMenuItemInFavoriteRest",
+  "subscribeApp",
+];
 
-export const subscribeNotification = async (
+export const turnOnNotification = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { customerId, type } = req.params;
-    const topicArn = getTopicArnByType(type);
-    if (!topicArn) {
+
+    if (!allowedTypes.includes(type)) {
       res.status(400).json({ message: "Invalid notification type" });
       return;
     }
@@ -40,6 +39,7 @@ export const subscribeNotification = async (
     await prisma.$transaction(async (tx) => {
       let setting = customer.notificationSetting;
 
+      // Create or update notification setting
       if (!setting) {
         setting = await tx.notificationSetting.create({
           data: {
@@ -57,13 +57,15 @@ export const subscribeNotification = async (
       }
 
       // Subscribe customer's email to the SNS topic
-      await snsClient.send(
-        new SubscribeCommand({
-          Protocol: "email",
-          TopicArn: topicArn,
-          Endpoint: customer.email,
-        })
-      );
+      if (type === "subscribeApp") {
+        await snsClient.send(
+          new SubscribeCommand({
+            Protocol: "email",
+            TopicArn: process.env.SNS_TOPIC_SUBSCRIBE_APP,
+            Endpoint: customer.email,
+          })
+        );
+      }
     });
 
     res.json({ message: "Subscribed to notification successfully" });
@@ -73,14 +75,14 @@ export const subscribeNotification = async (
   }
 };
 
-export const unsubscribeNotification = async (
+export const turnOffNotification = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { customerId, type } = req.params;
-    const topicArn = getTopicArnByType(type);
-    if (!topicArn) {
+
+    if (!allowedTypes.includes(type)) {
       res.status(400).json({ message: "Invalid notification type" });
       return;
     }
@@ -98,6 +100,7 @@ export const unsubscribeNotification = async (
     // Do write actions in one transaction
     await prisma.$transaction(async (tx) => {
       const setting = customer.notificationSetting;
+      // Update notification setting
       if (setting) {
         await tx.notificationSetting.update({
           where: { id: setting.id },
@@ -107,21 +110,26 @@ export const unsubscribeNotification = async (
         });
       }
 
-      // Find subscription ARN
-      const listResult = await snsClient.send(
-        new ListSubscriptionsByTopicCommand({ TopicArn: topicArn })
-      );
-
-      const subscription = listResult.Subscriptions?.find(
-        (sub) => sub.Endpoint === customer.email
-      );
-
-      if (subscription && subscription.SubscriptionArn) {
-        await snsClient.send(
-          new UnsubscribeCommand({
-            SubscriptionArn: subscription.SubscriptionArn,
+      // Unsubscribe customer's email from the SNS topic
+      if (type === "subscribeApp") {
+        // Find subscription ARN
+        const listResult = await snsClient.send(
+          new ListSubscriptionsByTopicCommand({
+            TopicArn: process.env.SNS_TOPIC_SUBSCRIBE_APP,
           })
         );
+
+        const subscription = listResult.Subscriptions?.find(
+          (sub) => sub.Endpoint === customer.email
+        );
+
+        if (subscription && subscription.SubscriptionArn) {
+          await snsClient.send(
+            new UnsubscribeCommand({
+              SubscriptionArn: subscription.SubscriptionArn,
+            })
+          );
+        }
       }
     });
 

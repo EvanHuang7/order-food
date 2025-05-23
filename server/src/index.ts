@@ -12,7 +12,7 @@ import driverRoutes from "./routes/driverRoutes";
 import menuItemRoutes from "./routes/menuItemRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
-import notificationRoutes from "./routes/notificationRoutes";
+import notificationSettingRoutes from "./routes/notificationSettingRoutes";
 import { startPgNotificationListener } from "./lib/pg";
 
 /* CONFIGURATIONS */
@@ -37,7 +37,11 @@ app.use("/driver", authMiddleware(["driver"]), driverRoutes);
 app.use("/menuItem", menuItemRoutes);
 app.use("/order", orderRoutes);
 app.use("/payment", authMiddleware(["customer"]), paymentRoutes);
-app.use("/notification", authMiddleware(["customer"]), notificationRoutes);
+app.use(
+  "/notificationSetting",
+  authMiddleware(["customer"]),
+  notificationSettingRoutes
+);
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3002;
