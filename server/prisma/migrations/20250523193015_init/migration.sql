@@ -5,7 +5,7 @@ CREATE TYPE "OrderStatus" AS ENUM ('Pending', 'Accepted', 'Preparing', 'PickedUp
 CREATE TYPE "PaymentStatus" AS ENUM ('Pending', 'Paid', 'Refunded', 'Failed');
 
 -- CreateEnum
-CREATE TYPE "NotificationType" AS ENUM ('FoodDelivered', 'NewMenuItemInFavoriteRest');
+CREATE TYPE "NotificationType" AS ENUM ('FoodDelivered', 'NewMenuItemInFavoriteRest', 'SubscribeApp');
 
 -- CreateTable
 CREATE TABLE "Customer" (
@@ -156,6 +156,7 @@ CREATE TABLE "NotificationSetting" (
     "customerId" INTEGER NOT NULL,
     "foodDelivered" BOOLEAN NOT NULL DEFAULT false,
     "newMenuItemInFavoriteRest" BOOLEAN NOT NULL DEFAULT false,
+    "subscribeApp" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
