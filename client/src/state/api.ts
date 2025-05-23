@@ -162,7 +162,7 @@ export const api = createApi({
         url: `/customer/${customerId}/favorites/${restaurantId}`,
         method: "POST",
       }),
-      invalidatesTags: (result, error, { customerId }) => [
+      invalidatesTags: (_result, _error, { customerId }) => [
         { type: "Customer", id: customerId },
         { type: "FavoriteRestaurants", id: "LIST" },
       ],
@@ -182,7 +182,7 @@ export const api = createApi({
         url: `/customer/${customerId}/favorites/${restaurantId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, { customerId }) => [
+      invalidatesTags: (_result, _error, { customerId }) => [
         { type: "Customer", id: customerId },
         { type: "FavoriteRestaurants", id: "LIST" },
       ],
@@ -195,7 +195,7 @@ export const api = createApi({
     }),
 
     upsertPaymentInfo: build.mutation<
-      Customer,
+      { message: string },
       {
         customerId: number;
         last4: string;
@@ -212,7 +212,9 @@ export const api = createApi({
           expiryYear: expiryYear,
         },
       }),
-      invalidatesTags: (result) => [{ type: "Customer", id: result?.id }],
+      invalidatesTags: (_result, _error, { customerId }) => [
+        { type: "Customer", id: customerId },
+      ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success: "Payment card updated successfully! 🎉",

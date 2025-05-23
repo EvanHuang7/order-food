@@ -249,7 +249,7 @@ export const upsertPaymentInfo = async (
     }
 
     // Do write actions in one transaction
-    const updatedCustomer = await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       let paymentInfo = existingCustomer.paymentInfo;
 
       // If paymentInfo doesn't exist yet, create it
@@ -280,19 +280,9 @@ export const upsertPaymentInfo = async (
           },
         });
       }
-
-      return await tx.customer.update({
-        where: { id: Number(customerId) },
-        data: {
-          paymentInfo: {
-            connect: { id: paymentInfo.id },
-          },
-        },
-        include: { paymentInfo: true },
-      });
     });
 
-    res.json(updatedCustomer);
+    res.json({ message: "Updating customer payment info successfully" });
   } catch (error: any) {
     res
       .status(500)
