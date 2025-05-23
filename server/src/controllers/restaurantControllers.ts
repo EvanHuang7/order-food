@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
 // import s3Client from "../lib/s3";
-import { Prisma } from "@prisma/client";
+import { NotificationType, Prisma } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
 
 export const getRestaurant = async (
@@ -144,15 +144,33 @@ export const createRestaurant = async (
       return;
     }
 
-    // Create restaurant
-    const restaurant = await prisma.restaurant.create({
-      data: {
-        cognitoId,
-        name,
-        email,
-        phoneNumber: "",
-        profileImgUrl: "",
-      },
+    // Use one transaction for create restaurant + notification record
+    const restaurant = await prisma.$transaction(async (tx) => {
+      // Create restaurant
+      const newRestaurant = await prisma.restaurant.create({
+        data: {
+          cognitoId,
+          name,
+          email,
+          phoneNumber: "",
+          profileImgUrl: "",
+        },
+      });
+
+      // Create Notification record
+      await tx.notification.create({
+        data: {
+          type: NotificationType.SubscribeApp,
+          // TODO: add restaurant link.
+          message:
+            `Hi, dear OrderFood subscribers,\n\n` +
+            `We're excited to announce that a new restaurant, ${name}, has just joined our platform!\n\n` +
+            `As part of our welcome promotion, you'll enjoy **10% off** your first order at this restaurant.\n\n` +
+            `Don't miss out—place your first order today and enjoy delicious food at a discount!`,
+        },
+      });
+
+      return newRestaurant;
     });
 
     res.status(201).json(restaurant);

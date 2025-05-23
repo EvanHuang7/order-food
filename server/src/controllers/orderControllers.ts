@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
 import { NotificationType, OrderStatus, PaymentStatus } from "@prisma/client";
-import { PublishCommand } from "@aws-sdk/client-sns";
-import { snsClient } from "../lib/sns";
 
 export const createOrders = async (
   req: Request,
@@ -32,7 +30,7 @@ export const createOrders = async (
       0
     );
 
-    // Use one transaction for payment + orders + orderItems
+    // Use one transaction for payment + orders + orderItems + notification record
     const result = await prisma.$transaction(async (tx) => {
       // Create payment
       const payment = await tx.payment.create({
@@ -75,6 +73,18 @@ export const createOrders = async (
 
         orders.push(order);
       }
+
+      // Create Notification record
+      await tx.notification.create({
+        data: {
+          type: NotificationType.SubscribeApp,
+          message:
+            `Hi, dear orderfood subscribers.\n\n` +
+            `Thank you for your order and payment!\n\n` +
+            `As part of our promotional event, you'll receive 10% cashback from this payment as a credit toward your next purchase.\n\n` +
+            `The cashback will be applied to your account within 7 days after the payment is completed.`,
+        },
+      });
 
       return { payment, orders };
     });
@@ -340,8 +350,6 @@ export const updateOrder = async (
       (status === OrderStatus.PickedUp || status === OrderStatus.Delivered) &&
       order.customer.notificationSetting?.foodDelivered;
 
-    let newNotification = null;
-
     // Do write actions in one transaction
     const updatedOrder = await prisma.$transaction(async (tx) => {
       // Update order
@@ -358,27 +366,16 @@ export const updateOrder = async (
         },
       });
 
+      // Create Notification record for customer
       if (shouldNotify) {
-        // Create Notification record
-        newNotification = await tx.notification.create({
+        await tx.notification.create({
           data: {
             customerId: order.customerId,
             type: NotificationType.FoodDelivered,
-            message: `Your order has been ${status.toLowerCase()}.`,
+            // TODO: add order link.
+            message: `Your order has been ${status.toLowerCase()} by driver.`,
           },
         });
-
-        // TODO: Set up SES and use it instead
-        // Publish message in SNS
-        const publishCmd = new PublishCommand({
-          TopicArn: process.env.SNS_TOPIC_FOOD_DELIVERED,
-          Message: `Hi ${
-            order.customer.name
-          }, your order has been ${status.toLowerCase()}.`,
-          Subject: `Order ${status}`,
-        });
-
-        await snsClient.send(publishCmd);
       }
 
       return updatedOrder;

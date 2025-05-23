@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
-import { snsClient } from "../lib/sns";
-import { PublishCommand } from "@aws-sdk/client-sns";
 import { NotificationType } from "@prisma/client";
 
 export const getRestaurantMenuItems = async (
@@ -79,7 +77,7 @@ export const createRestaurantMenuItem = async (
         },
       });
 
-      // Fetch restaurant name
+      // Get restaurant name
       const restaurant = await tx.restaurant.findUnique({
         where: { id: parsedRestaurantId },
         select: { name: true },
@@ -88,29 +86,14 @@ export const createRestaurantMenuItem = async (
         throw new Error("Restaurant not found");
       }
 
-      // TODO: Use these customer with favoriteRests
-      // logic it in SES
-
-      // Get customers who favorited this restaurant and are subscribed to this notification type
-      // const customersToNotify = await tx.customer.findMany({
-      //   where: {
-      //     favoriteRests: {
-      //       some: {
-      //         restaurantId: parsedRestaurantId,
-      //       },
-      //     },
-      //     notificationSetting: {
-      //       newMenuItemInFavoriteRest: true,
-      //     },
-      //   },
-      //   select: {
-      //     id: true,
-      //     email: true,
-      //   },
-      // });
-
+      // Get customers who favorited this restaurant and are turned on for this notification type
       const customersToNotify = await tx.customer.findMany({
         where: {
+          favoriteRests: {
+            some: {
+              restaurantId: parsedRestaurantId,
+            },
+          },
           notificationSetting: {
             newMenuItemInFavoriteRest: true,
           },
@@ -121,28 +104,15 @@ export const createRestaurantMenuItem = async (
         },
       });
 
-      const message = `A new menu item "${name}" has been added at your favorite restaurant "${restaurant.name}"!`;
-
-      // Create notification records
+      // Create notification records for customers
       await tx.notification.createMany({
         data: customersToNotify.map((customer) => ({
           customerId: customer.id,
           type: NotificationType.NewMenuItemInFavoriteRest,
-          message,
+          // TODO: add restaurant link.
+          message: `A new menu item "${name}" has been added at your favorite restaurant "${restaurant.name}"!`,
         })),
       });
-
-      // TODO: Set up SES and use it instead.
-      // TODO: or if using SNS, changee to send notification
-      // for all restaurant new item created.
-      // Publish message in SNS
-      await snsClient.send(
-        new PublishCommand({
-          TopicArn: process.env.SNS_TOPIC_NEW_MENU_ITEM,
-          Message: message,
-          Subject: "New Menu Item Alert",
-        })
-      );
 
       return menuItem;
     });
