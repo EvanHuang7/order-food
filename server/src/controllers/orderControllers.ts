@@ -368,7 +368,8 @@ export const updateOrder = async (
           },
         });
 
-        // Send email via AWS SNS
+        // TODO: Set up SES and use it instead
+        // Publish message in SNS
         const publishCmd = new PublishCommand({
           TopicArn: process.env.SNS_TOPIC_FOOD_DELIVERED,
           Message: `Hi ${

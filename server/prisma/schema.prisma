@@ -26,6 +26,7 @@ enum PaymentStatus {
 enum NotificationType {
   FoodDelivered
   NewMenuItemInFavoriteRest
+  SubscribeApp
 }
 
 //TODO: Rewrite the seed data json files if need to seed data
@@ -188,8 +189,12 @@ model FavoriteRestaurant {
 model NotificationSetting {
   id           Int       @id @default(autoincrement())
   customerId   Int    @unique
+  // use AWS SES type 
   foodDelivered Boolean   @default(false)
   newMenuItemInFavoriteRest  Boolean   @default(false)
+  // use AWS SNS type 
+  subscribeApp  Boolean   @default(false)
+
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 

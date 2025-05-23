@@ -88,14 +88,29 @@ export const createRestaurantMenuItem = async (
         throw new Error("Restaurant not found");
       }
 
+      // TODO: Use these customer with favoriteRests
+      // logic it in SES
+
       // Get customers who favorited this restaurant and are subscribed to this notification type
+      // const customersToNotify = await tx.customer.findMany({
+      //   where: {
+      //     favoriteRests: {
+      //       some: {
+      //         restaurantId: parsedRestaurantId,
+      //       },
+      //     },
+      //     notificationSetting: {
+      //       newMenuItemInFavoriteRest: true,
+      //     },
+      //   },
+      //   select: {
+      //     id: true,
+      //     email: true,
+      //   },
+      // });
+
       const customersToNotify = await tx.customer.findMany({
         where: {
-          favoriteRests: {
-            some: {
-              restaurantId: parsedRestaurantId,
-            },
-          },
           notificationSetting: {
             newMenuItemInFavoriteRest: true,
           },
@@ -117,23 +132,16 @@ export const createRestaurantMenuItem = async (
         })),
       });
 
-      // Send email via SNS
-      await Promise.all(
-        customersToNotify.map((customer) =>
-          snsClient.send(
-            new PublishCommand({
-              TopicArn: process.env.SNS_TOPIC_NEW_MENU_ITEM,
-              Message: message,
-              Subject: "New Menu Item Alert",
-              MessageAttributes: {
-                email: {
-                  DataType: "String",
-                  StringValue: customer.email,
-                },
-              },
-            })
-          )
-        )
+      // TODO: Set up SES and use it instead.
+      // TODO: or if using SNS, changee to send notification
+      // for all restaurant new item created.
+      // Publish message in SNS
+      await snsClient.send(
+        new PublishCommand({
+          TopicArn: process.env.SNS_TOPIC_NEW_MENU_ITEM,
+          Message: message,
+          Subject: "New Menu Item Alert",
+        })
       );
 
       return menuItem;
