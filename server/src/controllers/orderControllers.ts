@@ -1,14 +1,8 @@
 import { Request, Response } from "express";
-import {
-  NotificationType,
-  OrderStatus,
-  PaymentStatus,
-  PrismaClient,
-} from "@prisma/client";
+import prisma from "../lib/prisma";
+import { NotificationType, OrderStatus, PaymentStatus } from "@prisma/client";
 import { PublishCommand } from "@aws-sdk/client-sns";
 import { snsClient } from "../lib/sns";
-
-const prisma = new PrismaClient();
 
 export const createOrders = async (
   req: Request,

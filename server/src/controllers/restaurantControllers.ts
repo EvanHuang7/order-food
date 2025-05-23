@@ -1,13 +1,8 @@
 import { Request, Response } from "express";
-import { PrismaClient, Prisma } from "@prisma/client";
+import prisma from "../lib/prisma";
+import s3Client from "../lib/s3";
+import { Prisma } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
-import { S3Client } from "@aws-sdk/client-s3";
-
-const prisma = new PrismaClient();
-
-const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
-});
 
 export const getRestaurant = async (
   req: Request,

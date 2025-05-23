@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient, PaymentStatus } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../lib/prisma";
 
 export const getPayment = async (
   req: Request,
