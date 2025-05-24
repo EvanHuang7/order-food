@@ -46,7 +46,7 @@ const MenuItemCard = ({
           alt={menuItem.name}
           fill
           className="object-cover"
-          sizes="100vw"
+          sizes="(max-width: 768px) 33vw, 100px"
           onError={() => setImgSrc("/food/food1.jpg")}
         />
         {/* Item select button */}
