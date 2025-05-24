@@ -14,9 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-//TODO: ask gpt how to change this componentto const instead of function
-//TODO: use CategoryEnum instead
-//TODO: polish this component, like X button of each badge and badge color
+// TODO: use CategoryEnum instead
 const allCategories = [
   "Food",
   "Drinks",
@@ -26,26 +24,22 @@ const allCategories = [
   "Fast Food",
 ];
 
-export function CategoryMultiSelect({
+const CategoryMultiSelect = ({
   value,
   onChange,
   disabled = false,
-}: {
-  value: string[];
-  onChange: (value: string[]) => void;
-  disabled?: boolean;
-}) {
+}: CategoryMultiSelectProps) => {
   const [open, setOpen] = useState(false);
 
   const toggleCategory = (cat: string) => {
-    if (disabled) return; // Prevent changes if disabled
+    if (disabled) return;
     onChange(
       value.includes(cat) ? value.filter((v) => v !== cat) : [...value, cat]
     );
   };
 
   const removeCategory = (cat: string) => {
-    if (disabled) return; // Prevent changes if disabled
+    if (disabled) return;
     onChange(value.filter((v) => v !== cat));
   };
 
@@ -107,4 +101,6 @@ export function CategoryMultiSelect({
       </Popover>
     </div>
   );
-}
+};
+
+export default CategoryMultiSelect;

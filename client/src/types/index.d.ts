@@ -90,6 +90,12 @@ declare global {
   interface OrderStepperProps {
     currentStep: number;
   }
+
+  interface CategoryMultiSelectProps {
+    value: string[];
+    onChange: (value: string[]) => void;
+    disabled?: boolean;
+  }
 }
 
 export {};

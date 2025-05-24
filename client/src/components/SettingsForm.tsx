@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "./ui/form";
 import { CustomFormField } from "./FormField";
 import { Button } from "./ui/button";
-import { CategoryEnum } from "@/lib/constants";
-import { CategoryMultiSelect } from "./CategoryMultiSelect";
+import CategoryMultiSelect from "./CategoryMultiSelect";
 
 const SettingsForm = ({
   initialData,
