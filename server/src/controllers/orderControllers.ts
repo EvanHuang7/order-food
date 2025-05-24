@@ -30,7 +30,7 @@ export const createOrders = async (
       0
     );
 
-    // Use one transaction for payment + orders + orderItems + notification record
+    // Use one transaction for creating payment + orders + orderItems
     const result = await prisma.$transaction(async (tx) => {
       // Create payment
       const payment = await tx.payment.create({
@@ -73,18 +73,6 @@ export const createOrders = async (
 
         orders.push(order);
       }
-
-      // Create Notification record
-      await tx.notification.create({
-        data: {
-          type: NotificationType.SubscribeApp,
-          message:
-            `Hi, dear orderfood subscribers.\n\n` +
-            `Thank you for your order and payment!\n\n` +
-            `As part of our promotional event, you'll receive 10% cashback from this payment as a credit toward your next purchase.\n\n` +
-            `The cashback will be applied to your account within 7 days after the payment is completed.`,
-        },
-      });
 
       return { payment, orders };
     });
