@@ -46,7 +46,7 @@ const SingleRestaurant = () => {
           </div>
           {(!restaurantMenuItems || restaurantMenuItems.length === 0) && (
             <p className="text-sm text-gray-500 mt-4">
-              You don&apos;t have any menu item yet.
+              This restaurant is still preparing its menu ✍️.
             </p>
           )}
         </div>

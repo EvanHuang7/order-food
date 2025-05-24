@@ -73,7 +73,23 @@ export const sendEmailViaSes = async ({
   };
 
   const command = new SendEmailCommand(emailParams);
-  await sesClient.send(command);
+
+  try {
+    await sesClient.send(command);
+  } catch (error: any) {
+    // Catch the MessageRejected error from SES which occurs when recipient not verified
+    if (
+      error.name === "MessageRejected" &&
+      error.message.includes("Email address is not verified")
+    ) {
+      console.warn(
+        `Warning: Attempted to send email to unverified address ${to}. Email not sent.`
+      );
+      return; // Exit silently or handle as needed
+    }
+    // Re-throw other errors
+    throw error;
+  }
 };
 
 export const publishTopicMessageInSns = async ({
@@ -89,5 +105,9 @@ export const publishTopicMessageInSns = async ({
     Subject: subject,
   });
 
-  await snsClient.send(publishCmd);
+  try {
+    await snsClient.send(publishCmd);
+  } catch (error: any) {
+    throw error;
+  }
 };
