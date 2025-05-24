@@ -76,7 +76,8 @@ type MutationMessages = {
 
 export const withToast = async <T>(
   mutationFn: Promise<T>,
-  messages: Partial<MutationMessages>
+  messages: Partial<MutationMessages>,
+  customErrorHandler?: (err: any) => boolean
 ) => {
   const { success, error } = messages;
 
@@ -85,6 +86,12 @@ export const withToast = async <T>(
     if (success) toast.success(success);
     return result;
   } catch (err) {
+    // Let caller handle custom error
+    if (customErrorHandler && customErrorHandler(err)) {
+      throw err;
+    }
+
+    // Fallback to default error message
     if (error) toast.error(error);
     throw err;
   }

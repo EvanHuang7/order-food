@@ -123,12 +123,22 @@ export const turnOffNotification = async (
           (sub) => sub.Endpoint === customer.email
         );
 
-        if (subscription && subscription.SubscriptionArn) {
+        if (
+          subscription &&
+          subscription.SubscriptionArn &&
+          subscription.SubscriptionArn !== "PendingConfirmation"
+        ) {
           await snsClient.send(
             new UnsubscribeCommand({
               SubscriptionArn: subscription.SubscriptionArn,
             })
           );
+        } else if (
+          subscription &&
+          subscription.SubscriptionArn &&
+          subscription.SubscriptionArn === "PendingConfirmation"
+        ) {
+          throw new Error("PENDING_CONFIRMATION");
         }
       }
     });
@@ -136,6 +146,16 @@ export const turnOffNotification = async (
     res.json({ message: "Unsubscribed from notification successfully" });
   } catch (error: any) {
     console.error("Unsubscribe error:", error);
+
+    if (error.message === "PENDING_CONFIRMATION") {
+      res.status(409).json({
+        message:
+          "Please confirm the subscription in your email before unsubscribing.",
+        errorCode: "PENDING_CONFIRMATION",
+      });
+      return;
+    }
+
     res.status(500).json({ message: `Error unsubscribing: ${error.message}` });
   }
 };

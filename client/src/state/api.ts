@@ -11,6 +11,7 @@ import {
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { FiltersState, ShoppingCartItem } from ".";
+import { toast } from "sonner";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -233,14 +234,26 @@ export const api = createApi({
         }`,
         method: "POST",
       }),
-      invalidatesTags: (_result, _error, { customerId }) => [
-        { type: "Customer", id: customerId },
-      ],
+      invalidatesTags: (_result, error, { customerId }) =>
+        error ? [] : [{ type: "Customer", id: customerId }],
       async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          success: "Notification toggled successfully.",
-          error: "Failed to toggle notification.",
-        });
+        await withToast(
+          queryFulfilled,
+          {
+            success: "Notification toggled successfully.",
+            error: "Failed to toggle notification.",
+          },
+          (err) => {
+            const errorCode = err?.error?.data?.errorCode;
+            if (errorCode === "PENDING_CONFIRMATION") {
+              toast.error(
+                "Please confirm your subscription via email before unsubscribing."
+              );
+              return true; // handled
+            }
+            return false; // not handled, fallback to default error
+          }
+        );
       },
     }),
 

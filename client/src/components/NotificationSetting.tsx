@@ -2,13 +2,19 @@
 
 import Loading from "./Loading";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Switch } from "./ui/switch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useGetAuthUserQuery,
   useToggleNotificationMutation,
 } from "@/state/api";
-import { Bell } from "lucide-react";
+import { Bell, CircleAlert } from "lucide-react";
 
 const NotificationSetting = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
@@ -20,6 +26,17 @@ const NotificationSetting = () => {
     newMenuItemInFavoriteRest: false,
     subscribeApp: false,
   });
+
+  useEffect(() => {
+    if (notificationSetting) {
+      setSettings({
+        foodDelivered: notificationSetting.foodDelivered,
+        newMenuItemInFavoriteRest:
+          notificationSetting.newMenuItemInFavoriteRest,
+        subscribeApp: notificationSetting.subscribeApp,
+      });
+    }
+  }, [notificationSetting]);
 
   const handleToggle = async (key: keyof typeof settings, value: boolean) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
@@ -34,22 +51,7 @@ const NotificationSetting = () => {
     }
   };
 
-  // Make sure authUser load before call setSettings below
   if (isLoading || !authUser) return <Loading />;
-
-  // Initialize state from authUser if not already set
-  if (
-    notificationSetting &&
-    settings.foodDelivered === false &&
-    settings.newMenuItemInFavoriteRest === false &&
-    settings.subscribeApp === false
-  ) {
-    setSettings({
-      foodDelivered: notificationSetting.foodDelivered,
-      newMenuItemInFavoriteRest: notificationSetting.newMenuItemInFavoriteRest,
-      subscribeApp: notificationSetting.subscribeApp,
-    });
-  }
 
   return (
     <Popover>
@@ -59,11 +61,9 @@ const NotificationSetting = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-64 bg-white shadow-lg rounded-lg p-4 space-y-4">
-        <div className="text-lg font-semibold text-foreground text-primary-700">
-          Email Notification
-        </div>
+        <h1 className="text-xl font-semibold">Email Notification</h1>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-primary-700">Food Delivered</span>
+          <span className="text-sm">Food Delivered</span>
           <Switch
             checked={settings.foodDelivered}
             onCheckedChange={(val) => handleToggle("foodDelivered", val)}
@@ -71,9 +71,7 @@ const NotificationSetting = () => {
           />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-primary-700">
-            New Menu in Favorites
-          </span>
+          <span className="text-sm">New Menu in Favorites</span>
           <Switch
             checked={settings.newMenuItemInFavoriteRest}
             onCheckedChange={(val) =>
@@ -83,7 +81,24 @@ const NotificationSetting = () => {
           />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-primary-700">Subscribe to App</span>
+          <div className="flex items-center gap-1 text-sm">
+            <span>Subscribe to App</span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <CircleAlert className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary-400 transition-colors" />
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  sideOffset={6}
+                  className="text-sm bg-white text-gray-700 rounded-md shadow-md px-3 py-2 max-w-[200px]"
+                >
+                  To complete your subscription, check your email and click the
+                  confirmation link we send you.
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Switch
             checked={settings.subscribeApp}
             onCheckedChange={(val) => handleToggle("subscribeApp", val)}
