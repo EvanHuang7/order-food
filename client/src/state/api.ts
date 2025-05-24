@@ -108,9 +108,8 @@ export const api = createApi({
     }),
 
     // Customer related endpoints
-
     updateCustomerInfo: build.mutation<
-      Customer,
+      { customer: Customer; locationUpdated: boolean },
       { cognitoId: string } & Partial<Customer>
     >({
       query: ({ cognitoId, ...updatedCustomer }) => ({
@@ -118,12 +117,26 @@ export const api = createApi({
         method: "PUT",
         body: updatedCustomer,
       }),
-      invalidatesTags: (result) => [{ type: "Customer", id: result?.id }],
+      invalidatesTags: (result) => [
+        { type: "Customer", id: result?.customer?.id },
+      ],
       async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          success: "Customer info updated successfully!",
-          error: "Failed to update customer info.",
-        });
+        try {
+          const { data } = await queryFulfilled;
+
+          // Always show success toast
+          toast.success("Customer info updated successfully!");
+
+          // Show warning if location was not updated
+          if (data?.locationUpdated === false) {
+            toast.warning(
+              "Location info not updated. Please complete all location fields."
+            );
+          }
+        } catch {
+          // Fallback error toast
+          toast.error("Failed to update customer info.");
+        }
       },
     }),
 
@@ -281,7 +294,7 @@ export const api = createApi({
     }),
 
     updateRestaurantInfo: build.mutation<
-      Restaurant,
+      { restaurant: Restaurant; locationUpdated: boolean },
       { cognitoId: string } & Partial<Restaurant>
     >({
       query: ({ cognitoId, ...updatedRestaurant }) => ({
@@ -289,12 +302,26 @@ export const api = createApi({
         method: "PUT",
         body: updatedRestaurant,
       }),
-      invalidatesTags: (result) => [{ type: "Restaurant", id: result?.id }],
+      invalidatesTags: (result) => [
+        { type: "Restaurant", id: result?.restaurant?.id },
+      ],
       async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          success: "Restaurant info updated successfully!",
-          error: "Failed to update restaurant info.",
-        });
+        try {
+          const { data } = await queryFulfilled;
+
+          // Always show success for restaurant update
+          toast.success("Restaurant info updated successfully!");
+
+          // Show warning if location was not updated
+          if (data?.locationUpdated === false) {
+            toast.warning(
+              "Location info not updated. Please complete all location fields."
+            );
+          }
+        } catch {
+          // Show fallback error toast
+          toast.error("Failed to update restaurant info.");
+        }
       },
     }),
 

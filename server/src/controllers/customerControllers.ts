@@ -103,41 +103,48 @@ export const updateCustomer = async (
     }
 
     // Do write actions in one transaction
-    const updatedCustomer = await prisma.$transaction(async (tx) => {
-      let locationId = existingCustomer.locationId;
-      const locationFields = [address, city, province, postalCode, country];
-      const hasCompleteLocation = locationFields.every((field) => !!field);
+    const { customer, locationUpdated } = await prisma.$transaction(
+      async (tx) => {
+        let locationId = existingCustomer.locationId;
+        const locationFields = [address, city, province, postalCode, country];
+        const hasCompleteLocation = locationFields.every((field) => !!field);
 
-      // Only update and create when having complete location
-      if (hasCompleteLocation) {
-        // If location doesn't exist yet, create it
-        if (!locationId) {
-          const newLocation = await tx.location.create({
-            data: { address, city, province, postalCode, country },
-          });
-          locationId = newLocation.id;
-        } else {
-          // Otherwise, update existing location
-          await tx.location.update({
-            where: { id: locationId },
-            data: { address, city, province, postalCode, country },
-          });
+        let locationWasUpdated = false;
+
+        // Only update and create when having complete location
+        if (hasCompleteLocation) {
+          locationWasUpdated = true;
+          // If location doesn't exist yet, create it
+          if (!locationId) {
+            const newLocation = await tx.location.create({
+              data: { address, city, province, postalCode, country },
+            });
+            locationId = newLocation.id;
+          } else {
+            // Otherwise, update existing location
+            await tx.location.update({
+              where: { id: locationId },
+              data: { address, city, province, postalCode, country },
+            });
+          }
         }
+
+        // Update customer info
+        const customer = await tx.customer.update({
+          where: { cognitoId },
+          data: {
+            name,
+            phoneNumber,
+            locationId,
+          },
+          include: { location: true },
+        });
+
+        return { customer, locationUpdated: locationWasUpdated };
       }
+    );
 
-      // Update customer info
-      return await tx.customer.update({
-        where: { cognitoId },
-        data: {
-          name,
-          phoneNumber,
-          locationId,
-        },
-        include: { location: true },
-      });
-    });
-
-    res.json(updatedCustomer);
+    res.json({ customer, locationUpdated });
   } catch (error: any) {
     res
       .status(500)

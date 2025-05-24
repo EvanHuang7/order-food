@@ -240,13 +240,16 @@ export const updateRestaurant = async (
     }
 
     // Do write actions in one transaction
-    const updatedRestaurant = await prisma.$transaction(async (tx) => {
+    const updatedRestaurantWithFlag = await prisma.$transaction(async (tx) => {
       let locationId = existingRestaurant.locationId;
       const locationFields = [address, city, province, postalCode, country];
       const hasCompleteLocation = locationFields.every((field) => !!field);
+      let locationUpdated = false;
 
       // Only update and create when having complete location
       if (hasCompleteLocation) {
+        locationUpdated = true;
+
         if (locationId) {
           // Update existing Location
           await tx.location.update({
@@ -276,7 +279,7 @@ export const updateRestaurant = async (
       }
 
       // Update Restaurant
-      return await tx.restaurant.update({
+      const restaurant = await tx.restaurant.update({
         where: { cognitoId },
         data: {
           name,
@@ -290,9 +293,11 @@ export const updateRestaurant = async (
           locationId,
         },
       });
+
+      return { restaurant, locationUpdated };
     });
 
-    res.json(updatedRestaurant);
+    res.json(updatedRestaurantWithFlag);
     return;
   } catch (error: any) {
     res
