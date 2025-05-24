@@ -7,18 +7,30 @@ export const getRestaurantMenuItems = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { restaurantId } = req.params;
+    const restaurantId = parseInt(req.params.restaurantId, 10);
+    if (isNaN(restaurantId)) {
+      res.status(400).json({ message: "Invalid restaurant ID" });
+      return;
+    }
 
-    const menuItems = await prisma.menuItem.findMany({
-      where: {
-        restaurantId: Number(restaurantId),
-      },
+    const restaurantWithMenuItems = await prisma.restaurant.findUnique({
+      where: { id: Number(restaurantId) },
       include: {
-        orderItems: true,
+        location: true,
+        menuItems: {
+          include: {
+            orderItems: true,
+          },
+        },
       },
     });
 
-    res.json(menuItems);
+    if (!restaurantWithMenuItems) {
+      res.status(404).json({ message: "Restaurant not found" });
+      return;
+    }
+
+    res.json(restaurantWithMenuItems);
   } catch (error: any) {
     res
       .status(500)

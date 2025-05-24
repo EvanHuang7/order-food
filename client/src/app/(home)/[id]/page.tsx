@@ -18,7 +18,7 @@ const SingleRestaurant = () => {
     !!authUser && authUser.userRole === "customer";
 
   const {
-    data: restaurantMenuItems,
+    data: restaurantWithMenuItems,
     isLoading,
     error,
   } = useGetRestaurantMenuItemsQuery(String(restaurantId));
@@ -36,7 +36,7 @@ const SingleRestaurant = () => {
         {/* Menu Items */}
         <div className="flex-1 order-2 w-full md:order-1">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-3 gap-6">
-            {restaurantMenuItems?.map((menuItem: any) => (
+            {restaurantWithMenuItems?.menuItems?.map((menuItem: any) => (
               <MenuItemCard
                 key={menuItem.id}
                 menuItem={menuItem}
@@ -44,7 +44,8 @@ const SingleRestaurant = () => {
               />
             ))}
           </div>
-          {(!restaurantMenuItems || restaurantMenuItems.length === 0) && (
+          {(!restaurantWithMenuItems?.menuItems ||
+            restaurantWithMenuItems?.menuItems?.length === 0) && (
             <p className="text-sm text-gray-500 mt-4">
               This restaurant is still preparing its menu ✍️.
             </p>

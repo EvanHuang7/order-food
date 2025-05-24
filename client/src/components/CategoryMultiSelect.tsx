@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+//TODO: ask gpt how to change this componentto const instead of function
 //TODO: use CategoryEnum instead
 //TODO: polish this component, like X button of each badge and badge color
 const allCategories = [

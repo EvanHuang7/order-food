@@ -90,6 +90,10 @@ declare global {
     userInfo: Customer | Restaurant | Driver;
     userRole: JsonObject | JsonPrimitive | JsonArray;
   }
+
+  export interface RestaurantWithMenuItems extends Restaurant {
+    menuItems: MenuItem[];
+  }
 }
 
 export {};

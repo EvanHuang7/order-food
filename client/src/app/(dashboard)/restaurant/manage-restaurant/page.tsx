@@ -16,7 +16,7 @@ import MenuItemModal from "./MenuItemModal";
 const ManageRestaurant = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const {
-    data: restaurantMenuItems,
+    data: restaurantWithMenuItems,
     isLoading,
     error,
   } = useGetRestaurantMenuItemsQuery(authUser?.userInfo?.id || "", {
@@ -47,7 +47,7 @@ const ManageRestaurant = () => {
         </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {restaurantMenuItems?.map((menuItem) => (
+        {restaurantWithMenuItems?.menuItems?.map((menuItem) => (
           <MenuItemCard
             key={menuItem.id}
             menuItem={menuItem}
@@ -55,7 +55,8 @@ const ManageRestaurant = () => {
           />
         ))}
       </div>
-      {(!restaurantMenuItems || restaurantMenuItems.length === 0) && (
+      {(!restaurantWithMenuItems?.menuItems ||
+        restaurantWithMenuItems?.menuItems?.length === 0) && (
         <p>You don&lsquo;t have any menu item yet</p>
       )}
 

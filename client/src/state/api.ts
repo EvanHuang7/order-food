@@ -318,12 +318,15 @@ export const api = createApi({
     }),
 
     // MenuItem related endpoints
-    getRestaurantMenuItems: build.query<MenuItem[], string>({
+    getRestaurantMenuItems: build.query<RestaurantWithMenuItems, string>({
       query: (restaurantId) => `menuItem/${restaurantId}/menuItems`,
       providesTags: (result) =>
-        result
+        result?.menuItems
           ? [
-              ...result.map(({ id }) => ({ type: "MenuItems" as const, id })),
+              ...result.menuItems.map(({ id }) => ({
+                type: "MenuItems" as const,
+                id,
+              })),
               { type: "MenuItems", id: "LIST" },
             ]
           : [{ type: "MenuItems", id: "LIST" }],
