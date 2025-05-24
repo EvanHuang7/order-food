@@ -1,12 +1,15 @@
-import { FiltersState, setFilters, toggleFiltersFullOpen } from "@/state";
+import { FiltersState, setFilters } from "@/state";
 import { useAppSelector } from "@/state/redux";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
-import { cleanParams, cn, formatPriceValue } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Filter, Grid, List, Search } from "lucide-react";
+import {
+  cleanParams,
+  cn,
+  formatPriceValue,
+  formatEnumString,
+} from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -14,15 +17,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CategoryEnum, CategoryEnumIcons } from "@/lib/constants";
+import { Label } from "@/components/ui/label";
 
 const FiltersBar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const filters = useAppSelector((state) => state.global.filters);
-  const isFiltersFullOpen = useAppSelector(
-    (state) => state.global.isFiltersFullOpen
-  );
 
   const updateURL = debounce((newFilters: FiltersState) => {
     const cleanFilters = cleanParams(newFilters);
@@ -36,7 +38,7 @@ const FiltersBar = () => {
     });
 
     router.push(`${pathname}?${updatedSearchParams.toString()}`);
-  });
+  }, 300);
 
   const handleFilterChange = (
     key: string,
@@ -61,26 +63,22 @@ const FiltersBar = () => {
     updateURL(newFilters);
   };
 
-  return (
-    <div className="flex justify-start items-center w-full px-4 py-5">
-      {/* Filters */}
-      <div className="flex justify-between items-center gap-4 p-2">
-        {/* All Filters */}
-        <Button
-          variant="outline"
-          className={cn(
-            "gap-2 rounded-xl border-primary-400 hover:bg-primary-500 hover:text-primary-100",
-            isFiltersFullOpen && "bg-primary-700 text-primary-100"
-          )}
-          onClick={() => dispatch(toggleFiltersFullOpen())}
-        >
-          <Filter className="w-4 h-4" />
-          <span>All Filters</span>
-        </Button>
+  const handleCategoryClick = (category: CategoryEnum) => {
+    const newCategories = filters.categories.includes(category)
+      ? filters.categories.filter((c) => c !== category)
+      : [...filters.categories, category];
 
+    const newFilters = { ...filters, categories: newCategories };
+    dispatch(setFilters(newFilters));
+    updateURL(newFilters);
+  };
+
+  return (
+    <div className="flex flex-col gap-4 px-4 py-5 w-full">
+      {/* Filters Top Bar */}
+      <div className="flex items-center gap-4">
         {/* Price Range */}
         <div className="flex gap-1">
-          {/* Minimum Price Selector */}
           <Select
             value={filters.priceRange[0]?.toString() || "any"}
             onValueChange={(value) =>
@@ -102,7 +100,6 @@ const FiltersBar = () => {
             </SelectContent>
           </Select>
 
-          {/* Maximum Price Selector */}
           <Select
             value={filters.priceRange[1]?.toString() || "any"}
             onValueChange={(value) =>
@@ -124,6 +121,25 @@ const FiltersBar = () => {
             </SelectContent>
           </Select>
         </div>
+      </div>
+
+      {/* Category Filter */}
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(CategoryEnumIcons).map(([category, Icon]) => (
+          <div
+            key={category}
+            className={cn(
+              "flex items-center space-x-2 p-2 border rounded-lg hover:cursor-pointer",
+              filters.categories.includes(category as CategoryEnum)
+                ? "border-black"
+                : "border-gray-200"
+            )}
+            onClick={() => handleCategoryClick(category as CategoryEnum)}
+          >
+            <Icon className="w-5 h-5" />
+            <Label>{formatEnumString(category)}</Label>
+          </div>
+        ))}
       </div>
     </div>
   );
