@@ -164,9 +164,7 @@ export const createRestaurant = async (
           // TODO: add restaurant link.
           message:
             `Hi, dear OrderFood subscribers,\n\n` +
-            `We're excited to announce that a new restaurant, ${name}, has just joined our platform!\n\n` +
-            `As part of our welcome promotion, you'll enjoy **10% off** your first order at this restaurant.\n\n` +
-            `Don't miss out—place your first order today and enjoy delicious food at a discount!`,
+            `We're excited to announce that a new restaurant, ${name}, has just joined our platform! As part of our welcome promotion, you'll enjoy 10% off your first order at this restaurant. Don't miss out—place your first order today and enjoy delicious food at a discount!`,
         },
       });
 

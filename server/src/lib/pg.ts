@@ -7,14 +7,19 @@ const client = new Client({
 
 export async function startPgNotificationListener() {
   await client.connect();
-  await client.query("LISTEN new_notification");
+  // Listen to channel (one per event/trigger)
+  await client.query("LISTEN new_notification_channel");
+  console.log(
+    "📡 Listening for new_notification_channel events from PostgreSQL"
+  );
 
-  console.log("📡 Listening for new_notification events from PostgreSQL");
-
+  // "notification" here is event name of pg client
+  // instead of a table name.
   client.on("notification", (msg) => {
-    if (msg.channel === "new_notification" && !!msg.payload) {
+    // Check channel to find out what type of event/trigger it is
+    if (msg.channel === "new_notification_channel" && !!msg.payload) {
       const payload = JSON.parse(msg.payload);
-      console.log("🔔 New notification:", payload);
+      console.log("🔔 New entry created in Notification table:", payload);
       pgNotificationHandler(payload);
     }
   });
