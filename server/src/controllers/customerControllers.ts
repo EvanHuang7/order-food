@@ -105,19 +105,24 @@ export const updateCustomer = async (
     // Do write actions in one transaction
     const updatedCustomer = await prisma.$transaction(async (tx) => {
       let locationId = existingCustomer.locationId;
+      const locationFields = [address, city, province, postalCode, country];
+      const hasCompleteLocation = locationFields.every((field) => !!field);
 
-      // If location doesn't exist yet, create it
-      if (!locationId) {
-        const newLocation = await tx.location.create({
-          data: { address, city, province, postalCode, country },
-        });
-        locationId = newLocation.id;
-      } else {
-        // Otherwise, update existing location
-        await tx.location.update({
-          where: { id: locationId },
-          data: { address, city, province, postalCode, country },
-        });
+      // Only update and create when having complete location
+      if (hasCompleteLocation) {
+        // If location doesn't exist yet, create it
+        if (!locationId) {
+          const newLocation = await tx.location.create({
+            data: { address, city, province, postalCode, country },
+          });
+          locationId = newLocation.id;
+        } else {
+          // Otherwise, update existing location
+          await tx.location.update({
+            where: { id: locationId },
+            data: { address, city, province, postalCode, country },
+          });
+        }
       }
 
       // Update customer info
