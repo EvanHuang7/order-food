@@ -3,41 +3,53 @@
 import Loading from "./Loading";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import { Switch } from "./ui/switch";
+import { useState } from "react";
 import {
   useGetAuthUserQuery,
-  useTurnOnNotificationMutation,
-  useTurnOffNotificationMutation,
+  useToggleNotificationMutation,
 } from "@/state/api";
 import { Bell } from "lucide-react";
 
 const NotificationSetting = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
-  const [turnOnNotification] = useTurnOnNotificationMutation();
-  const [turnOffNotification] = useTurnOffNotificationMutation();
+  const notificationSetting = authUser?.userInfo?.notificationSetting;
+  const [toggleOnNotification] = useToggleNotificationMutation();
 
-  const handleTurnOnNotification = async (type: string) => {
+  const [settings, setSettings] = useState({
+    foodDelivered: false,
+    newMenuItemInFavoriteRest: false,
+    subscribeApp: false,
+  });
+
+  const handleToggle = async (key: keyof typeof settings, value: boolean) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
     try {
-      const result = await turnOnNotification({
+      await toggleOnNotification({
         customerId: authUser?.userInfo.id || "",
-        type: type,
-      }).unwrap();
+        type: key,
+        value,
+      });
     } catch (error) {
-      console.error("Failed to trun on notification", error);
+      console.error(`Failed to toggle ${key}`, error);
     }
   };
 
-  const handleTurnOffNotification = async (type: string) => {
-    try {
-      const result = await turnOffNotification({
-        customerId: authUser?.userInfo.id || "",
-        type: type,
-      }).unwrap();
-    } catch (error) {
-      console.error("Failed to trun off notification", error);
-    }
-  };
-
+  // Make sure authUser load before call setSettings below
   if (isLoading || !authUser) return <Loading />;
+
+  // Initialize state from authUser if not already set
+  if (
+    notificationSetting &&
+    settings.foodDelivered === false &&
+    settings.newMenuItemInFavoriteRest === false &&
+    settings.subscribeApp === false
+  ) {
+    setSettings({
+      foodDelivered: notificationSetting.foodDelivered,
+      newMenuItemInFavoriteRest: notificationSetting.newMenuItemInFavoriteRest,
+      subscribeApp: notificationSetting.subscribeApp,
+    });
+  }
 
   return (
     <Popover>
@@ -47,27 +59,34 @@ const NotificationSetting = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-64 bg-white shadow-lg rounded-lg p-4 space-y-4">
-        <div className="text-sm font-medium text-primary-700">
-          Notification Settings
+        <div className="text-lg font-semibold text-foreground text-primary-700">
+          Email Notification
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-primary-700">Order Updates</span>
+          <span className="text-sm text-primary-700">Food Delivered</span>
           <Switch
-            id="order-updates"
+            checked={settings.foodDelivered}
+            onCheckedChange={(val) => handleToggle("foodDelivered", val)}
             className="focus-visible:ring-0 focus-visible:outline-none"
           />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-primary-700">Promotions</span>
+          <span className="text-sm text-primary-700">
+            New Menu in Favorites
+          </span>
           <Switch
-            id="promotions"
+            checked={settings.newMenuItemInFavoriteRest}
+            onCheckedChange={(val) =>
+              handleToggle("newMenuItemInFavoriteRest", val)
+            }
             className="focus-visible:ring-0 focus-visible:outline-none"
           />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-primary-700">Delivery Status</span>
+          <span className="text-sm text-primary-700">Subscribe to App</span>
           <Switch
-            id="delivery-status"
+            checked={settings.subscribeApp}
+            onCheckedChange={(val) => handleToggle("subscribeApp", val)}
             className="focus-visible:ring-0 focus-visible:outline-none"
           />
         </div>

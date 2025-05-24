@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.post("/:customerId/:type", turnOnNotification);
-router.delete("/:customerId/:type", turnOffNotification);
+router.post("/:customerId/:type/on", turnOnNotification);
+router.post("/:customerId/:type/off", turnOffNotification);
 
 export default router;

@@ -223,6 +223,27 @@ export const api = createApi({
       },
     }),
 
+    toggleNotification: build.mutation<
+      { message: string },
+      { customerId: number; type: string; value: boolean }
+    >({
+      query: ({ customerId, type, value }) => ({
+        url: `/notificationSetting/${customerId}/${type}/${
+          value ? "on" : "off"
+        }`,
+        method: "POST",
+      }),
+      invalidatesTags: (_result, _error, { customerId }) => [
+        { type: "Customer", id: customerId },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Notification toggled successfully.",
+          error: "Failed to toggle notification.",
+        });
+      },
+    }),
+
     // Restaurant related endpoints
     getRestaurant: build.query<Restaurant, string>({
       query: (cognitoId) => `restaurant/${cognitoId}`,
@@ -514,6 +535,7 @@ export const {
   useAddFavoriteRestaurantMutation,
   useRemoveFavoriteRestaurantMutation,
   useUpsertPaymentInfoMutation,
+  useToggleNotificationMutation,
   // Restaurant related endpoints
   useGetRestaurantQuery,
   useGetRestaurantsQuery,
