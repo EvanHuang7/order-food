@@ -1,18 +1,4 @@
-import { useState } from "react";
-import {
-  Command,
-  CommandItem,
-  CommandInput,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 // TODO: use CategoryEnum instead
 const allCategories = [
@@ -24,13 +10,20 @@ const allCategories = [
   "Fast Food",
 ];
 
+const categoryColors: Record<string, string> = {
+  Food: "bg-green-100 text-green-800",
+  Drinks: "bg-blue-100 text-blue-800",
+  Dessert: "bg-pink-100 text-pink-800",
+  Asian: "bg-yellow-100 text-yellow-800",
+  Italian: "bg-red-100 text-red-800",
+  "Fast Food": "bg-orange-100 text-orange-800",
+};
+
 const CategoryMultiSelect = ({
   value,
   onChange,
   disabled = false,
 }: CategoryMultiSelectProps) => {
-  const [open, setOpen] = useState(false);
-
   const toggleCategory = (cat: string) => {
     if (disabled) return;
     onChange(
@@ -38,67 +31,32 @@ const CategoryMultiSelect = ({
     );
   };
 
-  const removeCategory = (cat: string) => {
-    if (disabled) return;
-    onChange(value.filter((v) => v !== cat));
-  };
-
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">Categories</label>
-
-      <Popover open={open} onOpenChange={setOpen} disabled={disabled}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            disabled={disabled}
-          >
-            {value.length > 0 ? (
-              <div className="flex gap-2 flex-wrap">
-                {value.map((val) => (
-                  <Badge
-                    key={val}
-                    variant="secondary"
-                    className="flex items-center gap-1"
-                  >
-                    {val}
-                    {!disabled && (
-                      <X
-                        className="w-3 h-3 cursor-pointer"
-                        onClick={() => removeCategory(val)}
-                      />
-                    )}
-                  </Badge>
-                ))}
-              </div>
-            ) : (
-              <span className="text-muted-foreground">
-                Select categories...
-              </span>
-            )}
-          </Button>
-        </PopoverTrigger>
-
-        {!disabled && (
-          <PopoverContent className="w-[300px] p-0">
-            <Command>
-              <CommandInput placeholder="Search categories..." />
-              <CommandList>
-                {allCategories.map((cat) => (
-                  <CommandItem
-                    key={cat}
-                    onSelect={() => toggleCategory(cat)}
-                    className={value.includes(cat) ? "bg-muted" : ""}
-                  >
-                    {cat}
-                  </CommandItem>
-                ))}
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        )}
-      </Popover>
+      <div className="flex flex-wrap gap-2">
+        {allCategories.map((cat) => {
+          const isSelected = value.includes(cat);
+          return (
+            <div
+              key={cat}
+              onClick={() => toggleCategory(cat)}
+              className={`px-2 py-1 rounded-full text-sm flex items-center gap-1 border ${
+                isSelected
+                  ? categoryColors[cat] ?? "bg-gray-100 text-gray-800"
+                  : disabled
+                  ? "bg-white text-gray-500 border-gray-300 opacity-50 cursor-default"
+                  : "bg-white text-gray-500 border-gray-300 hover:bg-gray-100 cursor-pointer"
+              }`}
+            >
+              {cat}
+              {isSelected && !disabled && (
+                <X className="w-3 h-3 pointer-events-none" />
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
