@@ -31,7 +31,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
           </h1>
           <p>Place order with AI call</p>
           <div className="text-lg font-bold text-primary-800">
-            {restaurantWithMenuItems?.phoneNumber || "Unknow"}
+            {restaurantWithMenuItems.phoneNumber || "Unknow"}
           </div>
         </div>
       </div>
@@ -47,8 +47,8 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
       <hr className="my-4" />
       <div className="text-sm">
         <div className="text-primary-600">
-          Open at {restaurantWithMenuItems?.openTime || "Unknow"} -{" "}
-          {restaurantWithMenuItems?.closeTime || "Unknow"} every day
+          Open at {restaurantWithMenuItems?.openTime || "unknow"} -{" "}
+          {restaurantWithMenuItems?.closeTime || "unknow"} every day
         </div>
       </div>
     </div>

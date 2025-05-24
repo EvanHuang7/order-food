@@ -318,7 +318,7 @@ export const api = createApi({
     }),
 
     // MenuItem related endpoints
-    getRestaurantMenuItems: build.query<RestaurantWithMenuItems, string>({
+    getRestaurantMenuItems: build.query<Restaurant, string>({
       query: (restaurantId) => `menuItem/${restaurantId}/menuItems`,
       providesTags: (result) =>
         result?.menuItems

@@ -16,10 +16,6 @@ declare global {
     userRole: JsonObject | JsonPrimitive | JsonArray;
   }
 
-  interface RestaurantWithMenuItems extends Restaurant {
-    menuItems: MenuItem[];
-  }
-
   interface HeaderProps {
     title: string;
     subtitle: string;
@@ -71,7 +67,7 @@ declare global {
   }
 
   interface AiCallWidgetProps {
-    restaurantWithMenuItems: RestaurantWithMenuItems;
+    restaurantWithMenuItems: Restaurant;
   }
 
   interface OrderCardProps {
