@@ -8,7 +8,6 @@ import {
 import { useAppSelector } from "@/state/redux";
 import { FavoriteRestaurant } from "@/types/prismaTypes";
 import RestaurantCard from "@/components/RestaurantCard";
-import RestaurantCardCompact from "@/components/RestaurantCardCompact";
 import Loading from "@/components/Loading";
 import { motion } from "framer-motion";
 
@@ -33,7 +32,6 @@ const AllRestaurants = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
-  const viewMode = useAppSelector((state) => state.global.viewMode);
   const filters = useAppSelector((state) => state.global.filters);
 
   const {
@@ -84,33 +82,18 @@ const AllRestaurants = () => {
       >
         {restaurants.map((restaurant) => (
           <motion.div key={restaurant.id} variants={itemVariants}>
-            {viewMode === "grid" ? (
-              <RestaurantCard
-                restaurant={restaurant}
-                isFavorite={
-                  authUser?.userInfo?.favoriteRests?.some(
-                    (fav: FavoriteRestaurant) =>
-                      fav.restaurant.id === restaurant.id
-                  ) || false
-                }
-                onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
-                showFavoriteButton={showCustomerInteraction}
-                restaurantLink={`/${restaurant.id}`}
-              />
-            ) : (
-              <RestaurantCardCompact
-                restaurant={restaurant}
-                isFavorite={
-                  authUser?.userInfo?.favoriteRests?.some(
-                    (fav: FavoriteRestaurant) =>
-                      fav.restaurant.id === restaurant.id
-                  ) || false
-                }
-                onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
-                showFavoriteButton={showCustomerInteraction}
-                restaurantLink={`/${restaurant.id}`}
-              />
-            )}
+            <RestaurantCard
+              restaurant={restaurant}
+              isFavorite={
+                authUser?.userInfo?.favoriteRests?.some(
+                  (fav: FavoriteRestaurant) =>
+                    fav.restaurant.id === restaurant.id
+                ) || false
+              }
+              onFavoriteToggle={() => handleFavoriteToggle(restaurant.id)}
+              showFavoriteButton={showCustomerInteraction}
+              restaurantLink={`/${restaurant.id}`}
+            />
           </motion.div>
         ))}
       </motion.div>

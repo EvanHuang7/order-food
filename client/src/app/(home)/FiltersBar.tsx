@@ -1,9 +1,4 @@
-import {
-  FiltersState,
-  setFilters,
-  setViewMode,
-  toggleFiltersFullOpen,
-} from "@/state";
+import { FiltersState, setFilters, toggleFiltersFullOpen } from "@/state";
 import { useAppSelector } from "@/state/redux";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -28,7 +23,6 @@ const FiltersBar = () => {
   const isFiltersFullOpen = useAppSelector(
     (state) => state.global.isFiltersFullOpen
   );
-  const viewMode = useAppSelector((state) => state.global.viewMode);
 
   const updateURL = debounce((newFilters: FiltersState) => {
     const cleanFilters = cleanParams(newFilters);
@@ -68,7 +62,7 @@ const FiltersBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center w-full px-4 py-5">
+    <div className="flex justify-start items-center w-full px-4 py-5">
       {/* Filters */}
       <div className="flex justify-between items-center gap-4 p-2">
         {/* All Filters */}
@@ -129,32 +123,6 @@ const FiltersBar = () => {
               ))}
             </SelectContent>
           </Select>
-        </div>
-      </div>
-
-      {/* View Mode */}
-      <div className="flex justify-between items-center gap-4 p-2">
-        <div className="flex border rounded-xl">
-          <Button
-            variant="ghost"
-            className={cn(
-              "px-3 py-1 rounded-none rounded-l-xl hover:bg-primary-600 hover:text-primary-50",
-              viewMode === "list" ? "bg-primary-700 text-primary-50" : ""
-            )}
-            onClick={() => dispatch(setViewMode("list"))}
-          >
-            <List className="w-5 h-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            className={cn(
-              "px-3 py-1 rounded-none rounded-r-xl hover:bg-primary-600 hover:text-primary-50",
-              viewMode === "grid" ? "bg-primary-700 text-primary-50" : ""
-            )}
-            onClick={() => dispatch(setViewMode("grid"))}
-          >
-            <Grid className="w-5 h-5" />
-          </Button>
         </div>
       </div>
     </div>

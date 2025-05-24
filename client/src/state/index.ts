@@ -13,7 +13,6 @@ export interface ShoppingCartItem extends MenuItem {
 interface InitialStateTypes {
   filters: FiltersState;
   isFiltersFullOpen: boolean;
-  viewMode: "grid" | "list";
   shoppingCart: ShoppingCartItem[];
 }
 
@@ -23,7 +22,6 @@ export const initialState: InitialStateTypes = {
     priceRange: [null, null],
   },
   isFiltersFullOpen: false,
-  viewMode: "grid",
   shoppingCart: [],
 };
 
@@ -36,9 +34,6 @@ export const globalSlice = createSlice({
     },
     toggleFiltersFullOpen: (state) => {
       state.isFiltersFullOpen = !state.isFiltersFullOpen;
-    },
-    setViewMode: (state, action: PayloadAction<"grid" | "list">) => {
-      state.viewMode = action.payload;
     },
     // Shopping cart functions
     addItemToShoppingCart: (state, action: PayloadAction<MenuItem>) => {
@@ -81,7 +76,6 @@ export const globalSlice = createSlice({
 export const {
   setFilters,
   toggleFiltersFullOpen,
-  setViewMode,
   addItemToShoppingCart,
   removeItemFromShoppingCart,
   clearItemFromShoppingCart,

@@ -1,5 +1,9 @@
-import { getRandomAverageRating, getRandomNumberOfReviews } from "@/lib/utils";
-import { Bath, Bed, Heart, House, Star } from "lucide-react";
+import {
+  getRandomAverageRating,
+  getRandomCookTime,
+  getRandomNumberOfReviews,
+} from "@/lib/utils";
+import { Bath, Bed, Clock, Heart, House, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -73,8 +77,11 @@ const RestaurantCard = ({
             </span>
           </div>
           <p className="text-lg font-bold mb-3">
-            price+{" "}
-            <span className="text-gray-600 text-base font-normal"> /meal</span>
+            {restaurant?.averagePrice || "N/A"}{" "}
+            <span className="text-gray-600 text-base font-normal">
+              {" "}
+              /person
+            </span>
           </p>
         </div>
         <hr />

@@ -54,14 +54,6 @@ declare global {
     restaurantLink?: string;
   }
 
-  interface RestaurantCardCompactProps {
-    restaurant: Restaurant;
-    isFavorite: boolean;
-    onFavoriteToggle: () => void;
-    showFavoriteButton?: boolean;
-    restaurantLink?: string;
-  }
-
   interface ImagePreviewsProps {
     images: string[];
   }
