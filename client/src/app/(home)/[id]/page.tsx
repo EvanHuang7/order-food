@@ -32,7 +32,15 @@ const SingleRestaurant = () => {
         images={
           restaurantWithMenuItems.photoUrls.length > 0
             ? restaurantWithMenuItems.photoUrls
-            : ["/singlelisting-2.jpg", "/singlelisting-3.jpg"]
+            : [
+                "/restaurant/restaurant1.jpg",
+                "/restaurant/restaurant2.jpg",
+                "/restaurant/restaurant3.jpg",
+                "/restaurant/restaurant4.jpg",
+                "/restaurant/restaurant5.jpg",
+                "/restaurant/restaurant6.jpg",
+                "/restaurant/restaurant7.jpg",
+              ]
         }
       />
 

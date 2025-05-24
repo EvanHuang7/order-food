@@ -16,7 +16,7 @@ const RestaurantCard = ({
   restaurantLink,
 }: RestaurantCardProps) => {
   const [imgSrc, setImgSrc] = useState(
-    restaurant.photoUrls?.[0] || "/placeholder.jpg"
+    restaurant.photoUrls?.[0] || "/restaurant-placeholder.jpg"
   );
 
   const averageRating = getRandomAverageRating();
@@ -32,7 +32,7 @@ const RestaurantCard = ({
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgSrc("/placeholder.jpg")}
+            onError={() => setImgSrc("/restaurant-placeholder.jpg")}
           />
         </div>
       </div>
