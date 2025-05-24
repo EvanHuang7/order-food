@@ -34,6 +34,10 @@ const AllRestaurants = () => {
     !!authUser && authUser.userRole === "customer";
   const filters = useAppSelector((state) => state.global.filters);
 
+  // RTK Query watches that input filter (detects the change) and will automatically
+  // re-run the query (issues a new API request) when filters (input) changes.
+  // RTK Query uses the filters object as the cache key to cache and
+  // reuse previous results if the same filter object has been queried before.
   const {
     data: restaurants,
     isLoading,
@@ -77,7 +81,7 @@ const AllRestaurants = () => {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 gap-6"
         variants={containerVariants}
         initial="hidden"
-        whileInView="visible"
+        animate="visible"
         viewport={{ once: true }}
       >
         {restaurants.map((restaurant) => (

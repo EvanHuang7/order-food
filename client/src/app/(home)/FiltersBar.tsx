@@ -75,9 +75,26 @@ const FiltersBar = () => {
 
   return (
     <div className="flex flex-col gap-4 px-4 py-5 w-full">
-      {/* Filters Top Bar */}
+      {/* Category Filter */}
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(CategoryEnumIcons).map(([category, Icon]) => (
+          <div
+            key={category}
+            className={cn(
+              "flex items-center space-x-2 p-2 border rounded-lg hover:cursor-pointer",
+              filters.categories.includes(category as CategoryEnum)
+                ? "border-black"
+                : "border-gray-200"
+            )}
+            onClick={() => handleCategoryClick(category as CategoryEnum)}
+          >
+            <Icon className="w-5 h-5" />
+            <Label>{formatEnumString(category)}</Label>
+          </div>
+        ))}
+      </div>
+      {/* Price Range */}
       <div className="flex items-center gap-4">
-        {/* Price Range */}
         <div className="flex gap-1">
           <Select
             value={filters.priceRange[0]?.toString() || "any"}
@@ -121,25 +138,6 @@ const FiltersBar = () => {
             </SelectContent>
           </Select>
         </div>
-      </div>
-
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2">
-        {Object.entries(CategoryEnumIcons).map(([category, Icon]) => (
-          <div
-            key={category}
-            className={cn(
-              "flex items-center space-x-2 p-2 border rounded-lg hover:cursor-pointer",
-              filters.categories.includes(category as CategoryEnum)
-                ? "border-black"
-                : "border-gray-200"
-            )}
-            onClick={() => handleCategoryClick(category as CategoryEnum)}
-          >
-            <Icon className="w-5 h-5" />
-            <Label>{formatEnumString(category)}</Label>
-          </div>
-        ))}
       </div>
     </div>
   );
