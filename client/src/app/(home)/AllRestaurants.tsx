@@ -68,7 +68,8 @@ const AllRestaurants = () => {
   };
 
   if (isLoading) return <Loading />;
-  if (isError || !restaurants) return <div>Failed to fetch restaurants</div>;
+  if (isError || !restaurants)
+    return <div className="ml-5">Failed to fetch restaurants</div>;
 
   return (
     <div className="w-full">

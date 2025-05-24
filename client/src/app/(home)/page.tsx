@@ -18,6 +18,8 @@ const HomePage = () => {
       (acc: any, [key, value]) => {
         if (key === "priceRange") {
           acc[key] = value.split(",").map((v) => (v === "" ? null : Number(v)));
+        } else if (key === "categories") {
+          acc[key] = value.split(",");
         } else {
           acc[key] = value === "any" ? null : value;
         }
