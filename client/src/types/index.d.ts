@@ -10,6 +10,16 @@ declare module "framer-motion" {
 }
 
 declare global {
+  interface User {
+    cognitoInfo: AuthUser;
+    userInfo: Customer | Restaurant | Driver;
+    userRole: JsonObject | JsonPrimitive | JsonArray;
+  }
+
+  interface RestaurantWithMenuItems extends Restaurant {
+    menuItems: MenuItem[];
+  }
+
   interface HeaderProps {
     title: string;
     subtitle: string;
@@ -61,7 +71,7 @@ declare global {
   }
 
   interface AiCallWidgetProps {
-    restaurantId: string;
+    restaurantWithMenuItems: RestaurantWithMenuItems;
   }
 
   interface OrderCardProps {
@@ -83,16 +93,6 @@ declare global {
 
   interface OrderStepperProps {
     currentStep: number;
-  }
-
-  interface User {
-    cognitoInfo: AuthUser;
-    userInfo: Customer | Restaurant | Driver;
-    userRole: JsonObject | JsonPrimitive | JsonArray;
-  }
-
-  export interface RestaurantWithMenuItems extends Restaurant {
-    menuItems: MenuItem[];
   }
 }
 

@@ -23,13 +23,17 @@ const SingleRestaurant = () => {
     error,
   } = useGetRestaurantMenuItemsQuery(String(restaurantId));
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !restaurantWithMenuItems) return <Loading />;
   if (error) return <div>Error loading restaurant menu items</div>;
 
   return (
     <div className="w-full pt-2 pb-3 px-4">
       <ImagePreviews
-        images={["/singlelisting-2.jpg", "/singlelisting-3.jpg"]}
+        images={
+          restaurantWithMenuItems.photoUrls.length > 0
+            ? restaurantWithMenuItems.photoUrls
+            : ["/singlelisting-2.jpg", "/singlelisting-3.jpg"]
+        }
       />
 
       <div className="flex flex-col md:flex-row gap-3 items-start">
@@ -54,7 +58,7 @@ const SingleRestaurant = () => {
 
         {/* Widget */}
         <div className="w-full md:w-[300px] order-1 md:order-2 pt-3">
-          <AiCallWidget restaurantId={String(restaurantId)} />
+          <AiCallWidget restaurantWithMenuItems={restaurantWithMenuItems} />
         </div>
       </div>
     </div>

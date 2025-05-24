@@ -4,13 +4,11 @@ import { Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const AiCallWidget = ({ restaurantId }: AiCallWidgetProps) => {
+const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   const { data: authUser } = useGetAuthUserQuery();
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
   const router = useRouter();
-  // TODO: get Restaurant info
-  // TODO: add a new API to get restaurant by id
 
   const handleButtonClick = () => {
     if (authUser) {
@@ -28,10 +26,12 @@ const AiCallWidget = ({ restaurantId }: AiCallWidgetProps) => {
           <Phone className="text-primary-50" size={15} />
         </div>
         <div>
-          <h1 className="text-xl font-semibold">Restaurant name</h1>
+          <h1 className="text-xl font-semibold">
+            {restaurantWithMenuItems.name}
+          </h1>
           <p>Place order with AI call</p>
           <div className="text-lg font-bold text-primary-800">
-            (424) 340-5574
+            {restaurantWithMenuItems?.phoneNumber || "Unknow"}
           </div>
         </div>
       </div>
@@ -47,7 +47,8 @@ const AiCallWidget = ({ restaurantId }: AiCallWidgetProps) => {
       <hr className="my-4" />
       <div className="text-sm">
         <div className="text-primary-600">
-          Open at Monday - Sunday every day
+          Open at {restaurantWithMenuItems?.openTime || "Unknow"} -{" "}
+          {restaurantWithMenuItems?.closeTime || "Unknow"} every day
         </div>
       </div>
     </div>
