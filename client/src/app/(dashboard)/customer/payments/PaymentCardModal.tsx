@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
@@ -74,9 +75,9 @@ const PaymentCardModal = ({ open, onOpenChange }: PaymentCardModalProps) => {
       <DialogContent className="bg-white text-gray-900 sm:max-w-[500px] max-h-[90vh] overflow-y-auto p-6">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-xl">Payment Card</DialogTitle>
-          <p className="text-sm text-gray-500">
+          <DialogDescription className="text-sm text-gray-500">
             Enter your card details below to update your payment info.
-          </p>
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>

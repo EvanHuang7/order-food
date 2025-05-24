@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -25,6 +26,9 @@ const OrderDetailModal = ({ open, onClose, order }: OrderDetailModalProps) => {
       >
         <DialogHeader>
           <DialogTitle>Order #{order.id} Details</DialogTitle>
+          <DialogDescription className="sr-only">
+            Modal for showing order details.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

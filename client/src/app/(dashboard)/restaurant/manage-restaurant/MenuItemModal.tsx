@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -65,6 +66,9 @@ const MenuItemModal = ({
       <DialogContent className="bg-white max-h-[80vh] overflow-y-auto p-6">
         <DialogHeader className="mb-4">
           <DialogTitle>Add new menu item for your restaurant</DialogTitle>
+          <DialogDescription className="sr-only">
+            Modal for creating a new restaurant menu item.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
