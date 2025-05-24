@@ -108,15 +108,6 @@ export const api = createApi({
     }),
 
     // Customer related endpoints
-    getCustomer: build.query<Customer, string>({
-      query: (cognitoId) => `customer/${cognitoId}`,
-      providesTags: (result) => [{ type: "Customer", id: result?.id }],
-      async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          error: "Failed to load customer profile.",
-        });
-      },
-    }),
 
     updateCustomerInfo: build.mutation<
       Customer,
@@ -258,16 +249,6 @@ export const api = createApi({
     }),
 
     // Restaurant related endpoints
-    getRestaurant: build.query<Restaurant, string>({
-      query: (cognitoId) => `restaurant/${cognitoId}`,
-      providesTags: (result) => [{ type: "Restaurant", id: result?.id }],
-      async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          error: "Failed to load restaurant profile.",
-        });
-      },
-    }),
-
     getRestaurants: build.query<
       Restaurant[],
       Partial<FiltersState> & { favoriteIds?: number[] }
@@ -318,16 +299,6 @@ export const api = createApi({
     }),
 
     // Driver related endpoints
-    getDriver: build.query<Driver, string>({
-      query: (cognitoId) => `driver/${cognitoId}`,
-      providesTags: (result) => [{ type: "Driver", id: result?.id }],
-      async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          error: "Failed to load driver profile.",
-        });
-      },
-    }),
-
     updateDriverInfo: build.mutation<
       Driver,
       { cognitoId: string } & Partial<Driver>
@@ -542,7 +513,6 @@ export const api = createApi({
 export const {
   useGetAuthUserQuery,
   // Customer related endpoints
-  useGetCustomerQuery,
   useUpdateCustomerInfoMutation,
   useGetFavoriteRestaurantsQuery,
   useAddFavoriteRestaurantMutation,
@@ -550,11 +520,9 @@ export const {
   useUpsertPaymentInfoMutation,
   useToggleNotificationMutation,
   // Restaurant related endpoints
-  useGetRestaurantQuery,
   useGetRestaurantsQuery,
   useUpdateRestaurantInfoMutation,
   // Driver related endpoints
-  useGetDriverQuery,
   useUpdateDriverInfoMutation,
   // MenuItem related endpoints
   useGetRestaurantMenuItemsQuery,

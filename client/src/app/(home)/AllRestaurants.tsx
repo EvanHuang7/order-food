@@ -2,7 +2,6 @@ import React from "react";
 import {
   useAddFavoriteRestaurantMutation,
   useGetAuthUserQuery,
-  useGetCustomerQuery,
   useGetRestaurantsQuery,
   useRemoveFavoriteRestaurantMutation,
 } from "@/state/api";
@@ -32,12 +31,6 @@ const itemVariants = {
 
 const AllRestaurants = () => {
   const { data: authUser } = useGetAuthUserQuery();
-  const { data: customer } = useGetCustomerQuery(
-    authUser?.cognitoInfo?.userId || "",
-    {
-      skip: !authUser?.cognitoInfo?.userId || authUser.userRole !== "customer",
-    }
-  );
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
   const viewMode = useAppSelector((state) => state.global.viewMode);
@@ -55,7 +48,7 @@ const AllRestaurants = () => {
   const handleFavoriteToggle = async (restaurantId: number) => {
     if (!authUser) return;
 
-    const isFavorite = customer?.favoriteRests?.some(
+    const isFavorite = authUser?.userInfo?.favoriteRests?.some(
       (fav: FavoriteRestaurant) => fav.restaurant.id === restaurantId
     );
 
@@ -95,7 +88,7 @@ const AllRestaurants = () => {
               <RestaurantCard
                 restaurant={restaurant}
                 isFavorite={
-                  customer?.favoriteRests?.some(
+                  authUser?.userInfo?.favoriteRests?.some(
                     (fav: FavoriteRestaurant) =>
                       fav.restaurant.id === restaurant.id
                   ) || false
@@ -108,7 +101,7 @@ const AllRestaurants = () => {
               <RestaurantCardCompact
                 restaurant={restaurant}
                 isFavorite={
-                  customer?.favoriteRests?.some(
+                  authUser?.userInfo?.favoriteRests?.some(
                     (fav: FavoriteRestaurant) =>
                       fav.restaurant.id === restaurant.id
                   ) || false
