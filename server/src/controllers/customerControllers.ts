@@ -17,6 +17,7 @@ export const getCustomer = async (
             restaurant: true,
           },
         },
+        notificationSetting: true,
         paymentInfo: true,
         notifications: true,
       },
