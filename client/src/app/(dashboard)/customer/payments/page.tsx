@@ -45,8 +45,10 @@ const PaymentMethod = () => {
               <Image
                 src="/mastercard.png"
                 alt="MasterCard"
-                fill
                 className="object-cover"
+                sizes="w-36 h-20"
+                fill
+                priority
               />
             </div>
 

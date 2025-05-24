@@ -45,8 +45,9 @@ const OrderDetailModal = ({ open, onClose, order }: OrderDetailModalProps) => {
                   <Image
                     src={imgSrc}
                     alt={item.menuItem.name}
-                    fill
                     className="object-cover"
+                    sizes="w-16 h-16"
+                    fill
                     onError={() => setImgSrc("/food/food5.jpg")}
                   />
                 </div>

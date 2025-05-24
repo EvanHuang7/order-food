@@ -102,16 +102,18 @@ const PaymentCardModal = ({ open, onOpenChange }: PaymentCardModalProps) => {
                       <Image
                         src="/visa.png"
                         alt="Visa"
-                        fill
                         className="object-contain rounded"
+                        sizes="w-14 h-9"
+                        fill
                       />
                     </div>
                     <div className="w-14 h-9 relative">
                       <Image
                         src="/mastercard.png"
                         alt="Mastercard"
-                        fill
                         className="object-contain rounded"
+                        sizes="w-14 h-9"
+                        fill
                       />
                     </div>
                   </div>
