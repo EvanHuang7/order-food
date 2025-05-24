@@ -19,6 +19,7 @@ import {
   Edit,
   FileText,
   Clock,
+  LoaderCircle,
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -156,7 +157,9 @@ const PaymentHistory = ({ payments }: { payments: Payment[] }) => {
                   >
                     {payment.status === "Paid" ? (
                       <Check className="w-4 h-4 inline-block mr-1" />
-                    ) : null}
+                    ) : (
+                      <LoaderCircle className="w-4 h-4 inline-block mr-1" />
+                    )}
                     <span className="hidden lg:inline">{payment.status}</span>
                   </span>
                 </TableCell>
