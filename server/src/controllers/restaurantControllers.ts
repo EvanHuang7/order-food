@@ -46,18 +46,17 @@ export const getRestaurants = async (
 
     let whereConditions: Prisma.Sql[] = [];
 
-    // TODO: store price range in restaurant
-    // if (priceMin) {
-    //   whereConditions.push(
-    //     Prisma.sql`p."price" >= ${Number(priceMin)}`
-    //   );
-    // }
+    if (priceMin) {
+      whereConditions.push(
+        Prisma.sql`r."pricePerPereson" >= ${Number(priceMin)}`
+      );
+    }
 
-    // if (priceMax) {
-    //   whereConditions.push(
-    //     Prisma.sql`p."price" <= ${Number(priceMax)}`
-    //   );
-    // }
+    if (priceMax) {
+      whereConditions.push(
+        Prisma.sql`r."pricePerPereson" <= ${Number(priceMax)}`
+      );
+    }
 
     if (categories && categories !== "any") {
       const categoriesArray = (categories as string)
