@@ -9,8 +9,9 @@ import {
   useGetAuthUserQuery,
   useUpdateOrderMutation,
 } from "@/state/api";
-import { Download } from "lucide-react";
+import { Star } from "lucide-react";
 import React, { useState } from "react";
+import RateFoodModal from "./RateFoodModal";
 
 const Orders = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -18,6 +19,8 @@ const Orders = () => {
 
   const { data: orders, isLoading, isError } = useGetOrdersQuery();
   const [updateOrder] = useUpdateOrderMutation();
+  const [selectedOrderForRating, setSelectedOrderForRating] = useState(null);
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
 
   const handleUpdateOrder = async (orderId: number, status: string) => {
     await updateOrder({
@@ -26,6 +29,16 @@ const Orders = () => {
       status,
       driverId: "",
     });
+  };
+
+  const handleOpenRatingModal = (order: any) => {
+    setSelectedOrderForRating(order);
+    setIsRatingModalOpen(true);
+  };
+
+  const handleCloseRatingModal = () => {
+    setIsRatingModalOpen(false);
+    setSelectedOrderForRating(null);
   };
 
   if (isLoading) return <Loading />;
@@ -59,17 +72,18 @@ const Orders = () => {
               )
               .map((order) => (
                 <OrderCard key={order.id} order={order} userType="customer">
-                  {/* TODO: Add a view payment modal */}
                   {/* Buttons when order is Delivered */}
                   {order.status === "Delivered" && (
                     <button
+                      onClick={() => handleOpenRatingModal(order)}
                       className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
-                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
+      rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
                     >
-                      <Download className="w-5 h-5 mr-2" />
-                      View Payment
+                      <Star className="w-5 h-5 mr-2" />
+                      Rate Food
                     </button>
                   )}
+
                   {/* Buttons when order is Pending */}
                   {order.status === "Pending" && (
                     <button
@@ -93,6 +107,11 @@ const Orders = () => {
           </TabsContent>
         ))}
       </Tabs>
+      <RateFoodModal
+        open={isRatingModalOpen}
+        onClose={handleCloseRatingModal}
+        order={selectedOrderForRating}
+      />
     </div>
   );
 };
