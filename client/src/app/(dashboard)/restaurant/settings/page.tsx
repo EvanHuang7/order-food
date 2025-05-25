@@ -19,20 +19,20 @@ const RestaurantSettings = () => {
   const initialData = {
     name: authUser?.userInfo.name,
     email: authUser?.userInfo.email,
-    phoneNumber: authUser?.userInfo.phoneNumber,
-    address: authUser?.userInfo?.location?.address,
-    city: authUser?.userInfo?.location?.city,
-    province: authUser?.userInfo?.location?.province,
-    postalCode: authUser?.userInfo?.location?.postalCode,
-    country: authUser?.userInfo?.location?.country,
+    phoneNumber: authUser?.userInfo.phoneNumber || "",
+    address: authUser?.userInfo?.location?.address || "",
+    city: authUser?.userInfo?.location?.city || "",
+    province: authUser?.userInfo?.location?.province || "",
+    postalCode: authUser?.userInfo?.location?.postalCode || "",
+    country: authUser?.userInfo?.location?.country || "",
     openTime: authUser?.userInfo?.openTime || "",
     closeTime: authUser?.userInfo?.closeTime || "",
-    pricePerPereson: authUser?.userInfo?.pricePerPereson || "",
+    pricePerPereson: String(authUser?.userInfo?.pricePerPereson) || "",
     categories:
       !!authUser?.userInfo?.categories &&
       authUser?.userInfo?.categories.length > 0
         ? authUser?.userInfo?.categories
-        : [CategoryEnum.Food],
+        : [],
     description: authUser?.userInfo?.description || "",
     photoUrls: [],
   };

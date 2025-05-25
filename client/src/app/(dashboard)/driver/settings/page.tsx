@@ -15,7 +15,7 @@ const DriverSettings = () => {
   const initialData = {
     name: authUser?.userInfo.name,
     email: authUser?.userInfo.email,
-    phoneNumber: authUser?.userInfo.phoneNumber,
+    phoneNumber: authUser?.userInfo.phoneNumber || "",
   };
 
   const handleSubmit = async (data: typeof initialData) => {

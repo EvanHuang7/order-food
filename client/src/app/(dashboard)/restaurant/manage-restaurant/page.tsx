@@ -57,7 +57,7 @@ const ManageRestaurant = () => {
       </div>
       {(!restaurantWithMenuItems?.menuItems ||
         restaurantWithMenuItems?.menuItems?.length === 0) && (
-        <p>You don&lsquo;t have any menu item yet</p>
+        <p>You don&lsquo;t have any menu item yet 🍔</p>
       )}
 
       {authUser && (

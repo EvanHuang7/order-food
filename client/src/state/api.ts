@@ -130,7 +130,7 @@ export const api = createApi({
           // Show warning if location was not updated
           if (data?.locationUpdated === false) {
             toast.warning(
-              "Location info not updated. Please complete all location fields."
+              "Customer info updated successfully, but location info not updated. Please complete all location fields."
             );
           }
         } catch {
@@ -311,7 +311,7 @@ export const api = createApi({
           // Show warning if location was not updated
           if (data?.locationUpdated === false) {
             toast.warning(
-              "Location info not updated. Please complete all location fields."
+              "Restaurant info updated successfully, but location info not updated. Please complete all location fields."
             );
           }
         } catch {

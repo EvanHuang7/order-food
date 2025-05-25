@@ -66,7 +66,9 @@ const RestaurantCard = ({
         </div>
 
         <p className="text-gray-600 mb-2 truncate">
-          {restaurant?.location?.address}, {restaurant?.location?.city}
+          {restaurant?.location?.address || "Unknown address"},{" "}
+          {restaurant?.location?.city || "unknown city"},{" "}
+          {restaurant?.location?.province || "unknown province"}
         </p>
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-2">

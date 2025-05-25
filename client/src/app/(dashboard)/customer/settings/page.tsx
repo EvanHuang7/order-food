@@ -18,12 +18,12 @@ const CustomerSettings = () => {
   const initialData = {
     name: authUser?.userInfo.name,
     email: authUser?.userInfo.email,
-    phoneNumber: authUser?.userInfo.phoneNumber,
-    address: authUser?.userInfo?.location?.address,
-    city: authUser?.userInfo?.location?.city,
-    province: authUser?.userInfo?.location?.province,
-    postalCode: authUser?.userInfo?.location?.postalCode,
-    country: authUser?.userInfo?.location?.country,
+    phoneNumber: authUser?.userInfo.phoneNumber || "",
+    address: authUser?.userInfo?.location?.address || "",
+    city: authUser?.userInfo?.location?.city || "",
+    province: authUser?.userInfo?.location?.province || "",
+    postalCode: authUser?.userInfo?.location?.postalCode || "",
+    country: authUser?.userInfo?.location?.country || "",
   };
 
   const handleSubmit = async (data: typeof initialData) => {
