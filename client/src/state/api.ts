@@ -262,13 +262,9 @@ export const api = createApi({
     }),
 
     // Restaurant related endpoints
-    getRestaurants: build.query<
-      Restaurant[],
-      Partial<FiltersState> & { favoriteIds?: number[] }
-    >({
+    getRestaurants: build.query<Restaurant[], Partial<FiltersState>>({
       query: (filters) => {
         const params = cleanParams({
-          favoriteIds: filters.favoriteIds?.join(","),
           priceMin: filters.priceRange?.[0],
           priceMax: filters.priceRange?.[1],
           categories: filters.categories?.join(","),

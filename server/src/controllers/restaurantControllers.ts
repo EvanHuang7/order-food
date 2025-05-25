@@ -42,26 +42,11 @@ export const getRestaurants = async (
   res: Response
 ): Promise<void> => {
   try {
-    // TODO: remove favoriteIds
-    const { favoriteIds, priceMin, priceMax, categories } = req.query;
+    const { priceMin, priceMax, categories } = req.query;
 
     let whereConditions: Prisma.Sql[] = [];
 
-    if (favoriteIds) {
-      const favoriteIdsArray = (favoriteIds as string)
-        .split(",")
-        .map((id) => parseInt(id.trim()))
-        .filter(Boolean);
-
-      if (favoriteIdsArray.length > 0) {
-        whereConditions.push(
-          Prisma.sql`r.id IN (${Prisma.join(favoriteIdsArray)})`
-        );
-      }
-    }
-
     // TODO: store price range in restaurant
-
     // if (priceMin) {
     //   whereConditions.push(
     //     Prisma.sql`p."price" >= ${Number(priceMin)}`
