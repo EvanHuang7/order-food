@@ -4,7 +4,7 @@ import {
   getMenuItemRatings,
   upsertRestaurantRating,
   getRestaurantRatings,
-} from "../controllers/rateControllers";
+} from "../controllers/ratingControllers";
 
 const router = express.Router();
 

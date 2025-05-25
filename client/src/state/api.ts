@@ -7,6 +7,8 @@ import {
   Order,
   Payment,
   FavoriteRestaurant,
+  RestaurantRating,
+  MenuItemRating,
 } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
@@ -31,6 +33,7 @@ export const api = createApi({
     "Restaurant",
     "Driver",
     "MenuItems",
+    "MenuItemRatings",
     "Restaurants",
     "Payments",
     "AvailableOrdersForDriver",
@@ -534,6 +537,115 @@ export const api = createApi({
         });
       },
     }),
+
+    // Rating related endpoints
+    upsertMenuItemRatings: build.mutation<
+      MenuItemRating[],
+      {
+        customerId: number;
+        ratings: { menuItemId: number; rating: number; comment?: string }[];
+      }
+    >({
+      query: ({ customerId, ratings }) => ({
+        url: `/rating/menuItemRating/${customerId}`,
+        method: "POST",
+        body: ratings,
+      }),
+      // TODO: check if need to invalidate MenuItems
+      invalidatesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "MenuItemRatings" as const,
+                id,
+              })),
+              { type: "MenuItemRatings", id: "LIST" },
+            ]
+          : [{ type: "MenuItemRatings", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Menu item ratings submitted!",
+          error: "Failed to submit menu item ratings.",
+        });
+      },
+    }),
+
+    // GET: Fetch multiple menu item ratings by a customer
+    getMenuItemRatings: build.query<
+      MenuItemRating[],
+      { customerId: string; menuItemIds: string[] }
+    >({
+      query: ({ customerId, menuItemIds }) => ({
+        url: `/rating/menuItemRating/${customerId}`,
+        params: { menuItemIds: menuItemIds.join(",") },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "MenuItemRatings" as const,
+                id,
+              })),
+              { type: "MenuItemRatings", id: "LIST" },
+            ]
+          : [{ type: "MenuItemRatings", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get MenuItems ratings.",
+        });
+      },
+    }),
+
+    // POST: Upsert restaurant rating by a customer
+    upsertRestaurantRating: build.mutation<
+      RestaurantRating,
+      {
+        customerId: number;
+        ratingData: { restaurantId: number; rating: number; comment?: string };
+      }
+    >({
+      query: ({ customerId, ratingData }) => ({
+        url: `/rating/restaurantRating/${customerId}`,
+        method: "POST",
+        body: ratingData,
+      }),
+      invalidatesTags: ({ restaurantId }) => [
+        { type: "Restaurant", id: restaurantId },
+        { type: "Restaurant", id: "LIST" },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Restaurant rating submitted!",
+          error: "Failed to submit restaurant rating.",
+        });
+      },
+    }),
+
+    // GET: Fetch multiple restaurant ratings by a customer
+    getRestaurantRatings: build.query<
+      RestaurantRating[],
+      { customerId: string; restaurantIds: string[] }
+    >({
+      query: ({ customerId, restaurantIds }) => ({
+        url: `/rating/restaurantRating/${customerId}`,
+        params: { restaurantIds: restaurantIds.join(",") },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ restaurantId }) => ({
+                type: "Restaurants" as const,
+                id: restaurantId,
+              })),
+              { type: "Restaurants", id: "LIST" },
+            ]
+          : [{ type: "Restaurants", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get restaurant ratings.",
+        });
+      },
+    }),
   }),
 });
 
@@ -564,4 +676,9 @@ export const {
   // Payment related endpoints
   useGetPaymentQuery,
   useGetPaymentsQuery,
+  // Rating related endpoints
+  useUpsertMenuItemRatingsMutation,
+  useGetMenuItemRatingsQuery,
+  useUpsertRestaurantRatingMutation,
+  useGetRestaurantRatingsQuery,
 } = api;

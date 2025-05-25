@@ -3,7 +3,10 @@ import prisma from "../lib/prisma";
 
 // POST /menuItemRating/:customerId
 // Body: [{ menuItemId, rating, comment }]
-export const upsertMenuItemRatings = async (req: Request, res: Response) => {
+export const upsertMenuItemRatings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const customerId = parseInt(req.params.customerId);
   const ratingsData: {
     menuItemId: number;
@@ -12,7 +15,8 @@ export const upsertMenuItemRatings = async (req: Request, res: Response) => {
   }[] = req.body;
 
   if (!Array.isArray(ratingsData) || ratingsData.length === 0) {
-    return res.status(400).json({ error: "Invalid or empty ratings payload." });
+    res.status(400).json({ error: "Invalid or empty ratings payload." });
+    return;
   }
 
   try {
@@ -39,24 +43,24 @@ export const upsertMenuItemRatings = async (req: Request, res: Response) => {
       )
     );
 
-    res
-      .status(200)
-      .json({ message: "Ratings submitted successfully", data: upserts });
+    res.status(200).json(upserts);
   } catch (error) {
     console.error("Error upserting menu item ratings:", error);
     res.status(500).json({ error: "Failed to submit ratings" });
   }
 };
 // Get ratings and comments for multiple menu items by a customer
-export const getMenuItemRatings = async (req: Request, res: Response) => {
+export const getMenuItemRatings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { customerId } = req.params;
     const { menuItemIds } = req.query;
 
     if (!menuItemIds || typeof menuItemIds !== "string") {
-      return res
-        .status(400)
-        .json({ message: "menuItemIds query param is required" });
+      res.status(400).json({ message: "menuItemIds query param is required" });
+      return;
     }
 
     const ids = menuItemIds.split(",").map(Number);
@@ -82,15 +86,17 @@ export const getMenuItemRatings = async (req: Request, res: Response) => {
 };
 
 // Upsert rating and comment for a restaurant by a customer
-export const upsertRestaurantRating = async (req: Request, res: Response) => {
+export const upsertRestaurantRating = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { customerId } = req.params;
     const { restaurantId, rating, comment } = req.body;
 
     if (!restaurantId || rating === undefined) {
-      return res
-        .status(400)
-        .json({ message: "restaurantId and rating are required" });
+      res.status(400).json({ message: "restaurantId and rating are required" });
+      return;
     }
 
     const upserted = await prisma.restaurantRating.upsert({
@@ -121,15 +127,19 @@ export const upsertRestaurantRating = async (req: Request, res: Response) => {
 };
 
 // Get ratings and comments for multiple restaurants by a customer
-export const getRestaurantRatings = async (req: Request, res: Response) => {
+export const getRestaurantRatings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { customerId } = req.params;
     const { restaurantIds } = req.query;
 
     if (!restaurantIds || typeof restaurantIds !== "string") {
-      return res
+      res
         .status(400)
         .json({ message: "restaurantIds query param is required" });
+      return;
     }
 
     const ids = restaurantIds.split(",").map(Number);

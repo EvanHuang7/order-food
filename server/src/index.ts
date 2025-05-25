@@ -12,7 +12,7 @@ import driverRoutes from "./routes/driverRoutes";
 import menuItemRoutes from "./routes/menuItemRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
-import rateRoutes from "./routes/rateRoutes";
+import ratingRoutes from "./routes/ratingRoutes";
 import notificationSettingRoutes from "./routes/notificationSettingRoutes";
 import { startPgNotificationListener } from "./lib/pg";
 
@@ -38,7 +38,7 @@ app.use("/driver", authMiddleware(["driver"]), driverRoutes);
 app.use("/menuItem", menuItemRoutes);
 app.use("/order", orderRoutes);
 app.use("/payment", authMiddleware(["customer"]), paymentRoutes);
-app.use("/rate", authMiddleware(["customer"]), rateRoutes);
+app.use("/rating", authMiddleware(["customer"]), ratingRoutes);
 app.use(
   "/notificationSetting",
   authMiddleware(["customer"]),
