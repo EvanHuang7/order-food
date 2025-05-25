@@ -346,9 +346,9 @@ export const api = createApi({
       providesTags: (result) =>
         result?.menuItems
           ? [
-              ...result.menuItems.map(({ id }) => ({
+              ...result.menuItems.map((menuItem: MenuItem) => ({
                 type: "MenuItems" as const,
-                id,
+                id: menuItem.id,
               })),
               { type: "MenuItems", id: "LIST" },
             ]
@@ -466,8 +466,9 @@ export const api = createApi({
       },
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
-          success: "Order placed successfully!",
-          error: "Failed to place order.",
+          success:
+            "Your payment was successful and your order has been placed! 🎉",
+          error: "Failed to process payment and place order.",
         });
       },
     }),

@@ -25,8 +25,7 @@ import Image from "next/image";
 
 const ShoppingCartSheet = () => {
   const { data: authUser } = useGetAuthUserQuery();
-  const [createOrders, { isLoading: createOrdersLoading, data }] =
-    useCreateOrdersMutation();
+  const [createOrders] = useCreateOrdersMutation();
   const shoppingCart = useAppSelector((state) => state.global.shoppingCart);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -42,14 +41,18 @@ const ShoppingCartSheet = () => {
     return grouped;
   }, [shoppingCart]);
 
-  const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = shoppingCart.reduce(
+    (sum: any, item: any) => sum + item.quantity,
+    0
+  );
   const totalPrice = shoppingCart.reduce(
-    (sum, item: any) => sum + item.price * item.quantity,
+    (sum: any, item: any) => sum + item.price * item.quantity,
     0
   );
   const isEmpty = totalItems === 0;
 
   const [open, setOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [imgSrc, setImgSrc] = useState(() => {
     const randomIndex = Math.floor(Math.random() * 9) + 1;
     return `/food/food${randomIndex}.jpg`;
@@ -57,6 +60,11 @@ const ShoppingCartSheet = () => {
 
   const handlePlaceOrder = async () => {
     try {
+      // Show spinner
+      setIsProcessing(true);
+      // Wait for 3 seconds before actual request
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       // Use ".unwrap()" to get result.data directly insteead
       // of getting an {data, error} object.
       // But we don't need to use result data here.
@@ -72,6 +80,8 @@ const ShoppingCartSheet = () => {
       router.push("/customer/orders");
     } catch (error) {
       console.error("Failed to place order", error);
+    } finally {
+      setIsProcessing(false); // Reset processing state
     }
   };
 
@@ -191,17 +201,17 @@ const ShoppingCartSheet = () => {
         {/* TODO: Disalbe buttong and show hover text say need payment method and address  */}
         <Button
           className="w-full mt-4 bg-primary-700 text-white hover:bg-primary-600"
-          disabled={isEmpty || createOrdersLoading}
+          disabled={isEmpty || isProcessing}
           variant={isEmpty ? "secondary" : "default"}
           onClick={() => handlePlaceOrder()}
         >
-          {createOrdersLoading ? (
+          {isProcessing ? (
             <div className="flex items-center gap-2">
               <Loader2 className="w-5 h-5 animate-spin text-white" />
-              <span>Order processing...</span>
+              <span>Processing Payment...</span>
             </div>
           ) : (
-            "Place order now"
+            "Pay & Place Order Now"
           )}
         </Button>
       </SheetContent>

@@ -47,7 +47,7 @@ const ManageRestaurant = () => {
         </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {restaurantWithMenuItems?.menuItems?.map((menuItem) => (
+        {restaurantWithMenuItems?.menuItems?.map((menuItem: any) => (
           <MenuItemCard
             key={menuItem.id}
             menuItem={menuItem}

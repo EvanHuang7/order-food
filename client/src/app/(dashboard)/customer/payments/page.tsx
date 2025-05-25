@@ -151,16 +151,16 @@ const PaymentHistory = ({ payments }: { payments: Payment[] }) => {
                 <TableCell>{payment?.provider || "N/A"}</TableCell>
                 <TableCell>
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-semibold border ${
+                    className={`px-2 py-1 inline-flex items-center gap-1 rounded-full text-xs font-semibold border ${
                       payment.status === "Paid"
                         ? "bg-green-100 text-green-800 border-green-300"
                         : "bg-yellow-100 text-yellow-800 border-yellow-300"
                     }`}
                   >
                     {payment.status === "Paid" ? (
-                      <Check className="w-4 h-4 inline-block mr-1" />
+                      <Check className="w-4 h-4" />
                     ) : (
-                      <LoaderCircle className="w-4 h-4 inline-block mr-1" />
+                      <LoaderCircle className="w-4 h-4" />
                     )}
                     <span className="hidden lg:inline">{payment.status}</span>
                   </span>
