@@ -7,7 +7,6 @@ import {
   useUpdateRestaurantInfoMutation,
 } from "@/state/api";
 import React from "react";
-import { CategoryEnum } from "@/lib/constants";
 
 const RestaurantSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
