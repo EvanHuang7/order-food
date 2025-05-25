@@ -32,6 +32,7 @@ CREATE TABLE "Restaurant" (
     "profileImgUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "pricePerPereson" DOUBLE PRECISION,
     "openTime" TEXT,
     "closeTime" TEXT,
     "description" TEXT,
@@ -68,6 +69,32 @@ CREATE TABLE "MenuItem" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "MenuItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "RestaurantRating" (
+    "id" SERIAL NOT NULL,
+    "customerId" INTEGER NOT NULL,
+    "restaurantId" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "comment" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "RestaurantRating_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MenuItemRating" (
+    "id" SERIAL NOT NULL,
+    "customerId" INTEGER NOT NULL,
+    "menuItemId" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "comment" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "MenuItemRating_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -166,7 +193,7 @@ CREATE TABLE "NotificationSetting" (
 -- CreateTable
 CREATE TABLE "Notification" (
     "id" SERIAL NOT NULL,
-    "customerId" INTEGER NOT NULL,
+    "customerId" INTEGER,
     "type" "NotificationType" NOT NULL,
     "message" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -200,6 +227,12 @@ CREATE UNIQUE INDEX "Driver_cognitoId_key" ON "Driver"("cognitoId");
 CREATE UNIQUE INDEX "Driver_email_key" ON "Driver"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "RestaurantRating_customerId_restaurantId_key" ON "RestaurantRating"("customerId", "restaurantId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MenuItemRating_customerId_menuItemId_key" ON "MenuItemRating"("customerId", "menuItemId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "PaymentInfo_customerId_key" ON "PaymentInfo"("customerId");
 
 -- CreateIndex
@@ -213,6 +246,18 @@ ALTER TABLE "Restaurant" ADD CONSTRAINT "Restaurant_locationId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "MenuItem" ADD CONSTRAINT "MenuItem_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "Restaurant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RestaurantRating" ADD CONSTRAINT "RestaurantRating_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RestaurantRating" ADD CONSTRAINT "RestaurantRating_restaurantId_fkey" FOREIGN KEY ("restaurantId") REFERENCES "Restaurant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MenuItemRating" ADD CONSTRAINT "MenuItemRating_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MenuItemRating" ADD CONSTRAINT "MenuItemRating_menuItemId_fkey" FOREIGN KEY ("menuItemId") REFERENCES "MenuItem"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -248,4 +293,4 @@ ALTER TABLE "FavoriteRestaurant" ADD CONSTRAINT "FavoriteRestaurant_restaurantId
 ALTER TABLE "NotificationSetting" ADD CONSTRAINT "NotificationSetting_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Notification" ADD CONSTRAINT "Notification_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
