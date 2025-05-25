@@ -130,7 +130,7 @@ const FiltersBar = () => {
             </SelectTrigger>
             <SelectContent className="bg-white">
               <SelectItem value="any">Any Max Price</SelectItem>
-              {[50, 100, 200, 500, 1000, 2000].map((price) => (
+              {[50, 100, 200, 500, 1000, 2000, 5000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
                   &lt;${price}
                 </SelectItem>

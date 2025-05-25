@@ -46,27 +46,30 @@ export const getRestaurants = async (
 
     let whereConditions: Prisma.Sql[] = [];
 
+    // Price range
     if (priceMin) {
       whereConditions.push(
         Prisma.sql`r."pricePerPereson" >= ${Number(priceMin)}`
       );
     }
-
     if (priceMax) {
       whereConditions.push(
         Prisma.sql`r."pricePerPereson" <= ${Number(priceMax)}`
       );
     }
 
+    // Categories type
     if (categories && categories !== "any") {
       const categoriesArray = (categories as string)
         .split(",")
         .map((cat) => cat.trim())
         .filter(Boolean);
 
+      // && (overlap) operator in PostgreSQL checks if the
+      // arrays have any elements in common
       if (categoriesArray.length > 0) {
         whereConditions.push(
-          Prisma.sql`r.categories @> ${Prisma.join(
+          Prisma.sql`r.categories && ${Prisma.join(
             [categoriesArray],
             ","
           )}::text[]`
