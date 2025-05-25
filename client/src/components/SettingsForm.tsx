@@ -117,7 +117,7 @@ const SettingsForm = ({
                   <h2 className="text-lg font-semibold mb-4">
                     Restaurant Additional Information
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <CustomFormField
                       name="openTime"
                       label="Open Time"
@@ -128,6 +128,12 @@ const SettingsForm = ({
                       name="closeTime"
                       label="Close Time"
                       placeholder="e.g. 21:00"
+                      disabled={!editMode}
+                    />
+                    <CustomFormField
+                      name="pricePerPereson"
+                      label="Price Per Pereson (Enter number only)"
+                      placeholder="19.99"
                       disabled={!editMode}
                     />
                   </div>

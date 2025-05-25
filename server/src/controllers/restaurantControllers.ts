@@ -183,6 +183,7 @@ export const updateRestaurant = async (
       country,
       openTime,
       closeTime,
+      pricePerPereson,
       categories,
       description,
     } = req.body;
@@ -269,6 +270,7 @@ export const updateRestaurant = async (
         data: {
           name,
           phoneNumber,
+          pricePerPereson: Number(pricePerPereson),
           openTime,
           closeTime,
           categories,

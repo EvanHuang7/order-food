@@ -11,6 +11,7 @@ export const settingsSchema = z.object({
   country: z.string().optional(),
   openTime: z.string().optional(),
   closeTime: z.string().optional(),
+  pricePerPereson: z.string().optional(),
   categories: z.array(z.string()).optional(),
   description: z.string().optional(),
   photoUrls: z.any().optional(),
