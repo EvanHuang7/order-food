@@ -25,6 +25,7 @@ const RestaurantSettings = () => {
     province: authUser?.userInfo?.location?.province,
     postalCode: authUser?.userInfo?.location?.postalCode,
     country: authUser?.userInfo?.location?.country,
+    pricePerPereson: authUser?.userInfo?.pricePerPereson || 0,
     openTime: authUser?.userInfo?.openTime || "",
     closeTime: authUser?.userInfo?.closeTime || "",
     categories:
