@@ -84,8 +84,8 @@ declare global {
   }
 
   interface CategoryMultiSelectProps {
-    value: string[];
-    onChange: (value: string[]) => void;
+    value: CategoryEnum[];
+    onChange: (selected: CategoryEnum[]) => void;
     disabled?: boolean;
   }
 }

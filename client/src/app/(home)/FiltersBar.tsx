@@ -2,6 +2,7 @@ import { FiltersState, setFilters } from "@/state";
 import { useAppSelector } from "@/state/redux";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
 import {
@@ -17,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryEnum, CategoryEnumIcons } from "@/lib/constants";
+import { CategoryEnum, CategoryEnumImageFile } from "@/lib/constants";
 import { Label } from "@/components/ui/label";
 
 const FiltersBar = () => {
@@ -77,7 +78,7 @@ const FiltersBar = () => {
     <div className="flex flex-col gap-4 px-4 py-5 w-full">
       {/* Category Filter */}
       <div className="flex flex-wrap gap-2">
-        {Object.entries(CategoryEnumIcons).map(([category, Icon]) => (
+        {Object.entries(CategoryEnumImageFile).map(([category, imageFile]) => (
           <div
             key={category}
             className={cn(
@@ -88,7 +89,13 @@ const FiltersBar = () => {
             )}
             onClick={() => handleCategoryClick(category as CategoryEnum)}
           >
-            <Icon className="w-5 h-5" />
+            <Image
+              src={imageFile}
+              alt={category}
+              width={20}
+              height={20}
+              className="rounded-sm"
+            />
             <Label>{formatEnumString(category)}</Label>
           </div>
         ))}
