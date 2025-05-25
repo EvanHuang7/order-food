@@ -48,6 +48,8 @@ model Customer {
   payments      Payment[]    // 1-to-many: Customer has many Payments
   orders        Order[]      // 1-to-many: Customer has many Orders
   favoriteRests FavoriteRestaurant[] // many-to-many via join table FavoriteRestaurant
+  restaurantRatings RestaurantRating[] // 1-to-many
+  menuItemRatings   MenuItemRating[] // 1-to-many
   notifications Notification[] // 1-to-many: Customer can have many Notifications
 }
 
@@ -61,6 +63,7 @@ model Restaurant {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime @updatedAt
 
+  pricePerPereson      Float?
   openTime    String?    // e.g. "09:00"
   closeTime   String?    // e.g. "21:00"
   description String?
@@ -70,6 +73,7 @@ model Restaurant {
   locationId    Int?       @unique
   location      Location?         @relation(fields: [locationId], references: [id]) // 1-to-1: Restaurant has one unique Location
   menuItems     MenuItem[]       // 1-to-many: Restaurant has many MenuItems
+  ratings       RestaurantRating[] // 1-to-many: Restaurant has many Ratings
   orders        Order[]          // 1-to-many: Restaurant has many Orders
   favoriteBy    FavoriteRestaurant[] // many-to-many inverse relation for customers who favorited this restaurant
 }
@@ -98,8 +102,40 @@ model MenuItem {
   updatedAt    DateTime @updatedAt
   
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id]) // many-to-1: Many MenuItems belong to one Restaurant
+  ratings      MenuItemRating[] // 1-to-many: MenuItem has many Ratings
   orderItems   OrderItem[] // 1-to-many: MenuItem can appear in many OrderItems
 }
+
+model RestaurantRating {
+  id           Int        @id @default(autoincrement())
+  customerId   Int
+  restaurantId Int
+  rating       Int        // e.g., 1 to 5
+  comment      String?    // optional review text
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+
+  @@unique([customerId, restaurantId]) // prevent duplicate ratings
+}
+
+model MenuItemRating {
+  id          Int        @id @default(autoincrement())
+  customerId  Int
+  menuItemId  Int
+  rating      Int        // e.g., 1 to 5
+  comment     String?    // optional review text
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  customer    Customer   @relation(fields: [customerId], references: [id])
+  menuItem    MenuItem   @relation(fields: [menuItemId], references: [id])
+
+  @@unique([customerId, menuItemId]) // prevent duplicate ratings
+}
+
 
 model Order {
   id           Int        @id @default(autoincrement())
