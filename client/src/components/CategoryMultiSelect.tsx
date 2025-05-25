@@ -28,7 +28,7 @@ const CategoryMultiSelect = ({
               onClick={() => toggleCategory(cat)}
               className={`px-2 py-1 rounded-full text-sm flex items-center gap-1 border ${
                 isSelected
-                  ? "bg-gray-100 text-gray-800 border-gray-400"
+                  ? "bg-blue-100 border-blue-300"
                   : disabled
                   ? "bg-white text-gray-500 border-gray-300 opacity-50 cursor-default"
                   : "bg-white text-gray-500 border-gray-300 hover:bg-gray-100 cursor-pointer"

@@ -82,10 +82,10 @@ const FiltersBar = () => {
           <div
             key={category}
             className={cn(
-              "flex items-center space-x-2 p-2 border rounded-lg hover:cursor-pointer",
+              "flex items-center space-x-2 p-2 rounded-lg transition-colors hover:cursor-pointer border",
               filters.categories.includes(category as CategoryEnum)
-                ? "border-black"
-                : "border-gray-200"
+                ? "bg-blue-100 border-blue-300"
+                : "bg-white border-gray-200 text-gray-700 hover:bg-gray-100"
             )}
             onClick={() => handleCategoryClick(category as CategoryEnum)}
           >

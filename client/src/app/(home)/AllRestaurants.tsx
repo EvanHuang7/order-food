@@ -76,7 +76,7 @@ const AllRestaurants = () => {
       <h3 className="text-sm px-5 font-bold mb-3">
         {restaurants.length}{" "}
         <span className="text-gray-700 font-normal">restaurants in </span>
-        {authUser?.userInfo?.city || "your"}{" "}
+        {authUser?.userInfo?.location?.city || "your"}{" "}
         <span className="text-gray-700 font-normal">city</span>
       </h3>
       <motion.div
