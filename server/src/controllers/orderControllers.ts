@@ -106,8 +106,16 @@ export const getAvailableOrdersForDriver = async (
             menuItem: true,
           },
         },
-        customer: true,
-        restaurant: true,
+        customer: {
+          include: {
+            location: true,
+          },
+        },
+        restaurant: {
+          include: {
+            location: true,
+          },
+        },
         driver: true,
       },
       orderBy: {
@@ -191,7 +199,11 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
               menuItem: true,
             },
           },
-          restaurant: true,
+          restaurant: {
+            include: {
+              location: true,
+            },
+          },
           driver: true,
         },
         orderBy: { createdAt: "desc" },
@@ -213,7 +225,11 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
               menuItem: true,
             },
           },
-          customer: true,
+          customer: {
+            include: {
+              location: true,
+            },
+          },
           driver: true,
         },
         orderBy: { createdAt: "desc" },
@@ -233,8 +249,16 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
               menuItem: true,
             },
           },
-          customer: true,
-          restaurant: true,
+          customer: {
+            include: {
+              location: true,
+            },
+          },
+          restaurant: {
+            include: {
+              location: true,
+            },
+          },
         },
         orderBy: { createdAt: "desc" },
       });
