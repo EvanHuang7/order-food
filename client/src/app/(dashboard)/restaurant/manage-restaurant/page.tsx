@@ -46,7 +46,7 @@ const ManageRestaurant = () => {
           <span className="hidden md:block ml-2">Add New Item</span>
         </Button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {restaurantWithMenuItems?.menuItems?.map((menuItem: any) => (
           <MenuItemCard
             key={menuItem.id}
