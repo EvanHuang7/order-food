@@ -77,6 +77,9 @@ export const getRestaurants = async (
       }
     }
 
+    // Best Practice: In real-industry scenarios, it's best to calculate the
+    // average rating on the backend and return only the final number.
+    // Detailed ratings data should be fetched in a separated API call.
     const completeQuery = Prisma.sql`
       SELECT 
         r.*,
@@ -176,7 +179,7 @@ export const createRestaurant = async (
       await tx.notification.create({
         data: {
           type: NotificationType.SubscribeApp,
-          // TODO: add restaurant link.
+
           message:
             `Hi, dear OrderFood subscribers,\n\n` +
             `We're excited to announce that a new restaurant, ${name}, has just joined our platform! As part of our welcome promotion, you'll enjoy 10% off your first order at this restaurant. Don't miss out—place your first order today and enjoy delicious food at a discount!`,

@@ -19,6 +19,9 @@ export const getRestaurantMenuItems = async (
         location: true,
         menuItems: {
           include: {
+            // Best Practice: In real-industry scenarios, it's best to calculate the average
+            // rating and popularity on the backend and return only the final number.
+            // Detailed ratings data should be fetched in a separated API call.
             orderItems: true,
             ratings: {
               include: {
@@ -126,7 +129,6 @@ export const createRestaurantMenuItem = async (
         data: customersToNotify.map((customer) => ({
           customerId: customer.id,
           type: NotificationType.NewMenuItemInFavoriteRest,
-          // TODO: add restaurant link.
           message: `A new menu item "${name}" has been added at your favorite restaurant "${restaurant.name}"!`,
         })),
       });

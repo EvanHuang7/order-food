@@ -384,7 +384,6 @@ export const updateOrder = async (
           data: {
             customerId: order.customerId,
             type: NotificationType.FoodDelivered,
-            // TODO: add order link.
             message: `Your order has been ${status.toLowerCase()} by driver.`,
           },
         });
