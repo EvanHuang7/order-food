@@ -29,7 +29,6 @@ enum NotificationType {
   SubscribeApp
 }
 
-//TODO: Rewrite the seed data json files if need to seed data
 model Customer {
   id            Int          @id @default(autoincrement())
   cognitoId     String       @unique

@@ -28,7 +28,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const RestaurantsSection = () => {
+const AllRestaurantsSection = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
@@ -71,6 +71,7 @@ const RestaurantsSection = () => {
   if (isError || !restaurants)
     return <div className="ml-5">Failed to fetch restaurants</div>;
 
+  //TODO: Upadte a list restaurant and menuItem grid layout
   return (
     <div className="w-full">
       <h3 className="text-sm px-5 font-bold mb-3">
@@ -107,4 +108,4 @@ const RestaurantsSection = () => {
   );
 };
 
-export default RestaurantsSection;
+export default AllRestaurantsSection;

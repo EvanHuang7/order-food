@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { cleanParams } from "@/lib/utils";
 import { setFilters } from "@/state";
-import RestaurantsSection from "./RestaurantsSection";
+import AllRestaurantsSection from "./AllRestaurantsSection";
 import FiltersSection from "./FiltersSection";
 
 const HomePage = () => {
@@ -36,7 +36,7 @@ const HomePage = () => {
   return (
     <div>
       <FiltersSection />
-      <RestaurantsSection />
+      <AllRestaurantsSection />
     </div>
   );
 };
