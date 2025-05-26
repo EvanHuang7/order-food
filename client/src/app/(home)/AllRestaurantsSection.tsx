@@ -78,7 +78,7 @@ const AllRestaurantsSection = () => {
         {restaurants.length}{" "}
         <span className="text-gray-700 font-normal">restaurants in </span>
         {authUser?.userInfo?.location?.city || "your"}{" "}
-        <span className="text-gray-700 font-normal">city</span>
+        <span className="text-gray-700 font-normal">country</span>
       </h3>
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 gap-6"

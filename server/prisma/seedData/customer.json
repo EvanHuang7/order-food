@@ -5,7 +5,7 @@
     "name": "Alice Johnson",
     "email": "alice.johnson@example.com",
     "phoneNumber": "555-1234",
-    "profileImgUrl": "https://randomuser.me/api/portraits/women/1.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -14,7 +14,7 @@
     "name": "Bob Smith",
     "email": "bob.smith@example.com",
     "phoneNumber": "555-5678",
-    "profileImgUrl": "https://randomuser.me/api/portraits/men/2.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -23,7 +23,7 @@
     "name": "Carla Green",
     "email": "carla.green@example.com",
     "phoneNumber": "555-8765",
-    "profileImgUrl": "https://randomuser.me/api/portraits/women/3.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -32,7 +32,7 @@
     "name": "David Lee",
     "email": "david.lee@example.com",
     "phoneNumber": "555-4321",
-    "profileImgUrl": "https://randomuser.me/api/portraits/men/4.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -41,7 +41,7 @@
     "name": "Eva Martinez",
     "email": "eva.martinez@example.com",
     "phoneNumber": "555-9876",
-    "profileImgUrl": "https://randomuser.me/api/portraits/women/5.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -50,7 +50,7 @@
     "name": "Frank Brown",
     "email": "frank.brown@example.com",
     "phoneNumber": "555-6543",
-    "profileImgUrl": "https://randomuser.me/api/portraits/men/6.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -59,7 +59,7 @@
     "name": "Grace Kim",
     "email": "grace.kim@example.com",
     "phoneNumber": "555-3210",
-    "profileImgUrl": "https://randomuser.me/api/portraits/women/7.jpg",
+    "profileImgUrl": "",
     "locationId": null
   },
   {
@@ -68,7 +68,7 @@
     "name": "Henry Wilson",
     "email": "henry.wilson@example.com",
     "phoneNumber": "555-2109",
-    "profileImgUrl": "https://randomuser.me/api/portraits/men/8.jpg",
+    "profileImgUrl": "",
     "locationId": null
   }
 ]

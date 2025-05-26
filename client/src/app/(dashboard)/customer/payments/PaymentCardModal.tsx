@@ -72,7 +72,7 @@ const PaymentCardModal = ({ open, onOpenChange }: PaymentCardModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white text-gray-900 sm:max-w-[500px] max-h-[90vh] overflow-y-auto p-6">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto bg-white text-gray-900  p-6">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-xl">Payment Card</DialogTitle>
           <DialogDescription className="text-sm text-gray-500">

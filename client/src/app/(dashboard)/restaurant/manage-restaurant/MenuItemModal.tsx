@@ -63,7 +63,7 @@ const MenuItemModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white max-h-[80vh] overflow-y-auto p-6">
+      <DialogContent className="max-w-md sm:max-w-2xl max-h-[70vh] overflow-y-auto bg-white p-6">
         <DialogHeader className="mb-4">
           <DialogTitle>Add new menu item for your restaurant</DialogTitle>
           <DialogDescription className="sr-only">

@@ -33,7 +33,7 @@ const RatingModal = ({
 }: RatingModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-md sm:max-w-2xl max-h-[70vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

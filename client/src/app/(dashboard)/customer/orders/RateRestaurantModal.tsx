@@ -82,7 +82,7 @@ const RateRestaurantModal = ({
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent
-        className="w-full max-w-md sm:max-w-lg max-h-[90vh] overflow-y-auto sm:rounded-xl"
+        className="w-full max-w-md sm:max-w-2xl max-h-[70vh] overflow-y-auto sm:rounded-xl"
         style={{ overscrollBehavior: "contain" }}
       >
         <DialogHeader>
