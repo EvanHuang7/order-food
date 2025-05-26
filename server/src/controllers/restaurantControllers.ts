@@ -87,7 +87,35 @@ export const getRestaurants = async (
           'province', l.province,
           'country', l.country,
           'postalCode', l."postalCode"
-        ) AS location
+        ) AS location,
+        COALESCE(
+          (
+            SELECT json_agg(
+              json_build_object(
+                'id', rr.id,
+                'customerId', rr."customerId",
+                'restaurantId', rr."restaurantId",
+                'rating', rr.rating,
+                'comment', rr.comment,
+                'createdAt', rr."createdAt",
+                'updatedAt', rr."updatedAt",
+                'customer', json_build_object(
+                  'id', c.id,
+                  'name', c.name,
+                  'email', c.email,
+                  'phoneNumber', c."phoneNumber",
+                  'profileImgUrl', c."profileImgUrl",
+                  'createdAt', c."createdAt",
+                  'updatedAt', c."updatedAt"
+                )
+              )
+            )
+            FROM "RestaurantRating" rr
+            JOIN "Customer" c ON rr."customerId" = c.id
+            WHERE rr."restaurantId" = r.id
+          ),
+          '[]'
+        ) AS ratings
       FROM "Restaurant" r
       LEFT JOIN "Location" l ON r."locationId" = l.id
       ${

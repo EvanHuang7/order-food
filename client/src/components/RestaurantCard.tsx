@@ -1,9 +1,5 @@
-import {
-  getRandomAverageRating,
-  getRandomCookTime,
-  getRandomNumberOfReviews,
-} from "@/lib/utils";
-import { Bath, Bed, Clock, Heart, House, Star } from "lucide-react";
+import { RestaurantRating } from "@/types/prismaTypes";
+import { Heart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -19,8 +15,13 @@ const RestaurantCard = ({
     restaurant.photoUrls?.[0] || "/restaurant-placeholder.jpg"
   );
 
-  const averageRating = getRandomAverageRating();
-  const numberOfReviews = getRandomNumberOfReviews();
+  const averageRating = restaurant.ratings.length
+    ? restaurant.ratings.reduce(
+        (sum: number, r: RestaurantRating) => sum + r.rating,
+        0
+      ) / restaurant.ratings.length
+    : 0;
+  const numberOfReviews = restaurant.ratings.length;
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full mb-5">

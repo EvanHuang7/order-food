@@ -164,7 +164,15 @@ export const getFavoriteRestaurants = async (
     const favorites = await prisma.favoriteRestaurant.findMany({
       where: { customerId: Number(customerId) },
       include: {
-        restaurant: true,
+        restaurant: {
+          include: {
+            ratings: {
+              include: {
+                customer: true,
+              },
+            },
+          },
+        },
       },
     });
 
