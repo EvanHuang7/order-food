@@ -8,6 +8,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
@@ -18,7 +24,14 @@ import {
   clearShoppingCart,
 } from "@/state";
 import { useGetAuthUserQuery, useCreateOrdersMutation } from "@/state/api";
-import { ShoppingCart, Minus, Plus, Trash2, Loader2 } from "lucide-react";
+import {
+  ShoppingCart,
+  Minus,
+  Plus,
+  Trash2,
+  Loader2,
+  CircleAlert,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -101,13 +114,13 @@ const ShoppingCartSheet = () => {
       <SheetContent side="right" className="w-[400px] sm:w-[450px]">
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
-          <SheetDescription>Review your selected menu items.</SheetDescription>
+          <SheetDescription>Review your selected menu items</SheetDescription>
         </SheetHeader>
 
         <ScrollArea className="mt-4 h-[calc(100vh-240px)] pr-2">
           {isEmpty ? (
             <p className="text-gray-500 text-center mt-10">
-              Your cart is empty.
+              Your cart is empty 🛒
             </p>
           ) : (
             Object.entries(groupedByRestaurant).map(([restaurantId, items]) => {
@@ -197,22 +210,42 @@ const ShoppingCartSheet = () => {
           </div>
         )}
 
-        {/* TODO: Disalbe buttong and show hover text say need payment method and address  */}
-        <Button
-          className="w-full mt-4 bg-primary-700 text-white hover:bg-primary-600"
-          disabled={isEmpty || isProcessing}
-          variant={isEmpty ? "secondary" : "default"}
-          onClick={() => handlePlaceOrder()}
-        >
-          {isProcessing ? (
-            <div className="flex items-center gap-2">
-              <Loader2 className="w-5 h-5 animate-spin text-white" />
-              <span>Processing Payment...</span>
-            </div>
-          ) : (
-            "Pay & Place Order Now"
+        <div className="flex items-center mt-4 gap-2">
+          <Button
+            className="flex-1 bg-primary-700 text-white hover:bg-primary-600"
+            disabled={isEmpty || isProcessing || !authUser?.userInfo?.location}
+            variant={isEmpty ? "secondary" : "default"}
+            onClick={handlePlaceOrder}
+          >
+            {isProcessing ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin text-white" />
+                <span>Processing Payment...</span>
+              </div>
+            ) : (
+              "Pay & Place Order Now"
+            )}
+          </Button>
+
+          {!authUser?.userInfo?.location && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex-shrink-0">
+                    <CircleAlert className="w-5 h-5 cursor-pointer" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="top"
+                  className="bg-white border border-gray-200 text-sm text-gray-800 shadow-md rounded-md px-3 py-2 max-w-[200px]"
+                >
+                  Set your location to place an order. No payment info 💳 needed
+                  in this demo.
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
-        </Button>
+        </div>
       </SheetContent>
     </Sheet>
   );
