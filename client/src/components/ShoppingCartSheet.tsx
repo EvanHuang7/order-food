@@ -197,7 +197,6 @@ const ShoppingCartSheet = () => {
           </div>
         )}
 
-        {/* TODO: Change button to "Proceed to Checkout" after adding checkout page */}
         {/* TODO: Disalbe buttong and show hover text say need payment method and address  */}
         <Button
           className="w-full mt-4 bg-primary-700 text-white hover:bg-primary-600"

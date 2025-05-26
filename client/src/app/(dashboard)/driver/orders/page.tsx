@@ -58,8 +58,6 @@ const Orders = () => {
               )
               .map((order) => (
                 <OrderCard key={order.id} order={order} userType="driver">
-                  {/* TODO: add a single page in dashboard to show all orders */}
-                  {/* TODO: and allow driver to assign driver to order in that page  */}
                   {/* Buttons when order is Accepted or Preparing */}
                   {(order.status === "Accepted" ||
                     order.status === "Preparing") && (
