@@ -31,7 +31,6 @@ const SettingsForm = ({
   };
 
   const handleSubmit = async (data: SettingsFormData) => {
-    data.profileImgUrl = selectedImg;
     await onSubmit(data);
     setEditMode(false);
   };
@@ -59,6 +58,8 @@ const SettingsForm = ({
       const base64Image = reader.result as string;
       // Set the user selected image to the avator UI
       setSelectedImg(base64Image);
+      // Set it to form
+      form.setValue("profileImgUrl", base64Image);
     };
   };
 
@@ -99,7 +100,7 @@ const SettingsForm = ({
                             alt="profileImgUrl"
                             width={100}
                             height={100}
-                            className="rounded-full object-cover border-4"
+                            className="w-[100px] h-[100px] rounded-full object-cover border-4"
                           />
                           <label
                             htmlFor="avatar-upload"
