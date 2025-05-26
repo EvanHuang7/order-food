@@ -19,6 +19,7 @@ const CustomerSettings = () => {
     name: authUser?.userInfo.name,
     email: authUser?.userInfo.email,
     phoneNumber: authUser?.userInfo.phoneNumber || "",
+    profileImgUrl: authUser?.userInfo.profileImgUrl || "",
     address: authUser?.userInfo?.location?.address || "",
     city: authUser?.userInfo?.location?.city || "",
     province: authUser?.userInfo?.location?.province || "",

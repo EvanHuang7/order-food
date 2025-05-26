@@ -1,11 +1,15 @@
 import { SettingsFormData, settingsSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Form } from "./ui/form";
+import { useForm, Controller } from "react-hook-form";
+import { Form, FormControl, FormItem, FormMessage } from "./ui/form";
 import { CustomFormField } from "./FormField";
 import { Button } from "./ui/button";
 import CategoryMultiSelect from "./CategoryMultiSelect";
+import { toast } from "sonner";
+import { UserRoundPen } from "lucide-react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const SettingsForm = ({
   initialData,
@@ -13,6 +17,7 @@ const SettingsForm = ({
   userType,
 }: SettingsFormProps) => {
   const [editMode, setEditMode] = useState(false);
+  const [selectedImg, setSelectedImg] = useState("");
   const form = useForm<SettingsFormData>({
     resolver: zodResolver(settingsSchema),
     defaultValues: initialData,
@@ -26,8 +31,35 @@ const SettingsForm = ({
   };
 
   const handleSubmit = async (data: SettingsFormData) => {
+    data.profileImgUrl = selectedImg;
     await onSubmit(data);
     setEditMode(false);
+  };
+
+  const handleImageUpload = async (event: any) => {
+    // Get image file of user selected and check it
+    const file = event.target.files[0];
+    if (!file) {
+      console.log("Function errored because of no file uploaded");
+      toast.error("Sorry, no file uploaded");
+      return;
+    }
+
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+      return toast.error(
+        "Please try to upload a file less than max file size 2MB"
+      );
+    }
+
+    // Convert the image to base64 format
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      const base64Image = reader.result as string;
+      // Set the user selected image to the avator UI
+      setSelectedImg(base64Image);
+    };
   };
 
   return (
@@ -49,6 +81,50 @@ const SettingsForm = ({
             {/* Basic Information */}
             <div className="space-y-6">
               <h2 className="text-lg font-semibold mb-4">Basic Information</h2>
+              {/* Avatar Upload Field */}
+              <Controller
+                control={form.control}
+                name="profileImgUrl"
+                render={() => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex justify-start items-start">
+                        <div className="relative">
+                          <Image
+                            src={
+                              selectedImg ||
+                              initialData.profileImgUrl ||
+                              "/userProfile/customer-profile-img-2.jpg"
+                            }
+                            alt="profileImgUrl"
+                            width={100}
+                            height={100}
+                            className="rounded-full object-cover border-4"
+                          />
+                          <label
+                            htmlFor="avatar-upload"
+                            className={cn(
+                              "absolute bottom-0 right-0 bg-gray-100 hover:scale-105 p-2 rounded-full transition-all duration-200 shadow-md",
+                              editMode && "cursor-pointer"
+                            )}
+                          >
+                            <UserRoundPen className="w-5 h-5" />
+                            <input
+                              type="file"
+                              id="avatar-upload"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              disabled={!editMode}
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <CustomFormField name="name" label="Name" disabled={!editMode} />
               <CustomFormField

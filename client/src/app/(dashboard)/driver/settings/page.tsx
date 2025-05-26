@@ -16,6 +16,7 @@ const DriverSettings = () => {
     name: authUser?.userInfo.name,
     email: authUser?.userInfo.email,
     phoneNumber: authUser?.userInfo.phoneNumber || "",
+    profileImgUrl: authUser?.userInfo.profileImgUrl || "",
   };
 
   const handleSubmit = async (data: typeof initialData) => {
