@@ -53,6 +53,10 @@ const Orders = () => {
 
   const filteredOrders = orders?.filter((order) => {
     if (activeTab === "all") return true;
+    if (activeTab === "pending")
+      return ["pending", "accepted", "preparing", "pickedup"].includes(
+        order.status.toLowerCase()
+      );
     return order.status.toLowerCase() === activeTab;
   });
 
@@ -73,54 +77,48 @@ const Orders = () => {
 
         {["all", "pending", "delivered", "cancelled"].map((tab) => (
           <TabsContent key={tab} value={tab} className="mt-5 w-full">
-            {filteredOrders
-              .filter(
-                (order) => tab === "all" || order.status.toLowerCase() === tab
-              )
-              .map((order) => (
-                <OrderCard key={order.id} order={order} userType="customer">
-                  {order.status === "Delivered" && (
-                    <div className="flex flex-row sm:flex-col gap-2">
-                      <button
-                        onClick={() => handleOpenRatingModal(order, "food")}
-                        className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
-                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
-                      >
-                        <Star className="w-5 h-5 mr-2" />
-                        Rate Food
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleOpenRatingModal(order, "restaurant")
-                        }
-                        className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
-                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
-                      >
-                        <Utensils className="w-5 h-5 mr-2" />
-                        Rate Restaurant
-                      </button>
-                    </div>
-                  )}
-
-                  {order.status === "Pending" && (
+            {filteredOrders.map((order) => (
+              <OrderCard key={order.id} order={order} userType="customer">
+                {order.status === "Delivered" && (
+                  <div className="flex flex-row sm:flex-col gap-2">
                     <button
-                      className="px-4 py-2 text-sm text-white bg-red-600 rounded hover:bg-red-500"
-                      onClick={() => handleUpdateOrder(order.id, "Cancelled")}
+                      onClick={() => handleOpenRatingModal(order, "food")}
+                      className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
+                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
                     >
-                      Cancelled
+                      <Star className="w-5 h-5 mr-2" />
+                      Rate Food
                     </button>
-                  )}
-
-                  {order.status === "Cancelled" && (
                     <button
-                      className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center justify-center`}
-                      disabled
+                      onClick={() => handleOpenRatingModal(order, "restaurant")}
+                      className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
+                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
                     >
-                      Contact User
+                      <Utensils className="w-5 h-5 mr-2" />
+                      Rate Restaurant
                     </button>
-                  )}
-                </OrderCard>
-              ))}
+                  </div>
+                )}
+
+                {order.status === "Pending" && (
+                  <button
+                    className="px-4 py-2 text-sm text-white bg-red-600 rounded hover:bg-red-500"
+                    onClick={() => handleUpdateOrder(order.id, "Cancelled")}
+                  >
+                    Cancelled
+                  </button>
+                )}
+
+                {order.status === "Cancelled" && (
+                  <button
+                    className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center justify-center`}
+                    disabled
+                  >
+                    Contact User
+                  </button>
+                )}
+              </OrderCard>
+            ))}
           </TabsContent>
         ))}
       </Tabs>

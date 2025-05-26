@@ -32,6 +32,10 @@ const Orders = () => {
 
   const filteredOrders = orders?.filter((order) => {
     if (activeTab === "all") return true;
+    if (activeTab === "pending")
+      return ["pending", "accepted", "preparing", "pickedup"].includes(
+        order.status.toLowerCase()
+      );
     return order.status.toLowerCase() === activeTab;
   });
 
@@ -51,43 +55,38 @@ const Orders = () => {
         </TabsList>
         {["all", "pending", "delivered", "cancelled"].map((tab) => (
           <TabsContent key={tab} value={tab} className="mt-5 w-full">
-            {/* TODO: Make sure to display Accepted, Preparing, PickedUp too */}
-            {filteredOrders
-              .filter(
-                (order) => tab === "all" || order.status.toLowerCase() === tab
-              )
-              .map((order) => (
-                <OrderCard key={order.id} order={order} userType="restaurant">
-                  {/* Buttons when order is Pending */}
-                  {order.status === "Pending" && (
-                    <button
-                      className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
-                      onClick={() => handleUpdateOrder(order.id, "Accepted")}
-                    >
-                      Accepted
-                    </button>
-                  )}
-                  {/* Buttons when order is Accepted */}
-                  {order.status === "Accepted" && (
-                    <button
-                      className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
-                      onClick={() => handleUpdateOrder(order.id, "Preparing")}
-                    >
-                      Preparing
-                    </button>
-                  )}
-                  {/* Buttons when order is Cancelled */}
-                  {order.status === "Cancelled" && (
-                    <button
-                      className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center
+            {filteredOrders.map((order) => (
+              <OrderCard key={order.id} order={order} userType="restaurant">
+                {/* Buttons when order is Pending */}
+                {order.status === "Pending" && (
+                  <button
+                    className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
+                    onClick={() => handleUpdateOrder(order.id, "Accepted")}
+                  >
+                    Accepted
+                  </button>
+                )}
+                {/* Buttons when order is Accepted */}
+                {order.status === "Accepted" && (
+                  <button
+                    className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-500"
+                    onClick={() => handleUpdateOrder(order.id, "Preparing")}
+                  >
+                    Preparing
+                  </button>
+                )}
+                {/* Buttons when order is Cancelled */}
+                {order.status === "Cancelled" && (
+                  <button
+                    className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center
                           justify-center`}
-                      disabled={true}
-                    >
-                      Contact User
-                    </button>
-                  )}
-                </OrderCard>
-              ))}
+                    disabled={true}
+                  >
+                    Contact User
+                  </button>
+                )}
+              </OrderCard>
+            ))}
           </TabsContent>
         ))}
       </Tabs>
