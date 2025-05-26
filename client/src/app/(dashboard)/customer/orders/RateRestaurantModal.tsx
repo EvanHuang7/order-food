@@ -89,7 +89,7 @@ const RateRestaurantModal = ({
           <div className="flex items-center gap-4">
             <div className="relative w-12 h-12 rounded-full overflow-hidden border">
               <Image
-                src="/userProfile/restaurant-profile-img.jpg"
+                src="/userProfile/restaurant-profile-img-3.jpg"
                 alt="Restaurant"
                 fill
                 className="object-cover"

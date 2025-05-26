@@ -29,13 +29,13 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }, ${order.restaurant?.location?.city || "Unknown city"}, ${
       order.restaurant?.location?.province || "Unknown province"
     }`;
-    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
+    cardImgSrc = "/userProfile/restaurant-profile-img-3.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Restaurant";
     contactPerson = order?.driverId ? order.driver : order.restaurant;
     contactPersonImgSrc = order?.driverId
       ? "/userProfile/driver-profile-img.jpg"
-      : "/userProfile/restaurant-profile-img.jpg";
+      : "/userProfile/restaurant-profile-img-3.jpg";
   } else if (userType === "restaurant") {
     cardName = order.customer.name;
     cardAddress = `${order.customer?.location?.address || "Unknown address"}, ${
@@ -55,13 +55,13 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }, ${order.restaurant?.location?.city || "Unknown city"}, ${
       order.restaurant?.location?.province || "Unknown province"
     }`;
-    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
+    cardImgSrc = "/userProfile/restaurant-profile-img-3.jpg";
 
     contactPersonRole = order?.driverId ? "Customer" : "Restaurant";
     contactPerson = order?.driverId ? order.customer : order.restaurant;
     contactPersonImgSrc = order?.driverId
       ? "/userProfile/customer-profile-img-2.jpg"
-      : "/userProfile/restaurant-profile-img.jpg";
+      : "/userProfile/restaurant-profile-img-3.jpg";
   }
 
   const [fallbackCardImgSrc, setFallbackCardImgSrc] = useState(cardImgSrc);
