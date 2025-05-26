@@ -35,12 +35,12 @@ export const api = createApi({
     "Driver",
     // Another tags
     "RestaurantsList",
-    "RestaurantRatings",
     "MenuItems",
-    "MenuItemRatings",
-    "Payments",
-    "AvailableOrdersForDriver",
     "Orders",
+    "AvailableOrdersForDriver",
+    "Payments",
+    "MenuItemRatings",
+    "RestaurantRatings",
     "FavoriteRestaurants",
   ],
   endpoints: (build) => ({
@@ -641,35 +641,43 @@ export const api = createApi({
 });
 
 export const {
+  // "Customer"/"Restaurant"/"Driver" related endpoints
   useGetAuthUserQuery,
-  // Customer related endpoints
   useUpdateCustomerInfoMutation,
-  useGetFavoriteRestaurantsQuery,
-  useAddFavoriteRestaurantMutation,
-  useRemoveFavoriteRestaurantMutation,
-  useUpsertPaymentInfoMutation,
-  useToggleNotificationMutation,
-  // Restaurant related endpoints
-  useGetRestaurantsQuery,
   useUpdateRestaurantInfoMutation,
-  // Driver related endpoints
   useUpdateDriverInfoMutation,
-  // MenuItem related endpoints
+
+  // "RestaurantsList" related endpoints
+  useGetRestaurantsQuery,
+
+  // "MenuItems" related endpoints
   useGetRestaurantMenuItemsQuery,
   useCreateRestaurantMenuItemMutation,
   useUpdateRestaurantMenuItemMutation,
-  // Order related endpoints
+
+  // "Orders" and "AvailableOrdersForDriver" related endpoints
   useGetOrderQuery,
   useGetOrdersQuery,
   useGetAvailableOrdersForDriverQuery,
   useCreateOrdersMutation,
   useUpdateOrderMutation,
-  // Payment related endpoints
+
+  // "Payments" related endpoints
   useGetPaymentQuery,
   useGetPaymentsQuery,
-  // Rating related endpoints
+  useUpsertPaymentInfoMutation,
+
+  // "MenuItemRatings" and "RestaurantRatings" related endpoints
   useGetMenuItemRatingsQuery,
   useUpsertMenuItemRatingsMutation,
   useGetRestaurantRatingsQuery,
   useUpsertRestaurantRatingMutation,
+
+  // "FavoriteRestaurants" related endpoints
+  useGetFavoriteRestaurantsQuery,
+  useAddFavoriteRestaurantMutation,
+  useRemoveFavoriteRestaurantMutation,
+
+  // NotificationSetting related endpoints
+  useToggleNotificationMutation,
 } = api;
