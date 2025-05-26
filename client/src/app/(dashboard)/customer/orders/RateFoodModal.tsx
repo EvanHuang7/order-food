@@ -18,7 +18,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
+const RateFoodModal = ({ open, onClose, order }: RateFoodModalProps) => {
   const [ratings, setRatings] = useState<Record<number, number>>({});
   const [comments, setComments] = useState<Record<number, string>>({});
   const {

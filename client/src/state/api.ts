@@ -618,13 +618,13 @@ export const api = createApi({
       RestaurantRating,
       {
         customerId: number;
-        ratingData: { restaurantId: number; rating: number; comment?: string };
+        rating: { restaurantId: number; rating: number; comment?: string };
       }
     >({
-      query: ({ customerId, ratingData }) => ({
+      query: ({ customerId, rating }) => ({
         url: `/rating/restaurantRating/${customerId}`,
         method: "POST",
-        body: ratingData,
+        body: rating,
       }),
       invalidatesTags: (restaurantRating) => [
         { type: "RestaurantsList", id: restaurantRating.restaurantId },

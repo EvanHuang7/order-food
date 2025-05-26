@@ -9,9 +9,10 @@ import {
   useGetAuthUserQuery,
   useUpdateOrderMutation,
 } from "@/state/api";
-import { Star } from "lucide-react";
+import { Star, Utensils } from "lucide-react";
 import React, { useState } from "react";
 import RateFoodModal from "./RateFoodModal";
+import RateRestaurantModal from "./RateRestaurantModal";
 
 const Orders = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -19,8 +20,11 @@ const Orders = () => {
 
   const { data: orders, isLoading, isError } = useGetOrdersQuery();
   const [updateOrder] = useUpdateOrderMutation();
+
   const [selectedOrderForRating, setSelectedOrderForRating] = useState(null);
-  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+  const [activeRatingModal, setActiveRatingModal] = useState<
+    "food" | "restaurant" | null
+  >(null);
 
   const handleUpdateOrder = async (orderId: number, status: string) => {
     await updateOrder({
@@ -31,13 +35,16 @@ const Orders = () => {
     });
   };
 
-  const handleOpenRatingModal = (order: any) => {
+  const handleOpenRatingModal = (
+    order: any,
+    modalType: "food" | "restaurant"
+  ) => {
     setSelectedOrderForRating(order);
-    setIsRatingModalOpen(true);
+    setActiveRatingModal(modalType);
   };
 
   const handleCloseRatingModal = () => {
-    setIsRatingModalOpen(false);
+    setActiveRatingModal(null);
     setSelectedOrderForRating(null);
   };
 
@@ -63,28 +70,38 @@ const Orders = () => {
           <TabsTrigger value="delivered">Delivered</TabsTrigger>
           <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
         </TabsList>
+
         {["all", "pending", "delivered", "cancelled"].map((tab) => (
           <TabsContent key={tab} value={tab} className="mt-5 w-full">
-            {/* TODO: Make sure to display Accepted, Preparing, PickedUp too */}
             {filteredOrders
               .filter(
                 (order) => tab === "all" || order.status.toLowerCase() === tab
               )
               .map((order) => (
                 <OrderCard key={order.id} order={order} userType="customer">
-                  {/* Buttons when order is Delivered */}
                   {order.status === "Delivered" && (
-                    <button
-                      onClick={() => handleOpenRatingModal(order)}
-                      className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
-      rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
-                    >
-                      <Star className="w-5 h-5 mr-2" />
-                      Rate Food
-                    </button>
+                    <div className="flex flex-row sm:flex-col gap-2">
+                      <button
+                        onClick={() => handleOpenRatingModal(order, "food")}
+                        className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
+                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
+                      >
+                        <Star className="w-5 h-5 mr-2" />
+                        Rate Food
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleOpenRatingModal(order, "restaurant")
+                        }
+                        className={`bg-white border border-gray-300 text-gray-700 py-2 px-4
+                          rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50`}
+                      >
+                        <Utensils className="w-5 h-5 mr-2" />
+                        Rate Restaurant
+                      </button>
+                    </div>
                   )}
 
-                  {/* Buttons when order is Pending */}
                   {order.status === "Pending" && (
                     <button
                       className="px-4 py-2 text-sm text-white bg-red-600 rounded hover:bg-red-500"
@@ -93,11 +110,11 @@ const Orders = () => {
                       Cancelled
                     </button>
                   )}
-                  {/* Buttons when order is Cancelled */}
+
                   {order.status === "Cancelled" && (
                     <button
-                      className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center
-                          justify-center hover:bg-secondary-500 hover:text-primary-50`}
+                      className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center justify-center`}
+                      disabled
                     >
                       Contact User
                     </button>
@@ -107,8 +124,15 @@ const Orders = () => {
           </TabsContent>
         ))}
       </Tabs>
+
       <RateFoodModal
-        open={isRatingModalOpen}
+        open={activeRatingModal === "food"}
+        onClose={handleCloseRatingModal}
+        order={selectedOrderForRating}
+      />
+
+      <RateRestaurantModal
+        open={activeRatingModal === "restaurant"}
         onClose={handleCloseRatingModal}
         order={selectedOrderForRating}
       />

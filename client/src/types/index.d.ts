@@ -74,6 +74,18 @@ declare global {
     order: Order;
   }
 
+  interface RateFoodModalProps {
+    open: boolean;
+    onClose: () => void;
+    order: any | null;
+  }
+
+  interface RateRestaurantModalProps {
+    open: boolean;
+    onClose: () => void;
+    order: any | null;
+  }
+
   interface PaymentCardModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;

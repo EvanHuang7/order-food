@@ -80,7 +80,8 @@ const Orders = () => {
                   {order.status === "Cancelled" && (
                     <button
                       className={`bg-gray-800 text-white py-2 px-4 rounded-md flex items-center
-                          justify-center hover:bg-secondary-500 hover:text-primary-50`}
+                          justify-center`}
+                      disabled={true}
                     >
                       Contact User
                     </button>
