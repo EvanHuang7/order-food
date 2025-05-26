@@ -97,14 +97,23 @@ const RateFoodModal = ({ open, onClose, order }: RateFoodModalProps) => {
         style={{ overscrollBehavior: "contain" }}
       >
         <DialogHeader>
-          <DialogTitle>Rate Food</DialogTitle>
-          <DialogDescription className="sr-only">
-            Rate each item in your order.
-          </DialogDescription>
+          <div className="flex items-center gap-4">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border">
+              <Image
+                src="/userProfile/restaurant-profile-img.jpg"
+                alt="Restaurant"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <DialogTitle>Rate Food</DialogTitle>
+              <DialogDescription>{order.restaurant.name}</DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="font-semibold">Items:</div>
           <ul className="space-y-6">
             {order.items.map((item: OrderItem) => (
               <li key={item.id} className="flex flex-col gap-2">

@@ -14,6 +14,7 @@ import {
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
+import Image from "next/image";
 
 const RateRestaurantModal = ({
   open,
@@ -36,6 +37,7 @@ const RateRestaurantModal = ({
       : skipToken
   );
   const [upsertRestaurantRating] = useUpsertRestaurantRatingMutation();
+  const hasExistingRatings = restaurantRatings && restaurantRatings.length > 0;
 
   useEffect(() => {
     if (restaurantRatings && restaurantRatings.length > 0) {
@@ -84,10 +86,20 @@ const RateRestaurantModal = ({
         style={{ overscrollBehavior: "contain" }}
       >
         <DialogHeader>
-          <DialogTitle>Rate Restaurant</DialogTitle>
-          <DialogDescription className="sr-only">
-            Rate your restaurant experience.
-          </DialogDescription>
+          <div className="flex items-center gap-4">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border">
+              <Image
+                src="/userProfile/restaurant-profile-img.jpg"
+                alt="Restaurant"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <DialogTitle>Rate Restaurant</DialogTitle>
+              <DialogDescription>{order.restaurant.name}</DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="flex flex-col gap-4">
@@ -107,7 +119,7 @@ const RateRestaurantModal = ({
 
           <textarea
             placeholder="Leave a comment..."
-            className="w-full rounded border p-2 text-sm resize-y"
+            className="w-full rounded border border-gray-300 p-2 text-sm resize-y focus:outline-none focus:ring-0 focus:border-gray-300"
             rows={4}
             value={comment}
             onChange={handleCommentChange}
@@ -117,13 +129,9 @@ const RateRestaurantModal = ({
             <button
               onClick={handleSubmit}
               disabled={rating === 0}
-              className={`bg-primary-700 text-white px-4 py-2 rounded ${
-                rating === 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-primary-800"
-              }`}
+              className="bg-primary-700 text-white px-4 py-2 rounded"
             >
-              Submit
+              {hasExistingRatings ? "Update Rating" : "Submit Rating"}
             </button>
           </div>
         </div>
