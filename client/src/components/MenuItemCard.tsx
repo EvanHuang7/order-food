@@ -1,9 +1,12 @@
+"use client";
+
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { Flame, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { addItemToShoppingCart, removeItemFromShoppingCart } from "@/state";
 import { MenuItemRating, OrderItem } from "@/types/prismaTypes";
+import RatingModal from "./RatingModal";
 
 const MenuItemCard = ({
   menuItem,
@@ -13,6 +16,8 @@ const MenuItemCard = ({
     const randomIndex = Math.floor(Math.random() * 9) + 1;
     return `/food/food${randomIndex}.jpg`;
   });
+
+  const [showRatingModal, setShowRatingModal] = useState(false);
 
   const dispatch = useAppDispatch();
   const selectedItem = useAppSelector((state) =>
@@ -44,7 +49,6 @@ const MenuItemCard = ({
 
   return (
     <>
-      // Consistent horizontal layout across all screen sizes
       <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
         {/* Left part */}
         <div className="relative w-1/3 h-full">
@@ -108,11 +112,14 @@ const MenuItemCard = ({
             <p className="text-gray-600 mb-1 text-sm truncate">
               {menuItem?.description}
             </p>
-            <div className="flex text-sm items-center">
+            <div
+              className="flex items-center text-sm cursor-pointer hover:underline"
+              onClick={() => setShowRatingModal(true)}
+            >
               <Star className="w-3 h-3 text-yellow-400 mr-1" />
               <span className="font-semibold">{averageRating.toFixed(1)}</span>
               <span className="text-gray-600 ml-1">
-                ({numberOfReviews} Reviews)
+                ({numberOfReviews} reviews)
               </span>
             </div>
           </div>
@@ -131,6 +138,13 @@ const MenuItemCard = ({
           </div>
         </div>
       </div>
+      {/* Rating modal */}
+      <RatingModal
+        open={showRatingModal}
+        onClose={() => setShowRatingModal(false)}
+        ratings={menuItem.ratings as any} // cast needed if customer is included
+        title={`Reviews for ${menuItem.name}`}
+      />
     </>
   );
 };

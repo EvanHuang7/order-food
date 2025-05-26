@@ -76,15 +76,15 @@ const RestaurantCard = ({
           </p>
 
           <div className="flex justify-between items-center mb-2">
-            <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 text-yellow-400" />
+            <div
+              className="flex items-center text-sm cursor-pointer hover:underline"
+              onClick={() => setShowRatingsModal(true)}
+            >
+              <Star className="w-4 h-4 text-yellow-400 mr-1" />
               <span className="font-semibold">{averageRating.toFixed(1)}</span>
-              <button
-                onClick={() => setShowRatingsModal(true)}
-                className="text-gray-600 text-sm underline hover:text-blue-600"
-              >
+              <span className="text-gray-600 ml-1">
                 ({numberOfReviews} reviews)
-              </button>
+              </span>
             </div>
             <p className="text-lg font-bold">
               {restaurant?.pricePerPereson || "N/A"}
