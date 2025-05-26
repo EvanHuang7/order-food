@@ -1,32 +1,74 @@
 [
   {
     "id": 1,
-    "cognitoId": "us-east-1:12345678-90ab-cdef-1234-567890abcdef",
+    "cognitoId": "cognito-abc001",
     "name": "Alice Johnson",
     "email": "alice.johnson@example.com",
-    "phoneNumber": "+12345678901",
-    "locationId": 1,
-    "createdAt": "2025-05-20T08:00:00.000Z",
-    "updatedAt": "2025-05-20T08:00:00.000Z"
+    "phoneNumber": "555-1234",
+    "profileImgUrl": "https://randomuser.me/api/portraits/women/1.jpg",
+    "locationId": null
   },
   {
     "id": 2,
-    "cognitoId": "us-east-1:abcdef12-3456-7890-abcd-ef1234567890",
+    "cognitoId": "cognito-abc002",
     "name": "Bob Smith",
     "email": "bob.smith@example.com",
-    "phoneNumber": "+19876543210",
-    "locationId": 2,
-    "createdAt": "2025-05-20T08:10:00.000Z",
-    "updatedAt": "2025-05-20T08:10:00.000Z"
+    "phoneNumber": "555-5678",
+    "profileImgUrl": "https://randomuser.me/api/portraits/men/2.jpg",
+    "locationId": null
   },
   {
     "id": 3,
-    "cognitoId": "us-east-1:fedcba98-7654-3210-fedc-ba9876543210",
-    "name": "Charlie Davis",
-    "email": "charlie.davis@example.com",
-    "phoneNumber": "+11234567890",
-    "locationId": null,
-    "createdAt": "2025-05-20T08:20:00.000Z",
-    "updatedAt": "2025-05-20T08:20:00.000Z"
+    "cognitoId": "cognito-abc003",
+    "name": "Carla Green",
+    "email": "carla.green@example.com",
+    "phoneNumber": "555-8765",
+    "profileImgUrl": "https://randomuser.me/api/portraits/women/3.jpg",
+    "locationId": null
+  },
+  {
+    "id": 4,
+    "cognitoId": "cognito-abc004",
+    "name": "David Lee",
+    "email": "david.lee@example.com",
+    "phoneNumber": "555-4321",
+    "profileImgUrl": "https://randomuser.me/api/portraits/men/4.jpg",
+    "locationId": null
+  },
+  {
+    "id": 5,
+    "cognitoId": "cognito-abc005",
+    "name": "Eva Martinez",
+    "email": "eva.martinez@example.com",
+    "phoneNumber": "555-9876",
+    "profileImgUrl": "https://randomuser.me/api/portraits/women/5.jpg",
+    "locationId": null
+  },
+  {
+    "id": 6,
+    "cognitoId": "cognito-abc006",
+    "name": "Frank Brown",
+    "email": "frank.brown@example.com",
+    "phoneNumber": "555-6543",
+    "profileImgUrl": "https://randomuser.me/api/portraits/men/6.jpg",
+    "locationId": null
+  },
+  {
+    "id": 7,
+    "cognitoId": "cognito-abc007",
+    "name": "Grace Kim",
+    "email": "grace.kim@example.com",
+    "phoneNumber": "555-3210",
+    "profileImgUrl": "https://randomuser.me/api/portraits/women/7.jpg",
+    "locationId": null
+  },
+  {
+    "id": 8,
+    "cognitoId": "cognito-abc008",
+    "name": "Henry Wilson",
+    "email": "henry.wilson@example.com",
+    "phoneNumber": "555-2109",
+    "profileImgUrl": "https://randomuser.me/api/portraits/men/8.jpg",
+    "locationId": null
   }
 ]

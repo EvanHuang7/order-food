@@ -5,6 +5,7 @@
     "name": "Derek Johnson",
     "email": "derek.johnson@example.com",
     "phoneNumber": "+15551234567",
+    "profileImgUrl": "https://example.com/images/driver1.jpg",
     "createdAt": "2025-05-20T09:00:00.000Z",
     "updatedAt": "2025-05-20T09:00:00.000Z"
   },
@@ -14,6 +15,7 @@
     "name": "Emily Roberts",
     "email": "emily.roberts@example.com",
     "phoneNumber": "+15557654321",
+    "profileImgUrl": "https://example.com/images/driver2.jpg",
     "createdAt": "2025-05-20T09:15:00.000Z",
     "updatedAt": "2025-05-20T09:15:00.000Z"
   },
@@ -23,6 +25,7 @@
     "name": "Franklin Lee",
     "email": "franklin.lee@example.com",
     "phoneNumber": "+15559876543",
+    "profileImgUrl": "https://example.com/images/driver3.jpg",
     "createdAt": "2025-05-20T09:30:00.000Z",
     "updatedAt": "2025-05-20T09:30:00.000Z"
   }

@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "restaurantId": 1,
+    "customerId": 1,
+    "rating": 5,
+    "comment": "Amazing pizza, great crust and fresh ingredients!",
+    "createdAt": "2025-05-20T10:15:00Z",
+    "updatedAt": "2025-05-20T10:15:00Z"
+  },
+  {
+    "id": 2,
+    "restaurantId": 1,
+    "customerId": 2,
+    "rating": 4,
+    "comment": "Very tasty, but delivery was a bit slow.",
+    "createdAt": "2025-05-21T12:30:00Z",
+    "updatedAt": "2025-05-21T12:30:00Z"
+  },
+  {
+    "id": 3,
+    "restaurantId": 1,
+    "customerId": 3,
+    "rating": 4,
+    "comment": "Good flavors, friendly staff.",
+    "createdAt": "2025-05-22T14:45:00Z",
+    "updatedAt": "2025-05-22T14:45:00Z"
+  },
+  {
+    "id": 4,
+    "restaurantId": 1,
+    "customerId": 4,
+    "rating": 3,
+    "comment": "Decent, but I've had better.",
+    "createdAt": "2025-05-23T09:00:00Z",
+    "updatedAt": "2025-05-23T09:00:00Z"
+  },
+  {
+    "id": 5,
+    "restaurantId": 1,
+    "customerId": 5,
+    "rating": 5,
+    "comment": "Absolutely delicious, will order again!",
+    "createdAt": "2025-05-24T17:20:00Z",
+    "updatedAt": "2025-05-24T17:20:00Z"
+  },
+  {
+    "id": 6,
+    "restaurantId": 1,
+    "customerId": 6,
+    "rating": 4,
+    "comment": "Great taste but a bit pricey.",
+    "createdAt": "2025-05-25T11:10:00Z",
+    "updatedAt": "2025-05-25T11:10:00Z"
+  },
+  {
+    "id": 7,
+    "restaurantId": 1,
+    "customerId": 7,
+    "rating": 5,
+    "comment": "Best pizza in town!",
+    "createdAt": "2025-05-26T08:55:00Z",
+    "updatedAt": "2025-05-26T08:55:00Z"
+  },
+  {
+    "id": 8,
+    "restaurantId": 1,
+    "customerId": 8,
+    "rating": 4,
+    "comment": "Fresh ingredients and quick delivery.",
+    "createdAt": "2025-05-26T19:30:00Z",
+    "updatedAt": "2025-05-26T19:30:00Z"
+  },
+  {
+    "id": 9,
+    "restaurantId": 2,
+    "customerId": 1,
+    "rating": 5,
+    "comment": "Excellent sushi, very fresh!",
+    "createdAt": "2025-05-20T13:15:00Z",
+    "updatedAt": "2025-05-20T13:15:00Z"
+  },
+  {
+    "id": 10,
+    "restaurantId": 2,
+    "customerId": 2,
+    "rating": 4,
+    "comment": "Good selection but a bit salty for me.",
+    "createdAt": "2025-05-21T15:25:00Z",
+    "updatedAt": "2025-05-21T15:25:00Z"
+  },
+  {
+    "id": 11,
+    "restaurantId": 2,
+    "customerId": 3,
+    "rating": 4,
+    "comment": "Nice atmosphere, sushi was tasty.",
+    "createdAt": "2025-05-22T16:40:00Z",
+    "updatedAt": "2025-05-22T16:40:00Z"
+  },
+  {
+    "id": 12,
+    "restaurantId": 2,
+    "customerId": 4,
+    "rating": 3,
+    "comment": "Okay sushi but slow service.",
+    "createdAt": "2025-05-23T12:10:00Z",
+    "updatedAt": "2025-05-23T12:10:00Z"
+  },
+  {
+    "id": 13,
+    "restaurantId": 2,
+    "customerId": 5,
+    "rating": 5,
+    "comment": "Loved the fresh rolls, highly recommend!",
+    "createdAt": "2025-05-24T18:45:00Z",
+    "updatedAt": "2025-05-24T18:45:00Z"
+  },
+  {
+    "id": 14,
+    "restaurantId": 3,
+    "customerId": 6,
+    "rating": 5,
+    "comment": "Pad Thai was delicious and authentic.",
+    "createdAt": "2025-05-20T10:05:00Z",
+    "updatedAt": "2025-05-20T10:05:00Z"
+  },
+  {
+    "id": 15,
+    "restaurantId": 3,
+    "customerId": 7,
+    "rating": 4,
+    "comment": "Good flavors, but a bit oily.",
+    "createdAt": "2025-05-21T14:50:00Z",
+    "updatedAt": "2025-05-21T14:50:00Z"
+  },
+  {
+    "id": 16,
+    "restaurantId": 3,
+    "customerId": 8,
+    "rating": 4,
+    "comment": "Nice spice level, will come back.",
+    "createdAt": "2025-05-22T11:30:00Z",
+    "updatedAt": "2025-05-22T11:30:00Z"
+  },
+  {
+    "id": 17,
+    "restaurantId": 3,
+    "customerId": 1,
+    "rating": 3,
+    "comment": "Good but not exceptional.",
+    "createdAt": "2025-05-23T17:25:00Z",
+    "updatedAt": "2025-05-23T17:25:00Z"
+  },
+  {
+    "id": 18,
+    "restaurantId": 3,
+    "customerId": 2,
+    "rating": 5,
+    "comment": "Best Thai food I have had in a while!",
+    "createdAt": "2025-05-24T13:15:00Z",
+    "updatedAt": "2025-05-24T13:15:00Z"
+  },
+  {
+    "id": 19,
+    "restaurantId": 4,
+    "customerId": 3,
+    "rating": 5,
+    "comment": "Classic burger, perfectly cooked.",
+    "createdAt": "2025-05-20T19:00:00Z",
+    "updatedAt": "2025-05-20T19:00:00Z"
+  },
+  {
+    "id": 20,
+    "restaurantId": 4,
+    "customerId": 4,
+    "rating": 4,
+    "comment": "Tasty but the fries were a bit cold.",
+    "createdAt": "2025-05-21T16:45:00Z",
+    "updatedAt": "2025-05-21T16:45:00Z"
+  }
+]

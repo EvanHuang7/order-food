@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "menuItemId": 1,
+    "customerId": 1,
+    "rating": 5,
+    "comment": "This dish is absolutely delicious!",
+    "createdAt": "2025-05-20T09:00:00Z",
+    "updatedAt": "2025-05-20T09:00:00Z"
+  },
+  {
+    "id": 2,
+    "menuItemId": 1,
+    "customerId": 2,
+    "rating": 4,
+    "comment": "Very tasty, but could use a bit more seasoning.",
+    "createdAt": "2025-05-21T10:15:00Z",
+    "updatedAt": "2025-05-21T10:15:00Z"
+  },
+  {
+    "id": 3,
+    "menuItemId": 1,
+    "customerId": 3,
+    "rating": 5,
+    "comment": "Perfectly cooked, will order again.",
+    "createdAt": "2025-05-22T11:30:00Z",
+    "updatedAt": "2025-05-22T11:30:00Z"
+  },
+  {
+    "id": 4,
+    "menuItemId": 1,
+    "customerId": 4,
+    "rating": 3,
+    "comment": "Good but a bit oily for my taste.",
+    "createdAt": "2025-05-23T12:45:00Z",
+    "updatedAt": "2025-05-23T12:45:00Z"
+  },
+  {
+    "id": 5,
+    "menuItemId": 1,
+    "customerId": 5,
+    "rating": 4,
+    "comment": "Enjoyed it, portion size was good.",
+    "createdAt": "2025-05-24T14:00:00Z",
+    "updatedAt": "2025-05-24T14:00:00Z"
+  },
+  {
+    "id": 6,
+    "menuItemId": 1,
+    "customerId": 6,
+    "rating": 5,
+    "comment": "Excellent flavors and presentation.",
+    "createdAt": "2025-05-25T15:15:00Z",
+    "updatedAt": "2025-05-25T15:15:00Z"
+  },
+  {
+    "id": 7,
+    "menuItemId": 1,
+    "customerId": 7,
+    "rating": 4,
+    "comment": "Very good, but I prefer it a little spicier.",
+    "createdAt": "2025-05-26T16:30:00Z",
+    "updatedAt": "2025-05-26T16:30:00Z"
+  },
+  {
+    "id": 8,
+    "menuItemId": 1,
+    "customerId": 8,
+    "rating": 5,
+    "comment": "One of my favorites on the menu!",
+    "createdAt": "2025-05-26T18:00:00Z",
+    "updatedAt": "2025-05-26T18:00:00Z"
+  },
+  {
+    "id": 9,
+    "menuItemId": 2,
+    "customerId": 1,
+    "rating": 4,
+    "comment": "Delicious but a bit salty.",
+    "createdAt": "2025-05-20T09:30:00Z",
+    "updatedAt": "2025-05-20T09:30:00Z"
+  },
+  {
+    "id": 10,
+    "menuItemId": 2,
+    "customerId": 2,
+    "rating": 5,
+    "comment": "Loved it, very fresh ingredients.",
+    "createdAt": "2025-05-21T10:45:00Z",
+    "updatedAt": "2025-05-21T10:45:00Z"
+  },
+  {
+    "id": 11,
+    "menuItemId": 2,
+    "customerId": 3,
+    "rating": 3,
+    "comment": "It was okay, not my favorite.",
+    "createdAt": "2025-05-22T12:00:00Z",
+    "updatedAt": "2025-05-22T12:00:00Z"
+  },
+  {
+    "id": 12,
+    "menuItemId": 2,
+    "customerId": 4,
+    "rating": 5,
+    "comment": "Excellent choice, would order again.",
+    "createdAt": "2025-05-23T13:15:00Z",
+    "updatedAt": "2025-05-23T13:15:00Z"
+  },
+  {
+    "id": 13,
+    "menuItemId": 2,
+    "customerId": 5,
+    "rating": 4,
+    "comment": "Very flavorful and satisfying.",
+    "createdAt": "2025-05-24T14:30:00Z",
+    "updatedAt": "2025-05-24T14:30:00Z"
+  },
+  {
+    "id": 14,
+    "menuItemId": 3,
+    "customerId": 6,
+    "rating": 5,
+    "comment": "Best dish I tried here!",
+    "createdAt": "2025-05-20T10:00:00Z",
+    "updatedAt": "2025-05-20T10:00:00Z"
+  },
+  {
+    "id": 15,
+    "menuItemId": 3,
+    "customerId": 7,
+    "rating": 4,
+    "comment": "Tasty but could be hotter.",
+    "createdAt": "2025-05-21T11:15:00Z",
+    "updatedAt": "2025-05-21T11:15:00Z"
+  },
+  {
+    "id": 16,
+    "menuItemId": 3,
+    "customerId": 8,
+    "rating": 4,
+    "comment": "Really enjoyed this one.",
+    "createdAt": "2025-05-22T12:30:00Z",
+    "updatedAt": "2025-05-22T12:30:00Z"
+  },
+  {
+    "id": 17,
+    "menuItemId": 3,
+    "customerId": 1,
+    "rating": 3,
+    "comment": "It was okay, not outstanding.",
+    "createdAt": "2025-05-23T13:45:00Z",
+    "updatedAt": "2025-05-23T13:45:00Z"
+  },
+  {
+    "id": 18,
+    "menuItemId": 3,
+    "customerId": 2,
+    "rating": 5,
+    "comment": "I’d definitely get this again!",
+    "createdAt": "2025-05-24T15:00:00Z",
+    "updatedAt": "2025-05-24T15:00:00Z"
+  },
+  {
+    "id": 19,
+    "menuItemId": 4,
+    "customerId": 3,
+    "rating": 4,
+    "comment": "Nice and flavorful.",
+    "createdAt": "2025-05-20T09:45:00Z",
+    "updatedAt": "2025-05-20T09:45:00Z"
+  },
+  {
+    "id": 20,
+    "menuItemId": 4,
+    "customerId": 4,
+    "rating": 5,
+    "comment": "Perfect texture and taste.",
+    "createdAt": "2025-05-21T11:00:00Z",
+    "updatedAt": "2025-05-21T11:00:00Z"
+  }
+]

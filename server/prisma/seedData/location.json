@@ -1,32 +1,102 @@
 [
   {
     "id": 1,
-    "address": "123 Maple Street",
+    "address": "123 Maple St",
     "city": "Toronto",
-    "province": "Ontario",
+    "province": "ON",
     "country": "Canada",
     "postalCode": "M5H 2N2",
-    "createdAt": "2025-05-20T08:00:00.000Z",
-    "updatedAt": "2025-05-20T08:00:00.000Z"
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
   },
   {
     "id": 2,
-    "address": "456 Oak Avenue",
+    "address": "456 Oak Ave",
     "city": "Vancouver",
-    "province": "British Columbia",
+    "province": "BC",
     "country": "Canada",
-    "postalCode": "V6B 1A1",
-    "createdAt": "2025-05-20T08:30:00.000Z",
-    "updatedAt": "2025-05-20T08:30:00.000Z"
+    "postalCode": "V6B 3B9",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
   },
   {
     "id": 3,
-    "address": "789 Pine Lane",
+    "address": "789 Pine Rd",
     "city": "Montreal",
-    "province": "Quebec",
+    "province": "QC",
     "country": "Canada",
-    "postalCode": "H3B 2Y5",
-    "createdAt": "2025-05-20T09:00:00.000Z",
-    "updatedAt": "2025-05-20T09:00:00.000Z"
+    "postalCode": "H3A 1A1",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 4,
+    "address": "321 Cedar Blvd",
+    "city": "Calgary",
+    "province": "AB",
+    "country": "Canada",
+    "postalCode": "T2P 3G7",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 5,
+    "address": "654 Spruce Ln",
+    "city": "Ottawa",
+    "province": "ON",
+    "country": "Canada",
+    "postalCode": "K1P 5J6",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 6,
+    "address": "987 Birch St",
+    "city": "Edmonton",
+    "province": "AB",
+    "country": "Canada",
+    "postalCode": "T5J 2N9",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 7,
+    "address": "147 Elm St",
+    "city": "Winnipeg",
+    "province": "MB",
+    "country": "Canada",
+    "postalCode": "R3C 4A9",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 8,
+    "address": "258 Willow Ave",
+    "city": "Quebec City",
+    "province": "QC",
+    "country": "Canada",
+    "postalCode": "G1R 2M5",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 9,
+    "address": "369 Aspen Rd",
+    "city": "Halifax",
+    "province": "NS",
+    "country": "Canada",
+    "postalCode": "B3H 1X4",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 10,
+    "address": "741 Poplar Blvd",
+    "city": "Victoria",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V8W 3A4",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
   }
 ]

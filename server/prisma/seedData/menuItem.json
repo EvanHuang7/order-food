@@ -1,42 +1,162 @@
 [
   {
     "id": 1,
-    "name": "Classic Cheeseburger",
-    "description": "Juicy beef patty with cheddar cheese, lettuce, tomato, and pickles.",
-    "price": 9.99,
-    "photoUrl": "https://example.com/images/cheeseburger.jpg",
     "restaurantId": 1,
-    "createdAt": "2025-05-20T10:00:00.000Z",
-    "updatedAt": "2025-05-20T10:00:00.000Z"
+    "name": "Classic Margherita Pizza",
+    "description": "Fresh tomatoes, mozzarella cheese, and basil on a crispy crust.",
+    "price": 12.99,
+    "photoUrl": "https://example.com/images/margherita.jpg"
   },
   {
     "id": 2,
-    "name": "Veggie Pizza",
-    "description": "Thin crust pizza topped with mushrooms, peppers, onions, and olives.",
-    "price": 12.5,
-    "photoUrl": "https://example.com/images/veggie-pizza.jpg",
     "restaurantId": 1,
-    "createdAt": "2025-05-20T10:15:00.000Z",
-    "updatedAt": "2025-05-20T10:15:00.000Z"
+    "name": "Pepperoni Pizza",
+    "description": "Loaded with pepperoni and mozzarella cheese.",
+    "price": 14.99,
+    "photoUrl": "https://example.com/images/pepperoni.jpg"
   },
   {
     "id": 3,
-    "name": "Spaghetti Carbonara",
-    "description": "Classic Italian pasta with pancetta, eggs, Parmesan, and black pepper.",
-    "price": 14.0,
-    "photoUrl": "https://example.com/images/carbonara.jpg",
-    "restaurantId": 2,
-    "createdAt": "2025-05-20T10:30:00.000Z",
-    "updatedAt": "2025-05-20T10:30:00.000Z"
+    "restaurantId": 1,
+    "name": "BBQ Chicken Pizza",
+    "description": "Grilled chicken, BBQ sauce, red onions, and cilantro.",
+    "price": 15.99,
+    "photoUrl": "https://example.com/images/bbq-chicken.jpg"
   },
   {
     "id": 4,
-    "name": "Caesar Salad",
-    "description": "Romaine lettuce, Parmesan, croutons, and Caesar dressing.",
-    "price": 8.5,
-    "photoUrl": "https://example.com/images/caesar-salad.jpg",
+    "restaurantId": 1,
+    "name": "Veggie Delight Pizza",
+    "description": "Bell peppers, olives, onions, mushrooms, and tomatoes.",
+    "price": 13.99,
+    "photoUrl": "https://example.com/images/veggie-pizza.jpg"
+  },
+  {
+    "id": 5,
+    "restaurantId": 1,
+    "name": "Hawaiian Pizza",
+    "description": "Ham and pineapple on mozzarella cheese.",
+    "price": 14.49,
+    "photoUrl": "https://example.com/images/hawaiian.jpg"
+  },
+  {
+    "id": 6,
+    "restaurantId": 1,
+    "name": "Four Cheese Pizza",
+    "description": "Mozzarella, cheddar, parmesan, and gorgonzola cheese blend.",
+    "price": 16.99,
+    "photoUrl": "https://example.com/images/four-cheese.jpg"
+  },
+  {
+    "id": 7,
+    "restaurantId": 1,
+    "name": "Meat Lovers Pizza",
+    "description": "Pepperoni, sausage, ham, and bacon.",
+    "price": 17.99,
+    "photoUrl": "https://example.com/images/meat-lovers.jpg"
+  },
+  {
+    "id": 8,
+    "restaurantId": 1,
+    "name": "Spinach & Feta Pizza",
+    "description": "Fresh spinach, feta cheese, and garlic.",
+    "price": 14.99,
+    "photoUrl": "https://example.com/images/spinach-feta.jpg"
+  },
+  {
+    "id": 9,
+    "restaurantId": 1,
+    "name": "Buffalo Chicken Pizza",
+    "description": "Spicy buffalo sauce, grilled chicken, and ranch drizzle.",
+    "price": 16.49,
+    "photoUrl": "https://example.com/images/buffalo-chicken.jpg"
+  },
+  {
+    "id": 10,
+    "restaurantId": 1,
+    "name": "Mushroom Truffle Pizza",
+    "description": "Wild mushrooms with truffle oil and mozzarella.",
+    "price": 18.99,
+    "photoUrl": "https://example.com/images/mushroom-truffle.jpg"
+  },
+  {
+    "id": 11,
     "restaurantId": 2,
-    "createdAt": "2025-05-20T10:45:00.000Z",
-    "updatedAt": "2025-05-20T10:45:00.000Z"
+    "name": "Sushi Roll - California",
+    "description": "Crab meat, avocado, and cucumber roll.",
+    "price": 9.99,
+    "photoUrl": "https://example.com/images/california-roll.jpg"
+  },
+  {
+    "id": 12,
+    "restaurantId": 2,
+    "name": "Spicy Tuna Roll",
+    "description": "Fresh tuna mixed with spicy mayo and cucumber.",
+    "price": 11.49,
+    "photoUrl": "https://example.com/images/spicy-tuna.jpg"
+  },
+  {
+    "id": 13,
+    "restaurantId": 2,
+    "name": "Salmon Nigiri",
+    "description": "Sliced salmon over seasoned rice.",
+    "price": 12.99,
+    "photoUrl": "https://example.com/images/salmon-nigiri.jpg"
+  },
+  {
+    "id": 14,
+    "restaurantId": 2,
+    "name": "Tempura Roll",
+    "description": "Shrimp tempura with avocado and eel sauce.",
+    "price": 13.99,
+    "photoUrl": "https://example.com/images/tempura-roll.jpg"
+  },
+  {
+    "id": 15,
+    "restaurantId": 2,
+    "name": "Vegetable Roll",
+    "description": "Cucumber, avocado, and carrot roll.",
+    "price": 8.99,
+    "photoUrl": "https://example.com/images/vegetable-roll.jpg"
+  },
+  {
+    "id": 16,
+    "restaurantId": 3,
+    "name": "Chicken Pad Thai",
+    "description": "Rice noodles with chicken, peanuts, and bean sprouts.",
+    "price": 13.99,
+    "photoUrl": "https://example.com/images/pad-thai.jpg"
+  },
+  {
+    "id": 17,
+    "restaurantId": 3,
+    "name": "Green Curry",
+    "description": "Spicy Thai green curry with coconut milk and vegetables.",
+    "price": 14.49,
+    "photoUrl": "https://example.com/images/green-curry.jpg"
+  },
+  {
+    "id": 18,
+    "restaurantId": 3,
+    "name": "Tom Yum Soup",
+    "description": "Hot and sour Thai soup with shrimp and lemongrass.",
+    "price": 10.99,
+    "photoUrl": "https://example.com/images/tom-yum.jpg"
+  },
+  {
+    "id": 19,
+    "restaurantId": 3,
+    "name": "Mango Sticky Rice",
+    "description": "Sweet sticky rice with fresh mango and coconut milk.",
+    "price": 7.99,
+    "photoUrl": "https://example.com/images/mango-sticky-rice.jpg"
+  },
+  {
+    "id": 20,
+    "restaurantId": 4,
+    "name": "Classic Cheeseburger",
+    "description": "Beef patty with cheese, lettuce, tomato, and pickles.",
+    "price": 11.99,
+    "photoUrl": "https://example.com/images/cheeseburger.jpg"
   }
 ]

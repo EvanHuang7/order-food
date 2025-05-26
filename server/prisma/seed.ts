@@ -23,11 +23,15 @@ async function resetSequence(modelName: string) {
     "Driver",
     "Restaurant",
     "MenuItem",
-    "Order",
     "Payment",
+    "Order",
     "OrderItem",
     "Notification",
     "PaymentInfo",
+    // DON'T add FavoriteRestaurant model here bc it doesn't have id field
+    // "FavoriteRestaurant",
+    "RestaurantRating",
+    "MenuItemRating",
   ];
   if (!idFieldModels.includes(modelName)) return;
 
@@ -88,6 +92,8 @@ async function main() {
     "notification.json", // Depends on customer
     "paymentInfo.json", // Depends on customer
     "favoriteRestaurant.json", // Depends on customer, restaurant
+    "restaurantRating.json", // Depends on customer, restaurant
+    "menuItemRating.json", // Depends on customer, menuItem
   ];
 
   // Delete all existing data
