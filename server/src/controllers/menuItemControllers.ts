@@ -20,6 +20,11 @@ export const getRestaurantMenuItems = async (
         menuItems: {
           include: {
             orderItems: true,
+            ratings: {
+              include: {
+                customer: true,
+              },
+            },
           },
         },
       },

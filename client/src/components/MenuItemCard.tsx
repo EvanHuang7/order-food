@@ -1,13 +1,9 @@
-import {
-  getRandomAverageRating,
-  getRandomNumberOfReviews,
-  getRandomPopularity,
-} from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { Flame, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { addItemToShoppingCart, removeItemFromShoppingCart } from "@/state";
+import { MenuItemRating, OrderItem } from "@/types/prismaTypes";
 
 const MenuItemCard = ({
   menuItem,
@@ -24,9 +20,20 @@ const MenuItemCard = ({
   );
   const selectedNumber = selectedItem?.quantity || 0;
 
-  const averageRating = getRandomAverageRating();
-  const numberOfReviews = getRandomNumberOfReviews();
-  const itemPopularity = getRandomPopularity();
+  const averageRating = menuItem.ratings.length
+    ? menuItem.ratings.reduce(
+        (sum: number, r: MenuItemRating) => sum + r.rating,
+        0
+      ) / menuItem.ratings.length
+    : 0;
+  const numberOfReviews = menuItem.ratings.length;
+
+  const itemPopularity = menuItem.orderItems.length
+    ? menuItem.orderItems.reduce(
+        (sum: number, orderItem: OrderItem) => sum + orderItem.quantity,
+        0
+      )
+    : 0;
 
   const handleAddItem = () => {
     dispatch(addItemToShoppingCart(menuItem));
@@ -110,7 +117,7 @@ const MenuItemCard = ({
         <div className="flex justify-between items-center text-sm">
           <div className="flex gap-2 text-gray-600">
             <span className="flex items-center">
-              <Flame className="w-4 h-4 mr-1" /> {itemPopularity}
+              <Flame className="w-4 h-4 mr-1" /> {itemPopularity} sold
             </span>
           </div>
 

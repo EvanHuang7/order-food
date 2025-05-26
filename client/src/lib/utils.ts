@@ -10,31 +10,6 @@ export function formatEnumString(str: string) {
   return str.replace(/([A-Z])/g, " $1").trim();
 }
 
-export function getRandomAverageRating(): number {
-  const min = 4;
-  const max = 5;
-  const rating = Math.random() * (max - min) + min;
-  return Math.round(rating * 10) / 10; // rounds to 1 decimal place
-}
-
-export function getRandomNumberOfReviews(): number {
-  const min = 1;
-  const max = 20;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function getRandomCookTime(): number {
-  const min = 10;
-  const max = 30;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function getRandomPopularity(): number {
-  const min = 3;
-  const max = 5;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cleanParams(params: Record<string, any>): Record<string, any> {
   return Object.fromEntries(
