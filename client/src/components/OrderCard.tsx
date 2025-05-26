@@ -41,13 +41,13 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     cardAddress = `${order.customer?.location?.address || "Unknown address"}, ${
       order.customer?.location?.city || "Unknown city"
     }, ${order.customer?.location?.province || "Unknown province"}`;
-    cardImgSrc = "/userProfile/customer-profile-img.jpg";
+    cardImgSrc = "/userProfile/customer-profile-img-2.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Customer";
     contactPerson = order?.driverId ? order.driver : order.customer;
     contactPersonImgSrc = order?.driverId
       ? "/userProfile/driver-profile-img.jpg"
-      : "/userProfile/customer-profile-img.jpg";
+      : "/userProfile/customer-profile-img-2.jpg";
   } else if (userType === "driver") {
     cardName = order.restaurant.name;
     cardAddress = `${
@@ -60,7 +60,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     contactPersonRole = order?.driverId ? "Customer" : "Restaurant";
     contactPerson = order?.driverId ? order.customer : order.restaurant;
     contactPersonImgSrc = order?.driverId
-      ? "/userProfile/customer-profile-img.jpg"
+      ? "/userProfile/customer-profile-img-2.jpg"
       : "/userProfile/restaurant-profile-img.jpg";
   }
 
