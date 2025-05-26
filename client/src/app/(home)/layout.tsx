@@ -12,6 +12,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </main>
+      {/* TODO: add footer in here using none dashboard page */}
     </div>
   );
 };

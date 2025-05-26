@@ -13,12 +13,14 @@ export const getCustomer = async (
       include: {
         location: true,
         favoriteRests: {
+          // Best practice is to not return this big restaurant data
           include: {
             restaurant: true,
           },
         },
         notificationSetting: true,
         paymentInfo: true,
+        // Best practice is to not return unneeded data
         notifications: true,
       },
     });

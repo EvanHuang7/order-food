@@ -29,12 +29,15 @@ export const api = createApi({
   }),
   reducerPath: "api",
   tagTypes: [
+    // Auth user tags
     "Customer",
     "Restaurant",
     "Driver",
+    // Another tags
+    "RestaurantsList",
+    "RestaurantRatings",
     "MenuItems",
     "MenuItemRatings",
-    "Restaurants",
     "Payments",
     "AvailableOrdersForDriver",
     "Orders",
@@ -120,8 +123,8 @@ export const api = createApi({
         method: "PUT",
         body: updatedCustomer,
       }),
-      invalidatesTags: (result) => [
-        { type: "Customer", id: result?.customer?.id },
+      invalidatesTags: (responseData) => [
+        { type: "Customer", id: responseData?.customer?.id },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
@@ -145,10 +148,12 @@ export const api = createApi({
 
     getFavoriteRestaurants: build.query<Restaurant[], number>({
       query: (customerId) => `/customer/${customerId}/favorites`,
-      providesTags: (result) =>
-        result
+      providesTags: (restaurants) =>
+        restaurants
           ? [
-              ...result.map(({ id }) => ({
+              // it extracts the id property of each restaurant
+              // using destructuring "{ id }"
+              ...restaurants.map(({ id }) => ({
                 type: "FavoriteRestaurants" as const,
                 id,
               })),
@@ -172,6 +177,8 @@ export const api = createApi({
       }),
       invalidatesTags: (_result, _error, { customerId }) => [
         { type: "Customer", id: customerId },
+        // Invalidate List because of adding new element in list
+        // instead of udpating existing element in the list
         { type: "FavoriteRestaurants", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
@@ -192,6 +199,8 @@ export const api = createApi({
       }),
       invalidatesTags: (_result, _error, { customerId }) => [
         { type: "Customer", id: customerId },
+        // Invalidate List because of removing an element from list
+        // instead of updating existing element in the list
         { type: "FavoriteRestaurants", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
@@ -278,13 +287,16 @@ export const api = createApi({
           params,
         };
       },
-      providesTags: (result) =>
-        result
+      providesTags: (restaurants) =>
+        restaurants
           ? [
-              ...result.map(({ id }) => ({ type: "Restaurants" as const, id })),
-              { type: "Restaurants", id: "LIST" },
+              ...restaurants.map(({ id }) => ({
+                type: "RestaurantsList" as const,
+                id,
+              })),
+              { type: "RestaurantsList", id: "LIST" },
             ]
-          : [{ type: "Restaurants", id: "LIST" }],
+          : [{ type: "RestaurantsList", id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           error: "Failed to fetch restaurants.",
@@ -301,8 +313,8 @@ export const api = createApi({
         method: "PUT",
         body: updatedRestaurant,
       }),
-      invalidatesTags: (result) => [
-        { type: "Restaurant", id: result?.restaurant?.id },
+      invalidatesTags: (responseData) => [
+        { type: "Restaurant", id: responseData?.restaurant?.id },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
@@ -334,7 +346,7 @@ export const api = createApi({
         method: "PUT",
         body: updatedDriver,
       }),
-      invalidatesTags: (result) => [{ type: "Driver", id: result?.id }],
+      invalidatesTags: (driver) => [{ type: "Driver", id: driver.id }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success: "Driver info updated successfully!",
@@ -346,12 +358,12 @@ export const api = createApi({
     // MenuItem related endpoints
     getRestaurantMenuItems: build.query<Restaurant, string>({
       query: (restaurantId) => `menuItem/${restaurantId}/menuItems`,
-      providesTags: (result) =>
-        result?.menuItems
+      providesTags: (restaurantWithMenuItems) =>
+        restaurantWithMenuItems?.menuItems
           ? [
-              ...result.menuItems.map((menuItem: MenuItem) => ({
+              ...restaurantWithMenuItems.menuItems.map(({ id }: MenuItem) => ({
                 type: "MenuItems" as const,
-                id: menuItem.id,
+                id,
               })),
               { type: "MenuItems", id: "LIST" },
             ]
@@ -387,10 +399,7 @@ export const api = createApi({
         method: "PUT",
         body: updatedMenuItem,
       }),
-      invalidatesTags: (result) => [
-        { type: "MenuItems", id: result?.id },
-        { type: "MenuItems", id: "LIST" },
-      ],
+      invalidatesTags: (menuItem) => [{ type: "MenuItems", id: menuItem.id }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success: "Menu item info updated successfully!",
@@ -402,7 +411,7 @@ export const api = createApi({
     // Order related endpoints
     getOrder: build.query<Order, string>({
       query: (orderId) => `order/${orderId}`,
-      providesTags: (result) => [{ type: "Orders", id: result?.id }],
+      providesTags: (order) => [{ type: "Orders", id: order?.id }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           error: "Failed to get order.",
@@ -412,10 +421,10 @@ export const api = createApi({
 
     getOrders: build.query<Order[], void>({
       query: () => `order`,
-      providesTags: (result) =>
-        result
+      providesTags: (orders) =>
+        orders
           ? [
-              ...result.map(({ id }) => ({ type: "Orders" as const, id })),
+              ...orders.map(({ id }) => ({ type: "Orders" as const, id })),
               { type: "Orders", id: "LIST" },
             ]
           : [{ type: "Orders", id: "LIST" }],
@@ -428,10 +437,10 @@ export const api = createApi({
 
     getAvailableOrdersForDriver: build.query<Order[], void>({
       query: () => `order/available-orders`,
-      providesTags: (result) =>
-        result
+      providesTags: (availableOrders) =>
+        availableOrders
           ? [
-              ...result.map(({ id }) => ({
+              ...availableOrders.map(({ id }) => ({
                 type: "AvailableOrdersForDriver" as const,
                 id,
               })),
@@ -454,19 +463,10 @@ export const api = createApi({
         method: "POST",
         body: { customerId, items },
       }),
-      invalidatesTags: (result, error, arg) => {
-        if (result?.payment?.id) {
-          return [
-            { type: "Payments", id: result.payment.id },
-            { type: "Payments", id: "LIST" },
-            { type: "Orders", id: "LIST" },
-          ];
-        }
-        return [
-          { type: "Payments", id: "LIST" },
-          { type: "Orders", id: "LIST" },
-        ];
-      },
+      invalidatesTags: [
+        { type: "Payments", id: "LIST" },
+        { type: "Orders", id: "LIST" },
+      ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success:
@@ -490,11 +490,9 @@ export const api = createApi({
         method: "PUT",
         body: { userId, status, driverId },
       }),
-      invalidatesTags: (result) => [
-        { type: "Orders", id: result?.id },
-        { type: "Orders", id: "LIST" },
-        { type: "AvailableOrdersForDriver", id: result?.id },
-        { type: "AvailableOrdersForDriver", id: "LIST" },
+      invalidatesTags: (order) => [
+        { type: "Orders", id: order.id },
+        { type: "AvailableOrdersForDriver", id: order.id },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
@@ -507,7 +505,7 @@ export const api = createApi({
     // Payment related endpoints
     getPayment: build.query<Payment, string>({
       query: (paymentId) => `payment/${paymentId}`,
-      providesTags: (result) => [{ type: "Payments", id: result?.id }],
+      providesTags: (payment) => [{ type: "Payments", id: payment?.id }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           error: "Failed to get payment.",
@@ -524,10 +522,10 @@ export const api = createApi({
 
         return `payment?${queryParams.toString()}`;
       },
-      providesTags: (result) =>
-        result
+      providesTags: (payments) =>
+        payments
           ? [
-              ...result.map(({ id }) => ({ type: "Payments" as const, id })),
+              ...payments.map(({ id }) => ({ type: "Payments" as const, id })),
               { type: "Payments", id: "LIST" },
             ]
           : [{ type: "Payments", id: "LIST" }],
@@ -539,50 +537,19 @@ export const api = createApi({
     }),
 
     // Rating related endpoints
-    upsertMenuItemRatings: build.mutation<
-      MenuItemRating[],
-      {
-        customerId: number;
-        ratings: { menuItemId: number; rating: number; comment?: string }[];
-      }
-    >({
-      query: ({ customerId, ratings }) => ({
-        url: `/rating/menuItemRating/${customerId}`,
-        method: "POST",
-        body: ratings,
-      }),
-      // TODO: check if need to invalidate MenuItems
-      invalidatesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({
-                type: "MenuItemRatings" as const,
-                id,
-              })),
-              { type: "MenuItemRatings", id: "LIST" },
-            ]
-          : [{ type: "MenuItemRatings", id: "LIST" }],
-      async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          success: "Menu item ratings submitted!",
-          error: "Failed to submit menu item ratings.",
-        });
-      },
-    }),
-
-    // GET: Fetch multiple menu item ratings by a customer
+    // Get multiple menu item ratings by a customer
     getMenuItemRatings: build.query<
       MenuItemRating[],
-      { customerId: string; menuItemIds: string[] }
+      { customerId: number; menuItemIds: string[] }
     >({
       query: ({ customerId, menuItemIds }) => ({
         url: `/rating/menuItemRating/${customerId}`,
         params: { menuItemIds: menuItemIds.join(",") },
       }),
-      providesTags: (result) =>
-        result
+      providesTags: (menuItemRatings) =>
+        menuItemRatings
           ? [
-              ...result.map(({ id }) => ({
+              ...menuItemRatings.map(({ id }) => ({
                 type: "MenuItemRatings" as const,
                 id,
               })),
@@ -596,7 +563,57 @@ export const api = createApi({
       },
     }),
 
-    // POST: Upsert restaurant rating by a customer
+    upsertMenuItemRatings: build.mutation<
+      MenuItemRating[],
+      {
+        customerId: number;
+        ratings: { menuItemId: number; rating: number; comment?: string }[];
+      }
+    >({
+      query: ({ customerId, ratings }) => ({
+        url: `/rating/menuItemRating/${customerId}`,
+        method: "POST",
+        body: ratings,
+      }),
+      invalidatesTags: [
+        { type: "MenuItems", id: "LIST" },
+        { type: "MenuItemRatings", id: "LIST" },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Menu item ratings submitted!",
+          error: "Failed to submit menu item ratings.",
+        });
+      },
+    }),
+
+    // Get multiple restaurant ratings by a customer
+    getRestaurantRatings: build.query<
+      RestaurantRating[],
+      { customerId: number; restaurantIds: string[] }
+    >({
+      query: ({ customerId, restaurantIds }) => ({
+        url: `/rating/restaurantRating/${customerId}`,
+        params: { restaurantIds: restaurantIds.join(",") },
+      }),
+      providesTags: (restaurantRatings) =>
+        restaurantRatings
+          ? [
+              ...restaurantRatings.map((restaurantRating) => ({
+                type: "RestaurantRatings" as const,
+                id: restaurantRating.restaurantId,
+              })),
+              { type: "RestaurantRatings", id: "LIST" },
+            ]
+          : [{ type: "RestaurantRatings", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to get restaurant ratings.",
+        });
+      },
+    }),
+
+    // Upsert restaurant rating by a customer
     upsertRestaurantRating: build.mutation<
       RestaurantRating,
       {
@@ -609,40 +626,14 @@ export const api = createApi({
         method: "POST",
         body: ratingData,
       }),
-      invalidatesTags: ({ restaurantId }) => [
-        { type: "Restaurant", id: restaurantId },
-        { type: "Restaurant", id: "LIST" },
+      invalidatesTags: (restaurantRating) => [
+        { type: "RestaurantsList", id: restaurantRating.restaurantId },
+        { type: "RestaurantRatings", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
           success: "Restaurant rating submitted!",
           error: "Failed to submit restaurant rating.",
-        });
-      },
-    }),
-
-    // GET: Fetch multiple restaurant ratings by a customer
-    getRestaurantRatings: build.query<
-      RestaurantRating[],
-      { customerId: string; restaurantIds: string[] }
-    >({
-      query: ({ customerId, restaurantIds }) => ({
-        url: `/rating/restaurantRating/${customerId}`,
-        params: { restaurantIds: restaurantIds.join(",") },
-      }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ restaurantId }) => ({
-                type: "Restaurants" as const,
-                id: restaurantId,
-              })),
-              { type: "Restaurants", id: "LIST" },
-            ]
-          : [{ type: "Restaurants", id: "LIST" }],
-      async onQueryStarted(_, { queryFulfilled }) {
-        await withToast(queryFulfilled, {
-          error: "Failed to get restaurant ratings.",
         });
       },
     }),
@@ -677,8 +668,8 @@ export const {
   useGetPaymentQuery,
   useGetPaymentsQuery,
   // Rating related endpoints
-  useUpsertMenuItemRatingsMutation,
   useGetMenuItemRatingsQuery,
-  useUpsertRestaurantRatingMutation,
+  useUpsertMenuItemRatingsMutation,
   useGetRestaurantRatingsQuery,
+  useUpsertRestaurantRatingMutation,
 } = api;
