@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import {
   Dialog,
   DialogContent,
@@ -7,13 +8,57 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  useGetMenuItemRatingsQuery,
+  useUpsertMenuItemRatingsMutation,
+} from "@/state/api";
+import { MenuItemRating, OrderItem } from "@/types/prismaTypes";
 import { Star } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
   const [ratings, setRatings] = useState<Record<number, number>>({});
-  const [comments, setComments] = useState<Record<number, string>>({}); // new state for comments
+  const [comments, setComments] = useState<Record<number, string>>({});
+  const {
+    data: menuItemRatings,
+    isLoading,
+    isError,
+  } = useGetMenuItemRatingsQuery(
+    order
+      ? {
+          customerId: order.customerId,
+          menuItemIds: order.items.map((item: OrderItem) =>
+            String(item.menuItem.id)
+          ),
+        }
+      : skipToken
+  );
+  const hasExistingRatings = menuItemRatings && menuItemRatings.length > 0;
+
+  const [upsertMenuItemRatings] = useUpsertMenuItemRatingsMutation();
+
+  const [imgSrc, setImgSrc] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * 9) + 1;
+    return `/food/food${randomIndex}.jpg`;
+  });
+
+  // Populate existing ratings/comments when modal opens
+  useEffect(() => {
+    if (menuItemRatings) {
+      const initialRatings: Record<number, number> = {};
+      const initialComments: Record<number, string> = {};
+
+      menuItemRatings.forEach((rating: MenuItemRating) => {
+        initialRatings[rating.menuItemId] = rating.rating;
+        initialComments[rating.menuItemId] = rating.comment ?? "";
+      });
+
+      setRatings(initialRatings);
+      setComments(initialComments);
+    }
+  }, [menuItemRatings]);
 
   const handleRate = (itemId: number, rating: number) => {
     setRatings((prev) => ({ ...prev, [itemId]: rating }));
@@ -23,12 +68,27 @@ const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
     setComments((prev) => ({ ...prev, [itemId]: value }));
   };
 
-  const [imgSrc, setImgSrc] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * 9) + 1;
-    return `/food/food${randomIndex}.jpg`;
-  });
+  const handleSubmit = async () => {
+    const ratingsArray = order.items.map((item: OrderItem) => ({
+      menuItemId: item.menuItem.id,
+      rating: ratings[item.menuItem.id] ?? 0,
+      comment: comments[item.menuItem.id] ?? "",
+    }));
+
+    try {
+      await upsertMenuItemRatings({
+        customerId: order.customerId,
+        ratings: ratingsArray,
+      }).unwrap();
+      onClose();
+    } catch (err) {
+      console.error("Failed to submit ratings", err);
+    }
+  };
 
   if (!order) return null;
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Error fetching food ratings</div>;
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -46,7 +106,7 @@ const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
         <div className="space-y-4">
           <div className="font-semibold">Items:</div>
           <ul className="space-y-6">
-            {order.items.map((item: any) => (
+            {order.items.map((item: OrderItem) => (
               <li key={item.id} className="flex flex-col gap-2">
                 <div className="flex gap-4 items-center">
                   <div className="w-16 h-16 relative rounded border overflow-hidden">
@@ -69,9 +129,9 @@ const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star
                           key={star}
-                          onClick={() => handleRate(item.id, star)}
+                          onClick={() => handleRate(item.menuItem.id, star)}
                           className={`w-5 h-5 cursor-pointer ${
-                            (ratings[item.id] || 0) >= star
+                            (ratings[item.menuItem.id] || 0) >= star
                               ? "text-yellow-400 fill-yellow-400"
                               : "text-gray-300"
                           }`}
@@ -81,13 +141,14 @@ const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
                   </div>
                 </div>
 
-                {/* Comment textarea per item */}
                 <textarea
                   placeholder="Leave a comment..."
-                  className="w-full rounded border p-2 text-sm resize-y"
+                  className="w-full rounded border border-gray-300 p-2 text-sm resize-y focus:outline-none focus:ring-0 focus:border-gray-300"
                   rows={3}
-                  value={comments[item.id] || ""}
-                  onChange={(e) => handleCommentChange(item.id, e.target.value)}
+                  value={comments[item.menuItem.id] || ""}
+                  onChange={(e) =>
+                    handleCommentChange(item.menuItem.id, e.target.value)
+                  }
                 />
               </li>
             ))}
@@ -95,14 +156,10 @@ const RateFoodModal = ({ open, onClose, order }: OrderDetailModalProps) => {
 
           <div className="text-right mt-6">
             <button
-              onClick={() => {
-                console.log("Submit Ratings", ratings);
-                console.log("Submit Comments", comments);
-                onClose();
-              }}
+              onClick={handleSubmit}
               className="bg-primary-700 text-white px-4 py-2 rounded"
             >
-              Submit Ratings
+              {hasExistingRatings ? "Update Ratings" : "Submit Ratings"}
             </button>
           </div>
         </div>
