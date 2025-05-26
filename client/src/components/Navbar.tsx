@@ -52,11 +52,7 @@ const Navbar = () => {
             </div>
           )}
           {/* Logo and app name */}
-          <Link
-            href="/"
-            className="cursor-pointer hover:!text-primary-300"
-            scroll={false}
-          >
+          <Link href="/" className="cursor-pointer hover:!text-primary-300">
             <div className="flex items-center gap-3">
               <Image
                 src="/order-food-logo.svg"

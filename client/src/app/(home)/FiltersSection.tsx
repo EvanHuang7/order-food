@@ -21,7 +21,7 @@ import {
 import { CategoryEnum, CategoryEnumImageFile } from "@/lib/constants";
 import { Label } from "@/components/ui/label";
 
-const FiltersBar = () => {
+const FiltersSection = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -150,4 +150,4 @@ const FiltersBar = () => {
   );
 };
 
-export default FiltersBar;
+export default FiltersSection;

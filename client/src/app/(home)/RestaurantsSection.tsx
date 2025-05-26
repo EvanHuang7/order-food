@@ -28,7 +28,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const AllRestaurants = () => {
+const RestaurantsSection = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
@@ -107,4 +107,4 @@ const AllRestaurants = () => {
   );
 };
 
-export default AllRestaurants;
+export default RestaurantsSection;

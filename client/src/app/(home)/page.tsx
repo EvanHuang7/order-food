@@ -5,8 +5,8 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { cleanParams } from "@/lib/utils";
 import { setFilters } from "@/state";
-import AllRestaurants from "./AllRestaurants";
-import FiltersBar from "./FiltersBar";
+import RestaurantsSection from "./RestaurantsSection";
+import FiltersSection from "./FiltersSection";
 
 const HomePage = () => {
   const searchParams = useSearchParams();
@@ -35,8 +35,8 @@ const HomePage = () => {
 
   return (
     <div>
-      <FiltersBar />
-      <AllRestaurants />
+      <FiltersSection />
+      <RestaurantsSection />
     </div>
   );
 };
