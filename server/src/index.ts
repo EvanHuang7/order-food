@@ -13,6 +13,7 @@ import menuItemRoutes from "./routes/menuItemRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
 import ratingRoutes from "./routes/ratingRoutes";
+import favoriteRestaurantsRoutes from "./routes/favoriteRestaurantsRoutes";
 import notificationSettingRoutes from "./routes/notificationSettingRoutes";
 import { startPgNotificationListener } from "./lib/pg";
 
@@ -39,6 +40,11 @@ app.use("/menuItem", menuItemRoutes);
 app.use("/order", orderRoutes);
 app.use("/payment", authMiddleware(["customer"]), paymentRoutes);
 app.use("/rating", authMiddleware(["customer"]), ratingRoutes);
+app.use(
+  "/favoriteRestaurants",
+  authMiddleware(["customer"]),
+  favoriteRestaurantsRoutes
+);
 app.use(
   "/notificationSetting",
   authMiddleware(["customer"]),

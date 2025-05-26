@@ -147,7 +147,7 @@ export const api = createApi({
     }),
 
     getFavoriteRestaurants: build.query<Restaurant[], number>({
-      query: (customerId) => `/customer/${customerId}/favorites`,
+      query: (customerId) => `/favoriteRestaurants/${customerId}/favorites`,
       providesTags: (restaurants) =>
         restaurants
           ? [
@@ -172,7 +172,7 @@ export const api = createApi({
       { customerId: number; restaurantId: number }
     >({
       query: ({ customerId, restaurantId }) => ({
-        url: `/customer/${customerId}/favorites/${restaurantId}`,
+        url: `/favoriteRestaurants/${customerId}/favorites/${restaurantId}`,
         method: "POST",
       }),
       invalidatesTags: (_result, _error, { customerId }) => [
@@ -194,7 +194,7 @@ export const api = createApi({
       { customerId: number; restaurantId: number }
     >({
       query: ({ customerId, restaurantId }) => ({
-        url: `/customer/${customerId}/favorites/${restaurantId}`,
+        url: `/favoriteRestaurants/${customerId}/favorites/${restaurantId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_result, _error, { customerId }) => [
@@ -221,7 +221,7 @@ export const api = createApi({
       }
     >({
       query: ({ customerId, last4, expiryMonth, expiryYear }) => ({
-        url: `/customer/${customerId}/paymentInfo`,
+        url: `/payment/${customerId}/paymentInfo`,
         method: "POST",
         body: {
           last4: last4,
