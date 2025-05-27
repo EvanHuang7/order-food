@@ -81,15 +81,15 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
 
   return (
     <div className="border rounded-xl overflow-hidden shadow-sm bg-white mb-4">
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between px-6 md:px-4 py-6 gap-6 lg:gap-4">
+      <div className="flex flex-col lgWithSidebar:flex-row items-start lglgWithSidebar:items-center justify-between px-6 md:px-4 py-6 gap-6 lgWithSidebar:gap-4">
         {/* Order Info Section */}
-        <div className="flex flex-col lg:flex-row gap-5 w-full lg:w-auto">
+        <div className="flex flex-col lgWithSidebar:flex-row gap-5 w-full lgWithSidebar:w-auto">
           <Image
             src={cardImgSrc}
             alt={order.id}
             width={200}
             height={150}
-            className="rounded-xl object-cover w-full lg:w-[200px] h-[150px]"
+            className="rounded-xl object-cover w-full lgWithSidebar:w-[200px] h-[150px]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => setFallbackCardImgSrc("/order-food-logo.svg")}
           />
@@ -101,7 +101,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
                 <span>{cardAddress}</span>
               </div>
             </div>
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between gap-3">
               <div
                 className={cn(
                   "text-base",
@@ -130,10 +130,10 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
         </div>
 
         {/* Divider - visible only on desktop */}
-        <div className="hidden lg:block border-[0.5px] border-primary-200 h-48" />
+        <div className="hidden lgWithSidebar:block border-[0.5px] border-primary-200 h-48" />
 
         {/* Status and date Section */}
-        <div className="flex flex-col justify-between w-full lg:basis-2/12 lg:h-48 py-2 gap-3 lg:gap-0">
+        <div className="flex flex-col justify-between w-full lgWithSidebar:basis-2/12 lgWithSidebar:h-48 py-2 gap-3 lgWithSidebar:gap-0">
           <div>
             <div className="flex justify-between items-center">
               <span className="text-gray-500">Status:</span>
@@ -148,7 +148,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
           <div className="flex justify-between">
             <div className="flex flex-row">
               <CalendarDays className="w-5 h-5 mr-1 flex-shrink-0" />
-              <span className="inline lg:hidden xl:inline text-gray-500">
+              <span className="inline lgWithSidebar:hidden xl:inline text-gray-500">
                 Placed:
               </span>{" "}
             </div>
@@ -157,7 +157,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
           <div className="flex justify-between">
             <div className="flex flex-row">
               <CircleCheckBig className="w-5 h-5 mr-1 flex-shrink-0" />
-              <span className="inline lg:hidden xl:inline text-gray-500">
+              <span className="inline lgWithSidebar:hidden xl:inline text-gray-500">
                 Delivered:
               </span>{" "}
             </div>
@@ -168,10 +168,10 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
         </div>
 
         {/* Divider - visible only on desktop */}
-        <div className="hidden lg:block border-[0.5px] border-primary-200 h-48" />
+        <div className="hidden lgWithSidebar:block border-[0.5px] border-primary-200 h-48" />
 
         {/* Contact Person Section */}
-        <div className="flex flex-col justify-start gap-5 w-full lg:basis-3/12 lg:h-48 py-2">
+        <div className="flex flex-col justify-start gap-5 w-full lgWithSidebar:basis-3/12 lgWithSidebar:h-48 py-2">
           <div>
             <div className="text-lg font-semibold">{contactPersonRole}</div>
             <hr className="mt-3" />
