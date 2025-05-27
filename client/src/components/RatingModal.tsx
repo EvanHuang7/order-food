@@ -40,7 +40,7 @@ const RatingModal = ({
 
         <div className="space-y-6 mt-4">
           {ratings.length === 0 ? (
-            <p className="text-sm text-gray-500">No reviews yet.</p>
+            <p className="text-sm text-gray-500">No reviews yet ✍️</p>
           ) : (
             ratings.map((rating) => (
               <div
