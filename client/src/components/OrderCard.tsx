@@ -29,25 +29,25 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }, ${order.restaurant?.location?.city || "Unknown city"}, ${
       order.restaurant?.location?.province || "Unknown province"
     }`;
-    cardImgSrc = "/userProfile/restaurant-profile-img-3.jpg";
+    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Restaurant";
     contactPerson = order?.driverId ? order.driver : order.restaurant;
     contactPersonImgSrc = order?.driverId
       ? "/userProfile/driver-profile-img.jpg"
-      : "/userProfile/restaurant-profile-img-3.jpg";
+      : "/userProfile/restaurant-profile-img.jpg";
   } else if (userType === "restaurant") {
     cardName = order.customer.name;
     cardAddress = `${order.customer?.location?.address || "Unknown address"}, ${
       order.customer?.location?.city || "Unknown city"
     }, ${order.customer?.location?.province || "Unknown province"}`;
-    cardImgSrc = "/userProfile/customer-profile-img-2.jpg";
+    cardImgSrc = "/userProfile/customer-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Driver" : "Customer";
     contactPerson = order?.driverId ? order.driver : order.customer;
     contactPersonImgSrc = order?.driverId
       ? "/userProfile/driver-profile-img.jpg"
-      : "/userProfile/customer-profile-img-2.jpg";
+      : "/userProfile/customer-profile-img.jpg";
   } else if (userType === "driver") {
     cardName = order.restaurant.name;
     cardAddress = `${
@@ -55,13 +55,13 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }, ${order.restaurant?.location?.city || "Unknown city"}, ${
       order.restaurant?.location?.province || "Unknown province"
     }`;
-    cardImgSrc = "/userProfile/restaurant-profile-img-3.jpg";
+    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
 
     contactPersonRole = order?.driverId ? "Customer" : "Restaurant";
     contactPerson = order?.driverId ? order.customer : order.restaurant;
     contactPersonImgSrc = order?.driverId
-      ? "/userProfile/customer-profile-img-2.jpg"
-      : "/userProfile/restaurant-profile-img-3.jpg";
+      ? "/userProfile/customer-profile-img.jpg"
+      : "/userProfile/restaurant-profile-img.jpg";
   }
 
   const [fallbackCardImgSrc, setFallbackCardImgSrc] = useState(cardImgSrc);

@@ -13,7 +13,7 @@ const RestaurantCard = ({
   restaurantLink,
 }: RestaurantCardProps) => {
   const [imgSrc, setImgSrc] = useState(
-    restaurant.photoUrls?.[0] || "/restaurant-placeholder.jpg"
+    restaurant.profileImgUrl || "/userProfile/restaurant-profile-img.jpg"
   );
   const [showRatingsModal, setShowRatingsModal] = useState(false);
 
@@ -38,7 +38,9 @@ const RestaurantCard = ({
                   fill
                   className="object-cover cursor-pointer"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  onError={() => setImgSrc("/restaurant-placeholder.jpg")}
+                  onError={() =>
+                    setImgSrc("/userProfile/restaurant-profile-img.jpg")
+                  }
                 />
               </Link>
             ) : (
@@ -48,7 +50,9 @@ const RestaurantCard = ({
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                onError={() => setImgSrc("/restaurant-placeholder.jpg")}
+                onError={() =>
+                  setImgSrc("/userProfile/restaurant-profile-img.jpg")
+                }
               />
             )}
           </div>

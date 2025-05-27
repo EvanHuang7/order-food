@@ -96,9 +96,9 @@ const SettingsForm = ({
                               selectedImg ||
                               initialData.profileImgUrl ||
                               (userType === "customer"
-                                ? "/userProfile/customer-profile-img-2.jpg"
+                                ? "/userProfile/customer-profile-img.jpg"
                                 : userType === "restaurant"
-                                ? "/userProfile/restaurant-profile-img-3.jpg"
+                                ? "/userProfile/restaurant-profile-img.jpg"
                                 : "/userProfile/driver-profile-img.jpg")
                             }
                             alt="profileImgUrl"

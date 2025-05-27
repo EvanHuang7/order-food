@@ -30,7 +30,7 @@ const SingleRestaurant = () => {
     <div className="w-full pt-2 pb-3 px-4">
       <ImagePreviews
         images={
-          restaurantWithMenuItems.photoUrls.length > 0
+          restaurantWithMenuItems?.photoUrls?.length > 0
             ? restaurantWithMenuItems.photoUrls
             : [
                 "/restaurant/restaurant1.jpg",

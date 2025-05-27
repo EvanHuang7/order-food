@@ -51,7 +51,7 @@ const RatingModal = ({
                   <Image
                     src={
                       rating.customer.profileImgUrl ||
-                      "/userProfile/customer-profile-img-2.jpg"
+                      "/userProfile/customer-profile-img.jpg"
                     }
                     alt={rating.customer.name}
                     fill
