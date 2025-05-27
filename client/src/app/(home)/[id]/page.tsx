@@ -53,6 +53,7 @@ const SingleRestaurant = () => {
                 key={menuItem.id}
                 menuItem={menuItem}
                 showSelectButton={showCustomerInteraction}
+                showEditButton={false}
               />
             ))}
           </div>

@@ -10,7 +10,8 @@ import RatingModal from "./RatingModal";
 
 const MenuItemCard = ({
   menuItem,
-  showSelectButton = true,
+  showSelectButton = false,
+  showEditButton = false,
 }: MenuItemCardProps) => {
   const [imgSrc, setImgSrc] = useState(() => {
     const randomIndex = Math.floor(Math.random() * 9) + 1;
@@ -18,6 +19,7 @@ const MenuItemCard = ({
   });
 
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const dispatch = useAppDispatch();
   const selectedItem = useAppSelector((state) =>

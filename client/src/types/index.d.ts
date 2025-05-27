@@ -38,12 +38,14 @@ declare global {
   interface MenuItemCardProps {
     menuItem: MenuItem;
     showSelectButton?: boolean;
+    showEditButton?: boolean;
   }
 
   interface MenuItemModalProps {
     isOpen: boolean;
     onClose: () => void;
     restaurantId: number;
+    menuItem?: MenuItem;
   }
 
   interface RestaurantCardProps {

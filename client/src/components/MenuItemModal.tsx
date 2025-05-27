@@ -21,6 +21,7 @@ const MenuItemModal = ({
   isOpen,
   onClose,
   restaurantId,
+  menuItem = null,
 }: MenuItemModalProps) => {
   const [createRestaurantMenuItem] = useCreateRestaurantMenuItemMutation();
   const { data: authUser } = useGetAuthUserQuery();
@@ -28,9 +29,9 @@ const MenuItemModal = ({
   const form = useForm<MenuItemFormData>({
     resolver: zodResolver(menuItemSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
+      name: menuItem ? menuItem.name : "",
+      description: menuItem ? menuItem.description : "",
+      price: menuItem ? menuItem.price : 0,
       photoUrl: undefined,
     },
   });
@@ -57,7 +58,16 @@ const MenuItemModal = ({
 
     formData.append("restaurantId", String(restaurantId));
 
-    await createRestaurantMenuItem(formData);
+    // Updating existing menuItem case
+    if (menuItem) {
+      // TODO: finish it
+      // await updateRestaurantMenuItem(formData);
+    }
+    // Add newe menuItem case
+    else {
+      await createRestaurantMenuItem(formData);
+    }
+
     onClose();
   };
 

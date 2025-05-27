@@ -145,7 +145,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <hr className="mt-3" />
           </div>
           <div className="flex justify-between">
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row">
               <CalendarDays className="w-5 h-5 mr-1 flex-shrink-0" />
               <span className="inline lgWithSidebar:hidden xl:inline text-gray-500">
                 Placed:
@@ -154,7 +154,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             {formatToLocalString(order.createdAt)}
           </div>
           <div className="flex justify-between">
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row">
               <CircleCheckBig className="w-5 h-5 mr-1 flex-shrink-0" />
               <span className="inline lgWithSidebar:hidden xl:inline text-gray-500">
                 Delivered:

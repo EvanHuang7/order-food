@@ -1,18 +1,17 @@
 "use client";
 
-import MenuItemCard from "@/components/MenuItemCard";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
+import MenuItemCard from "@/components/MenuItemCard";
+import MenuItemModal from "@/components//MenuItemModal";
 import {
   useGetAuthUserQuery,
   useGetRestaurantMenuItemsQuery,
 } from "@/state/api";
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
-import MenuItemModal from "./MenuItemModal";
 
-// TODO: add buttons to update restuarnt info, like restaurant img, etc
 const ManageRestaurant = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const {
@@ -52,6 +51,7 @@ const ManageRestaurant = () => {
             key={menuItem.id}
             menuItem={menuItem}
             showSelectButton={false}
+            showEditButton={true}
           />
         ))}
       </div>
