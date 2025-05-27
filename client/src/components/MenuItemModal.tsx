@@ -75,9 +75,13 @@ const MenuItemModal = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md sm:max-w-2xl max-h-[70vh] overflow-y-auto bg-white p-6">
         <DialogHeader className="mb-4">
-          <DialogTitle>Add new menu item for your restaurant</DialogTitle>
+          <DialogTitle>
+            {menuItem
+              ? "Update an existing menu item"
+              : "Add new menu item for your restaurant"}
+          </DialogTitle>
           <DialogDescription className="sr-only">
-            Modal for creating a new restaurant menu item.
+            Modal for creating a new or update an existing restaurant menu item.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -107,7 +111,7 @@ const MenuItemModal = ({
               accept="image/*"
             />
             <Button type="submit" className="bg-primary-700 text-white w-full">
-              Add Item
+              {menuItem ? "Update Item" : "Add Item"}
             </Button>
           </form>
         </Form>

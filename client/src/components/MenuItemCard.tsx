@@ -1,12 +1,13 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/state/redux";
-import { Flame, Plus, Star } from "lucide-react";
+import { Flame, Pencil, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { addItemToShoppingCart, removeItemFromShoppingCart } from "@/state";
 import { MenuItemRating, OrderItem } from "@/types/prismaTypes";
 import RatingModal from "./RatingModal";
+import MenuItemModal from "./MenuItemModal";
 
 const MenuItemCard = ({
   menuItem,
@@ -51,7 +52,14 @@ const MenuItemCard = ({
 
   return (
     <>
-      <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
+      <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5 relative">
+        {/* Edit button */}
+        {showEditButton && (
+          <Pencil
+            className="absolute top-2 right-2 w-4 h-4 cursor-pointer"
+            onClick={() => setIsEditModalOpen(true)}
+          />
+        )}
         {/* Left part */}
         <div className="relative w-1/3 h-full">
           {/* Item image */}
@@ -140,12 +148,21 @@ const MenuItemCard = ({
           </div>
         </div>
       </div>
+
       {/* Rating modal */}
       <RatingModal
         open={showRatingModal}
         onClose={() => setShowRatingModal(false)}
         ratings={menuItem.ratings as any} // cast needed if customer is included
         title={`Reviews for ${menuItem.name}`}
+      />
+
+      {/* Update menuItem modal */}
+      <MenuItemModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        restaurantId={menuItem.restaurantId}
+        menuItem={menuItem}
       />
     </>
   );
