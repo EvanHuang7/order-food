@@ -18,6 +18,10 @@ export const getRestaurantMenuItems = async (
       include: {
         location: true,
         menuItems: {
+          // From old to new
+          orderBy: {
+            createdAt: "asc",
+          },
           include: {
             // Best Practice: In real-industry scenarios, it's best to calculate the average
             // rating and popularity on the backend and return only the final number.
@@ -185,7 +189,7 @@ export const updateRestaurantMenuItem = async (
       data: {
         name,
         description,
-        price,
+        price: Number(price),
         photoUrl,
       },
     });

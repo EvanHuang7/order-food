@@ -12,6 +12,7 @@ import { MenuItemFormData, menuItemSchema } from "@/lib/schemas";
 import {
   useCreateRestaurantMenuItemMutation,
   useGetAuthUserQuery,
+  useUpdateRestaurantMenuItemMutation,
 } from "@/state/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
@@ -24,6 +25,7 @@ const MenuItemModal = ({
   menuItem = null,
 }: MenuItemModalProps) => {
   const [createRestaurantMenuItem] = useCreateRestaurantMenuItemMutation();
+  const [updateRestaurantMenuItem] = useUpdateRestaurantMenuItemMutation();
   const { data: authUser } = useGetAuthUserQuery();
 
   const form = useForm<MenuItemFormData>({
@@ -60,8 +62,8 @@ const MenuItemModal = ({
 
     // Updating existing menuItem case
     if (menuItem) {
-      // TODO: finish it
-      // await updateRestaurantMenuItem(formData);
+      formData.append("menuItemId", String(menuItem.id));
+      await updateRestaurantMenuItem(formData);
     }
     // Add newe menuItem case
     else {

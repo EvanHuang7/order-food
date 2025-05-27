@@ -22,6 +22,7 @@ router.post(
 router.put(
   "/:menuItemId",
   authMiddleware(["restaurant"]),
+  upload.single("photo"),
   updateRestaurantMenuItem
 );
 

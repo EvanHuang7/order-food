@@ -390,12 +390,9 @@ export const api = createApi({
       },
     }),
 
-    updateRestaurantMenuItem: build.mutation<
-      MenuItem,
-      { menuItemId: string } & Partial<MenuItem>
-    >({
-      query: ({ menuItemId, ...updatedMenuItem }) => ({
-        url: `menuItem/${menuItemId}`,
+    updateRestaurantMenuItem: build.mutation<MenuItem, FormData>({
+      query: (updatedMenuItem) => ({
+        url: `menuItem/${updatedMenuItem.get("menuItemId")}`,
         method: "PUT",
         body: updatedMenuItem,
       }),
