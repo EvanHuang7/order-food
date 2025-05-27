@@ -81,15 +81,16 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
 
   return (
     <div className="border rounded-xl overflow-hidden shadow-sm bg-white mb-4">
+      {/* Top part */}
       <div className="flex flex-col lgWithSidebar:flex-row items-start lglgWithSidebar:items-center justify-between px-6 md:px-4 py-6 gap-6 lgWithSidebar:gap-4">
         {/* Order Info Section */}
-        <div className="flex flex-col lgWithSidebar:flex-row gap-5 w-full lgWithSidebar:w-auto">
+        <div className="flex flex-col lgWithSidebar:flex-row gap-3 w-full lgWithSidebar:w-auto lgWithSidebar:h-48">
           <Image
             src={cardImgSrc}
             alt={order.id}
             width={200}
-            height={150}
-            className="rounded-xl object-cover w-full lgWithSidebar:w-[200px] h-[150px]"
+            height={160}
+            className="rounded-xl object-cover w-full lgWithSidebar:w-[200px] h-[160px] mt-2"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => setFallbackCardImgSrc("/order-food-logo.svg")}
           />
@@ -128,10 +129,8 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             </div>
           </div>
         </div>
-
         {/* Divider - visible only on desktop */}
         <div className="hidden lgWithSidebar:block border-[0.5px] border-primary-200 h-48" />
-
         {/* Status and date Section */}
         <div className="flex flex-col justify-between w-full lgWithSidebar:basis-2/12 lgWithSidebar:h-48 py-2 gap-3 lgWithSidebar:gap-0">
           <div>
@@ -146,7 +145,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <hr className="mt-3" />
           </div>
           <div className="flex justify-between">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <CalendarDays className="w-5 h-5 mr-1 flex-shrink-0" />
               <span className="inline lgWithSidebar:hidden xl:inline text-gray-500">
                 Placed:
@@ -155,7 +154,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             {formatToLocalString(order.createdAt)}
           </div>
           <div className="flex justify-between">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <CircleCheckBig className="w-5 h-5 mr-1 flex-shrink-0" />
               <span className="inline lgWithSidebar:hidden xl:inline text-gray-500">
                 Delivered:
@@ -166,10 +165,8 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
               : "N/A"}
           </div>
         </div>
-
         {/* Divider - visible only on desktop */}
         <div className="hidden lgWithSidebar:block border-[0.5px] border-primary-200 h-48" />
-
         {/* Contact Person Section */}
         <div className="flex flex-col justify-start gap-5 w-full lgWithSidebar:basis-3/12 lgWithSidebar:h-48 py-2">
           <div>
@@ -204,6 +201,7 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
         </div>
       </div>
 
+      {/* Buttom part */}
       {/* Colored status banner and buttons */}
       <hr className="my-4" />
       <div className="flex flex-col sm:flex-row justify-between gap-5 w-full pb-4 px-4">

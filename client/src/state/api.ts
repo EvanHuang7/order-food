@@ -491,8 +491,8 @@ export const api = createApi({
         body: { userId, status, driverId },
       }),
       invalidatesTags: (order) => [
-        { type: "Orders", id: order.id },
-        { type: "AvailableOrdersForDriver", id: order.id },
+        { type: "Orders", id: "LIST" },
+        { type: "AvailableOrdersForDriver", id: "LIST" },
       ],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
