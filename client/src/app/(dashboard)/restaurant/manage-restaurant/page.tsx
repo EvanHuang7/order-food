@@ -49,6 +49,7 @@ const ManageRestaurant = () => {
         {restaurantWithMenuItems?.menuItems?.map((menuItem: any) => (
           <MenuItemCard
             key={menuItem.id}
+            restaurantName={restaurantWithMenuItems.name}
             menuItem={menuItem}
             showSelectButton={false}
             showEditButton={true}

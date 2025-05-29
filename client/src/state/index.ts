@@ -8,6 +8,7 @@ export interface FiltersState {
 
 export interface ShoppingCartItem extends MenuItem {
   quantity: number;
+  restaurantName?: string;
 }
 
 interface InitialStateTypes {
@@ -31,14 +32,19 @@ export const globalSlice = createSlice({
       state.filters = { ...state.filters, ...action.payload };
     },
     // Shopping cart functions
-    addItemToShoppingCart: (state, action: PayloadAction<MenuItem>) => {
+    addItemToShoppingCart: (
+      state,
+      action: PayloadAction<{ menuItem: MenuItem; restaurantName?: string }>
+    ) => {
+      const { menuItem, restaurantName } = action.payload;
+
       const existingItem = state.shoppingCart.find(
-        (item: any) => item.id === action.payload.id
+        (item: any) => item.id === menuItem.id
       );
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.shoppingCart.push({ ...action.payload, quantity: 1 });
+        state.shoppingCart.push({ ...menuItem, quantity: 1, restaurantName });
       }
     },
     removeItemFromShoppingCart: (state, action: PayloadAction<number>) => {

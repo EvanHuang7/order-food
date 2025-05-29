@@ -37,6 +37,7 @@ declare global {
 
   interface MenuItemCardProps {
     menuItem: MenuItem;
+    restaurantName: string;
     showSelectButton?: boolean;
     showEditButton?: boolean;
   }

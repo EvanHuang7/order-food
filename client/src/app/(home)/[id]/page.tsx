@@ -51,6 +51,7 @@ const SingleRestaurant = () => {
             {restaurantWithMenuItems?.menuItems?.map((menuItem: any) => (
               <MenuItemCard
                 key={menuItem.id}
+                restaurantName={restaurantWithMenuItems.name}
                 menuItem={menuItem}
                 showSelectButton={showCustomerInteraction}
                 showEditButton={false}

@@ -100,7 +100,7 @@ const RestaurantCard = ({
               </span>
             </div>
             <p className="text-lg font-bold">
-              {restaurant?.pricePerPereson || "N/A"}
+              ${restaurant?.pricePerPereson || "N/A"}
               <span className="text-gray-600 text-base font-normal">
                 {" "}
                 /person

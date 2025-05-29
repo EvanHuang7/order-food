@@ -11,6 +11,7 @@ import MenuItemModal from "./MenuItemModal";
 
 const MenuItemCard = ({
   menuItem,
+  restaurantName,
   showSelectButton = false,
   showEditButton = false,
 }: MenuItemCardProps) => {
@@ -44,7 +45,7 @@ const MenuItemCard = ({
     : 0;
 
   const handleAddItem = () => {
-    dispatch(addItemToShoppingCart(menuItem));
+    dispatch(addItemToShoppingCart({ menuItem, restaurantName }));
   };
   const handleRemoveItem = () => {
     dispatch(removeItemFromShoppingCart(menuItem.id));

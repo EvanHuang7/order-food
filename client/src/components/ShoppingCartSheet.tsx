@@ -131,7 +131,7 @@ const ShoppingCartSheet = () => {
               return (
                 <div key={restaurantId} className="mb-6">
                   <h3 className="text-lg font-semibold mb-2">
-                    Restaurant #{restaurantId}
+                    {items[0].restaurantName}
                   </h3>
                   <div className="space-y-4">
                     {items.map((item: any) => (
@@ -176,7 +176,9 @@ const ShoppingCartSheet = () => {
                             size="icon"
                             variant="ghost"
                             onClick={() =>
-                              dispatch(addItemToShoppingCart(item))
+                              dispatch(
+                                addItemToShoppingCart({ menuItem: item })
+                              )
                             }
                           >
                             <Plus className="w-4 h-4" />
