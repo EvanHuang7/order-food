@@ -75,9 +75,10 @@ const AllRestaurantsSection = () => {
     <div className="w-full">
       <h3 className="text-sm px-5 font-bold mb-3">
         {restaurants.length}{" "}
-        <span className="text-gray-700 font-normal">restaurants in </span>
-        {authUser?.userInfo?.location?.city || "your"}{" "}
-        <span className="text-gray-700 font-normal">country</span>
+        <span className="text-gray-700 font-normal">
+          restaurants match your{" "}
+        </span>
+        {"filters"}
       </h3>
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 gap-6"
