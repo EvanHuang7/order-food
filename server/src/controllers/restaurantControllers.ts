@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
-// import s3Client from "../lib/s3";
 import { NotificationType, Prisma } from "@prisma/client";
-import { wktToGeoJSON } from "@terraformer/wkt";
+import { s3Client } from "../lib/s3";
+import { Upload } from "@aws-sdk/lib-storage";
 
 export const getRestaurant = async (
   req: Request,
@@ -209,6 +209,7 @@ export const updateRestaurant = async (
     const {
       name,
       phoneNumber,
+      // profileImgUrl,
       address,
       city,
       province,
@@ -222,31 +223,34 @@ export const updateRestaurant = async (
     } = req.body;
 
     // Check input
-    if (!name) {
+    if (!name || !phoneNumber) {
       res.status(400).json({ message: "Missing required fields" });
       return;
     }
 
-    // Upload photos to AWS S3 bucket
-    const photoUrls: string[] = [];
-    // TODO: enable it after setting up S3 bucket
-    // const photoUrls = await Promise.all(
-    //   files.map(async (file) => {
-    //     const uploadParams = {
-    //       Bucket: process.env.S3_BUCKET_NAME!,
-    //       Key: `properties/${Date.now()}-${file.originalname}`,
-    //       Body: file.buffer,
-    //       ContentType: file.mimetype,
-    //     };
+    let photoUrls: string[] = [];
+    // Upload photos to AWS S3 bucket if there is a file
+    if (files && files.length > 0) {
+      photoUrls = await Promise.all(
+        files.map(async (file) => {
+          const uploadParams = {
+            Bucket: process.env.S3_BUCKET_NAME!,
+            Key: `restaurant/${Date.now()}-${file.originalname}`,
+            Body: file.buffer,
+            ContentType: file.mimetype,
+          };
 
-    //     const uploadResult = await new Upload({
-    //       client: s3Client,
-    //       params: uploadParams,
-    //     }).done();
+          const uploadResult = await new Upload({
+            client: s3Client,
+            params: uploadParams,
+          }).done();
 
-    //     return uploadResult.Location;
-    //   })
-    // );
+          return uploadResult.Location || "";
+        })
+      );
+    }
+    // Remove all empty string values in the list
+    photoUrls = photoUrls.filter((str) => str !== "");
 
     // Check if restaurant has a location record or not
     const existingRestaurant = await prisma.restaurant.findUnique({
@@ -303,14 +307,17 @@ export const updateRestaurant = async (
         data: {
           name,
           phoneNumber,
+          // profileImgUrl,
           pricePerPereson: Number(pricePerPereson),
           openTime,
           closeTime,
-          categories,
+          // Convert the FormData string type value back to arrray
+          categories: categories ? JSON.parse(categories) : [],
           description,
-          // TODO: update photoUrls after enable S3 bucket
-          // photoUrls,
           locationId,
+          // Only include photoUrls field to update when
+          // input photoUrls has value
+          ...(photoUrls.length > 0 && { photoUrls }),
         },
       });
 

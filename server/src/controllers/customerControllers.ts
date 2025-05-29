@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
-import { wktToGeoJSON } from "@terraformer/wkt";
 
 export const getCustomer = async (
   req: Request,

@@ -186,6 +186,8 @@ export const updateRestaurantMenuItem = async (
         name,
         description,
         price: Number(price),
+        // Only include photoUrl field to update when
+        // input photoUrl has value
         ...(photoUrl && photoUrl.trim() !== "" && { photoUrl }),
       },
     });
