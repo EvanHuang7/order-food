@@ -21,6 +21,16 @@
   },
   {
     "id": 3,
+    "address": "1180 8th Street East",
+    "city": "Saskatoon",
+    "province": "SK",
+    "country": "Canada",
+    "postalCode": "S1A 3B9",
+    "createdAt": "2025-05-01T12:00:00Z",
+    "updatedAt": "2025-05-01T12:00:00Z"
+  },
+  {
+    "id": 4,
     "address": "789 Pine Rd",
     "city": "Montreal",
     "province": "QC",
@@ -30,22 +40,12 @@
     "updatedAt": "2025-05-01T12:00:00Z"
   },
   {
-    "id": 4,
+    "id": 5,
     "address": "321 Cedar Blvd",
     "city": "Calgary",
     "province": "AB",
     "country": "Canada",
     "postalCode": "T2P 3G7",
-    "createdAt": "2025-05-01T12:00:00Z",
-    "updatedAt": "2025-05-01T12:00:00Z"
-  },
-  {
-    "id": 5,
-    "address": "1180 8th Street East",
-    "city": "Saskatoon",
-    "province": "SK",
-    "country": "Canada",
-    "postalCode": "S1A 3B9",
     "createdAt": "2025-05-01T12:00:00Z",
     "updatedAt": "2025-05-01T12:00:00Z"
   },
