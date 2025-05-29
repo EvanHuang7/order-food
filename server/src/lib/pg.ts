@@ -5,6 +5,7 @@ const client = new Client({
   connectionString: process.env.DATABASE_URL,
 });
 
+// NOTE: PG listener won't work in Prod because of requiring AWS RDS’s trusted root CA cert
 export async function startPgNotificationListener() {
   await client.connect();
   // Listen to channel (one per event/trigger)

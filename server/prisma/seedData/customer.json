@@ -2,73 +2,73 @@
   {
     "id": 1,
     "cognitoId": "cognito-abc001",
-    "name": "Alice Johnson",
-    "email": "alice.johnson@example.com",
+    "name": "Bob Vars",
+    "email": "bob.vars@example.com",
     "phoneNumber": "555-1234",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Bob-Vars-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 2,
     "cognitoId": "cognito-abc002",
-    "name": "Bob Smith",
-    "email": "bob.smith@example.com",
+    "name": "Alex Ulmer",
+    "email": "alex.ulmer@example.com",
     "phoneNumber": "555-5678",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Alex-Ulmer-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 3,
     "cognitoId": "cognito-abc003",
-    "name": "Carla Green",
-    "email": "carla.green@example.com",
+    "name": "Emily Ast",
+    "email": "emily.ast@example.com",
     "phoneNumber": "555-8765",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Emily-Ast-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 4,
     "cognitoId": "cognito-abc004",
-    "name": "David Lee",
-    "email": "david.lee@example.com",
+    "name": "Omar Higgs",
+    "email": "omar.higgs@example.com",
     "phoneNumber": "555-4321",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Omar-Higgs-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 5,
     "cognitoId": "cognito-abc005",
-    "name": "Eva Martinez",
-    "email": "eva.martinez@example.com",
+    "name": "Tina Uzir",
+    "email": "tina.uzir@example.com",
     "phoneNumber": "555-9876",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Tina-Uzir-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 6,
     "cognitoId": "cognito-abc006",
-    "name": "Frank Brown",
-    "email": "frank.brown@example.com",
+    "name": "Lily Smith",
+    "email": "lily.smith@example.com",
     "phoneNumber": "555-6543",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Lily-Smith-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 7,
     "cognitoId": "cognito-abc007",
-    "name": "Grace Kim",
-    "email": "grace.kim@example.com",
+    "name": "Steven Li",
+    "email": "steven.li@example.com",
     "phoneNumber": "555-3210",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Steven-Li-profile-img.jpeg",
     "locationId": null
   },
   {
     "id": 8,
     "cognitoId": "cognito-abc008",
-    "name": "Henry Wilson",
-    "email": "henry.wilson@example.com",
+    "name": "Doris Zhang",
+    "email": "doris.zhang@example.com",
     "phoneNumber": "555-2109",
-    "profileImgUrl": "",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Doris-Zhang-profile-img.jpeg",
     "locationId": null
   }
 ]

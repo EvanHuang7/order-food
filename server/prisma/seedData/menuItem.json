@@ -5,7 +5,7 @@
     "name": "Classic Margherita Pizza",
     "description": "Fresh tomatoes, mozzarella cheese, and basil on a crispy crust.",
     "price": 12.99,
-    "photoUrl": "https://example.com/images/margherita.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Classic-Margherita-Pizza.webp"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "name": "Pepperoni Pizza",
     "description": "Loaded with pepperoni and mozzarella cheese.",
     "price": 14.99,
-    "photoUrl": "https://example.com/images/pepperoni.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Pepperoni-Pizza.webp"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "name": "BBQ Chicken Pizza",
     "description": "Grilled chicken, BBQ sauce, red onions, and cilantro.",
     "price": 15.99,
-    "photoUrl": "https://example.com/images/bbq-chicken.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/BBQ-Chicken-Pizza.webp"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "name": "Veggie Delight Pizza",
     "description": "Bell peppers, olives, onions, mushrooms, and tomatoes.",
     "price": 13.99,
-    "photoUrl": "https://example.com/images/veggie-pizza.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Veggie-Delight-Pizza.webp"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "name": "Hawaiian Pizza",
     "description": "Ham and pineapple on mozzarella cheese.",
     "price": 14.49,
-    "photoUrl": "https://example.com/images/hawaiian.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Hawaiian-Pizza.webp"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "name": "Four Cheese Pizza",
     "description": "Mozzarella, cheddar, parmesan, and gorgonzola cheese blend.",
     "price": 16.99,
-    "photoUrl": "https://example.com/images/four-cheese.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Four-Cheese-Pizza.webp"
   },
   {
     "id": 7,
@@ -53,7 +53,7 @@
     "name": "Meat Lovers Pizza",
     "description": "Pepperoni, sausage, ham, and bacon.",
     "price": 17.99,
-    "photoUrl": "https://example.com/images/meat-lovers.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Meat-Lovers-Pizza.webp"
   },
   {
     "id": 8,
@@ -61,7 +61,7 @@
     "name": "Spinach & Feta Pizza",
     "description": "Fresh spinach, feta cheese, and garlic.",
     "price": 14.99,
-    "photoUrl": "https://example.com/images/spinach-feta.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Spinach-Feta-Pizza.webp"
   },
   {
     "id": 9,
@@ -69,7 +69,7 @@
     "name": "Buffalo Chicken Pizza",
     "description": "Spicy buffalo sauce, grilled chicken, and ranch drizzle.",
     "price": 16.49,
-    "photoUrl": "https://example.com/images/buffalo-chicken.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Buffalo-Chicken-Pizza.webp"
   },
   {
     "id": 10,
@@ -77,7 +77,7 @@
     "name": "Mushroom Truffle Pizza",
     "description": "Wild mushrooms with truffle oil and mozzarella.",
     "price": 18.99,
-    "photoUrl": "https://example.com/images/mushroom-truffle.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Mushroom-Truffle-Pizza.webp"
   },
   {
     "id": 11,
@@ -85,7 +85,7 @@
     "name": "Sushi Roll - California",
     "description": "Crab meat, avocado, and cucumber roll.",
     "price": 9.99,
-    "photoUrl": "https://example.com/images/california-roll.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Sushi-Roll-California.webp"
   },
   {
     "id": 12,
@@ -93,7 +93,7 @@
     "name": "Spicy Tuna Roll",
     "description": "Fresh tuna mixed with spicy mayo and cucumber.",
     "price": 11.49,
-    "photoUrl": "https://example.com/images/spicy-tuna.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Spicy-Tuna-Roll.webp"
   },
   {
     "id": 13,
@@ -101,7 +101,7 @@
     "name": "Salmon Nigiri",
     "description": "Sliced salmon over seasoned rice.",
     "price": 12.99,
-    "photoUrl": "https://example.com/images/salmon-nigiri.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Salmon-Nigiri.webp"
   },
   {
     "id": 14,
@@ -109,7 +109,7 @@
     "name": "Tempura Roll",
     "description": "Shrimp tempura with avocado and eel sauce.",
     "price": 13.99,
-    "photoUrl": "https://example.com/images/tempura-roll.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Tempura-Roll.webp"
   },
   {
     "id": 15,
@@ -117,7 +117,7 @@
     "name": "Vegetable Roll",
     "description": "Cucumber, avocado, and carrot roll.",
     "price": 8.99,
-    "photoUrl": "https://example.com/images/vegetable-roll.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Vegetable-Roll.webp"
   },
   {
     "id": 16,
@@ -125,7 +125,7 @@
     "name": "Chicken Pad Thai",
     "description": "Rice noodles with chicken, peanuts, and bean sprouts.",
     "price": 13.99,
-    "photoUrl": "https://example.com/images/pad-thai.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Chicken-Pad-Thai.webp"
   },
   {
     "id": 17,
@@ -133,7 +133,7 @@
     "name": "Green Curry",
     "description": "Spicy Thai green curry with coconut milk and vegetables.",
     "price": 14.49,
-    "photoUrl": "https://example.com/images/green-curry.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Green-Curry.webp"
   },
   {
     "id": 18,
@@ -141,7 +141,7 @@
     "name": "Tom Yum Soup",
     "description": "Hot and sour Thai soup with shrimp and lemongrass.",
     "price": 10.99,
-    "photoUrl": "https://example.com/images/tom-yum.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Tom-Yum-Soup.webp"
   },
   {
     "id": 19,
@@ -149,7 +149,7 @@
     "name": "Mango Sticky Rice",
     "description": "Sweet sticky rice with fresh mango and coconut milk.",
     "price": 7.99,
-    "photoUrl": "https://example.com/images/mango-sticky-rice.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Mango-Sticky-Rice.webp"
   },
   {
     "id": 20,
@@ -157,6 +157,6 @@
     "name": "Classic Cheeseburger",
     "description": "Beef patty with cheese, lettuce, tomato, and pickles.",
     "price": 11.99,
-    "photoUrl": "https://example.com/images/cheeseburger.jpg"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Classic-Cheeseburger.webp"
   }
 ]
