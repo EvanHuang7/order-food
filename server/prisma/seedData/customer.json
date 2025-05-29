@@ -5,7 +5,7 @@
     "name": "Bob Vars",
     "email": "bob.vars@example.com",
     "phoneNumber": "555-1234",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Bob-Vars-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Bob-Vars-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -14,7 +14,7 @@
     "name": "Alex Ulmer",
     "email": "alex.ulmer@example.com",
     "phoneNumber": "555-5678",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Alex-Ulmer-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Alex-Ulmer-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -23,7 +23,7 @@
     "name": "Emily Ast",
     "email": "emily.ast@example.com",
     "phoneNumber": "555-8765",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Emily-Ast-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Emily-Ast-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -32,7 +32,7 @@
     "name": "Omar Higgs",
     "email": "omar.higgs@example.com",
     "phoneNumber": "555-4321",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Omar-Higgs-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Omar-Higgs-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -41,7 +41,7 @@
     "name": "Tina Uzir",
     "email": "tina.uzir@example.com",
     "phoneNumber": "555-9876",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Tina-Uzir-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Tina-Uzir-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -50,7 +50,7 @@
     "name": "Lily Smith",
     "email": "lily.smith@example.com",
     "phoneNumber": "555-6543",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Lily-Smith-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Lily-Smith-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -59,7 +59,7 @@
     "name": "Steven Li",
     "email": "steven.li@example.com",
     "phoneNumber": "555-3210",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Steven-Li-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Steven-Li-profile-img.jpeg",
     "locationId": null
   },
   {
@@ -68,7 +68,7 @@
     "name": "Doris Zhang",
     "email": "doris.zhang@example.com",
     "phoneNumber": "555-2109",
-    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Doris-Zhang-profile-img.jpeg",
+    "profileImgUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/userProfileImg/Doris-Zhang-profile-img.jpeg",
     "locationId": null
   }
 ]

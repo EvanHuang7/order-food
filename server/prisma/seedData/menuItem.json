@@ -5,7 +5,7 @@
     "name": "Classic Margherita Pizza",
     "description": "Fresh tomatoes, mozzarella cheese, and basil on a crispy crust.",
     "price": 12.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Classic-Margherita-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Classic-Margherita-Pizza.webp"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "name": "Pepperoni Pizza",
     "description": "Loaded with pepperoni and mozzarella cheese.",
     "price": 14.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Pepperoni-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Pepperoni-Pizza.webp"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "name": "BBQ Chicken Pizza",
     "description": "Grilled chicken, BBQ sauce, red onions, and cilantro.",
     "price": 15.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/BBQ-Chicken-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/BBQ-Chicken-Pizza.webp"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "name": "Veggie Delight Pizza",
     "description": "Bell peppers, olives, onions, mushrooms, and tomatoes.",
     "price": 13.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Veggie-Delight-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Veggie-Delight-Pizza.webp"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "name": "Hawaiian Pizza",
     "description": "Ham and pineapple on mozzarella cheese.",
     "price": 14.49,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Hawaiian-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Hawaiian-Pizza.webp"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "name": "Four Cheese Pizza",
     "description": "Mozzarella, cheddar, parmesan, and gorgonzola cheese blend.",
     "price": 16.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Four-Cheese-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Four-Cheese-Pizza.webp"
   },
   {
     "id": 7,
@@ -53,7 +53,7 @@
     "name": "Meat Lovers Pizza",
     "description": "Pepperoni, sausage, ham, and bacon.",
     "price": 17.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Meat-Lovers-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Meat-Lovers-Pizza.webp"
   },
   {
     "id": 8,
@@ -61,7 +61,7 @@
     "name": "Spinach & Feta Pizza",
     "description": "Fresh spinach, feta cheese, and garlic.",
     "price": 14.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Spinach-Feta-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Spinach-Feta-Pizza.webp"
   },
   {
     "id": 9,
@@ -69,7 +69,7 @@
     "name": "Buffalo Chicken Pizza",
     "description": "Spicy buffalo sauce, grilled chicken, and ranch drizzle.",
     "price": 16.49,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Buffalo-Chicken-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Buffalo-Chicken-Pizza.webp"
   },
   {
     "id": 10,
@@ -77,7 +77,7 @@
     "name": "Mushroom Truffle Pizza",
     "description": "Wild mushrooms with truffle oil and mozzarella.",
     "price": 18.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Mushroom-Truffle-Pizza.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Mushroom-Truffle-Pizza.webp"
   },
   {
     "id": 11,
@@ -85,7 +85,7 @@
     "name": "Sushi Roll - California",
     "description": "Crab meat, avocado, and cucumber roll.",
     "price": 9.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Sushi-Roll-California.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Sushi-Roll-California.webp"
   },
   {
     "id": 12,
@@ -93,7 +93,7 @@
     "name": "Spicy Tuna Roll",
     "description": "Fresh tuna mixed with spicy mayo and cucumber.",
     "price": 11.49,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Spicy-Tuna-Roll.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Spicy-Tuna-Roll.webp"
   },
   {
     "id": 13,
@@ -101,7 +101,7 @@
     "name": "Salmon Nigiri",
     "description": "Sliced salmon over seasoned rice.",
     "price": 12.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Salmon-Nigiri.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Salmon-Nigiri.webp"
   },
   {
     "id": 14,
@@ -109,7 +109,7 @@
     "name": "Tempura Roll",
     "description": "Shrimp tempura with avocado and eel sauce.",
     "price": 13.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Tempura-Roll.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Tempura-Roll.webp"
   },
   {
     "id": 15,
@@ -117,46 +117,142 @@
     "name": "Vegetable Roll",
     "description": "Cucumber, avocado, and carrot roll.",
     "price": 8.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Vegetable-Roll.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Vegetable-Roll.webp"
   },
   {
     "id": 16,
     "restaurantId": 3,
-    "name": "Chicken Pad Thai",
-    "description": "Rice noodles with chicken, peanuts, and bean sprouts.",
-    "price": 13.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Chicken-Pad-Thai.webp"
+    "name": "Classic Cheeseburger",
+    "description": "Beef patty with cheese, lettuce, tomato, and pickles.",
+    "price": 11.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Classic-Cheeseburger.webp"
   },
   {
     "id": 17,
     "restaurantId": 3,
-    "name": "Green Curry",
-    "description": "Spicy Thai green curry with coconut milk and vegetables.",
-    "price": 14.49,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Green-Curry.webp"
+    "name": "Bacon BBQ Burger",
+    "description": "Smoky BBQ sauce, crispy bacon, cheddar cheese, and onion rings.",
+    "price": 13.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Bacon-BBQ-Burger.webp"
   },
   {
     "id": 18,
     "restaurantId": 3,
-    "name": "Tom Yum Soup",
-    "description": "Hot and sour Thai soup with shrimp and lemongrass.",
-    "price": 10.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Tom-Yum-Soup.webp"
+    "name": "Spicy Jalapeno Burger",
+    "description": "Beef patty with pepper jack cheese, jalapenos, and spicy mayo.",
+    "price": 12.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Spicy-Jalapeno-Burger.webp"
   },
   {
     "id": 19,
     "restaurantId": 3,
-    "name": "Mango Sticky Rice",
-    "description": "Sweet sticky rice with fresh mango and coconut milk.",
-    "price": 7.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Mango-Sticky-Rice.webp"
+    "name": "Mushroom Swiss Burger",
+    "description": "Juicy beef patty with sautéed mushrooms and Swiss cheese.",
+    "price": 12.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Mushroom-Swiss-Burger.webp"
   },
   {
     "id": 20,
+    "restaurantId": 3,
+    "name": "Crispy French Fries",
+    "description": "Golden, crispy shoestring fries served with ketchup.",
+    "price": 4.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/French-Fries.webp"
+  },
+  {
+    "id": 21,
     "restaurantId": 4,
-    "name": "Classic Cheeseburger",
-    "description": "Beef patty with cheese, lettuce, tomato, and pickles.",
+    "name": "Kung Pao Chicken",
+    "description": "Spicy stir-fried chicken with peanuts, vegetables, and chili peppers.",
+    "price": 13.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Kung-Pao-Chicken.webp"
+  },
+  {
+    "id": 22,
+    "restaurantId": 4,
+    "name": "Sweet and Sour Pork",
+    "description": "Crispy pork chunks tossed in a tangy sweet and sour sauce with pineapple and bell peppers.",
+    "price": 12.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Sweet-Sour-Pork.webp"
+  },
+  {
+    "id": 23,
+    "restaurantId": 4,
+    "name": "Beef Chow Fun",
+    "description": "Wide rice noodles stir-fried with tender beef, bean sprouts, and scallions in soy sauce.",
+    "price": 14.29,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Beef-Chow-Fun.webp"
+  },
+  {
+    "id": 24,
+    "restaurantId": 4,
+    "name": "Mapo Tofu",
+    "description": "Silky tofu and ground pork in a spicy, numbing Sichuan peppercorn sauce.",
     "price": 11.99,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/Classic-Cheeseburger.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Mapo-Tofu.webp"
+  },
+  {
+    "id": 25,
+    "restaurantId": 4,
+    "name": "Shrimp Fried Rice",
+    "description": "Wok-fried jasmine rice with shrimp, peas, carrots, and egg.",
+    "price": 12.79,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Shrimp-Fried-Rice.webp"
+  },
+  {
+    "id": 26,
+    "restaurantId": 5,
+    "name": "Chicken Pad Thai",
+    "description": "Rice noodles with chicken, peanuts, and bean sprouts.",
+    "price": 13.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Chicken-Pad-Thai.webp"
+  },
+  {
+    "id": 27,
+    "restaurantId": 5,
+    "name": "Green Curry",
+    "description": "Spicy Thai green curry with coconut milk and vegetables.",
+    "price": 14.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Green-Curry.webp"
+  },
+  {
+    "id": 28,
+    "restaurantId": 5,
+    "name": "Tom Yum Soup",
+    "description": "Hot and sour Thai soup with shrimp and lemongrass.",
+    "price": 10.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Tom-Yum-Soup.webp"
+  },
+  {
+    "id": 29,
+    "restaurantId": 5,
+    "name": "Mango Sticky Rice",
+    "description": "Sweet sticky rice with fresh mango and coconut milk.",
+    "price": 7.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Mango-Sticky-Rice.webp"
+  },
+  {
+    "id": 30,
+    "restaurantId": 6,
+    "name": "Classic Milk Tea",
+    "description": "Black tea with creamy milk and chewy tapioca pearls.",
+    "price": 5.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Classic-Milk-Tea.webp"
+  },
+  {
+    "id": 31,
+    "restaurantId": 6,
+    "name": "Taro Bubble Tea",
+    "description": "Sweet and nutty taro-flavored milk tea with boba pearls.",
+    "price": 5.99,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Taro-Bubble-Tea.webp"
+  },
+  {
+    "id": 32,
+    "restaurantId": 6,
+    "name": "Strawberry Matcha Latte",
+    "description": "Layered strawberry puree, creamy milk, and matcha green tea.",
+    "price": 6.49,
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Strawberry-Matcha-Latte.webp"
   }
 ]
