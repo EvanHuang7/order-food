@@ -58,7 +58,6 @@ const SettingsForm = ({
       const base64Image = reader.result as string;
       // Set the user selected image to the avator UI
       setSelectedImg(base64Image);
-      // TODO: Try to save it as File type?
       // Set it to form
       form.setValue("profileImgUrl", base64Image);
     };

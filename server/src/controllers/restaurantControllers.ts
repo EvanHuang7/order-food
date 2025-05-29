@@ -209,7 +209,7 @@ export const updateRestaurant = async (
     const {
       name,
       phoneNumber,
-      // profileImgUrl,
+      profileImgUrl,
       address,
       city,
       province,
@@ -226,6 +226,52 @@ export const updateRestaurant = async (
     if (!name || !phoneNumber) {
       res.status(400).json({ message: "Missing required fields" });
       return;
+    }
+
+    let uploadedProfileImgUrl = "";
+    // Upload profileImgUrl to AWS S3 bucket if there is a file and
+    // the file IS NOT an existing AWS S3 file (profileImgUrl
+    // starts with "https://of-s3-images.s3.us-east-1.amazonaws.com/restaurant")
+    if (
+      profileImgUrl &&
+      !profileImgUrl.startsWith(
+        "https://of-s3-images.s3.us-east-1.amazonaws.com/restaurant"
+      )
+    ) {
+      if (!profileImgUrl.startsWith("data:image/")) {
+        res.status(400).json({ error: "Invalid profileImgUrl format" });
+        return;
+      }
+
+      // Extract content type and base64 string
+      const matches = profileImgUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+      if (!matches) {
+        res.status(400).json({ error: "Malformed base64 image" });
+        return;
+      }
+
+      const contentType = matches[1];
+      const base64Data = matches[2];
+      const buffer = Buffer.from(base64Data, "base64");
+
+      // Generate a key
+      const key = `restaurant/${Date.now()}-profile-image.${
+        contentType.split("/")[1]
+      }`;
+
+      const uploadParams = {
+        Bucket: process.env.S3_BUCKET_NAME!,
+        Key: key,
+        Body: buffer,
+        ContentType: contentType,
+      };
+
+      const uploadResult = await new Upload({
+        client: s3Client,
+        params: uploadParams,
+      }).done();
+
+      uploadedProfileImgUrl = uploadResult.Location || "";
     }
 
     let photoUrls: string[] = [];
@@ -307,14 +353,18 @@ export const updateRestaurant = async (
         data: {
           name,
           phoneNumber,
-          // profileImgUrl,
           pricePerPereson: Number(pricePerPereson),
           openTime,
           closeTime,
-          // Convert the FormData string type value back to arrray
-          categories: categories ? JSON.parse(categories) : [],
           description,
           locationId,
+          // Convert the FormData string type value back to arrray
+          categories: categories ? JSON.parse(categories) : [],
+          // Only include profileImgUrl field to update when
+          // uploadedProfileImgUrl is not empty string
+          ...(uploadedProfileImgUrl && {
+            profileImgUrl: uploadedProfileImgUrl,
+          }),
           // Only include photoUrls field to update when
           // input photoUrls has value
           ...(photoUrls.length > 0 && { photoUrls }),
