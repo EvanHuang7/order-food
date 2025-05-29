@@ -306,10 +306,10 @@ export const api = createApi({
 
     updateRestaurantInfo: build.mutation<
       { restaurant: Restaurant; locationUpdated: boolean },
-      { cognitoId: string } & Partial<Restaurant>
+      FormData
     >({
-      query: ({ cognitoId, ...updatedRestaurant }) => ({
-        url: `restaurant/${cognitoId}`,
+      query: (updatedRestaurant) => ({
+        url: `restaurant/${updatedRestaurant.get("cognitoId")}`,
         method: "PUT",
         body: updatedRestaurant,
       }),

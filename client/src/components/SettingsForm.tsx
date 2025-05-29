@@ -58,6 +58,7 @@ const SettingsForm = ({
       const base64Image = reader.result as string;
       // Set the user selected image to the avator UI
       setSelectedImg(base64Image);
+      // TODO: Try to save it as File type?
       // Set it to form
       form.setValue("profileImgUrl", base64Image);
     };
@@ -214,7 +215,7 @@ const SettingsForm = ({
                     <CustomFormField
                       name="pricePerPereson"
                       label="Price Per Pereson (Enter number only)"
-                      placeholder="19.99"
+                      placeholder="e.g. 19.99"
                       disabled={!editMode}
                     />
                   </div>
@@ -236,7 +237,7 @@ const SettingsForm = ({
                 {/* Restaurant Photos */}
                 <div>
                   <h2 className="text-lg font-semibold mb-4">
-                    Restaurant Photos
+                    Restaurant Background Photos
                   </h2>
                   <CustomFormField
                     name="photoUrls"
