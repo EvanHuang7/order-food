@@ -37,23 +37,25 @@ const RatingModal = ({
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md sm:max-w-2xl max-h-[70vh] overflow-y-auto">
-        <DialogHeader>
-          <div className="flex items-center gap-4">
-            {imageUrl && (
-              <div className="relative w-12 h-12 rounded-full overflow-hidden border">
-                <Image
-                  src={imageUrl}
-                  alt="RatingItem"
-                  fill
-                  className="object-cover"
-                />
+        <DialogHeader className="p-4 rounded-t-xl">
+          <div className="border-b pb-3">
+            <div className="flex items-center gap-4">
+              {imageUrl && (
+                <div className="relative w-12 h-12 overflow-hidden border">
+                  <Image
+                    src={imageUrl}
+                    alt="RatingItem"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div>
+                <DialogTitle>{title}</DialogTitle>
+                <DialogDescription className="sr-only">
+                  All customer reviews for this rating
+                </DialogDescription>
               </div>
-            )}
-            <div>
-              <DialogTitle>{title}</DialogTitle>
-              <DialogDescription className="sr-only">
-                All customer reviews for this rating
-              </DialogDescription>
             </div>
           </div>
         </DialogHeader>
