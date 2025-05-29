@@ -97,7 +97,9 @@ const RateRestaurantModal = ({
             </div>
             <div>
               <DialogTitle>Rate Restaurant</DialogTitle>
-              <DialogDescription>{order.restaurant.name}</DialogDescription>
+              <DialogDescription className="sr-only sm:not-sr-only">
+                {order.restaurant.name}
+              </DialogDescription>
             </div>
           </div>
         </DialogHeader>

@@ -115,7 +115,7 @@ const RestaurantCard = ({
         open={showRatingsModal}
         onClose={() => setShowRatingsModal(false)}
         ratings={restaurant.ratings}
-        title="Restaurant Reviews"
+        title={`Reviews for ${restaurant.name}`}
       />
     </>
   );

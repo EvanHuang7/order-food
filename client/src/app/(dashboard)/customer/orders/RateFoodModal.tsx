@@ -108,7 +108,9 @@ const RateFoodModal = ({ open, onClose, order }: RateFoodModalProps) => {
             </div>
             <div>
               <DialogTitle>Rate Food</DialogTitle>
-              <DialogDescription>{order.restaurant.name}</DialogDescription>
+              <DialogDescription className="sr-only sm:not-sr-only">
+                {order.restaurant.name}
+              </DialogDescription>
             </div>
           </div>
         </DialogHeader>
