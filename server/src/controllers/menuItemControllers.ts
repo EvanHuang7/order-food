@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
 import { NotificationType } from "@prisma/client";
+import { s3Client } from "../lib/s3";
+import { Upload } from "@aws-sdk/lib-storage";
 
 export const getRestaurantMenuItems = async (
   req: Request,
@@ -63,26 +65,23 @@ export const createRestaurantMenuItem = async (
       return;
     }
 
-    // Upload photos to AWS S3 bucket
-    const photoUrl = "";
-    // TODO: enable it afer setting up S3 bucket
-    // const photoUrls = await Promise.all(
-    //   files.map(async (file) => {
-    //     const uploadParams = {
-    //       Bucket: process.env.S3_BUCKET_NAME!,
-    //       Key: `properties/${Date.now()}-${file.originalname}`,
-    //       Body: file.buffer,
-    //       ContentType: file.mimetype,
-    //     };
+    let photoUrl = "";
+    // Upload photos to AWS S3 bucket if there is a file
+    if (file) {
+      const uploadParams = {
+        Bucket: process.env.S3_BUCKET_NAME!,
+        Key: `menuItem/${Date.now()}-${file.originalname}`,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      };
 
-    //     const uploadResult = await new Upload({
-    //       client: s3Client,
-    //       params: uploadParams,
-    //     }).done();
+      const uploadResult = await new Upload({
+        client: s3Client,
+        params: uploadParams,
+      }).done();
 
-    //     return uploadResult.Location;
-    //   })
-    // );
+      photoUrl = uploadResult.Location || "";
+    }
 
     // Convert types explicitly
     const parsedPrice = parseFloat(price);
@@ -163,26 +162,23 @@ export const updateRestaurantMenuItem = async (
       return;
     }
 
-    // Upload photos to AWS S3 bucket
-    const photoUrl = "";
-    // TODO: enable it afer setting up S3 bucket
-    // const photoUrls = await Promise.all(
-    //   files.map(async (file) => {
-    //     const uploadParams = {
-    //       Bucket: process.env.S3_BUCKET_NAME!,
-    //       Key: `properties/${Date.now()}-${file.originalname}`,
-    //       Body: file.buffer,
-    //       ContentType: file.mimetype,
-    //     };
+    let photoUrl = "";
+    // Upload photos to AWS S3 bucket if there is a file
+    if (file) {
+      const uploadParams = {
+        Bucket: process.env.S3_BUCKET_NAME!,
+        Key: `menuItem/${Date.now()}-${file.originalname}`,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      };
 
-    //     const uploadResult = await new Upload({
-    //       client: s3Client,
-    //       params: uploadParams,
-    //     }).done();
+      const uploadResult = await new Upload({
+        client: s3Client,
+        params: uploadParams,
+      }).done();
 
-    //     return uploadResult.Location;
-    //   })
-    // );
+      photoUrl = uploadResult.Location || "";
+    }
 
     const updatedMenuItem = await prisma.menuItem.update({
       where: { id: Number(menuItemId) },

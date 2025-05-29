@@ -23,7 +23,7 @@ export const menuItemSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   price: z.coerce.number().positive().min(0),
-  photoUrl: z.any().optional(),
+  photoUrls: z.array(z.instanceof(File)).optional(),
 });
 export type MenuItemFormData = z.infer<typeof menuItemSchema>;
 

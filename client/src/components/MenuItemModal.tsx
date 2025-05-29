@@ -34,7 +34,7 @@ const MenuItemModal = ({
       name: menuItem ? menuItem.name : "",
       description: menuItem ? menuItem.description : "",
       price: menuItem ? menuItem.price : 0,
-      photoUrl: undefined,
+      photoUrls: [],
     },
   });
 
@@ -48,11 +48,13 @@ const MenuItemModal = ({
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      // TODO: make sure it won't break when uploading more than
-      // 1 file and won't break after adding loading initail defaut imgs for restaurant setting page
-      if (key === "photoUrl") {
-        const file = value as File;
-        formData.append("photo", file);
+      if (key === "photoUrls") {
+        const files = value as File[];
+        // Only append "photo" if there is photo uploaded
+        if (files && files?.length > 0) {
+          // The last uploaeded photo will be used
+          formData.append("photo", files[0]);
+        }
       } else {
         formData.append(key, String(value));
       }
@@ -107,7 +109,7 @@ const MenuItemModal = ({
               placeholder="Enter new menu item price"
             />
             <CustomFormField
-              name="photoUrl"
+              name="photoUrls"
               label="Photo (Optional)"
               type="file"
               accept="image/*"
