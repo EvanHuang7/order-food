@@ -186,7 +186,7 @@ export const updateRestaurantMenuItem = async (
         name,
         description,
         price: Number(price),
-        photoUrl,
+        ...(photoUrl && photoUrl.trim() !== "" && { photoUrl }),
       },
     });
 
