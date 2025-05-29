@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
+import { s3Client } from "../lib/s3";
+import { Upload } from "@aws-sdk/lib-storage";
 
 export const getDriver = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -75,13 +77,64 @@ export const updateDriver = async (
 ): Promise<void> => {
   try {
     const { cognitoId } = req.params;
-    const { name, phoneNumber } = req.body;
+    const { name, phoneNumber, profileImgUrl } = req.body;
+
+    let uploadedProfileImgUrl = "";
+    // Upload profileImgUrl to AWS S3 bucket if there is a file and
+    // the file IS NOT an existing AWS S3 file (profileImgUrl
+    // starts with "https://of-s3-images.s3.us-east-1.amazonaws.com/driver")
+    if (
+      profileImgUrl &&
+      !profileImgUrl.startsWith(
+        "https://of-s3-images.s3.us-east-1.amazonaws.com/driver"
+      )
+    ) {
+      if (!profileImgUrl.startsWith("data:image/")) {
+        res.status(400).json({ error: "Invalid profileImgUrl format" });
+        return;
+      }
+
+      // Extract content type and base64 string
+      const matches = profileImgUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+      if (!matches) {
+        res.status(400).json({ error: "Malformed base64 image" });
+        return;
+      }
+
+      const contentType = matches[1];
+      const base64Data = matches[2];
+      const buffer = Buffer.from(base64Data, "base64");
+
+      // Generate a key
+      const key = `driver/${Date.now()}-profile-image.${
+        contentType.split("/")[1]
+      }`;
+
+      const uploadParams = {
+        Bucket: process.env.S3_BUCKET_NAME!,
+        Key: key,
+        Body: buffer,
+        ContentType: contentType,
+      };
+
+      const uploadResult = await new Upload({
+        client: s3Client,
+        params: uploadParams,
+      }).done();
+
+      uploadedProfileImgUrl = uploadResult.Location || "";
+    }
 
     const updateDriver = await prisma.driver.update({
       where: { cognitoId },
       data: {
         name,
         phoneNumber,
+        // Only include profileImgUrl field to update when
+        // uploadedProfileImgUrl is not empty string
+        ...(uploadedProfileImgUrl && {
+          profileImgUrl: uploadedProfileImgUrl,
+        }),
       },
     });
 
