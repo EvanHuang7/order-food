@@ -44,10 +44,10 @@ const SettingsForm = ({
       return;
     }
 
-    const maxSize = 2 * 1024 * 1024; // 2MB
+    const maxSize = 1 * 1024 * 1024; // 1MB
     if (file.size > maxSize) {
       return toast.error(
-        "Please try to upload a file less than max file size 2MB"
+        "Please try to upload a file less than max file size 1MB"
       );
     }
 
