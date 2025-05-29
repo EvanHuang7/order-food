@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "cognitoId": "cognito-rest005",
+    "cognitoId": "cognito-rest001",
     "name": "Little Italy Pasta",
     "email": "info@littleitalypasta.com",
     "phoneNumber": "+1-416-111-0005",
@@ -18,7 +18,7 @@
   },
   {
     "id": 2,
-    "cognitoId": "cognito-rest006",
+    "cognitoId": "cognito-rest002",
     "name": "Sushi World",
     "email": "contact@sushiworld.com",
     "phoneNumber": "+1-604-111-0006",
@@ -53,7 +53,7 @@
   },
   {
     "id": 4,
-    "cognitoId": "cognito-rest005",
+    "cognitoId": "cognito-rest004",
     "name": "Golden Dragon Palace",
     "email": "info@goldendragonpalace.com",
     "phoneNumber": "+1-403-222-8888",
@@ -70,7 +70,7 @@
   },
   {
     "id": 5,
-    "cognitoId": "cognito-rest001",
+    "cognitoId": "cognito-rest005",
     "name": "Maple Thai Kitchen",
     "email": "contact@mapleasiankitchen.com",
     "phoneNumber": "+1-604-111-0001",
@@ -87,7 +87,7 @@
   },
   {
     "id": 6,
-    "cognitoId": "cognito-rest002",
+    "cognitoId": "cognito-rest006",
     "name": "BubbleTea Bliss",
     "email": "hello@bubbleteabliss.com",
     "phoneNumber": "+1-604-111-0002",
@@ -105,7 +105,7 @@
 
   {
     "id": 7,
-    "cognitoId": "cognito-rest004",
+    "cognitoId": "cognito-rest007",
     "name": "Calgary Greek Delight",
     "email": "contact@calgarygreekdelight.com",
     "phoneNumber": "+1-613-111-0004",
@@ -122,7 +122,7 @@
   },
   {
     "id": 8,
-    "cognitoId": "cognito-rest007",
+    "cognitoId": "cognito-rest008",
     "name": "Seoul Korean BBQ",
     "email": "hello@seoulkoreanbbq.com",
     "phoneNumber": "+1-604-111-0007",
@@ -139,7 +139,7 @@
   },
   {
     "id": 9,
-    "cognitoId": "cognito-rest008",
+    "cognitoId": "cognito-rest009",
     "name": "Vietnamese Pho House",
     "email": "contact@vietnamesephohouse.com",
     "phoneNumber": "+1-604-111-0008",
@@ -156,7 +156,7 @@
   },
   {
     "id": 10,
-    "cognitoId": "cognito-rest009",
+    "cognitoId": "cognito-rest010",
     "name": "Montreal Bagel Deli",
     "email": "info@montrealbageldeli.com",
     "phoneNumber": "+1-514-111-0009",
@@ -173,7 +173,7 @@
   },
   {
     "id": 11,
-    "cognitoId": "cognito-rest010",
+    "cognitoId": "cognito-rest011",
     "name": "Tandoori Flame",
     "email": "contact@tandooriflame.ca",
     "phoneNumber": "+1-905-111-0010",
@@ -190,7 +190,7 @@
   },
   {
     "id": 12,
-    "cognitoId": "cognito-rest011",
+    "cognitoId": "cognito-rest012",
     "name": "Halifax Harbour Seafood",
     "email": "hello@halifaxseafood.ca",
     "phoneNumber": "+1-902-111-0011",
@@ -207,7 +207,7 @@
   },
   {
     "id": 13,
-    "cognitoId": "cognito-rest012",
+    "cognitoId": "cognito-rest013",
     "name": "Cactus Club Cafe",
     "email": "info@cactus-club-cafe.ca",
     "phoneNumber": "+1-604-111-0012",
@@ -224,7 +224,7 @@
   },
   {
     "id": 14,
-    "cognitoId": "cognito-rest013",
+    "cognitoId": "cognito-rest014",
     "name": "Regina Prairie BBQ",
     "email": "info@prairiebbq.ca",
     "phoneNumber": "+1-306-111-0013",
@@ -241,7 +241,7 @@
   },
   {
     "id": 15,
-    "cognitoId": "cognito-rest014",
+    "cognitoId": "cognito-rest015",
     "name": "Charlottetown Creamery",
     "email": "hello@creamerypei.ca",
     "phoneNumber": "+1-902-111-0014",

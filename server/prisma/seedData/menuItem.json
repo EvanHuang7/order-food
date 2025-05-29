@@ -157,7 +157,7 @@
     "name": "Crispy French Fries",
     "description": "Golden, crispy shoestring fries served with ketchup.",
     "price": 4.49,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/French-Fries.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Crispy-French-Fries.webp"
   },
   {
     "id": 21,
@@ -173,7 +173,7 @@
     "name": "Sweet and Sour Pork",
     "description": "Crispy pork chunks tossed in a tangy sweet and sour sauce with pineapple and bell peppers.",
     "price": 12.49,
-    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Sweet-Sour-Pork.webp"
+    "photoUrl": "https://of-s3-images.s3.us-east-1.amazonaws.com/mockDataImage/menuItemImg/Sweet-and-Sour-Pork.webp"
   },
   {
     "id": 23,
