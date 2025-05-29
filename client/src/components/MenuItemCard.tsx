@@ -156,6 +156,7 @@ const MenuItemCard = ({
         onClose={() => setShowRatingModal(false)}
         ratings={menuItem.ratings as any} // cast needed if customer is included
         title={`Reviews for ${menuItem.name}`}
+        imageUrl={menuItem?.photoUrl || imgSrc}
       />
 
       {/* Update menuItem modal */}

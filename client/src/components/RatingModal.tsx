@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -23,6 +24,7 @@ type RatingModalProps = {
   onClose: () => void;
   ratings: Rating[];
   title?: string;
+  imageUrl?: string;
 };
 
 const RatingModal = ({
@@ -30,12 +32,30 @@ const RatingModal = ({
   onClose,
   ratings,
   title = "Customer Reviews",
+  imageUrl,
 }: RatingModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md sm:max-w-2xl max-h-[70vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <div className="flex items-center gap-4">
+            {imageUrl && (
+              <div className="relative w-12 h-12 rounded-full overflow-hidden border">
+                <Image
+                  src={imageUrl}
+                  alt="RatingItem"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogDescription className="sr-only">
+                All customer reviews for this rating
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="space-y-6 mt-4">

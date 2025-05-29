@@ -116,6 +116,7 @@ const RestaurantCard = ({
         onClose={() => setShowRatingsModal(false)}
         ratings={restaurant.ratings}
         title={`Reviews for ${restaurant.name}`}
+        imageUrl={imgSrc}
       />
     </>
   );
