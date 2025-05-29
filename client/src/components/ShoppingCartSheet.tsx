@@ -141,7 +141,7 @@ const ShoppingCartSheet = () => {
                       >
                         {/* Item Image */}
                         <Image
-                          src={imgSrc}
+                          src={item?.photoUrl || imgSrc}
                           alt={item.name}
                           width={56}
                           height={56}

@@ -64,7 +64,7 @@ const MenuItemCard = ({
         <div className="relative w-1/3 h-full">
           {/* Item image */}
           <Image
-            src={imgSrc}
+            src={menuItem?.photoUrl || imgSrc}
             alt={menuItem.name}
             fill
             className="object-cover"

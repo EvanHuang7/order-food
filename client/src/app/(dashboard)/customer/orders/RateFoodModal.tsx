@@ -120,7 +120,7 @@ const RateFoodModal = ({ open, onClose, order }: RateFoodModalProps) => {
                 <div className="flex gap-4 items-center">
                   <div className="w-16 h-16 relative rounded border overflow-hidden">
                     <Image
-                      src={imgSrc}
+                      src={item.menuItem?.photoUrl || imgSrc}
                       alt={item.menuItem.name}
                       className="object-cover"
                       sizes="w-16 h-16"

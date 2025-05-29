@@ -43,7 +43,7 @@ const OrderDetailModal = ({ open, onClose, order }: OrderDetailModalProps) => {
                 {/* Image on the left */}
                 <div className="w-16 h-16 flex-shrink-0 relative rounded overflow-hidden border">
                   <Image
-                    src={imgSrc}
+                    src={item.menuItem?.photoUrl || imgSrc}
                     alt={item.menuItem.name}
                     className="object-cover"
                     sizes="w-16 h-16"
