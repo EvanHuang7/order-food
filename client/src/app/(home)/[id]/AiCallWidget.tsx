@@ -66,14 +66,15 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
       setIsAiSpeaking(true);
     };
 
-    // TODO: find why it's not end by AI itself
     const onSpeechEnd = () => {
       setIsAiSpeaking(false);
     };
 
-    const onError = (error: Error) => {
+    const onError = (error: any) => {
       // Ignore specific "meeting ended" errors
-      if (error?.message?.includes("Meeting has ended")) return;
+      const message =
+        error?.message || error?.msg || error?.error?.msg || error?.errorMsg;
+      if (message?.includes("Meeting has ended")) return;
       console.error("Error:", error);
     };
 
@@ -93,6 +94,20 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
       vapi.off("error", onError);
     };
   }, []);
+
+  // Force end call if AI has been silent too long
+  useEffect(() => {
+    if (callStatus !== CallStatus.ACTIVE) return;
+
+    const timeoutId = setTimeout(() => {
+      if (!isAiSpeaking && callStatus === CallStatus.ACTIVE) {
+        console.log("Force-ending AI call after prolonged silence");
+        handleEndCallWithAI();
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, [isAiSpeaking, callStatus]);
 
   // Place order after finishing conversation
   useEffect(() => {
