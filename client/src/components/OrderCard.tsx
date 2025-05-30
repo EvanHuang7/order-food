@@ -21,6 +21,14 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
   let contactPerson: any = {};
   let contactPersonImgSrc = "/order-food-logo.svg";
 
+  const customerProfileImgUrl =
+    order?.customer?.profileImgUrl || "/userProfile/customer-profile-img.jpg";
+  const restaurantProfileImgUrl =
+    order?.restaurant?.profileImgUrl ||
+    "/userProfile/restaurant-profile-img.jpg";
+  const driverProfileImgUrl =
+    order?.driver?.profileImgUrl || "/userProfile/driver-profile-img.jpg";
+
   // Set card info based on user role
   if (userType === "customer") {
     cardName = order.restaurant.name;
@@ -29,25 +37,25 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }, ${order.restaurant?.location?.city || "Unknown city"}, ${
       order.restaurant?.location?.province || "Unknown province"
     }`;
-    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
+    cardImgSrc = restaurantProfileImgUrl;
 
     contactPersonRole = order?.driverId ? "Driver" : "Restaurant";
     contactPerson = order?.driverId ? order.driver : order.restaurant;
     contactPersonImgSrc = order?.driverId
-      ? "/userProfile/driver-profile-img.jpg"
-      : "/userProfile/restaurant-profile-img.jpg";
+      ? driverProfileImgUrl
+      : restaurantProfileImgUrl;
   } else if (userType === "restaurant") {
     cardName = order.customer.name;
     cardAddress = `${order.customer?.location?.address || "Unknown address"}, ${
       order.customer?.location?.city || "Unknown city"
     }, ${order.customer?.location?.province || "Unknown province"}`;
-    cardImgSrc = "/userProfile/customer-profile-img.jpg";
+    cardImgSrc = customerProfileImgUrl;
 
     contactPersonRole = order?.driverId ? "Driver" : "Customer";
     contactPerson = order?.driverId ? order.driver : order.customer;
     contactPersonImgSrc = order?.driverId
-      ? "/userProfile/driver-profile-img.jpg"
-      : "/userProfile/customer-profile-img.jpg";
+      ? driverProfileImgUrl
+      : customerProfileImgUrl;
   } else if (userType === "driver") {
     cardName = order.restaurant.name;
     cardAddress = `${
@@ -55,13 +63,13 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
     }, ${order.restaurant?.location?.city || "Unknown city"}, ${
       order.restaurant?.location?.province || "Unknown province"
     }`;
-    cardImgSrc = "/userProfile/restaurant-profile-img.jpg";
+    cardImgSrc = restaurantProfileImgUrl;
 
     contactPersonRole = order?.driverId ? "Customer" : "Restaurant";
     contactPerson = order?.driverId ? order.customer : order.restaurant;
     contactPersonImgSrc = order?.driverId
-      ? "/userProfile/customer-profile-img.jpg"
-      : "/userProfile/restaurant-profile-img.jpg";
+      ? customerProfileImgUrl
+      : restaurantProfileImgUrl;
   }
 
   const [fallbackCardImgSrc, setFallbackCardImgSrc] = useState(cardImgSrc);
