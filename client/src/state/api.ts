@@ -306,12 +306,12 @@ export const api = createApi({
 
     updateRestaurantInfo: build.mutation<
       { restaurant: Restaurant; locationUpdated: boolean },
-      FormData
+      { cognitoId: string; updatedRestaurant: Restaurant; files: string[] }
     >({
-      query: (updatedRestaurant) => ({
-        url: `restaurant/${updatedRestaurant.get("cognitoId")}`,
+      query: ({ cognitoId, updatedRestaurant, files }) => ({
+        url: `restaurant/${cognitoId}`,
         method: "PUT",
-        body: updatedRestaurant,
+        body: { ...updatedRestaurant, files },
       }),
       invalidatesTags: (responseData) => [
         { type: "Restaurant", id: responseData?.restaurant?.id },

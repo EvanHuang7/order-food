@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { toBase64 } from "@/lib/utils";
 
 const MenuItemModal = ({
   isOpen,
@@ -38,14 +39,6 @@ const MenuItemModal = ({
       photoUrls: [],
     },
   });
-
-  const toBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-    });
 
   const onSubmit = async (data: MenuItemFormData) => {
     if (!authUser || authUser.userRole !== "restaurant") {

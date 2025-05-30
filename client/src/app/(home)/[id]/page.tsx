@@ -31,8 +31,13 @@ const SingleRestaurant = () => {
       <ImagePreviews
         images={
           restaurantWithMenuItems?.photoUrls?.length > 0
-            ? restaurantWithMenuItems.photoUrls
+            ? [
+                restaurantWithMenuItems.profileImgUrl ||
+                  "/userProfile/restaurant-profile-img.jpg",
+                ...restaurantWithMenuItems.photoUrls.slice().reverse(),
+              ]
             : [
+                "/userProfile/restaurant-profile-img.jpg",
                 "/restaurant/restaurant1.jpg",
                 "/restaurant/restaurant2.jpg",
                 "/restaurant/restaurant3.jpg",

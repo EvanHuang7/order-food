@@ -7,6 +7,8 @@ import {
   useUpdateRestaurantInfoMutation,
 } from "@/state/api";
 import React from "react";
+import { toBase64 } from "@/lib/utils";
+import { toast } from "sonner";
 
 const RestaurantSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
@@ -45,25 +47,29 @@ const RestaurantSettings = () => {
       return;
     }
 
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === "photoUrls") {
-        const files = value as File[];
-        // Only append "photos" if there are photos uploaded
-        if (files && files?.length > 0) {
-          files.forEach((file: File) => {
-            formData.append("photos", file);
-          });
+    let base64ImageFilesList: string[] = [];
+    const files = data.photoUrls as File[];
+    // Only append "files" if there are photos uploaded
+    if (files && files.length > 0) {
+      const maxSize = 1 * 1024 * 1024; // 1MB
+      // Check files size
+      for (const file of files) {
+        if (file.size > maxSize) {
+          toast.error("A file exceeds max file size 1MB, please try again");
+          return;
         }
-      } else if (Array.isArray(value)) {
-        formData.append(key, JSON.stringify(value));
-      } else {
-        formData.append(key, String(value));
       }
-    });
+      // Convert files to base64
+      base64ImageFilesList = await Promise.all(
+        files.map((file) => toBase64(file))
+      );
+    }
 
-    formData.append("cognitoId", authUser?.cognitoInfo?.userId);
-    await updateRestaurantInfo(formData);
+    await updateRestaurantInfo({
+      cognitoId: authUser?.cognitoInfo?.userId,
+      updatedRestaurant: data,
+      files: base64ImageFilesList,
+    });
   };
 
   return (

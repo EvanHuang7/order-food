@@ -379,8 +379,7 @@ export const updateRestaurant = async (
           closeTime,
           description,
           locationId,
-          // Convert the FormData string type value back to arrray
-          categories: categories ? JSON.parse(categories) : [],
+          categories,
           // Only include profileImgUrl field to update when
           // uploadedProfileImgUrl is not empty string
           ...(uploadedProfileImgUrl && {
