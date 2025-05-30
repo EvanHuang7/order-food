@@ -16,6 +16,11 @@ declare global {
     userRole: JsonObject | JsonPrimitive | JsonArray;
   }
 
+  interface SavedMessage {
+    role: "user" | "system" | "assistant";
+    content: string;
+  }
+
   interface HeaderProps {
     title: string;
     subtitle: string;

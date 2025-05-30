@@ -38,6 +38,13 @@ export const CategoryEnumImageFile: Record<CategoryEnum, string> = {
   [CategoryEnum.Vietnamese]: "/foodCategory/Vietnamese.png",
 };
 
+export enum CallStatus {
+  INACTIVE = "INACTIVE",
+  CONNECTING = "CONNECTING",
+  ACTIVE = "ACTIVE",
+  FINISHED = "FINISHED",
+}
+
 // Add this constant at the end of the file
 export const NAVBAR_HEIGHT = 52; // in pixels
 

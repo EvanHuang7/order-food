@@ -28,35 +28,23 @@ const RestaurantCard = ({
   return (
     <>
       <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full mb-5">
-        <div className="relative">
+        {/* Restaurant Image */}
+        <Link href={restaurantLink || "#"}>
           <div className="w-full h-48 relative">
-            {restaurantLink ? (
-              <Link href={restaurantLink}>
-                <Image
-                  src={imgSrc}
-                  alt={restaurant.name}
-                  fill
-                  className="object-cover cursor-pointer"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  onError={() =>
-                    setImgSrc("/userProfile/restaurant-profile-img.jpg")
-                  }
-                />
-              </Link>
-            ) : (
-              <Image
-                src={imgSrc}
-                alt={restaurant.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                onError={() =>
-                  setImgSrc("/userProfile/restaurant-profile-img.jpg")
-                }
-              />
-            )}
+            <Image
+              src={imgSrc}
+              alt={restaurant.name}
+              fill
+              className="object-cover cursor-pointer"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={() =>
+                setImgSrc("/userProfile/restaurant-profile-img.jpg")
+              }
+            />
           </div>
-        </div>
+        </Link>
+
+        {/* Restaurant name and favorite button */}
         <div className="p-4">
           <div className="flex justify-between items-start">
             <h2 className="text-xl font-bold mb-1 truncate">
@@ -82,6 +70,7 @@ const RestaurantCard = ({
             )}
           </div>
 
+          {/* Restaurant location, reviews and price */}
           <p className="text-gray-600 mb-2 truncate">
             {restaurant?.location?.address || "Unknown address"},{" "}
             {restaurant?.location?.city || "unknown city"},{" "}

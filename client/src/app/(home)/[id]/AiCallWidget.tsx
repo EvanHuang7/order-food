@@ -14,19 +14,8 @@ import { takingOrderAI } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { MenuItem } from "@/types/prismaTypes";
 import { ShoppingCartItem } from "@/state";
+import { CallStatus } from "@/lib/constants";
 import { toast } from "sonner";
-
-enum CallStatus {
-  INACTIVE = "INACTIVE",
-  CONNECTING = "CONNECTING",
-  ACTIVE = "ACTIVE",
-  FINISHED = "FINISHED",
-}
-
-interface SavedMessage {
-  role: "user" | "system" | "assistant";
-  content: string;
-}
 
 const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -122,8 +111,6 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
           restaurantId: restaurantWithMenuItems.id,
           formattedTranscript: formattedTranscript,
         }).unwrap();
-
-        console.log("orderedItems", orderedItems);
 
         // Create order and redirect user
         await createOrders({
