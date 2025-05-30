@@ -44,7 +44,7 @@ const ImagePreviews = ({ images }: ImagePreviewsProps) => {
         >
           <Image
             src={image}
-            alt={`Property Image ${index + 1}`}
+            alt={`Restaurant background Image ${index + 1}`}
             fill
             priority={index === 0}
             className="object-cover cursor-pointer transition-transform duration-500 ease-in-out"

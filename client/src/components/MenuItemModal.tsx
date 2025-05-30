@@ -17,6 +17,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const MenuItemModal = ({
   isOpen,
@@ -38,38 +39,57 @@ const MenuItemModal = ({
     },
   });
 
+  const toBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
+
   const onSubmit = async (data: MenuItemFormData) => {
     if (!authUser || authUser.userRole !== "restaurant") {
       console.error(
-        "You must be logged in as a restaurant to create a menu item"
+        "You must be logged in as a restaurant to create or update a menu item"
       );
       return;
     }
 
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === "photoUrls") {
-        const files = value as File[];
-        // Only append "photo" if there is photo uploaded
-        if (files && files?.length > 0) {
-          // The last uploaeded photo will be used
-          formData.append("photo", files[0]);
-        }
-      } else {
-        formData.append(key, String(value));
+    let base64ImageFile = "";
+    const files = data.photoUrls as File[];
+    // Only add "file" if there is photo uploaded
+    if (files && files?.length > 0) {
+      const file = files[0];
+      const maxSize = 1 * 1024 * 1024; // 1MB
+      if (file.size > maxSize) {
+        return toast.error(
+          "The last file exceeds max file size 1MB, please try again"
+        );
       }
-    });
 
-    formData.append("restaurantId", String(restaurantId));
+      // Convert the image to base64 format
+      base64ImageFile = await toBase64(file);
+    }
 
     // Updating existing menuItem case
     if (menuItem) {
-      formData.append("menuItemId", String(menuItem.id));
-      await updateRestaurantMenuItem(formData);
+      await updateRestaurantMenuItem({
+        menuItemId: menuItem.id,
+        name: data.name,
+        description: data.description!,
+        price: data.price,
+        file: base64ImageFile,
+      });
     }
     // Add newe menuItem case
     else {
-      await createRestaurantMenuItem(formData);
+      await createRestaurantMenuItem({
+        name: data.name,
+        description: data.description!,
+        price: data.price,
+        restaurantId: restaurantId,
+        file: base64ImageFile,
+      });
     }
 
     onClose();

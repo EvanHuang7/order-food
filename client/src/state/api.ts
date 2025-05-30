@@ -375,11 +375,20 @@ export const api = createApi({
       },
     }),
 
-    createRestaurantMenuItem: build.mutation<MenuItem, FormData>({
-      query: (newMenuItem) => ({
+    createRestaurantMenuItem: build.mutation<
+      MenuItem,
+      {
+        name: string;
+        description: string;
+        price: number;
+        restaurantId: number;
+        file: string;
+      }
+    >({
+      query: ({ name, description, price, restaurantId, file }) => ({
         url: `menuItem`,
         method: "POST",
-        body: newMenuItem,
+        body: { name, description, price, restaurantId, file },
       }),
       invalidatesTags: [{ type: "MenuItems", id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
@@ -390,11 +399,25 @@ export const api = createApi({
       },
     }),
 
-    updateRestaurantMenuItem: build.mutation<MenuItem, FormData>({
-      query: (updatedMenuItem) => ({
-        url: `menuItem/${updatedMenuItem.get("menuItemId")}`,
+    updateRestaurantMenuItem: build.mutation<
+      MenuItem,
+      {
+        menuItemId: number;
+        name: string;
+        description: string;
+        price: number;
+        file: string;
+      }
+    >({
+      query: ({ menuItemId, name, description, price, file }) => ({
+        url: `menuItem/${menuItemId}`,
         method: "PUT",
-        body: updatedMenuItem,
+        body: {
+          name,
+          description,
+          price,
+          file,
+        },
       }),
       invalidatesTags: (menuItem) => [{ type: "MenuItems", id: menuItem.id }],
       async onQueryStarted(_, { queryFulfilled }) {
