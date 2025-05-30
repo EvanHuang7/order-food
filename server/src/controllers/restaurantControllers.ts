@@ -278,7 +278,7 @@ export const updateRestaurant = async (
     // Upload photos to AWS S3 bucket if there is a file
     if (files && files.length > 0) {
       photoUrls = await Promise.all(
-        files.map(async (file: string) => {
+        files.map(async (file: string, index: number) => {
           if (!file.startsWith("data:image/")) {
             res.status(400).json({ error: "Invalid file format" });
             return;
@@ -296,7 +296,7 @@ export const updateRestaurant = async (
           const buffer = Buffer.from(base64Data, "base64");
 
           // Generate a key
-          const key = `restaurant/${Date.now()}-image.${
+          const key = `restaurant/${Date.now()}-background-image${index + 1}.${
             contentType.split("/")[1]
           }`;
 
