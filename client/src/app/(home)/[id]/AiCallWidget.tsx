@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { takingOrderAI } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { MenuItem } from "@/types/prismaTypes";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -130,7 +131,13 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
     try {
       setCallStatus(CallStatus.CONNECTING);
 
-      await vapi.start(takingOrderAI);
+      await vapi.start(takingOrderAI, {
+        variableValues: {
+          menuItems: restaurantWithMenuItems.menuItems.map(
+            (menuItem: MenuItem) => menuItem.name
+          ),
+        },
+      });
     } catch (error) {
       console.error("Error starting interview:", error);
       // toast.error("An error occurs when starting interview");
@@ -170,7 +177,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
           <Button
             className="w-full bg-primary-700 text-white hover:bg-primary-600"
             onClick={() => handleStartPlacingOrder()}
-            disabled={callStatus === "FINISHED"}
+            disabled={callStatus === "FINISHED" || callStatus === "CONNECTING"}
           >
             <span
               className={cn(

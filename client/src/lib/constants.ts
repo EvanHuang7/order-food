@@ -72,7 +72,7 @@ export const takingOrderAI: CreateAssistantDTO = {
 
 Ordering Guidelines:
 
-Available restaurant menu items: Pepperoni Pizza, BBQ Chicken Pizza, Hawaiian Pizza, Four Cheese Pizza.
+Available restaurant menu items: {{menuItems}}
 
 Follow this structured flow:
 Greet the customer politely and let them know you can take their order.
