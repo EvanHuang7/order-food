@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
 import { NotificationType, OrderStatus, PaymentStatus } from "@prisma/client";
+import { generateObject } from "ai";
+import { google } from "@ai-sdk/google";
+import { orderSchema } from "../lib/constant";
 
 export const createOrders = async (
   req: Request,
@@ -396,5 +399,77 @@ export const updateOrder = async (
   } catch (error: any) {
     console.error("Error updating order:", error);
     res.status(500).json({ message: `Error updating order: ${error.message}` });
+  }
+};
+
+export const generateOrderItemsWithAi = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { restaurantId, formattedTranscript } = req.body;
+
+    // Check input
+    if (!restaurantId || !formattedTranscript) {
+      res.status(400).json({ message: "Missing required fields" });
+      return;
+    }
+
+    // Get restaurant with menu items
+    const restaurantWithMenuItems = await prisma.restaurant.findUnique({
+      where: { id: Number(restaurantId) },
+      include: {
+        location: true,
+        menuItems: true,
+      },
+    });
+
+    if (!restaurantWithMenuItems) {
+      res.status(404).json({ message: "Restaurant not found" });
+      return;
+    }
+
+    // Get menu items from AI
+    const { object } = await generateObject({
+      model: google("gemini-2.0-flash-001", {
+        structuredOutputs: false,
+      }),
+      schema: orderSchema,
+      prompt: `
+            You are an AI assistant for a restaurant's order processing system. You are given:
+            1. A formatted conversation transcript between a customer and an AI ordering assistant. The transcript contains menu item names and their quantities as spoken by the customer.
+            2. A list of the restaurant's menu item objects.
+
+            Your task is to extract an array of menu items mentioned in the transcript, and for each, include the correct \`quantity\` as interpreted from the conversation. The final result must be a list of JavaScript objects in the following format:
+
+            \`\`\`ts
+            {
+              id: number,
+              restaurantId: number,
+              name: string,
+              price: number,
+              quantity: number
+            }
+            \`\`\`
+
+            Use the \`name\` field to match transcript items with the \`menuItems\` provided. Ensure exact name matches when possible. If a name in the transcript does not match any menu item, skip it.
+
+            Transcript:
+            ${formattedTranscript}
+
+            Menu Item objects array:
+            ${JSON.stringify(restaurantWithMenuItems.menuItems, null, 2)}
+            `,
+      system:
+        "You are a restaurant ordering assistant. Your task is to analyze the conversation transcript between a customer and the AI assistant, and return a list of ordered menu items. Use the provided menu item objects to match names and include a 'quantity' field for each ordered item.",
+    });
+
+    res.status(201).json(object);
+    return;
+  } catch (error: any) {
+    res.status(500).json({
+      message: `Error generating order items with AI: ${error.message}`,
+    });
+    return;
   }
 };

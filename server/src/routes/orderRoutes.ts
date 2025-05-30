@@ -5,6 +5,7 @@ import {
   getOrder,
   getOrders,
   updateOrder,
+  generateOrderItemsWithAi,
 } from "../controllers/orderControllers";
 import { authMiddleware } from "../middleware/authMiddleware";
 
@@ -31,5 +32,6 @@ router.put(
   authMiddleware(["customer", "restaurant", "driver"]),
   updateOrder
 );
+router.post("/", authMiddleware(["customer"]), generateOrderItemsWithAi);
 
 export default router;

@@ -15,12 +15,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@ai-sdk/google": "^1.2.18",
     "@aws-sdk/client-s3": "^3.740.0",
     "@aws-sdk/client-ses": "^3.817.0",
     "@aws-sdk/client-sns": "^3.816.0",
     "@aws-sdk/lib-storage": "^3.740.0",
     "@prisma/client": "^6.3.0",
     "@terraformer/wkt": "^2.2.1",
+    "ai": "^4.3.16",
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
@@ -32,7 +34,8 @@
     "multer": "^1.4.5-lts.1",
     "pg": "^8.16.0",
     "prisma": "^6.3.0",
-    "uuid": "^11.0.5"
+    "uuid": "^11.0.5",
+    "zod": "^3.25.41"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
