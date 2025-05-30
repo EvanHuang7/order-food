@@ -429,7 +429,7 @@ export const generateOrderItemsWithAi = async (
       return;
     }
 
-    // Get menu items from AI
+    // Get menu items ordered by customer from AI
     const { object } = await generateObject({
       model: google("gemini-2.0-flash-001", {
         structuredOutputs: false,

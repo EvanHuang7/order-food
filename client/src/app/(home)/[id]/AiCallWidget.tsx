@@ -1,7 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useGetAuthUserQuery } from "@/state/api";
+import {
+  useCreateOrdersMutation,
+  useGenerateOrderItemsWithAiMutation,
+  useGetAuthUserQuery,
+} from "@/state/api";
 import { vapi } from "@/lib/vapi";
 import { Loader2, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -9,6 +13,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { takingOrderAI } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { MenuItem } from "@/types/prismaTypes";
+import { ShoppingCartItem } from "@/state";
+import { toast } from "sonner";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -27,6 +33,8 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   const showCustomerInteraction =
     !!authUser && authUser.userRole === "customer";
   const router = useRouter();
+  const [createOrders] = useCreateOrdersMutation();
+  const [generateOrderItemsWithAi] = useGenerateOrderItemsWithAiMutation();
 
   // AI conversation states
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
@@ -101,24 +109,38 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   useEffect(() => {
     const handlePlaceOrder = async (groupedMessages: SavedMessage[]) => {
       try {
-        console.log("groupedMessages", groupedMessages);
-        // TODO: call RTK mutation function and redirect user
+        // Format AI and user conversation messages
+        const formattedTranscript = groupedMessages
+          .map(
+            (sentence: { role: string; content: string }) =>
+              `- ${sentence.role}: ${sentence.content}\n`
+          )
+          .join("");
 
-        // const result = await createFeedback({
-        //   interviewId: interviewId,
-        //   userId: userId,
-        //   transcript: messages,
-        // });
+        // Call Google AI to get order items by parsing conversation
+        const orderedItems = await generateOrderItemsWithAi({
+          restaurantId: restaurantWithMenuItems.id,
+          formattedTranscript: formattedTranscript,
+        }).unwrap();
 
-        // if (result.success) {
-        //   router.push(`/${interviewId}/feedback`);
-        // } else {
-        //   console.error("Error creating feedback");
-        //   router.push("/");
-        // }
+        console.log("orderedItems", orderedItems);
+
+        // Create order and redirect user
+        await createOrders({
+          customerId: authUser?.userInfo.id || "",
+          items: orderedItems.map((orderedItem: any) => ({
+            id: orderedItem.id,
+            restaurantId: orderedItem.restaurantId,
+            name: orderedItem.name,
+            price: orderedItem.price,
+            quantity: orderedItem.quantity,
+          })) as ShoppingCartItem[],
+        }).unwrap();
+
+        router.push("/customer/orders");
       } catch (error) {
-        console.error("Error generating feedback:", error);
-        // toast.error("An error occurs when generating feedback");
+        console.error("Error placing order via AI:", error);
+        toast.error("An error occurs when placing order");
       }
     };
 
@@ -127,7 +149,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
     }
   }, [groupedMessages, callStatus, router]);
 
-  const handleStartPlacingOrder = async () => {
+  const handleStartCallWithAI = async () => {
     try {
       setCallStatus(CallStatus.CONNECTING);
 
@@ -139,12 +161,12 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
         },
       });
     } catch (error) {
-      console.error("Error starting interview:", error);
-      // toast.error("An error occurs when starting interview");
+      console.error("Error starting a call with AI:", error);
+      toast.error("An error occurs when starting a call with AI");
     }
   };
 
-  const handleEndPlacingOrder = () => {
+  const handleEndCallWithAI = () => {
     setCallStatus(CallStatus.FINISHED);
     vapi.stop();
   };
@@ -176,7 +198,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
         (callStatus !== "ACTIVE" ? (
           <Button
             className="w-full bg-primary-700 text-white hover:bg-primary-600"
-            onClick={() => handleStartPlacingOrder()}
+            onClick={() => handleStartCallWithAI()}
             disabled={callStatus === "FINISHED" || callStatus === "CONNECTING"}
           >
             <span
@@ -203,7 +225,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
         ) : (
           <Button
             className="w-full bg-primary-700 text-white hover:bg-primary-600"
-            onClick={() => handleEndPlacingOrder()}
+            onClick={() => handleEndCallWithAI()}
           >
             End AI call
           </Button>

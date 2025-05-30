@@ -499,6 +499,22 @@ export const api = createApi({
       },
     }),
 
+    generateOrderItemsWithAi: build.mutation<
+      any,
+      { restaurantId: string; formattedTranscript: string }
+    >({
+      query: ({ restaurantId, formattedTranscript }) => ({
+        url: `order/generateOrderItemsWithAi`,
+        method: "POST",
+        body: { restaurantId, formattedTranscript },
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to generate order items.",
+        });
+      },
+    }),
+
     // Payment related endpoints
     getPayment: build.query<Payment, string>({
       query: (paymentId) => `payment/${paymentId}`,
@@ -658,6 +674,7 @@ export const {
   useGetAvailableOrdersForDriverQuery,
   useCreateOrdersMutation,
   useUpdateOrderMutation,
+  useGenerateOrderItemsWithAiMutation,
 
   // "Payments" related endpoints
   useGetPaymentQuery,

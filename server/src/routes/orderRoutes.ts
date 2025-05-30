@@ -32,6 +32,10 @@ router.put(
   authMiddleware(["customer", "restaurant", "driver"]),
   updateOrder
 );
-router.post("/", authMiddleware(["customer"]), generateOrderItemsWithAi);
+router.post(
+  "/generateOrderItemsWithAi",
+  authMiddleware(["customer"]),
+  generateOrderItemsWithAi
+);
 
 export default router;
