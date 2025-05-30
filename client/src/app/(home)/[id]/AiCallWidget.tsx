@@ -1,8 +1,25 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { useGetAuthUserQuery } from "@/state/api";
-import { Phone } from "lucide-react";
+import { vapi } from "@/lib/vapi";
+import { Loader2, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { takingOrderAI } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+
+enum CallStatus {
+  INACTIVE = "INACTIVE",
+  CONNECTING = "CONNECTING",
+  ACTIVE = "ACTIVE",
+  FINISHED = "FINISHED",
+}
+
+interface SavedMessage {
+  role: "user" | "system" | "assistant";
+  content: string;
+}
 
 const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -10,12 +27,118 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
     !!authUser && authUser.userRole === "customer";
   const router = useRouter();
 
-  const handleButtonClick = () => {
-    if (authUser) {
-      // TODO: Start VAPI workflow call by sending user info
-    } else {
-      router.push("/signin");
+  // AI conversation states
+  const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
+  const [messages, setMessages] = useState<SavedMessage[]>([]);
+  const [isAiSpeaking, setIsAiSpeaking] = useState(false);
+  // Group messages by consecutive same-role
+  const groupedMessages = useMemo(() => {
+    const groups: SavedMessage[] = [];
+
+    for (const msg of messages) {
+      const last = groups[groups.length - 1];
+      if (last && last.role === msg.role) {
+        last.content += ` ${msg.content}`;
+      } else {
+        groups.push({ role: msg.role, content: msg.content });
+      }
     }
+
+    return groups;
+  }, [messages]);
+
+  // Subscribe to VAPI event
+  useEffect(() => {
+    const onCallStart = () => {
+      setCallStatus(CallStatus.ACTIVE);
+    };
+
+    const onCallEnd = () => {
+      setCallStatus(CallStatus.FINISHED);
+    };
+
+    const onMessage = (message: Message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        const newMessage = { role: message.role, content: message.transcript };
+        setMessages((prev) => [...prev, newMessage]);
+      }
+    };
+
+    const onSpeechStart = () => {
+      setIsAiSpeaking(true);
+    };
+
+    const onSpeechEnd = () => {
+      setIsAiSpeaking(false);
+    };
+
+    const onError = (error: Error) => {
+      // Ignore specific "meeting ended" errors
+      if (error?.message?.includes("Meeting has ended")) return;
+      console.error("Error:", error);
+    };
+
+    vapi.on("call-start", onCallStart);
+    vapi.on("call-end", onCallEnd);
+    vapi.on("message", onMessage);
+    vapi.on("speech-start", onSpeechStart);
+    vapi.on("speech-end", onSpeechEnd);
+    vapi.on("error", onError);
+
+    return () => {
+      vapi.off("call-start", onCallStart);
+      vapi.off("call-end", onCallEnd);
+      vapi.off("message", onMessage);
+      vapi.off("speech-start", onSpeechStart);
+      vapi.off("speech-end", onSpeechEnd);
+      vapi.off("error", onError);
+    };
+  }, []);
+
+  // Place order after finishing conversation
+  useEffect(() => {
+    const handlePlaceOrder = async (groupedMessages: SavedMessage[]) => {
+      try {
+        console.log("groupedMessages", groupedMessages);
+        // TODO: call RTK mutation function and redirect user
+
+        // const result = await createFeedback({
+        //   interviewId: interviewId,
+        //   userId: userId,
+        //   transcript: messages,
+        // });
+
+        // if (result.success) {
+        //   router.push(`/${interviewId}/feedback`);
+        // } else {
+        //   console.error("Error creating feedback");
+        //   router.push("/");
+        // }
+      } catch (error) {
+        console.error("Error generating feedback:", error);
+        // toast.error("An error occurs when generating feedback");
+      }
+    };
+
+    if (callStatus === CallStatus.FINISHED) {
+      handlePlaceOrder(groupedMessages);
+    }
+  }, [groupedMessages, callStatus, router]);
+
+  const handleStartPlacingOrder = async () => {
+    try {
+      setCallStatus(CallStatus.CONNECTING);
+
+      await vapi.start(takingOrderAI);
+    } catch (error) {
+      console.error("Error starting interview:", error);
+      // toast.error("An error occurs when starting interview");
+    }
+  };
+
+  const handleEndPlacingOrder = () => {
+    setCallStatus(CallStatus.FINISHED);
+    vapi.stop();
   };
 
   return (
@@ -24,6 +147,9 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
       <div className="flex items-center gap-5 mb-4 border border-primary-200 p-4 rounded-xl">
         <div className="flex items-center p-4 bg-primary-900 rounded-full">
           <Phone className="text-primary-50" size={15} />
+          {isAiSpeaking && (
+            <span className="absolute inline-flex size-5/6 animate-ping rounded-full bg-primary-200 opacity-75" />
+          )}
         </div>
         <div>
           <h1 className="text-xl font-semibold">
@@ -35,14 +161,44 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
           </div>
         </div>
       </div>
-      {showCustomerInteraction && (
-        <Button
-          className="w-full bg-primary-700 text-white hover:bg-primary-600"
-          onClick={handleButtonClick}
-        >
-          {authUser ? "Start AI call" : "Sign In to Order"}
-        </Button>
-      )}
+
+      {authUser &&
+        showCustomerInteraction &&
+        (callStatus !== "ACTIVE" ? (
+          <Button
+            className="w-full bg-primary-700 text-white hover:bg-primary-600"
+            onClick={() => handleStartPlacingOrder()}
+            disabled={callStatus === "FINISHED"}
+          >
+            <span
+              className={cn(
+                "absolute animate-ping rounded-full opacity-75",
+                callStatus !== "CONNECTING" && "hidden"
+              )}
+            />
+
+            {(callStatus === "CONNECTING" || callStatus === "FINISHED") && (
+              <Loader2 className="animate-spin" size={20} />
+            )}
+
+            <span className="relative">
+              {callStatus === "INACTIVE"
+                ? "Start AI call"
+                : callStatus === "CONNECTING"
+                ? "Connecting"
+                : callStatus === "FINISHED"
+                ? "Placing order"
+                : ""}
+            </span>
+          </Button>
+        ) : (
+          <Button
+            className="w-full bg-primary-700 text-white hover:bg-primary-600"
+            onClick={() => handleEndPlacingOrder()}
+          >
+            End AI call
+          </Button>
+        ))}
 
       <hr className="my-4" />
       <div className="text-sm">
