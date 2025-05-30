@@ -57,8 +57,7 @@ export const createRestaurantMenuItem = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { name, description, price, restaurantId } = req.body;
-    const file = req.file as Express.Multer.File;
+    const { name, description, price, restaurantId, file } = req.body;
 
     if (!name || !price || !restaurantId) {
       res.status(400).json({ message: "Missing required fields" });
@@ -66,13 +65,39 @@ export const createRestaurantMenuItem = async (
     }
 
     let photoUrl = "";
-    // Upload photos to AWS S3 bucket if there is a file
-    if (file) {
+    // Upload photos to AWS S3 bucket if there is a file and
+    // the file IS NOT an existing AWS S3 file (file
+    // starts with "https://of-s3-images.s3.us-east-1.amazonaws.com/menuItem")
+    if (
+      file &&
+      !file.startsWith(
+        "https://of-s3-images.s3.us-east-1.amazonaws.com/menuItem"
+      )
+    ) {
+      if (!file.startsWith("data:image/")) {
+        res.status(400).json({ error: "Invalid file format" });
+        return;
+      }
+
+      // Extract content type and base64 string
+      const matches = file.match(/^data:(image\/\w+);base64,(.+)$/);
+      if (!matches) {
+        res.status(400).json({ error: "Malformed base64 image" });
+        return;
+      }
+
+      const contentType = matches[1];
+      const base64Data = matches[2];
+      const buffer = Buffer.from(base64Data, "base64");
+
+      // Generate a key
+      const key = `menuItem/${Date.now()}-${file.originalname}`;
+
       const uploadParams = {
         Bucket: process.env.S3_BUCKET_NAME!,
-        Key: `menuItem/${Date.now()}-${file.originalname}`,
-        Body: file.buffer,
-        ContentType: file.mimetype,
+        Key: key,
+        Body: buffer,
+        ContentType: contentType,
       };
 
       const uploadResult = await new Upload({
@@ -83,10 +108,6 @@ export const createRestaurantMenuItem = async (
       photoUrl = uploadResult.Location || "";
     }
 
-    // Convert types explicitly
-    const parsedPrice = parseFloat(price);
-    const parsedRestaurantId = parseInt(restaurantId, 10);
-
     // Do write actions in one transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create menuItem
@@ -94,15 +115,15 @@ export const createRestaurantMenuItem = async (
         data: {
           name,
           description,
-          price: parsedPrice,
+          price,
           photoUrl,
-          restaurantId: parsedRestaurantId,
+          restaurantId,
         },
       });
 
       // Get restaurant name
       const restaurant = await tx.restaurant.findUnique({
-        where: { id: parsedRestaurantId },
+        where: { id: restaurantId },
         select: { name: true },
       });
       if (!restaurant) {
@@ -114,7 +135,7 @@ export const createRestaurantMenuItem = async (
         where: {
           favoriteRests: {
             some: {
-              restaurantId: parsedRestaurantId,
+              restaurantId: restaurantId,
             },
           },
           notificationSetting: {
@@ -154,8 +175,7 @@ export const updateRestaurantMenuItem = async (
 ): Promise<void> => {
   try {
     const { menuItemId } = req.params;
-    const { name, description, price } = req.body;
-    const file = req.file as Express.Multer.File;
+    const { name, description, price, file } = req.body;
 
     if (!name || !price) {
       res.status(400).json({ message: "Missing required fields" });
@@ -163,13 +183,39 @@ export const updateRestaurantMenuItem = async (
     }
 
     let photoUrl = "";
-    // Upload photos to AWS S3 bucket if there is a file
-    if (file) {
+    // Upload photos to AWS S3 bucket if there is a file and
+    // the file IS NOT an existing AWS S3 file (file
+    // starts with "https://of-s3-images.s3.us-east-1.amazonaws.com/menuItem")
+    if (
+      file &&
+      !file.startsWith(
+        "https://of-s3-images.s3.us-east-1.amazonaws.com/menuItem"
+      )
+    ) {
+      if (!file.startsWith("data:image/")) {
+        res.status(400).json({ error: "Invalid file format" });
+        return;
+      }
+
+      // Extract content type and base64 string
+      const matches = file.match(/^data:(image\/\w+);base64,(.+)$/);
+      if (!matches) {
+        res.status(400).json({ error: "Malformed base64 image" });
+        return;
+      }
+
+      const contentType = matches[1];
+      const base64Data = matches[2];
+      const buffer = Buffer.from(base64Data, "base64");
+
+      // Generate a key
+      const key = `menuItem/${Date.now()}-${file.originalname}`;
+
       const uploadParams = {
         Bucket: process.env.S3_BUCKET_NAME!,
-        Key: `menuItem/${Date.now()}-${file.originalname}`,
-        Body: file.buffer,
-        ContentType: file.mimetype,
+        Key: key,
+        Body: buffer,
+        ContentType: contentType,
       };
 
       const uploadResult = await new Upload({
@@ -185,7 +231,7 @@ export const updateRestaurantMenuItem = async (
       data: {
         name,
         description,
-        price: Number(price),
+        price,
         // Only include photoUrl field to update when
         // input photoUrl has value
         ...(photoUrl && photoUrl.trim() !== "" && { photoUrl }),

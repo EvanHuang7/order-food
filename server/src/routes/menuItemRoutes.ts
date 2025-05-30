@@ -1,5 +1,4 @@
 import express from "express";
-import multer from "multer";
 import {
   getRestaurantMenuItems,
   createRestaurantMenuItem,
@@ -7,22 +6,13 @@ import {
 } from "../controllers/menuItemControllers";
 import { authMiddleware } from "../middleware/authMiddleware";
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 const router = express.Router();
 
 router.get("/:restaurantId/menuItems", getRestaurantMenuItems);
-router.post(
-  "/",
-  authMiddleware(["restaurant"]),
-  upload.single("photo"),
-  createRestaurantMenuItem
-);
+router.post("/", authMiddleware(["restaurant"]), createRestaurantMenuItem);
 router.put(
   "/:menuItemId",
   authMiddleware(["restaurant"]),
-  upload.single("photo"),
   updateRestaurantMenuItem
 );
 
