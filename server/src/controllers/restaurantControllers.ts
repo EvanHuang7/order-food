@@ -255,7 +255,7 @@ export const updateRestaurant = async (
       const buffer = Buffer.from(base64Data, "base64");
 
       // Generate a key
-      const key = `restaurant/${Date.now()}-profile-image.${
+      const key = `restaurant/profile/${Date.now()}-profile-image.${
         contentType.split("/")[1]
       }`;
 
@@ -296,9 +296,9 @@ export const updateRestaurant = async (
           const buffer = Buffer.from(base64Data, "base64");
 
           // Generate a key
-          const key = `restaurant/${Date.now()}-background-image${index + 1}.${
-            contentType.split("/")[1]
-          }`;
+          const key = `restaurant/background/${Date.now()}-background-image${
+            index + 1
+          }.${contentType.split("/")[1]}`;
 
           const uploadParams = {
             Bucket: process.env.S3_BUCKET_NAME!,

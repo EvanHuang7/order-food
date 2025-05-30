@@ -91,7 +91,9 @@ export const createRestaurantMenuItem = async (
       const buffer = Buffer.from(base64Data, "base64");
 
       // Generate a key
-      const key = `menuItem/${Date.now()}-image.${contentType.split("/")[1]}`;
+      const key = `restaurant/menuItem/${Date.now()}-item-image.${
+        contentType.split("/")[1]
+      }`;
 
       const uploadParams = {
         Bucket: process.env.S3_BUCKET_NAME!,
@@ -209,7 +211,9 @@ export const updateRestaurantMenuItem = async (
       const buffer = Buffer.from(base64Data, "base64");
 
       // Generate a key
-      const key = `menuItem/${Date.now()}-image.${contentType.split("/")[1]}`;
+      const key = `restaurant/menuItem/${Date.now()}-item-image.${
+        contentType.split("/")[1]
+      }`;
 
       const uploadParams = {
         Bucket: process.env.S3_BUCKET_NAME!,
