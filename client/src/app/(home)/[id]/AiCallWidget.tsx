@@ -2,12 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import {
   useCreateOrdersMutation,
   useGenerateOrderItemsWithAiMutation,
   useGetAuthUserQuery,
 } from "@/state/api";
 import { vapi } from "@/lib/vapi";
-import { Loader2, Phone } from "lucide-react";
+import { CircleAlert, Loader2, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { takingOrderAI } from "@/lib/constants";
@@ -195,43 +201,68 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
       </div>
 
       {/* Action button */}
-      {authUser &&
-        showCustomerInteraction &&
-        (callStatus !== "ACTIVE" ? (
-          <Button
-            className="w-full bg-primary-700 text-white hover:bg-primary-600"
-            onClick={() => handleStartCallWithAI()}
-            disabled={callStatus === "FINISHED" || callStatus === "CONNECTING"}
-          >
-            <span
-              className={cn(
-                "absolute animate-ping rounded-full opacity-75",
-                callStatus !== "CONNECTING" && "hidden"
+      {authUser && showCustomerInteraction && (
+        <div className="flex items-center gap-2">
+          {callStatus !== "ACTIVE" ? (
+            <Button
+              className="w-full bg-primary-700 text-white hover:bg-primary-600"
+              onClick={() => handleStartCallWithAI()}
+              disabled={
+                !authUser?.userInfo?.location ||
+                callStatus === "FINISHED" ||
+                callStatus === "CONNECTING"
+              }
+            >
+              <span
+                className={cn(
+                  "absolute animate-ping rounded-full opacity-75",
+                  callStatus !== "CONNECTING" && "hidden"
+                )}
+              />
+
+              {(callStatus === "CONNECTING" || callStatus === "FINISHED") && (
+                <Loader2 className="animate-spin" size={20} />
               )}
-            />
 
-            {(callStatus === "CONNECTING" || callStatus === "FINISHED") && (
-              <Loader2 className="animate-spin" size={20} />
-            )}
+              <span className="relative">
+                {callStatus === "INACTIVE"
+                  ? "Start AI call"
+                  : callStatus === "CONNECTING"
+                  ? "Connecting"
+                  : callStatus === "FINISHED"
+                  ? "Placing order"
+                  : ""}
+              </span>
+            </Button>
+          ) : (
+            <Button
+              className="w-full bg-primary-700 text-white hover:bg-primary-600"
+              onClick={() => handleEndCallWithAI()}
+            >
+              End AI call
+            </Button>
+          )}
 
-            <span className="relative">
-              {callStatus === "INACTIVE"
-                ? "Start AI call"
-                : callStatus === "CONNECTING"
-                ? "Connecting"
-                : callStatus === "FINISHED"
-                ? "Placing order"
-                : ""}
-            </span>
-          </Button>
-        ) : (
-          <Button
-            className="w-full bg-primary-700 text-white hover:bg-primary-600"
-            onClick={() => handleEndCallWithAI()}
-          >
-            End AI call
-          </Button>
-        ))}
+          {!authUser?.userInfo?.location && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex-shrink-0">
+                    <CircleAlert className="w-5 h-5 cursor-pointer" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="top"
+                  className="bg-white border border-gray-200 text-sm text-gray-800 shadow-md rounded-md px-3 py-2 max-w-[200px]"
+                >
+                  Set your location to place an order. No payment info 💳 needed
+                  in this demo.
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
+      )}
 
       <hr className="my-4" />
       <div className="text-sm">
