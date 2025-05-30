@@ -68,6 +68,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
       setIsAiSpeaking(true);
     };
 
+    // TODO: find why it's not end by AI itself
     const onSpeechEnd = () => {
       setIsAiSpeaking(false);
     };
@@ -145,11 +146,11 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
     <div className="bg-white border border-primary-200 rounded-2xl p-7 h-fit min-w-[300px]">
       {/* Contact Info */}
       <div className="flex items-center gap-5 mb-4 border border-primary-200 p-4 rounded-xl">
-        <div className="flex items-center p-4 bg-primary-900 rounded-full">
-          <Phone className="text-primary-50" size={15} />
+        <div className="relative flex items-center justify-center p-4 bg-primary-900 rounded-full">
           {isAiSpeaking && (
-            <span className="absolute inline-flex size-5/6 animate-ping rounded-full bg-primary-200 opacity-75" />
+            <span className="absolute inline-flex h-12 w-12 animate-ping rounded-full bg-primary-200 opacity-75" />
           )}
+          <Phone className="relative text-primary-50" size={15} />
         </div>
         <div>
           <h1 className="text-xl font-semibold">
@@ -157,11 +158,12 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
           </h1>
           <p>Place order with AI call</p>
           <div className="text-lg font-bold text-primary-800">
-            {restaurantWithMenuItems.phoneNumber || "Unknow"}
+            {restaurantWithMenuItems.phoneNumber || "Unknown"}
           </div>
         </div>
       </div>
 
+      {/* Action button */}
       {authUser &&
         showCustomerInteraction &&
         (callStatus !== "ACTIVE" ? (

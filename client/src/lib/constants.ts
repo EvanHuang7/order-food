@@ -60,11 +60,7 @@ export const takingOrderAI: CreateAssistantDTO = {
     useSpeakerBoost: true,
   },
   startSpeakingPlan: {
-    waitSeconds: 3,
-    smartEndpointingPlan: {
-      provider: "livekit",
-      waitFunction: "700 + 4000 * max(0, x-0.5)",
-    },
+    waitSeconds: 1,
   },
   model: {
     provider: "openai",
