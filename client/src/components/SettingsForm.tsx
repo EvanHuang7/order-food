@@ -196,7 +196,7 @@ const SettingsForm = ({
                 {/* Restaurant Additional Information */}
                 <div className="space-y-6">
                   <h2 className="text-lg font-semibold mb-4">
-                    Restaurant Additional Information
+                    Additional Information
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <CustomFormField
@@ -236,7 +236,7 @@ const SettingsForm = ({
                 {/* Restaurant Photos */}
                 <div>
                   <h2 className="text-lg font-semibold mb-4">
-                    Restaurant Background Photos
+                    Background Photos
                   </h2>
                   <CustomFormField
                     name="photoUrls"
