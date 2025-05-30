@@ -44,6 +44,22 @@ export function formatToLocalString(dateStr: string | Date) {
   });
 }
 
+export function isBase64ImagesUnder1MB(base64Images: string[]): boolean {
+  const MAX_TOTAL_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+
+  const getSizeInBytes = (base64: string): number => {
+    const cleaned = base64.split(",")[1] || base64;
+    return Math.ceil((cleaned.length * 3) / 4);
+  };
+
+  const totalSize = base64Images.reduce(
+    (sum, img) => sum + getSizeInBytes(img),
+    0
+  );
+
+  return totalSize < MAX_TOTAL_SIZE;
+}
+
 type MutationMessages = {
   success?: string;
   error: string;

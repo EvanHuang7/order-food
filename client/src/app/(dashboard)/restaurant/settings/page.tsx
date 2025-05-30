@@ -7,7 +7,7 @@ import {
   useUpdateRestaurantInfoMutation,
 } from "@/state/api";
 import React from "react";
-import { toBase64 } from "@/lib/utils";
+import { isBase64ImagesUnder1MB, toBase64 } from "@/lib/utils";
 import { toast } from "sonner";
 
 const RestaurantSettings = () => {
@@ -52,7 +52,7 @@ const RestaurantSettings = () => {
     // Only append "files" if there are photos uploaded
     if (files && files.length > 0) {
       const maxSize = 1 * 1024 * 1024; // 1MB
-      // Check files size
+      // Check each file size
       for (const file of files) {
         if (file.size > maxSize) {
           toast.error("A file exceeds max file size 1MB, please try again");
@@ -63,6 +63,22 @@ const RestaurantSettings = () => {
       base64ImageFilesList = await Promise.all(
         files.map((file) => toBase64(file))
       );
+    }
+
+    // Check all images size (new profile image + background photos)
+    const isValidSize = isBase64ImagesUnder1MB(
+      // Only include profileImgUrl if it's NOT a uploaded S3 image
+      !data.profileImgUrl.startsWith(
+        "https://of-s3-images.s3.us-east-1.amazonaws.com/restaurant"
+      )
+        ? [data.profileImgUrl, ...base64ImageFilesList]
+        : base64ImageFilesList
+    );
+    if (!isValidSize) {
+      toast.error(
+        "Total file size (profile image and background photos) exceeds 1MB, please try again"
+      );
+      return;
     }
 
     await updateRestaurantInfo({
