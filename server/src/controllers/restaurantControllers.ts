@@ -205,7 +205,6 @@ export const updateRestaurant = async (
 ): Promise<void> => {
   try {
     const { cognitoId } = req.params;
-    const files = req.files as Express.Multer.File[];
     const {
       name,
       phoneNumber,
@@ -220,6 +219,7 @@ export const updateRestaurant = async (
       pricePerPereson,
       categories,
       description,
+      files,
     } = req.body;
 
     // Check input
@@ -278,12 +278,33 @@ export const updateRestaurant = async (
     // Upload photos to AWS S3 bucket if there is a file
     if (files && files.length > 0) {
       photoUrls = await Promise.all(
-        files.map(async (file) => {
+        files.map(async (file: string) => {
+          if (!file.startsWith("data:image/")) {
+            res.status(400).json({ error: "Invalid file format" });
+            return;
+          }
+
+          // Extract content type and base64 string
+          const matches = file.match(/^data:(image\/\w+);base64,(.+)$/);
+          if (!matches) {
+            res.status(400).json({ error: "Malformed base64 image" });
+            return;
+          }
+
+          const contentType = matches[1];
+          const base64Data = matches[2];
+          const buffer = Buffer.from(base64Data, "base64");
+
+          // Generate a key
+          const key = `restaurant/${Date.now()}-image.${
+            contentType.split("/")[1]
+          }`;
+
           const uploadParams = {
             Bucket: process.env.S3_BUCKET_NAME!,
-            Key: `restaurant/${Date.now()}-${file.originalname}`,
-            Body: file.buffer,
-            ContentType: file.mimetype,
+            Key: key,
+            Body: buffer,
+            ContentType: contentType,
           };
 
           const uploadResult = await new Upload({
