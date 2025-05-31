@@ -182,13 +182,12 @@ const OrderCard = ({ order, userType, children }: OrderCardProps) => {
             <hr className="mt-3" />
           </div>
           <div className="flex gap-4">
-            <div>
+            <div className="w-12 h-12 relative rounded-full overflow-hidden mr-2">
               <Image
                 src={contactPersonImgSrc}
                 alt={contactPerson.name}
-                width={40}
-                height={40}
-                className="rounded-full mr-2 min-w-[40px] min-h-[40px]"
+                className="object-cover"
+                fill
                 onError={() =>
                   setFallbackContactPersonImgSrc("/order-food-logo.svg")
                 }
