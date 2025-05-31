@@ -166,6 +166,7 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
           menuItems: restaurantWithMenuItems.menuItems.map(
             (menuItem: MenuItem) => menuItem.name
           ),
+          restaurantName: restaurantWithMenuItems.name,
         },
       });
     } catch (error) {

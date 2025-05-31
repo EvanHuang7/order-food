@@ -51,7 +51,7 @@ export const NAVBAR_HEIGHT = 52; // in pixels
 export const takingOrderAI: CreateAssistantDTO = {
   name: "Emily",
   firstMessage:
-    "Hello! I'm Emily. I'm your virtual assistant here to take your order. What would you like today?",
+    "Hi there! I'm Emily, your virtual assistant at {{restaurantName}}. I'm here to help you place your order. What would you like to eat today?",
   transcriber: {
     provider: "deepgram",
     model: "nova-2",
