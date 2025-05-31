@@ -15,7 +15,7 @@ import {
 import { vapi } from "@/lib/vapi";
 import { CircleAlert, Loader2, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { takingOrderAI } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { MenuItem } from "@/types/prismaTypes";
@@ -35,6 +35,8 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [isAiSpeaking, setIsAiSpeaking] = useState(false);
+  // Track lastest speaking time
+  const lastestSpeakingTimeRef = useRef(Date.now());
   // Group messages by consecutive same-role
   const groupedMessages = useMemo(() => {
     const groups: SavedMessage[] = [];
@@ -62,6 +64,8 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
     };
 
     const onMessage = (message: Message) => {
+      // Update lastest speaking time
+      lastestSpeakingTimeRef.current = Date.now();
       if (message.type === "transcript" && message.transcriptType === "final") {
         const newMessage = { role: message.role, content: message.transcript };
         setMessages((prev) => [...prev, newMessage]);
@@ -105,14 +109,22 @@ const AiCallWidget = ({ restaurantWithMenuItems }: AiCallWidgetProps) => {
   useEffect(() => {
     if (callStatus !== CallStatus.ACTIVE) return;
 
-    const timeoutId = setTimeout(() => {
-      if (!isAiSpeaking && callStatus === CallStatus.ACTIVE) {
-        console.log("Force-ending AI call after prolonged silence");
+    const intervalId = setInterval(() => {
+      // Check the silence time between user and AI
+      const now = Date.now();
+      const silenceTimeSinceLastMessage = now - lastestSpeakingTimeRef.current;
+
+      if (
+        silenceTimeSinceLastMessage > 5000 && // 5 seconds of silence
+        !isAiSpeaking &&
+        callStatus === CallStatus.ACTIVE
+      ) {
+        console.log("Force-ending AI call after 5s of silence from both sides");
         handleEndCallWithAI();
       }
-    }, 5000);
+    }, 1000); // check every second
 
-    return () => clearTimeout(timeoutId);
+    return () => clearInterval(intervalId);
   }, [isAiSpeaking, callStatus]);
 
   // Place order after finishing conversation
