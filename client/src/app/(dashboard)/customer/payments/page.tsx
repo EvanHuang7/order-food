@@ -116,7 +116,10 @@ const PaymentHistory = ({ payments }: { payments: Payment[] }) => {
           </p>
         </div>
         <div>
-          <button className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center hover:bg-primary-700 hover:text-primary-50">
+          <button
+            className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center"
+            disabled={true}
+          >
             <Download className="w-5 h-5 mr-2" />
             <span>Download All</span>
           </button>
@@ -170,7 +173,10 @@ const PaymentHistory = ({ payments }: { payments: Payment[] }) => {
                 </TableCell>
                 <TableCell>${payment.amount.toFixed(2)}</TableCell>
                 <TableCell>
-                  <button className="border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center font-semibold hover:bg-primary-700 hover:text-primary-50">
+                  <button
+                    className="border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center font-semibold"
+                    disabled={true}
+                  >
                     <ArrowDownToLineIcon className="w-4 h-4 mr-1" />
                     Download
                   </button>
