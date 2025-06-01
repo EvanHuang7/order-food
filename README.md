@@ -1,8 +1,8 @@
-# 💻 Oder Food
+# 🌟 Oder Food
 
-## 📋 <a name="table">Table of Contents</a>
+## 📚 <a name="table">Table of Contents</a>
 
-1. 🎬 [Introduction](#introduction)
+1. 📋 [Introduction](#introduction)
 2. 🛠️ [Tech Stack](#tech-stack)
 3. 🚀 [Features](#features)
 4. 📦 [Installation and Quick Start](#quick-start)
@@ -12,16 +12,20 @@
 8. 📸 [Screenshots](#screenshots)
 9. 👨‍💼 [About the Author](#about-the-author)
 
-## <a name="introduction">🎬 Introduction</a>
+## <a name="introduction">📋 Introduction</a>
 
-Oder Food is a full-stack food delivery app where users can browse restaurants, place orders, and track deliveries in real-time.
+🍔 Oder Food is a full-stack food delivery platform that connects customers, restaurants, and delivery drivers in a unified system.
+
+- **Customers** can browse local restaurants, place food orders, track deliveries in real-time, and even **talk to an AI assistant to place orders via voice calls**.
+- **Restaurants** can manage their menus, orders, and business operations directly through the platform.
+- **Drivers** can accept delivery requests and earn money by delivering food to customers efficiently.
 
 ## <a name="tech-stack">🛠️ Tech Stack</a>
 
-- **Backend**: Node.js, Express, Prisma, PostgreSQL
-- **Frontend**: Next.js, Shadcn, Tailwind CSS, Redux Toolkit
-- **AWS**: EC2(host server), RDS(host database), VPC(isolate virtual network), SNS(send notifications), SES(send emails), API Gateway(route requests to EC2 server), Cognito(user authentication), Amplify(host client), S3(store files)
-- **Other**: VAPI(AI voice assistant), Vercel AI SDK (integrate Gemini API), PM2(auto restart project), PG(subscribe PostgreSQL event)
+- **Backend**: Node.js, Express.js, TypeScript, Prisma, PostgreSQL
+- **Frontend**: Next.js, TypeScript, Redux Toolkit, Shadcn, Tailwind CSS
+- **AWS**: EC2(host server), RDS(database storage), VPC(isolate virtual network), SNS(send notifications), SES(send emails), API Gateway(secure route requests), Cognito(user authentication), Amplify(host client), S3(store files)
+- **Other**: VAPI AI(AI voice assistant), Google AI Gemeni(integrate Gemini APIs), PG(subscribe PostgreSQL event), PM2(auto restart project in cloud), Framer Motion(front-end animation), React hook Form and Zod(form and validation)
 
 ## <a name="features">🚀 Features</a>
 
