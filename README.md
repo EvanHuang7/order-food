@@ -70,7 +70,7 @@
 
 - **Database Tables Diagram**: [drawSQL Diagram Link](https://drawsql.app/teams/evans-projects/diagrams/order-food-app)
 - **Screenshots**: [Miro Link](https://miro.com/app/board/uXjVI0aDhM0=/?share_link_id=91185319434)
-- ![🖼️ Screenshots Preview](./Order-Food-App-Screenshots.jpg)
+- ![🖼️ Screenshots Preview](https://asset.cloudinary.com/dapo3wc6o/a3428adc359e0f728886aac1e2849107)
 
 ## <a name="installation-start-project">📦 Installation and ⚙️ Start Project</a>
 
