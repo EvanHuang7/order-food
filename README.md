@@ -138,16 +138,23 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 - **Set up AWS Cognito and create a User Pool**:
   - Choose **"Single-page application"** as the application type
   - Enter your desired **application name**
-  - Under **Sign-in identifiers**, select both **"Email"** and **"Username"**
+  - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
   - Under **Required attributes for sign-up**, choose **"email"**
   - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
-- Create and configure an **AWS S3 Bucket** with the appropriate access permissions and policies
-- Create an **AWS IAM user** with **full access to S3, SES, and SNS**:
-  - Generate and securely store the **Access Key ID and Secret Access Key**
-- **Set up AWS SES (Simple Email Service)**:
+  - Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
+- **Set up AWS S3**:
+  - Create and configure an **AWS S3 Bucket** with the appropriate access permissions and policies
+  - Note down the **S3 bucket name** for latter usage
+- **Set up AWS IAM**:
+  - Create an **AWS IAM user** with **full access to SES and SNS**:
+  - Generate and note down the **IAM user Access Key ID and Secret Access Key**
+- **Set up AWS SES**:
   - Verify both your **sender email and recipient email** addresses
   - (In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**)
-- **Set up an AWS SNS (Simple Notification Service) topic** for managing email or app notifications
+  - Note down your **verified sender email**
+- **Set up AWS SNS**:
+  - Create a topic for managing email or app notifications
+  - Note down the **ARN of Topic**
 
 **⭐ Set Up Environment Variables**
 
