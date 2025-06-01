@@ -62,16 +62,15 @@
 - **Earnings Tab**: View total income from completed deliveries
 - **Settings Tab**: Update driver contact and location info
 
-👉 **Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity.
+👉 **Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity
 
-👉 **Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices.
+👉 **Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices
 
 ## <a name="diagram-screenshots">🧩 Diagram and 📸 Screenshots</a>
 
 - **Database Tables Diagram**: [drawSQL Diagram Link](https://drawsql.app/teams/evans-projects/diagrams/order-food-app)
 - **Screenshots**: [Miro Link](https://miro.com/app/board/uXjVI0aDhM0=/?share_link_id=91185319434)
-
-<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVI0aDhM0=/?moveToViewport=-170458,-68324,530000,282800&embedId=17851610191" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+- ![🖼️ Screenshots Preview](./Order-Food-App-Screenshots.jpg)
 
 ## <a name="installation-start-project">📦 Installation and ⚙️ Start Project</a>
 
@@ -191,3 +190,46 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
+
+## <a name="deploy-app">☁️ Deploy App in AWS Cloud</a>
+
+## <a name="api-routes">📡 API Routes</a>
+
+## <a name="note">📌 Note</a>
+
+Follow these steps to sync your Prisma schema changes with the PostgreSQL database whenever the schema is updated:
+
+- Manually delete the existing `migration.sql` file located at `order-food/server/prisma/migrations/20250525010753_init`.
+- Run `npx prisma migrate dev --name init` to generate a new SQL migration file and apply it to your current database.
+- Manually append the trigger creation SQL script at the end of the newly generated migration file.
+
+```
+-- 1. Create the trigger function
+CREATE OR REPLACE FUNCTION notify_new_notification()
+RETURNS TRIGGER AS $$
+BEGIN
+  PERFORM pg_notify('new_notification_channel', row_to_json(NEW)::text);
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 2. Create the trigger
+CREATE TRIGGER on_new_notification
+AFTER INSERT ON "Notification"
+FOR EACH ROW
+EXECUTE FUNCTION notify_new_notification();
+```
+
+- Run `npx prisma migrate reset` to drop and recreate the database, ensuring the trigger is applied.
+- Run `npm run prisma:generate` to regenerate the Prisma client and sync the updated Prisma types with the front-end client.
+
+## <a name="about-the-author">👨‍💼 About the Author</a>
+
+Hi! I'm Evan Huang — a full-stack software developer with 4+ years of experience in web applications, real-time systems, and cloud integration. I’m passionate about building scalable products with clean architecture, elegant UI/UX, and modern technologies like React, Node.js, PostgreSQL, and AWS.
+
+This food delivery app project was completed on **June 2, 2025**, and reflects my focus on blending AI, cloud infrastructure, and responsive design into real-world solutions.
+
+Feel free to connect or contribute!
+
+🔗 [LinkedIn](https://www.linkedin.com/in/evan-huang-97336b1a9/)  
+💻 [GitHub](https://github.com/EvanHuang7)
