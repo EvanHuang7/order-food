@@ -5,13 +5,11 @@
 1. 📋 [Introduction](#introduction)
 2. 🛠️ [Tech Stack](#tech-stack)
 3. 🚀 [Features](#features)
-4. 📦 [Installation and Start Project](#start-project)
-5. 🔍 [API Routes](#api-routes)
-6. 🧩 [Diagram](#diagram)
-7. 📸 [Screenshots](#screenshots)
-8. [Note](#note)
-9. [Deploy App in AWS Cloud](#deploy-app)
-10. 👨‍💼 [About the Author](#about-the-author)
+4. 🧩 [Diagram and Screenshots](#diagram-screenshots)
+5. ⚙️ [Installation and Start Project](#installation-start-project)
+6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
+7. 📌 [Note](#note)
+8. 👨‍💼 [About the Author](#about-the-author)
 
 ## <a name="introduction">📋 Introduction</a>
 
@@ -67,7 +65,7 @@
 
 👉 **Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices.
 
-## <a name="start-project">📦 Installation and Start Project</a>
+## <a name="installation-start-project">📦 Installation and ⚙️ Start Project</a>
 
 Follow these steps to set up the project locally on your machine.
 
@@ -161,6 +159,10 @@ npx prisma migrate reset
 npm run prisma:generate
 npm run seed
 ```
+
+**⭐ Upload Images of Mock Data to AWS S3 Bucket**
+
+Upload the entire `mockDataImage` folder located in `order-food/client/public` to your AWS S3 bucket. This ensures that mock data images are properly displayed in the application.
 
 **⭐ Running the Project**
 
