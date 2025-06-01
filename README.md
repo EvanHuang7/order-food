@@ -96,9 +96,11 @@ npm install
 ```
 
 **⭐ Create Database in PgAdmin**
+
 Create a local PostgreSQL database using pgAdmin, and note down your PostgreSQL **username, password, and database name**—you'll need them later in the **Set Up Environment Variables step**. (Feel free to follow any PostgreSQL setup tutorial on YouTube to complete this step.)
 
 **⭐ Set Up AWS**
+
 Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
 
 - **Set up AWS Cognito and create a User Pool**:
@@ -116,6 +118,7 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 - **Set up an AWS SNS (Simple Notification Service) topic** for managing email or app notifications
 
 **⭐ Set Up Environment Variables**
+
 Create a `.env` file under **client** folder of your project and add the following content:
 
 ```env
@@ -149,6 +152,7 @@ GOOGLE_GENERATIVE_AI_API_KEY=""
 - Feel free to follow YouTube tutorials on Vapi and Google AI Studio to obtain the required tokens and configuration.
 
 **⭐ Create Tables, Add Event Trigger, and Seed Mock Data**
+
 Create the necessary tables, add an event trigger for the `create` event on the `Notification` table, and seed mock data into your local PostgreSQL database by running:
 
 ```bash
@@ -159,6 +163,7 @@ npm run seed
 ```
 
 **⭐ Running the Project**
+
 Open **two separate terminal windows** and run the following commands to start the frontend and backend servers:
 
 **Terminal 1** – Start the Client (Next.js App):
