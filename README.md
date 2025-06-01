@@ -8,8 +8,9 @@
 4. 🧩 [Diagram and Screenshots](#diagram-screenshots)
 5. ⚙️ [Installation and Start Project](#installation-start-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
-7. 📌 [Note](#note)
-8. 👨‍💼 [About the Author](#about-the-author)
+7. 📡 [API Routes](#api-routes)
+8. 📌 [Note](#note)
+9. 👨‍💼 [About the Author](#about-the-author)
 
 ## <a name="introduction">📋 Introduction</a>
 
@@ -21,7 +22,7 @@
 
 ## <a name="tech-stack">🛠️ Tech Stack</a>
 
-- **🤖 Backend**: Node.js, Express.js, TypeScript, Prisma, PostgreSQL
+- **📡 Backend**: Node.js, Express.js, TypeScript, Prisma, PostgreSQL
 - **🖥️ Frontend**: Next.js, TypeScript, Redux Toolkit, Shadcn, Tailwind CSS
 - **☁️ AWS**: EC2(host server), RDS(database storage), VPC(isolate virtual network), SNS(send notifications), SES(send emails), API Gateway(secure route requests), Cognito(user authentication), Amplify(host client), S3(store files)
 - **🧩 Other**: VAPI AI(AI voice assistant), Google AI Gemeni(integrate Gemini APIs), PG(subscribe PostgreSQL event), PM2(auto restart project in cloud), Framer Motion(front-end animation), React hook Form and Zod(form and validation)
@@ -64,6 +65,13 @@
 👉 **Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity.
 
 👉 **Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices.
+
+## <a name="diagram-screenshots">🧩 Diagram and 📸 Screenshots</a>
+
+- **Database Tables Diagram**: [drawSQL Diagram Link](https://drawsql.app/teams/evans-projects/diagrams/order-food-app)
+- **Screenshots**: [Miro Link](https://miro.com/app/board/uXjVI0aDhM0=/?share_link_id=91185319434)
+
+<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVI0aDhM0=/?moveToViewport=-170458,-68324,530000,282800&embedId=17851610191" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
 
 ## <a name="installation-start-project">📦 Installation and ⚙️ Start Project</a>
 
