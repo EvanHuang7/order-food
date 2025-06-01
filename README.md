@@ -92,6 +92,7 @@
 Follow these steps to set up the project locally on your machine.
 
 **⭐ Prerequisites**
+
 Make sure you have the following installed on your machine:
 
 - Git
@@ -105,6 +106,7 @@ git clone https://github.com/EvanHuang7/order-food.git
 ```
 
 **⭐ Installation**
+
 Install the project dependencies using npm:
 
 ```bash
@@ -122,6 +124,16 @@ Create a local PostgreSQL database using pgAdmin, and note down your PostgreSQL 
 **⭐ Set Up AWS**
 
 Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
+
+> **⚠️ Note**
+>
+> - **✅ Minimum Requirement**
+>
+>   - **AWS Cognito** must be configured to use the app. User authentication won't work without it.
+>
+> - **🧩 Optional Services**
+>   - **AWS S3**: Required to display mock data images. Without it, image uploading and seeded image display will be disabled, but all other features remain usable.
+>   - **AWS IAM, SNS, and SES**: Required for the notification system to send and receive email alerts. The app will function without these, just without notifications.
 
 - **Set up AWS Cognito and create a User Pool**:
   - Choose **"Single-page application"** as the application type
