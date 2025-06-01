@@ -5,12 +5,13 @@
 1. 📋 [Introduction](#introduction)
 2. 🛠️ [Tech Stack](#tech-stack)
 3. 🚀 [Features](#features)
-4. 📦 [Installation and Quick Start](#quick-start)
-5. ⚙️ [Environment Variables](#environment-variables)
-6. 🔍 [API Routes](#api-routes)
-7. 🧩 [Diagram](#diagram)
-8. 📸 [Screenshots](#screenshots)
-9. 👨‍💼 [About the Author](#about-the-author)
+4. 📦 [Installation and Start Project](#start-project)
+5. 🔍 [API Routes](#api-routes)
+6. 🧩 [Diagram](#diagram)
+7. 📸 [Screenshots](#screenshots)
+8. [Note](#note)
+9. [Deploy App in AWS Cloud](#deploy-app)
+10. 👨‍💼 [About the Author](#about-the-author)
 
 ## <a name="introduction">📋 Introduction</a>
 
@@ -66,62 +67,111 @@
 
 👉 **Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices.
 
-## <a name="quick-start">📦 Quick Start</a>
+## <a name="start-project">📦 Installation and Start Project</a>
 
 Follow these steps to set up the project locally on your machine.
 
-**Prerequisites**
-
+**⭐ Prerequisites**
 Make sure you have the following installed on your machine:
 
-- [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
+- Git
+- Node.js and npm(Node Package Manager)
+- PostgresSQL and PgAdmin
 
-**Cloning the Repository**
+**⭐ Cloning the Repository**
 
 ```bash
-git clone https://github.com/adrianhajdin/ai_mock_interviews.git
-cd ai_mock_interviews
+git clone https://github.com/EvanHuang7/order-food.git
 ```
 
-**Installation**
-
+**⭐ Installation**
 Install the project dependencies using npm:
 
 ```bash
+cd order-food/server
+npm install
+cd ..
+cd client
 npm install
 ```
 
-**Set Up Environment Variables**
+**⭐ Create Database in PgAdmin**
+Create a local PostgreSQL database using pgAdmin, and note down your PostgreSQL **username, password, and database name**—you'll need them later in the **Set Up Environment Variables step**. (Feel free to follow any PostgreSQL setup tutorial on YouTube to complete this step.)
 
-Create a new file named `.env.local` in the root of your project and add the following content:
+**⭐ Set Up AWS**
+Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
+
+- **Set up AWS Cognito and create a User Pool**:
+- - Choose **"Single-page application"** as the application type
+- - Enter your desired **application name**
+- - Under **Sign-in identifiers**, select both **"Email"** and **"Username"**
+- - Under **Required attributes for sign-up**, choose **"email"**
+- - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
+- Create and configure an **AWS S3 Bucket** with the appropriate access permissions and policies
+- Create an **AWS IAM user** with **full access to S3, SES, and SNS**:
+- - Generate and securely store the **Access Key ID and Secret Access Key**
+- **Set up AWS SES (Simple Email Service)**:
+- - Verify both your **sender email and recipient email** addresses
+- - (In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**)
+- **Set up an AWS SNS (Simple Notification Service) topic** for managing email or app notifications
+
+**⭐ Set Up Environment Variables**
+Create a `.env` file under **client** folder of your project and add the following content:
 
 ```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+
+NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID=
+NEXT_PUBLIC_AWS_COGNITO_USER_POOL_CLIENT_ID=
+
 NEXT_PUBLIC_VAPI_WEB_TOKEN=
-NEXT_PUBLIC_VAPI_WORKFLOW_ID=
-
-GOOGLE_GENERATIVE_AI_API_KEY=
-
-NEXT_PUBLIC_BASE_URL=
-
-NEXT_PUBLIC_FIREBASE_API_KEY=
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
-
-FIREBASE_PROJECT_ID=
-FIREBASE_CLIENT_EMAIL=
-FIREBASE_PRIVATE_KEY=
 ```
 
-Replace the placeholder values with your actual **[Firebase](https://firebase.google.com/)**, **[Vapi](https://vapi.ai/?utm_source=youtube&utm_medium=video&utm_campaign=jsmastery_recruitingpractice&utm_content=paid_partner&utm_term=recruitingpractice)** credentials.
+Create another `.env` file under **server** folder of your project and add the following content:
 
-**Running the Project**
+```env
+PORT=3001
+DATABASE_URL="postgresql://myusername:mypassword@localhost:5432/mydatabasename?schema=public"
+
+AWS_REGION=""
+S3_BUCKET_NAME=""
+
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
+SES_VERIFIED_EMAIL=""
+
+SNS_TOPIC_SUBSCRIBE_APP=""
+
+GOOGLE_GENERATIVE_AI_API_KEY=""
+```
+
+- Replace the placeholder values with your actual credentials from AWS Cognito, Vapi, PostgreSQL, AWS S3, IAM User, SES, SNS, and Google Gemini (via Google AI Studio).
+- Feel free to follow YouTube tutorials on Vapi and Google AI Studio to obtain the required tokens and configuration.
+
+**⭐ Create Tables, Add Event Trigger, and Seed Mock Data**
+Create the necessary tables, add an event trigger for the `create` event on the `Notification` table, and seed mock data into your local PostgreSQL database by running:
 
 ```bash
+cd order-food/server
+npx prisma migrate reset
+npm run prisma:generate
+npm run seed
+```
+
+**⭐ Running the Project**
+Open **two separate terminal windows** and run the following commands to start the frontend and backend servers:
+
+**Terminal 1** – Start the Client (Next.js App):
+
+```bash
+cd order-food/client
+npm run dev
+```
+
+**Terminal 2** – Start the Server (Express API):
+
+```bash
+cd order-food/server
 npm run dev
 ```
 
