@@ -104,17 +104,17 @@ Create a local PostgreSQL database using pgAdmin, and note down your PostgreSQL 
 Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
 
 - **Set up AWS Cognito and create a User Pool**:
-- - Choose **"Single-page application"** as the application type
-- - Enter your desired **application name**
-- - Under **Sign-in identifiers**, select both **"Email"** and **"Username"**
-- - Under **Required attributes for sign-up**, choose **"email"**
-- - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
+  - Choose **"Single-page application"** as the application type
+  - Enter your desired **application name**
+  - Under **Sign-in identifiers**, select both **"Email"** and **"Username"**
+  - Under **Required attributes for sign-up**, choose **"email"**
+  - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
 - Create and configure an **AWS S3 Bucket** with the appropriate access permissions and policies
 - Create an **AWS IAM user** with **full access to S3, SES, and SNS**:
-- - Generate and securely store the **Access Key ID and Secret Access Key**
+  - Generate and securely store the **Access Key ID and Secret Access Key**
 - **Set up AWS SES (Simple Email Service)**:
-- - Verify both your **sender email and recipient email** addresses
-- - (In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**)
+  - Verify both your **sender email and recipient email** addresses
+  - (In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**)
 - **Set up an AWS SNS (Simple Notification Service) topic** for managing email or app notifications
 
 **⭐ Set Up Environment Variables**
