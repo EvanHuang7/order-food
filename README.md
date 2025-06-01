@@ -203,22 +203,22 @@ Follow these steps to sync your Prisma schema changes with the PostgreSQL databa
 - Run `npx prisma migrate dev --name init` to generate a new SQL migration file and apply it to your current database.
 - Manually append the trigger creation SQL script at the end of the newly generated migration file.
 
-```
--- 1. Create the trigger function
-CREATE OR REPLACE FUNCTION notify_new_notification()
-RETURNS TRIGGER AS $$
-BEGIN
+  ```
+  -- 1. Create the trigger function
+  CREATE OR REPLACE FUNCTION notify_new_notification()
+  RETURNS TRIGGER AS $$
+  BEGIN
   PERFORM pg_notify('new_notification_channel', row_to_json(NEW)::text);
   RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+  END;
+  $$ LANGUAGE plpgsql;
 
--- 2. Create the trigger
-CREATE TRIGGER on_new_notification
-AFTER INSERT ON "Notification"
-FOR EACH ROW
-EXECUTE FUNCTION notify_new_notification();
-```
+  -- 2. Create the trigger
+  CREATE TRIGGER on_new_notification
+  AFTER INSERT ON "Notification"
+  FOR EACH ROW
+  EXECUTE FUNCTION notify_new_notification();
+  ```
 
 - Run `npx prisma migrate reset` to drop and recreate the database, ensuring the trigger is applied.
 - Run `npm run prisma:generate` to regenerate the Prisma client and sync the updated Prisma types with the front-end client.
