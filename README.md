@@ -9,7 +9,7 @@
 5. ⚙️ [Installation and Start Project](#installation-start-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
 7. 📡 [API Routes](#api-routes)
-8. 📌 [Note](#note)
+8. 📌 [Note for Schemas Update](#note-schemas-update)
 9. 👨‍💼 [About the Author](#about-the-author)
 
 ## <a name="introduction">📋 Introduction</a>
@@ -22,10 +22,25 @@
 
 ## <a name="tech-stack">🛠️ Tech Stack</a>
 
-- **📡 Backend**: Node.js, Express.js, TypeScript, Prisma, PostgreSQL
-- **🖥️ Frontend**: Next.js, TypeScript, Redux Toolkit, Shadcn, Tailwind CSS
-- **☁️ AWS**: EC2(host server), RDS(database storage), VPC(isolate virtual network), SNS(send notifications), SES(send emails), API Gateway(secure route requests), Cognito(user authentication), Amplify(host client), S3(store files)
-- **🧩 Other**: VAPI AI(AI voice assistant), Google AI Gemeni(integrate Gemini APIs), PG(subscribe PostgreSQL event), PM2(auto restart project in cloud), Framer Motion(front-end animation), React hook Form and Zod(form and validation)
+- **📡 Backend**:
+  - Node.js, Express.js, TypeScript,
+  - Prisma ORM, PostgreSQL
+- **🖥️ Frontend**:
+  - Next.js, TypeScript,
+  - Redux Toolkit for state management
+  - Shadcn & Tailwind CSS for UI
+  - Framer Motion for animations
+  - React Hook Form + Zod for forms and validation
+- **☁️ AWS**:
+  - **Authentication**: Cognito
+  - **Hosting & Infrastructure**: EC2 (server), RDS (PostgreSQL DB), VPC (network isolation)
+  - **Routing & Deployment**: API Gateway, Amplify (client hosting), S3 (file storage)
+  - **Notifications & Email**: SNS (notifications), SES (emails)
+- **🤖 AI & Other Tools**:
+  - VAPI AI (voice assistant)
+  - Google Gemini API (AI interaction)
+  - PG (PostgreSQL event subscription)
+  - PM2 (cloud deployment with auto-restart)
 
 ## <a name="features">🚀 Features</a>
 
@@ -195,7 +210,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 ## <a name="api-routes">📡 API Routes</a>
 
-## <a name="note">📌 Note</a>
+## <a name="note-schemas-update">📌 Note for Schemas Update</a>
 
 Follow these steps to sync your Prisma schema changes with the PostgreSQL database whenever the schema is updated:
 
