@@ -1,4 +1,4 @@
-# 🌟 Oder Food
+# 🌟 Oder Food 🌟
 
 ## 📚 <a name="table">Table of Contents</a>
 
@@ -44,47 +44,47 @@
 
 ## <a name="features">🚀 Features</a>
 
-👉 **Authentication**: Secure Sign Up and Sign In using email and password, handled by **AWS Cognito**.
+**👉 Authentication**: Secure Sign Up and Sign In using email and password, handled by **AWS Cognito**.
 
-👉 **Favorite & Filter Restaurants**: Customers can favorite restaurants and filter them by category or price range. Restaurant cards display useful info such as address, average price per person, rating, and review history — all powered by **Prisma SQL**.
+**👉 Favorite & Filter Restaurants**: Customers can favorite restaurants and filter them by category or price range. Restaurant cards display useful info such as address, average price per person, rating, and review history — all powered by **Prisma SQL**.
 
-👉 **Place Order**: Customers can either add menu items to a shopping cart and place an order manually, or use voice to order directly through a call with our **AI assistant**, powered by **Vapi AI and Google Gemini**.
+**👉 Place Order**: Customers can either add menu items to a shopping cart and place an order manually, or use voice to order directly through a call with our **AI assistant**, powered by **Vapi AI and Google Gemini**.
 
-👉 **Notification**: Customers can enable notifications to receive:
+**👉 Notification**: Customers can enable notifications to receive:
 
 - Order delivery status updates via **AWS SES** email
 - New menu alerts from favorited restaurants via **AWS SES** email
 - Promotional emails via **AWS SNS**
 
-👉 **Customer Dashboard**:
+**👉 Customer Dashboard**:
 
 - **Orders Tab**: View order details, cancel pending orders, filter by status, and rate/comment after delivery
 - **Favorites Tab**: Manage favorite restaurants and get notified about new items by emails
 - **Payments Tab**: Add or update payment methods and view transaction history
 - **Settings Tab**: Edit personal contact and address information
 
-👉 **Restaurant Dashboard**:
+**👉 Restaurant Dashboard**:
 
 - **Orders Tab**: View, filter, and manage order statuses
 - **Earnings Tab**: View earnings from completed orders
 - **Manage Restaurant Tab**: Add or update menu items
 - **Settings Tab**: Edit restaurant profile, location, contact, categories, and hours etc
 
-👉 **Driver Dashboard**:
+**👉 Driver Dashboard**:
 
 - **Available Orders Tab**: View and accept available delivery jobs
 - **My Orders Tab**: Track and update your delivery progress
 - **Earnings Tab**: View total income from completed deliveries
 - **Settings Tab**: Update driver contact and location info
 
-👉 **Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity
+**👉 Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity
 
-👉 **Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices
+**👉 Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices
 
 ## <a name="diagram-screenshots">🧩 Diagram and 📸 Screenshots</a>
 
-- **Database Tables Diagram**: [drawSQL Diagram Link](https://drawsql.app/teams/evans-projects/diagrams/order-food-app)
-- **Screenshots**: [Miro Link](https://miro.com/app/board/uXjVI0aDhM0=/?share_link_id=91185319434)
+- **🧩 Database Tables Diagram**: [drawSQL Diagram Link](https://drawsql.app/teams/evans-projects/diagrams/order-food-app)
+- **📸 Screenshots**: [Miro Link](https://miro.com/app/board/uXjVI0aDhM0=/?share_link_id=91185319434)
   ![🖼️ Screenshots Preview](https://res.cloudinary.com/dapo3wc6o/image/upload/v1748763193/Order-Food-App-Screenshots_dtcjbx.jpg)
 
 ## <a name="installation-start-project">📦 Installation and ⚙️ Start Project</a>
@@ -226,6 +226,87 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
 
 ## <a name="deploy-app">☁️ Deploy App in AWS Cloud</a>
+
+Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
+
+Follow these steps to deploy app in AWS Cloud:
+
+**⭐ Set up VPC for secure Networking**
+
+- Go to VPC dashboard and make sure you are in the proper AWS region closest to you (eg. us-east-1)
+- Create a new VPC
+  - Go to the **Virtual Private Cloud > Your VPCs** tab and click "Create VPC" button
+  - Select "VPC only" under "Resource to create" section
+  - Enter your desired **Name tag** (eg. appName-vpc)
+  - Keep the default selected option of "IPv4 CIDR manual input" under "IPv4 CIDR block" section
+  - Enter **10.0.0.0/16**(This number means locking first two variables and only last two variables are changable, so the IP address range is from "10.0.0.0" to "10.0.255.255", which means we will have 256\*256 IP addresses to be assginable to VPC) under "IPv4 CIDR" section to specify the ranges of IP addresses of your VPC
+  - Keep the default selected option of "No IPv6 CIDR block" under "IPv6 CIDR block" section
+  - Keep the rest of things by default and click "Create VPC" button
+- Create 1 public subnet and 2 private subnets (2 private subnets are required for RDS)
+  - Go to the **Virtual Private Cloud > Subnets** tab and click "Create subnet" button
+  - Select the VPC (eg. appName-vpc) you just created under "VPC ID" section
+  - Create 1st public subnet under "Subnet Settings" section
+    - Enter your desired **Subnet name** (eg. appName-public-subnet-1)
+    - Choose a Availability Zone (eg. us-east-1a)
+    - Keep the default **10.0.0.0/16** under IPV4 VPC CIDR block section
+    - Enter **10.0.0.0/24**(locks the first 3 variables, that means there are 256 IP addresses for this public subnet to use) under IPV4 subnet CIDR block section
+  - Click "Add new subnet" button and create 1st private subnet
+    - Enter your desired **Subnet name** (eg. appName-private-subnet-1)
+    - Choose a Availability Zone (eg. us-east-1a)
+    - Keep the default **10.0.0.0/16** under IPV4 VPC CIDR block section
+    - Enter **10.0.1.0/24** under IPV4 subnet CIDR block section
+  - Click "Add new subnet" button and create 2nd private subnet
+    - Enter your desired **Subnet name** (eg. appName-private-subnet-2)
+    - Choose a Availability Zone (eg. us-east-1b) (We need different Availability Zone for 2nd private subnet because they are different data centers and servers that will run our private sever. If one of them goes down, there will be 2nd one available to back it up. We need it for your database)
+    - Keep the default **10.0.0.0/16** under IPV4 VPC CIDR block section
+    - Enter **10.0.2.0/24** under IPV4 subnet CIDR block section
+  - Click "Create subnet" button
+- Create an Internet gateway
+  - Go to the **Virtual Private Cloud > Internet gateways** tab and click "Create Internet gateway" button
+  - Enter your desired **Name tag** (eg. appName-internet-gateway)
+  - Click "Create internet gateway" button
+  - You will be redirected to the created internet gateway info page, and there is a banner on the top of the page.
+  - Click the "Attach to a VPC" button inside top banner
+  - Select the VPC (eg. appName-vpc) you just created under "Available VPCs" section
+  - Click "Attach internet gateway" button
+- Create 1 public route table and 2 privates route tables (Route table is kind of white list of IP address, which is associated with VPC or subnet level. VPC has a main Route table and each subnet has their own public or private Route table. Public route table of public subneet allows access from everywhere and private route table of private subnet only allows access only from our public subnet)
+  - Go to the **Virtual Private Cloud > Route tables** tab
+  - Create 1st public route table
+    - Click "Create route table" button in "Route tables" page
+    - Enter your desired **Name** (eg. appName-public-route-table-1)
+    - Select the VPC (eg. appName-vpc) you just created under "VPC" section
+    - Click "Create route table" button
+    - You will be redirected to the created public route table info page
+    - Click "Actions" button on the top right of "public route table info" page and select "Edit subnet associations" button in the drop down menu
+    - Select the created public subnet (eg. appName-public-subnet-1)
+    - Click "Save associations" button
+  - Create 1st private route table
+    - Click "Create route table" button in "Route tables" page
+    - Enter your desired **Name** (eg. appName-private-route-table-1)
+    - Select the VPC (eg. appName-vpc) you just created under "VPC" section
+    - Click "Create route table" button
+    - You will be redirected to the created private route table info page
+    - Click "Actions" button on the top right of "private route table info" page and select "Edit subnet associations" button in the drop down menu
+    - Select the created 1st private subnet (eg. appName-private-subnet-1)
+    - Click "Save associations" button
+  - Create 2nd private route table by following the same steps above, but just the private route table name will be (eg. appName-private-route-table-2) and associate it to the created 2nd private subnet (eg. appName-private-subnet-2)
+  - Update the acceess of public route table (it has same access as private route table now)
+    - Click the public route table in "Route tables" page to go to "public route table info" page
+    - Click "Edit routes" button
+    - Right now, it's only accessable to local. Anything inside the public subnet can only access the IPV4 VPC CIDR block IP addressees range scope including private subnets. It's does not have public internet access. So we need to give it for public internet access.
+    - Click "Add route" button
+    - Select **0.0.0.0/0** in Destination field
+    - Select "Internet Gateway in first Target field and select the internet gateway we just created (eg. appName-internet-gateway) in second Target field
+    - Click "Save changes" button
+- We will set up Security groups for EC2 and RDS in latter steps (security group is kind of black list of IP addresses, which is associated with individual AWS service level)
+
+**⭐ Set up EC2 and deploy server**
+
+**⭐ Set up**
+
+**⭐ Set up**
+
+**⭐ Set up**
 
 ## <a name="api-routes">📡 API Routes</a>
 
