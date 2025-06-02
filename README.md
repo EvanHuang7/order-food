@@ -136,23 +136,64 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 >   - **AWS IAM, SNS, and SES**: Required for the notification system to send and receive email alerts. The app will function without these, just without notifications.
 
 - **Set up AWS Cognito and create a User Pool**:
-  - Choose **"Single-page application"** as the application type
-  - Enter your desired **application name**
-  - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
-  - Under **Required attributes for sign-up**, choose **"email"**
-  - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
+  - Go to AWS Cognito service
+  - Create a User Pool
+    - Click **Create User pool** button
+    - Choose **"Single-page application"** as the application type
+    - Enter your desired **application name** (eg. appName-cognito-userpool)
+    - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
+    - Under **Required attributes for sign-up**, choose **"email"**
+    - Click **Create user directory** button
+  - Add "role" attribute
+    - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
   - Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
 - **Set up AWS S3**:
-  - Create and configure an **AWS S3 Bucket** with the appropriate access permissions and policies
+
+  - Go to AWS S3 service
+  - Create a S3 bucket
+    - Click **Create bucket** button
+    - Select **General purpose** for bucket type
+    - Enter your desired **bucket name** (eg. appName-s3-images)
+    - Disable **Block all public access** and check the check box of warning alert to acknowledge the disable action
+    - Keep the rest of things by default in this page
+    - Click **Create bucket** button
+  - Update created S3 bucket permission
+
+    - Click the S3 bucket we just created to go to bucket info page
+    - Select **Permissions** tab
+    - Scroll to the bottom and click **Edit** button of **Bucket policy**
+    - Copy and paste below script to update the policy allow all users to view the files in this S3 bucket. (Note: remember to change the **Placeholder of Bucket ARN** to your real **Bucket ARN** in this page)
+
+      ```
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Sid": "Statement1",
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "s3:GetObject",
+                  "Resource": "Placeholder of Bucket ARN/*"
+              }
+          ]
+      }
+      ```
+
+    - Click **Save changes** button
+
   - Note down the **S3 bucket name** for latter usage
+
 - **Set up AWS IAM**:
+  - Go to AWS IAM service
   - Create an **AWS IAM user** with **full access to SES and SNS**:
   - Generate and note down the **IAM user Access Key ID and Secret Access Key**
 - **Set up AWS SES**:
+  - Go to AWS SES service
   - Verify both your **sender email and recipient email** addresses
   - (In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**)
   - Note down your **verified sender email**
 - **Set up AWS SNS**:
+  - Go to AWS SNS service
   - Create a topic for managing email or app notifications
   - Note down the **ARN of Topic**
 
