@@ -401,10 +401,90 @@ Follow these steps to deploy app in AWS Cloud:
       pm2 monit
       ```
 
+- Test if our server is running in EC2 successfully or not
+  - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
+  - Click copy button under "Auto-assigned IP address" to copy the IP address value
+  - Paste the `http://IPAddressYouJustCopied` url to Chrome broswer
+  - You will see "This is home route" text in the web page if your server is running in EC2 successfully
+
 **⭐ Set up RDS for PostgreSQL Database**
 
 - Go to AWS RDS service
-- Create a new RDS instance
+- Create a new RDS database
+  - Go to the **Databases** tab and click "Create database" button
+  - Select "Standart create" option to make sure we won't be charged by any potenial cost default settings
+  - Select "PostgreSQL" for "Engine type" under "Engine Options" section
+  - Keep everything as default selected option under "Engine Options" section
+  - Select "Free tier" option under "Templates" section
+  - Keep the default selected option under "Availabilty and durability" section
+  - Enter your desired **Database name** (eg. appName-rds) for DB instance identifer under "Settings" section
+  - Select "Self managed" for "Credentials Management"
+  - Note down your master username and password for latter usage of builindg `DATABASE_URL` env variable
+  - Keep the default selected option under "Instance configuration" section
+  - Keep the "Storage type" and "Allocated storage" as default under "Storage" section
+  - Click "Additional storage configuration" to open collapse section under "Storage" section and disable "storage autoscaling" for any potential charge
+  - Select "Don't connect to an EC2 compute resource for "Compute resource" under "Connectivity" section
+  - Select VPC we just created (eg. appName-vpc)
+  - Keep "Create new DB Subnet Group" as the default selected option for "DB subnet group" (Make sure to have 2 privates subnet to view this option)
+  - Keep "No" as the default selected option for "Public access" (Don't assgin a public IP address for RDS because you already have 1 public IP address in EC2, Otherwise, you will be charged for 2nd public IP address)
+  - Select "Create new" for "VCP security group"
+  - Enter your desired **New VPC security group name** (eg. appName-rds-sg)
+  - Select the same Availabilty Zone as your 1st private subnet (eg. us-east-1a)
+  - Keep the rest of things under "Connectivity" section by default
+  - Keep "Tags" and "Database authentication" sections by default
+  - Disable "Performance Insights" under "Monitoring" section
+  - Enter your desired **Initial database name** (eg. appName) under "Additional configuration" section and note down it for latter usage of builindg `DATABASE_URL` env variable
+  - Disable both "automated backups" and "encryption" for Backup and Encryption
+  - Keep the rest of things under "Additional configuration" section by default
+  - Click "Create database" button
+- Allow EC2 access to RDS database by setting inbound rules of RDS security group
+  - Go to the **Databases** tab and click the new database we just created to go to database info page
+  - Click the "VPC security groups" under "Connectivity & security" tab to go to "Security Groups" page
+  - Click the created security group during RDS database creation process to go to this security group page
+  - Click "Edit inbound rules" button
+  - Click "Add rule" button
+  - Select "PostgreSQL" for Type field and keep the "Custom" as default for Source field
+  - Select the security group of EC2 (eg. appName-ec2-sg) for the field between Source and Description fields
+  - Click "Save rules" button
+- Allow EC2 access to RDS database by setting outbound rules of EC2 security group
+  - Go to AWS EC2 service and go to the **Instances > Instances** tab
+  - Click our EC2 instance (eg. appName-ec2) to go to instance info page
+  - Click the "Security groups" under "Security" tab to go to EC2 security group info page
+  - Click "Edit outbound rules" button under "Outbound rules" tab
+  - Click "Add rule" button
+  - Select "PostgreSQL" for Type field and keep the "Custom" as default for Destination field
+  - Select the security group of RDS (eg. appName-rds-sg) for the field between Destination and Description fields
+  - Click "Save rules" button
+- Build `DATABASE_URL` for RDS PostgreSQL database
+  - Go to the **Databases** tab and click the new database we just created to go to database info page
+  - Copy the the value of "Endpoint" under "Connectivity & security" tab and we will use the value as `urlForRDS` in `DATABASE_URL`
+  - You noted down `masterUsername`, `password` and `databasename` values during RDS database creation
+  - Now, you can build `DATABASE_URL="postgresql://masterUsername:password@urlForRDS:5432/databasename?schema=public"`
+- Add `DATABASE_URL` env variable to EC2 app project server `.env` file
+  - Connect to the cloud computer terminal of EC2 instance
+  - Switch to supser user and delete the exsting PM2 running app
+  - Cd to `server` folder, run `nano .env` command line to open `.env` file and copy paste the whole `DATABASE_URL` variable into `.env` file
+  - Press "control + X", "Y", "Enter key" to save the file change
+- Set up RDS database in EC2 server by running
+
+  ```
+  cd order-food/server
+  npx prisma migrate reset
+  npm run prisma:generate
+  npm run seed
+  ```
+
+- Start PM2 project again
+
+  ```
+  pm2 start ecosystem.config.js
+  ```
+
+- Test if EC2 connects to RDS database successfully or not
+  - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
+  - Click copy button under "Auto-assigned IP address" to copy the IP address value
+  - Paste the `http://IPAddressYouJustCopied/restaurant` url to Chrome broswer
+  - You will see a list of restaurant mock data if your EC2 connects to RDS database successfully
 
 **⭐ Set up**
 
