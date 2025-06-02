@@ -327,9 +327,9 @@ Follow these steps to deploy app in AWS Cloud:
   - Keep everything under "EC2 Instance Connect" tab by default selected option and click "Connect" button to open cloud computer terminal
 - Config the cloud computer of EC2 instance (Check "aws-ec2-instructions.md" file for command lines detail explanation under "order-food/server" path)
   - Switch to superuser in cloud computer terminal by running
-  ```
-  sudo su -
-  ```
+    ```
+    sudo su -
+    ```
   - Install Node Version Manager (nvm) and Node.js by running
   ```
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
