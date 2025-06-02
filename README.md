@@ -486,9 +486,36 @@ Follow these steps to deploy app in AWS Cloud:
   - Paste the `http://IPAddressYouJustCopied/restaurant` url to Chrome broswer
   - You will see a list of restaurant mock data if your EC2 connects to RDS database successfully
 
-**⭐ Set up**
+**⭐ Set up Amplify and deploy client**
 
-**⭐ Set up**
+- Go to AWS Amplify service
+- Deploy App
+  - Click "Deploy an app" button
+  - "Choose source code provider" Step
+    - Select "GitHub"
+    - Click "Next" button
+  - "Add repository and branch" Step
+    - Connect your GitHub account and update GitHub permission of your project repo
+    - Select your project repo and use "main" or "master" branch
+    - Enable "My app is a monorepo" and Enter "client" for "Monorepo root directory"
+    - Click "Next" button
+  - "App settings" Step
+    - Click "Advanced settings" to open collapse section
+    - Add those 4 environment variables and corresponding value one by one by clicking "Add new" button `NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID, NEXT_PUBLIC_AWS_COGNITO_USER_POOL_CLIENT_ID, NEXT_PUBLIC_VAPI_WEB_TOKEN`
+    - The values of last 3 environment variables remain the same as local `.env` file of `client` folder.
+    - Get the value for `NEXT_PUBLIC_API_BASE_URL`
+      - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
+      - Click copy button under "Public IPV4 address" to copy the IP address value
+      - Use `http://IPAddressYouJustCopied` for the value of `NEXT_PUBLIC_API_BASE_URL` (Note: This value won't work now, and we will come back to fix it in latter step)
+    - Enable "Keep cookies in cache key"
+    - Keep the rest of things by default in "App settings" page
+    - Click "Next" button
+  - "Review" Step
+    - Click "Save and deploy" button
+- View deployed app
+  - Click "Visit deployed URL" button to view your app once client deployment is finished
+
+**⭐ Set up API Gateway**
 
 ## <a name="api-routes">📡 API Routes</a>
 
