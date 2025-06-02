@@ -326,59 +326,80 @@ Follow these steps to deploy app in AWS Cloud:
   - Click "Connect" button on the top right of EC2 instance info page to go to "Connect to instance" page
   - Keep everything under "EC2 Instance Connect" tab by default selected option and click "Connect" button to open cloud computer terminal
 - Config the cloud computer of EC2 instance (Check "aws-ec2-instructions.md" file for command lines detail explanation under "order-food/server" path)
+
   - Switch to superuser in cloud computer terminal by running
+
     ```
     sudo su -
     ```
+
   - Install Node Version Manager (nvm) and Node.js by running
-  ```
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-  . ~/.nvm/nvm.sh
-  nvm install node
-  node -v
-  npm -v
-  ```
+
+    ```
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    . ~/.nvm/nvm.sh
+    nvm install node
+    node -v
+    npm -v
+    ```
+
   - Update the system, install Git and clone app repo to cloud computer by running
-  ```
-  sudo yum update -y
-  sudo yum install git -y
-  git --version
-  git clone [your-github-link]
-  ```
+
+    ```
+    sudo yum update -y
+    sudo yum install git -y
+    git --version
+    git clone [your-github-link]
+    ```
+
   - Install packages, create Env File and start the application by running
-  ```
-  cd order-food
-  cd server
-  npm i
-  echo "PORT=80" > .env
-  npm run dev
-  ```
+
+    ```
+    cd order-food
+    cd server
+    npm i
+    echo "PORT=80" > .env
+    npm run dev
+    ```
+
   - Install pm2 (Production Process Manager for Node.js) and set pm2 to restart automatically on system reboot by running
-  ```
-  npm i pm2 -g
-  sudo env PATH=$PATH:$(which node) $(which pm2) startup systemd -u $USER --hp $(eval echo ~$USER)
-  ```
+
+    ```
+    npm i pm2 -g
+    sudo env PATH=$PATH:$(which node) $(which pm2) startup systemd -u $USER --hp $(eval echo ~$USER)
+    ```
+
   - Start the application using the pm2 ecosystem configuration by running
-  ```
-  pm2 start ecosystem.config.js
-  ```
+
+    ```
+    pm2 start ecosystem.config.js
+    ```
+
   - Manage pm2 project with these command lines below:
+
     - Stop all processes:
-    ```
-    pm2 stop all
-    ```
+
+      ```
+      pm2 stop all
+      ```
+
     - Delete all processes:
-    ```
-    pm2 delete all
-    ```
+
+      ```
+      pm2 delete all
+      ```
+
     - Check status of processes:
-    ```
-    pm2 status
-    ```
+
+      ```
+      pm2 status
+      ```
+
     - Monitor processes:
-    ```
-    pm2 monit
-    ```
+
+      ```
+      pm2 monit
+      ```
 
 **⭐ Set up RDS for PostgreSQL Database**
 
