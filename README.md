@@ -141,18 +141,14 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 
 1. Go to AWS Cognito service
 2. Create a User Pool
-
-  - Click **Create User pool** button
-  - Choose **"Single-page application"** as the application type
-  - Enter your desired **application name** (eg. appName-cognito-userpool)
-  - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
-  - Under **Required attributes for sign-up**, choose **"email"**
-  - Click **Create user directory** button
-
+    - Click **Create User pool** button
+    - Choose **"Single-page application"** as the application type
+    - Enter your desired **application name** (eg. appName-cognito-userpool)
+    - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
+    - Under **Required attributes for sign-up**, choose **"email"**
+    - Click **Create user directory** button
 3. Add "role" custom attribute
-
-  - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
-
+    - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
 4. Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
 
 **🗂️ Set up AWS S3**:
