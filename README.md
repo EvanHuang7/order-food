@@ -1,4 +1,7 @@
-<h1 align="center">🌟 Oder Food</h3>
+<h1 align="center">🌟 Oder Food</h1>
+<div align="center">
+  🚀 <a href="https://main.d3vq2tufq59s1m.amplifyapp.com/" target="_blank"><b>Live App</b></a>  📂 <a href="https://github.com/EvanHuang7/order-food" target="_blank"><b>Source Code</b></a>
+</div>
 
 ## 📚 <a name="table">Table of Contents</a>
 
@@ -37,10 +40,6 @@
 - **👤 Customers** can browse local restaurants, place food orders, track deliveries in real-time, and even **talk to an AI assistant to place orders via voice calls**.
 - **🍽️ Restaurants** can manage their menus, orders, and business operations directly through the platform.
 - **🛵 Drivers** can accept delivery requests and earn money by delivering food to customers efficiently.
-
-**🚀 Live App**: [OrderFood](https://main.d3vq2tufq59s1m.amplifyapp.com/)
-
-**📂 Source Code**: [GitHub Repository](https://github.com/EvanHuang7/order-food)
 
 ## <a name="tech-stack">🛠️ Tech Stack</a>
 
