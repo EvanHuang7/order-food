@@ -39,6 +39,7 @@
 - **🛵 Drivers** can accept delivery requests and earn money by delivering food to customers efficiently.
 
 **🚀 Live App**: [OrderFood](https://main.d3vq2tufq59s1m.amplifyapp.com/)
+
 **📂 Source Code**: [GitHub Repository](https://github.com/EvanHuang7/order-food)
 
 ## <a name="tech-stack">🛠️ Tech Stack</a>
