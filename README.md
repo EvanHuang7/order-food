@@ -754,7 +754,7 @@ This food delivery app project was completed on **June 2, 2025**, and reflects m
 Feel free to connect or contribute!
 
 <a href="https://www.linkedin.com/in/evan-huang-97336b1a9/" target="_blank">
-  <img src="https://iconduck.com/icons/116258/linkedin-rectangle" alt="LinkedIn" width="150" />
+  <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748924322/LI-Logo_lnnxau.png" alt="LinkedIn" width="150" />
 </a>
 
 🔗 [LinkedIn](https://www.linkedin.com/in/evan-huang-97336b1a9/)  
