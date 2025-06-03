@@ -275,81 +275,93 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 ## <a name="deploy-app">☁️ Deploy App in AWS Cloud</a>
 
-Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
+To deploy your app to AWS, start by creating an AWS account. If you're a new user, you may be eligible for the 12-month Free Tier. Be aware that not all services are fully free—each AWS service has its own Free Tier limitations. For full details, refer to the [AWS Free Tier page](https://aws.amazon.com/free).
 
-> ⚠️ **Note**: Most AWS services used for deploying this app—such as EC2, RDS, and others—are only free for **one active instance** under the 12-month Free Tier.  
-> To avoid unexpected charges, please ensure you delete any existing instances of these services before deploying your app.
+You can also find step-by-step AWS setup tutorials on YouTube to guide you visually through the process.
+
+> ⚠️ **Important**: Most AWS services used in this deployment—such as EC2, RDS, and others—are only free for **one active instance** under the Free Tier.
+> 
+> To avoid unexpected charges, ensure you **delete any existing instances** of these services before deploying your app.
 
 Follow these steps to deploy app in AWS Cloud:
 
+---
+
 **⭐ Set up VPC for secure Networking**
 
-- Go to AWS VPC service and make sure you are in the proper AWS region closest to you (eg. us-east-1) by checking the top right of dashboard
-- Create a new VPC
-  - Go to the **Virtual Private Cloud > Your VPCs** tab and click "Create VPC" button
-  - Select "VPC only" under "Resource to create" section
-  - Enter your desired **Name tag** (eg. appName-vpc)
-  - Keep the default selected option of "IPv4 CIDR manual input" under "IPv4 CIDR block" section
-  - Enter **10.0.0.0/16**(This number means locking first two variables and only last two variables are changable, so the IP address range is from "10.0.0.0" to "10.0.255.255", which means we will have 256\*256 IP addresses to be assginable to VPC) under "IPv4 CIDR" section to specify the ranges of IP addresses of your VPC
-  - Keep the default selected option of "No IPv6 CIDR block" under "IPv6 CIDR block" section
-  - Keep the rest of things by default and click "Create VPC" button
-- Create 1 public subnet and 2 private subnets (2 private subnets are required for RDS)
-  - Go to the **Virtual Private Cloud > Subnets** tab and click "Create subnet" button
-  - Select the VPC (eg. appName-vpc) you just created under "VPC ID" section
-  - Create 1st public subnet under "Subnet Settings" section
-    - Enter your desired **Subnet name** (eg. appName-public-subnet-1)
-    - Choose a Availability Zone (eg. us-east-1a)
-    - Keep the default **10.0.0.0/16** under IPV4 VPC CIDR block section
-    - Enter **10.0.0.0/24**(locks the first 3 variables, that means there are 256 IP addresses for this public subnet to use) under IPV4 subnet CIDR block section
-  - Click "Add new subnet" button and create 1st private subnet
-    - Enter your desired **Subnet name** (eg. appName-private-subnet-1)
-    - Choose a Availability Zone (eg. us-east-1a)
-    - Keep the default **10.0.0.0/16** under IPV4 VPC CIDR block section
-    - Enter **10.0.1.0/24** under IPV4 subnet CIDR block section
-  - Click "Add new subnet" button and create 2nd private subnet
-    - Enter your desired **Subnet name** (eg. appName-private-subnet-2)
-    - Choose a Availability Zone (eg. us-east-1b) (We need different Availability Zone for 2nd private subnet because they are different data centers and servers that will run our private sever. If one of them goes down, there will be 2nd one available to back it up. We need it for your database)
-    - Keep the default **10.0.0.0/16** under IPV4 VPC CIDR block section
-    - Enter **10.0.2.0/24** under IPV4 subnet CIDR block section
-  - Click "Create subnet" button
-- Create an Internet gateway
-  - Go to the **Virtual Private Cloud > Internet gateways** tab and click "Create Internet gateway" button
-  - Enter your desired **Name tag** (eg. appName-internet-gateway)
-  - Click "Create internet gateway" button
-  - You will be redirected to the created internet gateway info page, and there is a banner on the top of the page.
-  - Click the "Attach to a VPC" button inside top banner
-  - Select the VPC (eg. appName-vpc) you just created under "Available VPCs" section
-  - Click "Attach internet gateway" button
-- Create 1 public route table and 2 privates route tables (Route table is kind of white list of IP address, which is associated with VPC or subnet level. VPC has a main Route table and each subnet has their own public or private Route table. Public route table of public subneet allows access from everywhere and private route table of private subnet only allows access only from our public subnet)
-  - Go to the **Virtual Private Cloud > Route tables** tab
-  - Create 1st public route table
-    - Click "Create route table" button in "Route tables" page
-    - Enter your desired **Name** (eg. appName-public-route-table-1)
-    - Select the VPC (eg. appName-vpc) you just created under "VPC" section
-    - Click "Create route table" button
-    - You will be redirected to the created public route table info page
-    - Click "Actions" button on the top right of "public route table info" page and select "Edit subnet associations" button in the drop down menu
-    - Select the created public subnet (eg. appName-public-subnet-1)
-    - Click "Save associations" button
-  - Create 1st private route table
-    - Click "Create route table" button in "Route tables" page
-    - Enter your desired **Name** (eg. appName-private-route-table-1)
-    - Select the VPC (eg. appName-vpc) you just created under "VPC" section
-    - Click "Create route table" button
-    - You will be redirected to the created private route table info page
-    - Click "Actions" button on the top right of "private route table info" page and select "Edit subnet associations" button in the drop down menu
-    - Select the created 1st private subnet (eg. appName-private-subnet-1)
-    - Click "Save associations" button
-  - Create 2nd private route table by following the same steps above, but just the private route table name will be (eg. appName-private-route-table-2) and associate it to the created 2nd private subnet (eg. appName-private-subnet-2)
-  - Update the acceess of public route table (it has same access as private route table now)
-    - Click the public route table in "Route tables" page to go to "public route table info" page
-    - Click "Edit routes" button
-    - Right now, it's only accessable to local. Anything inside the public subnet can only access the IPV4 VPC CIDR block IP addressees range scope including private subnets. It's does not have public internet access. So we need to give it for public internet access.
-    - Click "Add route" button
-    - Select **0.0.0.0/0** in Destination field
-    - Select "Internet Gateway in first Target field and select the internet gateway we just created (eg. appName-internet-gateway) in second Target field
-    - Click "Save changes" button
-- We will set up Security groups for EC2 and RDS in latter steps (security group is kind of black list of IP addresses, which is associated with individual AWS service level)
+1. Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. us-east-1) by checking the top right of dashboard
+2. Create a **new VPC**
+    - Go to the **Virtual Private Cloud > Your VPCs** tab and click **Create VPC** button
+    - Select **VPC only** under **Resource to create** section
+    - Enter your desired **Name tag** (eg. appName-vpc)
+    - Keep the default selected option for **IPv4 CIDR manual input** under **IPv4 CIDR block** section
+    - Enter **10.0.0.0/16** under **IPv4 CIDR** section to specify the ranges of IP addresses of your VPC
+      - 📌 Note: This number indicates that the first two variables are fixed (locked), while only the last two variables can change. As a result, the IP address range spans from "10.0.0.0" to "10.0.255.255," providing a total of 256 × 256 possible IP addresses that can be assigned within the VPC.
+    - Keep the default selected option for **No IPv6 CIDR block** under **IPv6 CIDR block** section
+    - Keep the rest of things by default and click **Create VPC** button
+3. Create **1 public subnet and 2 private subnets** (2 private subnets are required for RDS)
+    - Go to the **Virtual Private Cloud > Subnets** tab and click **Create subnet** button
+    - Select the VPC (eg. appName-vpc) you just created under **VPC ID** section
+    - Create **1st public subnet** under **Subnet Settings** section
+      - Enter your desired **Subnet name** (eg. appName-public-subnet-1)
+      - Choose an **Availability Zone** (eg. us-east-1a)
+      - Keep the default **10.0.0.0/16** under **IPV4 VPC CIDR block** section
+      - Enter **10.0.0.0/24** under **IPV4 subnet CIDR block** section
+        - 📌 Note: This number locks the first 3 variables, which means there are 256 IP addresses for this public subnet to use
+    - Click **Add new subnet** button and create **1st private subnet**
+      - Enter your desired **Subnet name** (eg. appName-private-subnet-1)
+      - Choose an **Availability Zone** (eg. us-east-1a)
+      - Keep the default **10.0.0.0/16** under **IPV4 VPC CIDR block** section
+      - Enter **10.0.1.0/24** under **IPV4 subnet CIDR block section**
+    - Click **Add new subnet** button and create **2nd private subnet**
+      - Enter your desired **Subnet name** (eg. appName-private-subnet-2)
+      - Choose an **Availability Zone** (eg. us-east-1b) 
+        - 📌 Note: We need a different Availability Zone for the second private subnet because each zone corresponds to a separate data center with independent servers hosting our private services. This setup ensures high availability—if one zone experiences an outage, the other remains operational to provide backup. This redundancy is especially important for your database to maintain reliability and minimize downtime.
+      - Keep the default **10.0.0.0/16** under **IPV4 VPC CIDR block** section
+      - Enter **10.0.2.0/24** under **IPV4 subnet CIDR block** section
+    - Click **Create subnet** button
+4. Create an **Internet gateway**
+    - Go to the **Virtual Private Cloud > Internet gateways** tab and click **Create Internet gateway** button
+    - Enter your desired **Name tag** (eg. appName-internet-gateway)
+    - Click **Create internet gateway** button
+    - You will be redirected to the created internet gateway info page, and there is a banner on the top of the page.
+    - Click the **Attach to a VPC** button inside top banner
+    - Select the VPC (eg. appName-vpc) you just created under **Available VPCs** section
+    - Click **Attach internet gateway** button
+5. Create **1 public route table and 2 privates route tables**
+    - 📌 Note: A route table acts like a whitelist of IP address routes and is associated either at the VPC or subnet level. The VPC has a main route table, while each subnet can have its own public or private route table. The public route table for a public subnet allows access from anywhere, whereas the private route table for a private subnet restricts access, permitting connections only from the associated public subnet.
+    - Go to the **Virtual Private Cloud > Route tables** tab
+    - Create **1st public route table**
+      - Click **Create route table** button in **Route tables** page
+      - Enter your desired **Name** (eg. appName-public-route-table-1)
+      - Select the VPC (eg. appName-vpc) you just created under **VPC** section
+      - Click **Create route table** button
+      - You will be redirected to the created public route table info page
+      - Click **Actions > Edit subnet associations** button on the top right of **public route table info** page
+      - Select the created public subnet (eg. appName-public-subnet-1)
+      - Click **Save associations** button
+    - Create **1st private route table**
+      - Click **Create route table** button in **Route tables** page
+      - Enter your desired **Name** (eg. appName-private-route-table-1)
+      - Select the VPC (eg. appName-vpc) you just created under **VPC** section
+      - Click **Create route table** button
+      - You will be redirected to the created private route table info page
+      - Click **Actions > Edit subnet associations** button on the top right of **private route table info** page
+      - Select the created 1st private subnet (eg. appName-private-subnet-1)
+      - Click **Save associations** button
+    - Create a **2nd private route table** by following the same steps as before. Name it accordingly (eg. appName-private-route-table-2) and associate it with the 2nd private subnet you created (eg. appName-private-subnet-2).
+    - Config the **acceess of public route table**
+      - 📌 Note: Currently, it has the same access restrictions as the private route tables, meaning it is only accessible locally within the VPC. Resources inside the public subnet can only access IP addresses within the IPv4 VPC CIDR block, including those in private subnets. It does not have access to the public internet, so we need to configure it to allow public internet access.
+      - Click the **public route table** in **Route tables** page to go to **public route table info** page
+      - Click **Edit routes** button
+      - Click **Add route** button
+      - Select **0.0.0.0/0** in Destination field
+      - Select **Internet Gateway** in first Target field and select the internet gateway we just created (eg. appName-internet-gateway) in second Target field
+      - Click **Save changes** button
+
+📌 **Note:** We will set up Security Groups for EC2 and RDS in later steps. A Security Group acts like a virtual firewall, controlling inbound and outbound traffic at the individual AWS service level by specifying allowed IP addresses and protocols.
+
+---
 
 **⭐ Set up EC2 and deploy server**
 
