@@ -8,9 +8,8 @@
 4. 🧩 [Diagram and Screenshots](#diagram-screenshots)
 5. ⚙️ [Installation and Start Project](#installation-start-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
-7. 📡 [API Routes](#api-routes)
-8. 📌 [Note for Schemas Update](#note-schemas-update)
-9. 👨‍💼 [About the Author](#about-the-author)
+7. 📌 [Note for Schemas Update](#note-schemas-update)
+8. 👨‍💼 [About the Author](#about-the-author)
 
 ## <a name="introduction">📋 Introduction</a>
 
@@ -85,6 +84,7 @@
 
 - **🧩 Database Tables Diagram**: [drawSQL Diagram Link](https://drawsql.app/teams/evans-projects/diagrams/order-food-app)
 - **📸 Screenshots**: [Miro Link](https://miro.com/app/board/uXjVI0aDhM0=/?share_link_id=91185319434)
+
   ![🖼️ Screenshots Preview](https://res.cloudinary.com/dapo3wc6o/image/upload/v1748763193/Order-Food-App-Screenshots_dtcjbx.jpg)
 
 ## <a name="installation-start-project">📦 Installation and ⚙️ Start Project</a>
@@ -136,6 +136,7 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 >   - **AWS IAM, SNS, and SES**: Required for the notification system to send and receive email alerts. The app will function without these, just without notifications.
 
 - **Set up AWS Cognito and create a User Pool**:
+
   - Go to AWS Cognito service
   - Create a User Pool
     - Click **Create User pool** button
@@ -147,6 +148,7 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
   - Add "role" attribute
     - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
   - Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
+
 - **Set up AWS S3**:
 
   - Go to AWS S3 service
@@ -184,9 +186,11 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
   - Note down the **S3 bucket name** for latter usage
 
 - **Set up AWS IAM**:
+
   - Go to AWS IAM service
   - Create an **AWS IAM user** with **full access to SES and SNS**:
   - Generate and note down the **IAM user Access Key ID and Secret Access Key**
+
 - **Set up AWS SES**:
   - Go to AWS SES service
   - Verify both your **sender email and recipient email** addresses
@@ -659,8 +663,6 @@ Our front-end clint is currently hosted on "HTTPS", but our back-end server in E
 - You should be able to view all restaurants in home page and menu items of any restaurant in sigle restaurang page without sign in as a user
 - You can test all features by sign in as a customer, restaurant and driver roles.
 - If everything works well, you deploy the app to AWS cloud successfully. Congratulation 🎉🎉🎉
-
-## <a name="api-routes">📡 API Routes</a>
 
 ## <a name="note-schemas-update">📌 Note for Schemas Update</a>
 
