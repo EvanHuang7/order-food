@@ -141,53 +141,49 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 
 1. Go to AWS Cognito service
 2. Create a User Pool
-    - Click **Create User pool** button
-    - Choose **"Single-page application"** as the application type
-    - Enter your desired **application name** (eg. appName-cognito-userpool)
-    - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
-    - Under **Required attributes for sign-up**, choose **"email"**
-    - Click **Create user directory** button
+   - Click **Create User pool** button
+   - Choose **"Single-page application"** as the application type
+   - Enter your desired **application name** (eg. appName-cognito-userpool)
+   - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
+   - Under **Required attributes for sign-up**, choose **"email"**
+   - Click **Create user directory** button
 3. Add "role" custom attribute
-    - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
+   - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
 4. Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
 
 **🗂️ Set up AWS S3**:
 
 1. Go to AWS S3 service
 2. Create a S3 bucket
-
-  - Click **Create bucket** button
-  - Select **General purpose** for bucket type
-  - Enter your desired **bucket name** (eg. appName-s3-images)
-  - Disable **Block all public access** and **check** the check box of warning alert to acknowledge the disable action
-  - Keep the rest of things by default in this page
-  - Click **Create bucket** button
-
+   - Click **Create bucket** button
+   - Select **General purpose** for bucket type
+   - Enter your desired **bucket name** (eg. appName-s3-images)
+   - Disable **Block all public access** and **check** the check box of warning alert to acknowledge the disable action
+   - Keep the rest of things by default in this page
+   - Click **Create bucket** button
 3. Configure created S3 bucket permission
+   - Click the S3 bucket we just created to go to bucket info page
+   - Select **Permissions** tab
+   - Scroll to the bottom and click **Edit** button of **Bucket policy**
+   - Copy and paste below script to update the policy allow all users to view the files in this S3 bucket.
+   - ⚠️ Note: remember to change the **Placeholder of Bucket ARN** to your real **Bucket ARN** in this page
 
-  - Click the S3 bucket we just created to go to bucket info page
-  - Select **Permissions** tab
-  - Scroll to the bottom and click **Edit** button of **Bucket policy**
-  - Copy and paste below script to update the policy allow all users to view the files in this S3 bucket.
-  - ⚠️ Note: remember to change the **Placeholder of Bucket ARN** to your real **Bucket ARN** in this page)
+      ```
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Sid": "Statement1",
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "s3:GetObject",
+                  "Resource": "Placeholder of Bucket ARN/*"
+              }
+          ]
+      }
+      ```
 
-    ```
-    {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Sid": "Statement1",
-                "Effect": "Allow",
-                "Principal": "*",
-                "Action": "s3:GetObject",
-                "Resource": "Placeholder of Bucket ARN/*"
-            }
-        ]
-    }
-    ```
-
-  - Click **Save changes** button
-
+   - Click **Save changes** button
 4. Note down the **S3 bucket name** for latter usage
 
 **🔑 Set up AWS IAM**:
