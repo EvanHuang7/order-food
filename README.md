@@ -757,14 +757,7 @@ Feel free to connect with me in LinkedIn or GitHub!
   <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748924322/LI-Logo_lnnxau.png" alt="LinkedIn" width="150" />
 </a>
 
+
 <a href="https://github.com/EvanHuang7" target="_blank">
   <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748924850/GitHub_Logo_White_vc9q3d.png" alt="GitHub" width="150" />
 </a>
-
-[![LinkedIn](https://res.cloudinary.com/dapo3wc6o/image/upload/v1748924322/LI-Logo_lnnxau.png)](https://www.linkedin.com/in/evan-huang-97336b1a9/)
-
-[![GitHub](https://res.cloudinary.com/dapo3wc6o/image/upload/v1748924850/GitHub_Logo_White_vc9q3d.png)](https://github.com/EvanHuang7)
-
-
-🔗 [LinkedIn](https://www.linkedin.com/in/evan-huang-97336b1a9/)  
-💻 [GitHub](https://github.com/EvanHuang7)
