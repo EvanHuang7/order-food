@@ -22,7 +22,11 @@
     - [⭐ Upload Images of Mock Data to AWS S3 Bucket](#upload-images-s3)
     - [⭐ Running the Project](#running-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
-    - [⭐ Set up VPC for secure Networking](#set-up-vpc)
+    - [🌐 Set up VPC](#set-up-vpc)
+    - [📡 Set up EC2](#set-up-ec2)
+    - [🗃️ Set up RDS](#set-up-rds)
+    - [🖥️ Set up Amplify](#set-up-amplify)
+    - [🔗 Set up API Gateway](#set-up-api-gateway)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
 8. 👨‍💼 [About the Author](#about-the-author)
 
@@ -305,7 +309,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ---
 
-### <a name="set-up-vpc">⭐ Set up VPC for secure Networking</a>
+### <a name="set-up-vpc">🌐 Set up VPC for secure Networking</a>
 
 1. Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. `us-east-1`) by checking the top right of dashboard
 2. Create a **new VPC**
@@ -381,7 +385,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ---
 
-**⭐ Set up EC2 and deploy server**
+### <a name="set-up-ec2">📡 Set up EC2 and deploy server</a>
 
 1. Go to AWS EC2 service
 2. Create a **new EC2 instance**
@@ -489,7 +493,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ---
 
-**⭐ Set up RDS for PostgreSQL Database**
+### <a name="set-up-rds">🗃️ Set up RDS for PostgreSQL Database</a>
 
 1. Go to AWS RDS service
 2. Create a **new RDS database**
@@ -572,7 +576,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ---
 
-**⭐ Set up Amplify and deploy client**
+### <a name="set-up-amplify">🖥️ Set up Amplify and deploy client</a>
 
 1. Go to AWS Amplify service
 2. **Deploy App**
@@ -604,7 +608,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ---
 
-**⭐ Set up API Gateway**
+### <a name="set-up-api-gateway">🔗 Set up API Gateway</a>
 
 Our **front-end client** is currently hosted over **HTTPS**, while the **back-end server** on the EC2 instance is served over **HTTP**. When the client tries to make requests to the server, modern browsers will block them due to **mixed content** restrictions. 
 
