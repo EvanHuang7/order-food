@@ -8,6 +8,19 @@
 4. 🧩 [Diagram and Screenshots](#diagram-screenshots)
 5. ⚙️ [Installation and Start Project](#installation-start-project)
     - [⭐ Prerequisites](#prerequisites)
+    - [⭐ Cloning the Repository](#clone-repo)
+    - [⭐ Installation](#install)
+    - [⭐ Create Database in PgAdmin](#create-local-db)
+    - [⭐ Set Up AWS](#set-up-aws)
+      - [🔐 Set up Cognito](#set-up-cognito)
+      - [🗂️ Set up S3](#set-up-s3)
+      - [🔑 Set up IAM](#set-up-iam)
+      - [✉️ Set up SES](#set-up-ses)
+      - [📣 Set up AWS SNS](#set-up-sns)
+    - [⭐ Set Up Environment Variables](#set-up-env-variables)
+    - [⭐ Create Tables, Add Event Trigger, and Seed Mock Data](#create-table)
+    - [⭐ Upload Images of Mock Data to AWS S3 Bucket](#upload-images-s3)
+    - [⭐ Running the Project](#running-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
     - [⭐ Set up VPC for secure Networking](#set-up-vpc)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
@@ -101,13 +114,13 @@ Make sure you have the following installed on your machine:
 - Node.js and npm(Node Package Manager)
 - PostgresSQL and PgAdmin
 
-**⭐ Cloning the Repository**
+### <a name="clone-repo">⭐ Cloning the Repository</a>
 
 ```bash
 git clone https://github.com/EvanHuang7/order-food.git
 ```
 
-**⭐ Installation**
+### <a name="install">⭐ Installation</a>
 
 Install the project dependencies using npm:
 
@@ -119,13 +132,13 @@ cd client
 npm install
 ```
 
-**⭐ Create Database in PgAdmin**
+### <a name="create-local-db">⭐ Create Database in PgAdmin</a>
 
 Create a local PostgreSQL database using pgAdmin, and note down your PostgreSQL **username, password, and database name**—you'll need them later in the **Set Up Environment Variables step**. (Feel free to follow any PostgreSQL setup tutorial on YouTube to complete this step.)
 
 ---
 
-**⭐ Set Up AWS**
+### <a name="set-up-aws">⭐ Set Up AWS</a>
 
 Create an AWS account and ensure you qualify for the 12-month Free Tier if you're a new user. Otherwise, you may incur charges when using AWS services. Each AWS service has its own Free Tier policy—refer to the [AWS Free Tier page](https://aws.amazon.com/free) for details. (You can follow relevant AWS setup tutorials on YouTube to guide you through the steps below.)
 
@@ -139,7 +152,7 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 >   - **AWS S3**: Required to display mock data images. Without it, image uploading and seeded image display will be disabled, but all other features remain usable.
 >   - **AWS IAM, SNS, and SES**: Required for the notification system to send and receive email alerts. The app will function without these, just without notifications.
 
-**🔐 Set up AWS Cognito and create a User Pool**:
+#### <a name="set-up-cognito">🔐 Set up AWS Cognito and create a User Pool:</a>
 
 1. Go to AWS Cognito service
 2. Create a User Pool
@@ -153,7 +166,7 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
     - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
 4. Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
 
-**🗂️ Set up AWS S3**:
+#### <a name="set-up-s3">🗂️ Set up AWS S3:</a>
 
 1. Go to AWS S3 service
 2. Create a S3 bucket
@@ -188,25 +201,28 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
     - Click **Save changes** button
 4. Note down the **S3 bucket name** for latter usage
 
-**🔑 Set up AWS IAM**:
+#### <a name="set-up-iam">🔑 Set up AWS IAM:</a>
+
 1. Go to AWS IAM service
 2. Create an **AWS IAM user** with **full access to SES and SNS**:
 3. Generate and note down the **IAM user Access Key ID and Secret Access Key**
 
-**✉️ Set up AWS SES**:
+#### <a name="set-up-ses">✉️ Set up AWS SES:</a>
+
 1. Go to AWS SES service
 2. Verify both your **sender email and recipient email** addresses
 3. ⚠️ Note: In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**
 4. Note down your **verified sender email**
 
-**📣 Set up AWS SNS**:
+#### <a name="set-up-sns">📣 Set up AWS SNS:</a>
+
 1. Go to AWS SNS service
 2. Create a topic for managing email or app notifications
 3. Note down the **ARN of Topic**
 
 ---
 
-**⭐ Set Up Environment Variables**
+### <a name="set-up-env-variables">⭐ Set Up Environment Variables</a>
 
 Create a `.env` file under **client** folder of your project and add the following content:
 
@@ -240,7 +256,7 @@ GOOGLE_GENERATIVE_AI_API_KEY=""
 - Replace the placeholder values with your actual credentials from AWS Cognito, Vapi, PostgreSQL, AWS S3, IAM User, SES, SNS, and Google Gemini (via Google AI Studio).
 - Feel free to follow YouTube tutorials on Vapi and Google AI Studio to obtain the required tokens and configuration.
 
-**⭐ Create Tables, Add Event Trigger, and Seed Mock Data**
+### <a name="create-table">⭐ Create Tables, Add Event Trigger, and Seed Mock Data</a>
 
 Create the necessary tables, add an event trigger for the `create` event on the `Notification` table, and seed mock data into your local PostgreSQL database by running:
 
@@ -251,11 +267,11 @@ npm run prisma:generate
 npm run seed
 ```
 
-**⭐ Upload Images of Mock Data to AWS S3 Bucket**
+### <a name="upload-images-s3">⭐ Upload Images of Mock Data to AWS S3 Bucket</a>
 
 Upload the entire `mockDataImage` folder located in `order-food/client/public` to your AWS S3 bucket. This ensures that mock data images are properly displayed in the application.
 
-**⭐ Running the Project**
+### <a name="running-project">⭐ Running the Project</a>
 
 Open **two separate terminal windows** and run the following commands to start the frontend and backend servers:
 
