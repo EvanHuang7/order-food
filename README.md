@@ -142,16 +142,16 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 1. Go to AWS Cognito service
 2. Create a User Pool
 
-- Click **Create User pool** button
-- Choose **"Single-page application"** as the application type
-- Enter your desired **application name** (eg. appName-cognito-userpool)
-- Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
-- Under **Required attributes for sign-up**, choose **"email"**
-- Click **Create user directory** button
+  - Click **Create User pool** button
+  - Choose **"Single-page application"** as the application type
+  - Enter your desired **application name** (eg. appName-cognito-userpool)
+  - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
+  - Under **Required attributes for sign-up**, choose **"email"**
+  - Click **Create user directory** button
 
 3. Add "role" custom attribute
 
-- After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
+  - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
 
 4. Note down the **User pool ID and User pool app client ID**—you'll need them later in the **Set Up Environment Variables step**
 
@@ -160,55 +160,57 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 1. Go to AWS S3 service
 2. Create a S3 bucket
 
-- Click **Create bucket** button
-- Select **General purpose** for bucket type
-- Enter your desired **bucket name** (eg. appName-s3-images)
-- Disable **Block all public access** and **check** the check box of warning alert to acknowledge the disable action
-- Keep the rest of things by default in this page
-- Click **Create bucket** button
+  - Click **Create bucket** button
+  - Select **General purpose** for bucket type
+  - Enter your desired **bucket name** (eg. appName-s3-images)
+  - Disable **Block all public access** and **check** the check box of warning alert to acknowledge the disable action
+  - Keep the rest of things by default in this page
+  - Click **Create bucket** button
 
 3. Configure created S3 bucket permission
 
-- Click the S3 bucket we just created to go to bucket info page
-- Select **Permissions** tab
-- Scroll to the bottom and click **Edit** button of **Bucket policy**
-- Copy and paste below script to update the policy allow all users to view the files in this S3 bucket.
-- ⚠️ Note: remember to change the **Placeholder of Bucket ARN** to your real **Bucket ARN** in this page)
+  - Click the S3 bucket we just created to go to bucket info page
+  - Select **Permissions** tab
+  - Scroll to the bottom and click **Edit** button of **Bucket policy**
+  - Copy and paste below script to update the policy allow all users to view the files in this S3 bucket.
+  - ⚠️ Note: remember to change the **Placeholder of Bucket ARN** to your real **Bucket ARN** in this page)
 
-  ```
-  {
-      "Version": "2012-10-17",
-      "Statement": [
-          {
-              "Sid": "Statement1",
-              "Effect": "Allow",
-              "Principal": "*",
-              "Action": "s3:GetObject",
-              "Resource": "Placeholder of Bucket ARN/*"
-          }
-      ]
-  }
-  ```
+    ```
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": "Placeholder of Bucket ARN/*"
+            }
+        ]
+    }
+    ```
 
-- Click **Save changes** button
+  - Click **Save changes** button
 
 4. Note down the **S3 bucket name** for latter usage
 
-- **Set up AWS IAM**:
+**🔑 Set up AWS IAM**:
+1. Go to AWS IAM service
+2. Create an **AWS IAM user** with **full access to SES and SNS**:
+3. Generate and note down the **IAM user Access Key ID and Secret Access Key**
 
-  - Go to AWS IAM service
-  - Create an **AWS IAM user** with **full access to SES and SNS**:
-  - Generate and note down the **IAM user Access Key ID and Secret Access Key**
+**✉️ Set up AWS SES**:
+1. Go to AWS SES service
+2. Verify both your **sender email and recipient email** addresses
+3. ⚠️ Note: In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**
+4. Note down your **verified sender email**
 
-- **Set up AWS SES**:
-  - Go to AWS SES service
-  - Verify both your **sender email and recipient email** addresses
-  - (In **sandbox mode**, SES requires the recipient email to be verified in the **Identities section**)
-  - Note down your **verified sender email**
-- **Set up AWS SNS**:
-  - Go to AWS SNS service
-  - Create a topic for managing email or app notifications
-  - Note down the **ARN of Topic**
+**📣 Set up AWS SNS**:
+1. Go to AWS SNS service
+2. Create a topic for managing email or app notifications
+3. Note down the **ARN of Topic**
+
+---
 
 **⭐ Set Up Environment Variables**
 
