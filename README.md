@@ -556,32 +556,35 @@ Follow these steps to deploy app in AWS Cloud:
 
 **⭐ Set up Amplify and deploy client**
 
-- Go to AWS Amplify service
-- Deploy App
-  - Click "Deploy an app" button
-  - "Choose source code provider" Step
-    - Select "GitHub"
-    - Click "Next" button
-  - "Add repository and branch" Step
-    - Connect your GitHub account and update GitHub permission of your project repo
-    - Select your project repo and use "main" or "master" branch
-    - Enable "My app is a monorepo" and Enter "client" for "Monorepo root directory"
-    - Click "Next" button
-  - "App settings" Step
-    - Click "Advanced settings" to open collapse section
-    - Add those 4 environment variables and corresponding value one by one by clicking "Add new" button `NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID, NEXT_PUBLIC_AWS_COGNITO_USER_POOL_CLIENT_ID, NEXT_PUBLIC_VAPI_WEB_TOKEN`
-    - The values of last 3 environment variables remain the same as local `.env` file of `client` folder.
-    - Set the value for `NEXT_PUBLIC_API_BASE_URL`
-      - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
-      - Click copy button under "Public IPV4 address" to copy the IP address value
-      - Use `http://IPAddressYouJustCopied` for the value of `NEXT_PUBLIC_API_BASE_URL` (Note: This value won't work now, and we will come back to fix it in latter step)
-    - Enable "Keep cookies in cache key"
-    - Keep the rest of things by default in "App settings" page
-    - Click "Next" button
-  - "Review" Step
-    - Click "Save and deploy" button
-- View deployed app
-  - Click "Visit deployed URL" button to view your app once client deployment is finished
+1. Go to AWS Amplify service
+2. **Deploy App**
+    - Click **Deploy an app** button
+    - **Choose source code provider** Step
+      - Select **GitHub**
+      - Click **Next** button
+    - **Add repository and branch** Step
+      - Connect your GitHub account and update GitHub permission of your project repo
+      - Select your project repo and use `main` or `master` branch
+      - Enable **My app is a monorepo** and Enter **client** for **Monorepo root directory**
+      - Click **Next** button
+    - **App settings** Step
+      - Click **Advanced settings** to open collapse section
+      - Add those 4 environment variables and corresponding value one by one by clicking **Add new** button `NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID, NEXT_PUBLIC_AWS_COGNITO_USER_POOL_CLIENT_ID, NEXT_PUBLIC_VAPI_WEB_TOKEN`
+      - The values of last 3 environment variables remain the same as local `.env` file of `client` folder.
+      - Set the value for `NEXT_PUBLIC_API_BASE_URL`
+        - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
+        - Click copy button under **Public IPV4 address** to copy the IP address value
+        - Use `http://IPAddressYouJustCopied` for the value of `NEXT_PUBLIC_API_BASE_URL` 
+          - 📌 Note: This value won't work now, and we will come back to fix it in **latter API Gateway step**
+      - Enable **Keep cookies in cache key**
+      - Keep the rest of things by default in **App settings** page
+      - Click **Next** button
+    - **Review** Step
+      - Click **Save and deploy** button
+3. View deployed app
+    - Click **Visit deployed URL** button to view your app once client deployment is finished
+
+---
 
 **⭐ Set up API Gateway**
 
@@ -686,6 +689,8 @@ Our front-end clint is currently hosted on "HTTPS", but our back-end server in E
 - You should be able to view all restaurants in home page and menu items of any restaurant in sigle restaurang page without sign in as a user
 - You can test all features by sign in as a customer, restaurant and driver roles.
 - If everything works well, you deploy the app to AWS cloud successfully. Congratulation 🎉🎉🎉
+
+---
 
 ## <a name="note-schemas-update">📌 Note for Schemas Update</a>
 
