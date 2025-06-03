@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center">🌟 Order Food</h1>
+  <h2 align="center">🌟 Order Food</h2>
   <p align="center">
     🚀 <a href="https://main.d3vq2tufq59s1m.amplifyapp.com/" target="_blank"><b>Live App</b></a> &nbsp;|&nbsp;
     📂 <a href="https://github.com/EvanHuang7/order-food" target="_blank"><b>Source Code</b></a>
