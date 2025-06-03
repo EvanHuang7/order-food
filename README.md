@@ -365,107 +365,111 @@ Follow these steps to deploy app in AWS Cloud:
 
 **⭐ Set up EC2 and deploy server**
 
-- Go to AWS EC2 service
-- Create a new EC2 instance
-  - Go to the **Instances > Instances** tab and click "Launch instances" button
-  - Enter your desired **Name tag** (eg. appName-ec2)
-  - Selelct "Quick Start" and keep the "Amazon Linux" defualt selected option under "Application and OS images" section
-  - Keep the "Amazon Linux 2023 AMI - Free tier eligible" defualt selected option under "Amazon Machine Image (AMI)" section
-  - Keep the default selected option under "Description" section
-  - Keep the default selected instance type with "Free tier eligible" tag under "Instance type" section
-  - Create a new key pair by choosing "RSA" key pair type and ".pem" prviate key file format if you are macOS and select the created newe key pair under "Key pair name" section
-  - Select all "Allow SSH traffic from", "Allow HTTPS traffic from the internet", "Allow HTTP traffic from the internet" options and keep "Create security group" defualt selected option under "Network settings" section
-  - Click the "Edit" button of "Network settings" section
-  - Select the VPC (eg. appName-vpc) and public subnet (eg. appName-public-subnet-1) we just created.
-  - Enable "Auto-assgin public IP"
-  - Keep "Create security group" defualt selected option under "Firewall" section
-  - Enter your desired **Security group name** (eg. appName-ec2-sg) and update the security group name under "Description" section to be same as your desired name (eg. appName-ec2-sg)
-  - Keep the rest of things with default set up and click "Launch instance" button
-- Connect to the cloud computer of EC2 instance
-  - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
-  - Click "Connect" button on the top right of EC2 instance info page to go to "Connect to instance" page
-  - Keep everything under "EC2 Instance Connect" tab by default selected option and click "Connect" button to open cloud computer terminal
-- Config the cloud computer of EC2 instance (Check "aws-ec2-instructions.md" file for command lines detail explanation under "order-food/server" path)
+1. Go to AWS EC2 service
+2. Create a **new EC2 instance**
+    - Go to the **Instances > Instances** tab and click **Launch instances** button
+    - Enter your desired **Name tag** (eg. appName-ec2)
+    - Selelct **Quick Start** and keep the **Amazon Linux** defualt selected option under **Application and OS images** section
+    - Keep the **Amazon Linux 2023 AMI - Free tier eligible** defualt selected option under **Amazon Machine Image (AMI)** section
+    - Keep the default selected option under **Description** section
+    - Keep the default selected instance type with **Free tier eligible** tag under **Instance type** section
+    - Create a **new key pair** by choosing **RSA** key pair type and **.pem** prviate key file format if you are **macOS** and select the created newe key pair under **Key pair name** section
+    - Select all **Allow SSH traffic from**, **Allow HTTPS traffic from the internet**, **Allow HTTP traffic from the internet** options and keep **Create security group** defualt selected option under **Network settings** section
+    - Click the **Edit** button of **Network settings** section
+    - Select the VPC (eg. appName-vpc) and public subnet (eg. appName-public-subnet-1) we just created.
+    - Enable **Auto-assgin public IP**
+    - Keep **Create security group** defualt selected option under **Firewall** section
+    - Enter your desired **Security group name** (eg. appName-ec2-sg) and update the security group name under **Description** section to be same as your desired name (eg. appName-ec2-sg)
+    - Keep the rest of things with default set up and click **Launch instance** button
+3. **Connect to the cloud computer** of EC2 instance
+    - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
+    - Click **Connect** button on the top right of EC2 instance info page to go to **Connect to instance** page
+    - Keep everything under **EC2 Instance Connect** tab by default selected option and click **Connect** button to open cloud computer terminal
+4. **Config the cloud computer** of EC2 instance 
+    - 📌 **Note:** Check the `aws-ec2-instructions.md` file located in the `order-food/server` directory for detailed explanations of the command lines
 
-  - Switch to superuser in cloud computer terminal by running
-
-    ```
-    sudo su -
-    ```
-
-  - Install Node Version Manager (nvm) and Node.js by running
-
-    ```
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    . ~/.nvm/nvm.sh
-    nvm install node
-    node -v
-    npm -v
-    ```
-
-  - Update the system, install Git and clone app repo to cloud computer by running
-
-    ```
-    sudo yum update -y
-    sudo yum install git -y
-    git --version
-    git clone [your-github-link]
-    ```
-
-  - Install packages, create Env File and start the application by running
-
-    ```
-    cd order-food
-    cd server
-    npm i
-    echo "PORT=80" > .env
-    npm run dev
-    ```
-
-  - Install pm2 (Production Process Manager for Node.js) and set pm2 to restart automatically on system reboot by running
-
-    ```
-    npm i pm2 -g
-    sudo env PATH=$PATH:$(which node) $(which pm2) startup systemd -u $USER --hp $(eval echo ~$USER)
-    ```
-
-  - Start the application using the pm2 ecosystem configuration by running
-
-    ```
-    pm2 start ecosystem.config.js
-    ```
-
-  - Manage pm2 project with these command lines below:
-
-    - Stop all processes:
+    - Switch to **superuser** in cloud computer terminal by running 
+    - 📌 **Note:** You need to run this command every time you connect to the cloud instance and want to work on the app project.
 
       ```
-      pm2 stop all
+      sudo su -
       ```
 
-    - Delete all processes:
+    - Install Node Version Manager (nvm) and Node.js by running
 
       ```
-      pm2 delete all
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      . ~/.nvm/nvm.sh
+      nvm install node
+      node -v
+      npm -v
       ```
 
-    - Check status of processes:
+    - Update the system, install Git and clone app repo to cloud computer by running
 
       ```
-      pm2 status
+      sudo yum update -y
+      sudo yum install git -y
+      git --version
+      git clone [your-github-link]
       ```
 
-    - Monitor processes:
+    - Install packages, create Env File and start the application by running
 
       ```
-      pm2 monit
+      cd order-food
+      cd server
+      npm i
+      echo "PORT=80" > .env
+      npm run dev
       ```
 
-- Test if our server is running in EC2 successfully or not
-  - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
-  - Click copy button under "Auto-assigned IP address" to copy the IP address value
-  - Paste the `http://IPAddressYouJustCopied` url to Chrome broswer
-  - You will see "This is home route" text in the web page if your server is running in EC2 successfully
+    - Install pm2 (Production Process Manager for Node.js) and set pm2 to restart automatically on system reboot by running
+
+      ```
+      npm i pm2 -g
+      sudo env PATH=$PATH:$(which node) $(which pm2) startup systemd -u $USER --hp $(eval echo ~$USER)
+      ```
+
+    - Start the application using the pm2 ecosystem configuration by running
+
+      ```
+      pm2 start ecosystem.config.js
+      ```
+
+    - Manage pm2 project with these command lines below:
+
+      - Stop all processes:
+
+        ```
+        pm2 stop all
+        ```
+
+      - Delete all processes:
+
+        ```
+        pm2 delete all
+        ```
+
+      - Check status of processes:
+
+        ```
+        pm2 status
+        ```
+
+      - Monitor processes:
+
+        ```
+        pm2 monit
+        ```
+
+5. **Test whether the server is running successfully on the EC2 instance**
+    - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
+    - Click copy button under **Auto-assigned IP address** to copy the IP address value
+    - Paste the `http://IPAddressYouJustCopied` url to Chrome broswer
+    - You will see `This is home route` text in the web page if your server is running in EC2 successfully
+
+---
 
 **⭐ Set up RDS for PostgreSQL Database**
 
