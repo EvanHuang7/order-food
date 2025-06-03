@@ -51,7 +51,7 @@
   - Prisma ORM, PostgreSQL
 - **🖥️ Frontend**:
   - Next.js, TypeScript,
-  - Redux Toolkit for state management
+  - Redux Toolkit for state and API management
   - Shadcn & Tailwind CSS for UI
   - Framer Motion for animations
   - React Hook Form + Zod for forms and validation
