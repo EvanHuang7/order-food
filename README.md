@@ -144,10 +144,10 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 1. Go to AWS Cognito service
 2. Create a User Pool
     - Click **Create User pool** button
-    - Choose **"Single-page application"** as the application type
+    - Select `Single-page application` as the application type
     - Enter your desired **application name** (eg. `appName-cognito-userpool`)
-    - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
-    - Under **Required attributes for sign-up**, choose **"email"**
+    - Under **Options for sign-in identifiers**, select both `Email` and `Username`
+    - Under **Required attributes for sign-up**, select `email`
     - Click **Create user directory** button
 3. Add "role" custom attribute
     - After creating the user pool, go to the **Authentication > Sign-up** tab and add a custom attribute named "role"
@@ -158,14 +158,14 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 1. Go to AWS S3 service
 2. Create a S3 bucket
     - Click **Create bucket** button
-    - Select **General purpose** for bucket type
+    - Select `General purpose` for **bucket type**
     - Enter your desired **bucket name** (eg. `appName-s3-images`)
-    - Disable **Block all public access** and **check** the check box of warning alert to acknowledge the disable action
+    - **Disable** "Block all public access" and **check** the check box of **warning alert** to acknowledge the disable action
     - Keep the rest of things by default in this page
     - Click **Create bucket** button
 3. Configure created S3 bucket permission
     - Click the S3 bucket we just created to go to bucket info page
-    - Select **Permissions** tab
+    - Click **Permissions** tab
     - Scroll to the bottom and click **Edit** button of **Bucket policy**
     - Copy and paste below script to update the policy allow all users to view the files in this S3 bucket.
     - ⚠️ Note: remember to change the **Placeholder of Bucket ARN** to your real **Bucket ARN** in this page
@@ -294,10 +294,10 @@ Follow these steps to deploy app in AWS Cloud:
 1. Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. `us-east-1`) by checking the top right of dashboard
 2. Create a **new VPC**
     - Go to the **Virtual Private Cloud > Your VPCs** tab and click **Create VPC** button
-    - Select **VPC only** under **Resource to create** section
+    - Select `VPC only` under **Resource to create** section
     - Enter your desired **Name tag** (eg. `appName-vpc`)
     - Keep the default selected option for **IPv4 CIDR manual input** under **IPv4 CIDR block** section
-    - Enter **10.0.0.0/16** under **IPv4 CIDR** section to specify the ranges of IP addresses of your VPC
+    - Enter `10.0.0.0/16` under **IPv4 CIDR** section to specify the ranges of IP addresses of your VPC
       - 📌 Note: This number indicates that the first two variables are fixed (locked), while only the last two variables can change. As a result, the IP address range spans from "10.0.0.0" to "10.0.255.255," providing a total of 256 × 256 possible IP addresses that can be assigned within the VPC.
     - Keep the default selected option for **No IPv6 CIDR block** under **IPv6 CIDR block** section
     - Keep the rest of things by default and click **Create VPC** button
@@ -306,21 +306,21 @@ Follow these steps to deploy app in AWS Cloud:
     - Select the VPC (eg. `appName-vpc`) you just created under **VPC ID** section
     - Create **1st public subnet** under **Subnet Settings** section
       - Enter your desired **Subnet name** (eg. `appName-public-subnet-1`)
-      - Choose an **Availability Zone** (eg. `us-east-1a`)
-      - Keep the default **10.0.0.0/16** under **IPV4 VPC CIDR block** section
-      - Enter **10.0.0.0/24** under **IPV4 subnet CIDR block** section
+      - Select an **Availability Zone** (eg. `us-east-1a`)
+      - Keep the default `10.0.0.0/16` under **IPV4 VPC CIDR block** section
+      - Enter `10.0.0.0/24` under **IPV4 subnet CIDR block** section
         - 📌 Note: This number locks the first 3 variables, which means there are 256 IP addresses for this public subnet to use
     - Click **Add new subnet** button and create **1st private subnet**
       - Enter your desired **Subnet name** (eg. `appName-private-subnet-1`)
-      - Choose an **Availability Zone** (eg. `us-east-1a`)
-      - Keep the default **10.0.0.0/16** under **IPV4 VPC CIDR block** section
-      - Enter **10.0.1.0/24** under **IPV4 subnet CIDR block section**
+      - Select an **Availability Zone** (eg. `us-east-1a`)
+      - Keep the default `10.0.0.0/16` under **IPV4 VPC CIDR block** section
+      - Enter `10.0.1.0/24` under **IPV4 subnet CIDR block section**
     - Click **Add new subnet** button and create **2nd private subnet**
       - Enter your desired **Subnet name** (eg. `appName-private-subnet-2`)
-      - Choose an **Availability Zone** (eg. `us-east-1b`) 
+      - Select an **Availability Zone** (eg. `us-east-1b`) 
         - 📌 Note: We need a different Availability Zone for the second private subnet because each zone corresponds to a separate data center with independent servers hosting our private services. This setup ensures high availability—if one zone experiences an outage, the other remains operational to provide backup. This redundancy is especially important for your database to maintain reliability and minimize downtime.
-      - Keep the default **10.0.0.0/16** under **IPV4 VPC CIDR block** section
-      - Enter **10.0.2.0/24** under **IPV4 subnet CIDR block** section
+      - Keep the default `10.0.0.0/16` under **IPV4 VPC CIDR block** section
+      - Enter `10.0.2.0/24` under **IPV4 subnet CIDR block** section
     - Click **Create subnet** button
 4. Create an **Internet gateway**
     - Go to the **Virtual Private Cloud > Internet gateways** tab and click **Create Internet gateway** button
@@ -357,8 +357,8 @@ Follow these steps to deploy app in AWS Cloud:
       - Click the **public route table** in **Route tables** page to go to **public route table info** page
       - Click **Edit routes** button
       - Click **Add route** button
-      - Select **0.0.0.0/0** in Destination field
-      - Select **Internet Gateway** in first Target field and select the internet gateway we just created (eg. `appName-internet-gateway`) in second Target field
+      - Select `0.0.0.0/0` in Destination field
+      - Select `Internet Gateway` in first Target field and select the internet gateway (eg. `appName-internet-gateway`) we just created in second Target field
       - Click **Save changes** button
 
 📌 **Note:** We will set up Security Groups for EC2 and RDS in later steps. A Security Group acts like a virtual firewall, controlling inbound and outbound traffic at the individual AWS service level by specifying allowed IP addresses and protocols.
@@ -371,16 +371,16 @@ Follow these steps to deploy app in AWS Cloud:
 2. Create a **new EC2 instance**
     - Go to the **Instances > Instances** tab and click **Launch instances** button
     - Enter your desired **Name tag** (eg. `appName-ec2`)
-    - Selelct **Quick Start** and keep the **Amazon Linux** defualt selected option under **Application and OS images** section
-    - Keep the **Amazon Linux 2023 AMI - Free tier eligible** defualt selected option under **Amazon Machine Image (AMI)** section
+    - Selelct **Quick Start** and keep the `Amazon Linux` defualt selected option under **Application and OS images** section
+    - Keep the `Amazon Linux 2023 AMI - Free tier eligible` defualt selected option under **Amazon Machine Image (AMI)** section
     - Keep the default selected option under **Description** section
     - Keep the default selected instance type with **Free tier eligible** tag under **Instance type** section
-    - Create a **new key pair** by choosing **RSA** key pair type and **.pem** prviate key file format if you are **macOS** and select the created newe key pair under **Key pair name** section
-    - Select all **Allow SSH traffic from**, **Allow HTTPS traffic from the internet**, **Allow HTTP traffic from the internet** options and keep **Create security group** defualt selected option under **Network settings** section
+    - Create a **new key pair** by choosing **RSA** key pair type and **.pem** prviate key file format if you are **macOS** and select the created key pair under **Key pair name** section
+    - Select all `Allow SSH traffic from`, `Allow HTTPS traffic from the internet`, `Allow HTTP traffic from the internet` options and keep `Create security group` defualt selected option under **Network settings** section
     - Click the **Edit** button of **Network settings** section
     - Select the VPC (eg. `appName-vpc`) and public subnet (eg. `appName-public-subnet-1`) we just created.
-    - Enable **Auto-assgin public IP**
-    - Keep **Create security group** defualt selected option under **Firewall** section
+    - **Enable** "Auto-assgin public IP"
+    - Keep `Create security group` defualt selected option under **Firewall** section
     - Enter your desired **Security group name** (eg. `appName-ec2-sg`) and update the security group name under **Description** section to be same as your desired name (eg. `appName-ec2-sg`)
     - Keep the rest of things with default set up and click **Launch instance** button
 3. **Connect to the cloud computer** of EC2 instance
@@ -478,31 +478,31 @@ Follow these steps to deploy app in AWS Cloud:
 1. Go to AWS RDS service
 2. Create a **new RDS database**
     - Go to the **Databases** tab and click **Create database** button
-    - Select the **Standard create** option to ensure you avoid any potential charges from default settings.
-    - Select **PostgreSQL** for **Engine type** under **Engine Options** section
+    - Select the `Standard create` option to ensure you avoid any potential charges from default settings.
+    - Select `PostgreSQL` for **Engine type** under **Engine Options** section
     - Keep everything as default selected option under **Engine Options** section
-    - Select **Free tier** option under **Templates** section
+    - Select `Free tier` option under **Templates** section
     - Keep the default selected option under **Availabilty and durability** section
     - Enter your desired **Database name** (eg. `appName-rds`) for **DB instance identifer** under **Settings** section
-    - Select **Self managed** for **Credentials Management**
+    - Select `Self managed` for **Credentials Management**
     - Note down your **master username** and **password** for latter usage of builindg `DATABASE_URL` env variable
     - Keep the default selected option under **Instance configuration** section
     - Keep the **Storage type** and **Allocated storage** as default under **Storage** section
-    - Click **Additional storage configuration** to open collapse section under **Storage** section and disable **storage autoscaling** for any potential charge
-    - Select **Don't connect to an EC2 compute resource** for **Compute resource** under **Connectivity** section
-    - Select VPC we just created (eg. `appName-vpc`)
-    - Keep **Create new DB Subnet Group** as the default selected option for **DB subnet group** 
+    - Click **Additional storage configuration** to open collapse section under **Storage** section and **disable** "storage autoscaling" for any potential charge
+    - Select `Don't connect to an EC2 compute resource` for **Compute resource** under **Connectivity** section
+    - Select the VPC (eg. `appName-vpc`) we just created
+    - Keep `Create new DB Subnet Group` as the default selected option for **DB subnet group** 
       - 📌 Note: you need to have 2 private subnets to view this option
-    - Keep **No** as the default selected option for **Public access**
+    - Keep `No` as the default selected option for **Public access**
       - 📌 **Note**: Do not assign a public IP address to the RDS instance, as your EC2 instance already has one. Assigning a second public IP could result in additional charges.
-    - Select **Create new** for **VCP security group**
+    - Select `Create new` for **VCP security group**
     - Enter your desired **New VPC security group name** (eg. `appName-rds-sg`)
     - Select the same **Availabilty Zone** as your 1st private subnet (eg. `us-east-1a`)
     - Keep the rest of things under **Connectivity** section by default
     - Keep **Tags** and **Database authentication** sections by default
-    - Disable **Performance Insights** under **Monitoring** section
+    - **Disable** "Performance Insights" under **Monitoring** section
     - Enter your desired **Initial database name** (eg. `appName`) under **Additional configuration** section and note down it for latter usage of builindg `DATABASE_URL` env variable
-    - Disable both **automated backups** and **encryption** for **Backup** and **Encryption**
+    - **Disable** both "automated backups" and "encryption" for **Backup** and **Encryption**
     - Keep the rest of things under **Additional configuration** section by default
     - Click **Create database** button
 3. Allow EC2 access to RDS database by **setting inbound rules of RDS security group**
@@ -511,7 +511,7 @@ Follow these steps to deploy app in AWS Cloud:
     - Click the created security group during RDS database creation process to go to this security group page
     - Click **Edit inbound rules** button
     - Click **Add rule** button
-    - Select **PostgreSQL** for **Type** field and keep the **Custom** as default for **Source** field
+    - Select `PostgreSQL` for **Type** field and keep the `Custom` as default for **Source** field
     - Select the security group of EC2 (eg. `appName-ec2-sg`) for **the field between Source and Description fields**
     - Click **Save rules** button
 4. Allow EC2 access to RDS database by **setting outbound rules of EC2 security group**
@@ -520,7 +520,7 @@ Follow these steps to deploy app in AWS Cloud:
     - Click the **Security groups** under **Security** tab to go to EC2 security group info page
     - Click **Edit outbound rules** button under **Outbound rules** tab
     - Click **Add rule** button
-    - Select **PostgreSQL** for **Type** field and keep the **Custom** as default for **Destination** field
+    - Select `PostgreSQL` for **Type** field and keep the `Custom` as default for **Destination** field
     - Select the security group of RDS (eg. `appName-rds-sg`) for **the field between Destination and Description fields**
     - Click **Save rules** button
 5. Build `DATABASE_URL` for RDS PostgreSQL database
@@ -562,12 +562,12 @@ Follow these steps to deploy app in AWS Cloud:
 2. **Deploy App**
     - Click **Deploy an app** button
     - **Choose source code provider** Step
-      - Select **GitHub**
+      - Select `GitHub`
       - Click **Next** button
     - **Add repository and branch** Step
       - Connect your GitHub account and update GitHub permission of your project repo
       - Select your project repo and use `main` or `master` branch
-      - Enable **My app is a monorepo** and Enter **client** for **Monorepo root directory**
+      - **Enable** "My app is a monorepo" and Enter `client` for **Monorepo root directory**
       - Click **Next** button
     - **App settings** Step
       - Click **Advanced settings** to open collapse section
@@ -578,7 +578,7 @@ Follow these steps to deploy app in AWS Cloud:
         - Click copy button under **Public IPV4 address** to copy the IP address value
         - Use `http://IPAddressYouJustCopied` for the value of `NEXT_PUBLIC_API_BASE_URL` 
           - 📌 Note: This value won't work now, and we will come back to fix it in **latter API Gateway step**
-      - Enable **Keep cookies in cache key**
+      - **Enable** "Keep cookies in cache key"
       - Keep the rest of things by default in **App settings** page
       - Click **Next** button
     - **Review** Step
@@ -597,22 +597,22 @@ The simplest solution is to use **API Gateway**, which automatically provides an
 1. Go to AWS API Gateway service
 2. Create an **API**
     - Go to **APIs** tab and click **Create API** button
-    - Select **REST API** and click **Build** button
-    - Select **New API** for **API details**
+    - Select `REST API` and click **Build** button
+    - Select `New API` for **API details**
     - Enter your desired **API name** (eg. `appName-api-gateway`)
     - Click **Create API** button and you will be redirected to **Resources** tab of this created API info page
 3. Create **resources for API**
     - Create and config **Proxy resource**
       - Click **Create resource** button
-      - **Enable** Proxy resource
+      - **Enable** "Proxy resource"
       - Keep `/` path default selected option for **Resource path**
-      - Enter **{proxy+}** for **Resource name**
-      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Enter `{proxy+}` for **Resource name**
+      - **Enable** "CORS"(Cross Origin Resrouce Sharing)
       - Click **Create resource** button and you will be redirected to **Resources** tab
       - Now, you can see a `/{proxy+}` path under `/` path
       - Select `ANY` inside of `/{proxy+}` path and click **Edit integration** button
       - Select `HTTP` for **Integration type**
-      - **Enable** HTTP proxy integration
+      - **Enable** "HTTP proxy integration"
       - Select `ANY` for **HTTP method**
       - Set value for **Endpoint URL**
         - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
@@ -623,60 +623,60 @@ The simplest solution is to use **API Gateway**, which automatically provides an
     - Create a **Cognito authorizer**
       - Click **Authorizers** tab and click **Create authorizer** button
       - Enter your desired **Authorizer name** (eg. `appName-api-gateway-cognito-authorizer`)
-      - Select **Cognito** for **Authorizer type**
+      - Select `Cognito` for **Authorizer type**
       - Selec the correct Cognito user pool (eg. `appName-cognito-userpool`) that you are using for this app
-      - Enter **Authorization** for **Token source** and leave **Token validation** empty
+      - Enter `Authorization` for **Token source** and leave Token validation empty
       - Click **Create authorizer** button
     - **Attach Cognito authorizer to Proxy resource**
-      - Click **Resources** tab and select **ANY** inside of `/{proxy+}` path
-      - Select **Method request** tab and click **Edit** button
+      - Click **Resources** tab and select `ANY` inside of `/{proxy+}` path
+      - Click **Method request** tab and click **Edit** button
       - Selec the Cognito authorizer we just created (eg. `appName-api-gateway-cognito-authorizer`) for **Authorization**
       - Leave the rest of things by default in this page and click **Save** button
     - Create **resource for public API, getRestaurants endpoint**
       - Select `/` path and click **Create resource** button
-      - **Disable** Proxy resource
+      - **Disable** "Proxy resource"
       - Keep `/` path default selected option for **Resource path**
-      - Enter **restaurant** for **Resource name**
-      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Enter `restaurant` for **Resource name**
+      - **Enable** "CORS"(Cross Origin Resrouce Sharing)
       - Click **Create resource** button and you will be redirected to **Resources** tab
       - Select `/restaurant` path and click **Create method** button
       - Select `GET` for **Method type**
       - Select `HTTP` for **Integration type**
-      - **Enable** HTTP proxy integration
+      - **Enable** "HTTP proxy integration"
       - Select `GET` for **HTTP method**
       - Enter `http://IPAddressYouJustCopied/restaurant` for **Endpoint URL** by following the same steps before in creating Proxy resource section
       - Keep the rest of things by default in this page
       - Click **Create method** button
     - Create **resource for public API, getRestaurantMenuItems endpoint**
       - Select `/` path and click **Create resource** button
-      - **Disable** Proxy resource
+      - **Disable** "Proxy resource"
       - Keep `/` path default selected option for **Resource path**
-      - Enter **menuItem** for **Resource name**
-      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Enter `menuItem` for **Resource name**
+      - **Enable** "CORS"(Cross Origin Resrouce Sharing)
       - Click **Create resource** button and you will be redirected to **Resources** tab
       - Select `/menuItem` path inside `/` path and click **Create resource** button
-      - **Disable** Proxy resource
+      - **Disable** "Proxy resource"
       - Keep `/menuItem` path default selected option for **Resource path**
       - Enter `{restaurantId}` for **Resource name**
-      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - **Enable** "CORS"(Cross Origin Resrouce Sharing)
       - Click **Create resource** button and you will be redirected to **Resources** tab
       - Select `/{restaurantId}` path inside `/menuItem` path and click **Create resource** button
-      - **Disable** Proxy resource
+      - **Disable** "Proxy resource"
       - Keep `/menuItem/{restaurantId}` path default selected option for **Resource path**
       - Enter `menuItems` for **Resource name**
-      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - **Enable** "CORS"(Cross Origin Resrouce Sharing)
       - Click **Create resource** button and you will be redirected to **Resources** tab
       - Select `/menuItems` path inside `/{restaurantId}` path and click **Create method** button
       - Select `GET` for **Method type**
       - Select `HTTP` for **Integration type**
-      - **Enable** HTTP proxy integration
+      - **Enable** "HTTP proxy integration"
       - Select `GET` for **HTTP method**
       - Enter `http://IPAddressYouJustCopied/menuItem/{restaurantId}/menuItems` for **Endpoint URL** by following the same steps before in creating Proxy resource section
       - Keep the rest of things by default in this page
       - Click **Create method** button and you will be redirected to **Resources** tab
 4. **Deploy API**
     - Click **Deploy API** button
-    - Select **New stage** for **Stage**
+    - Select `New stage` for **Stage**
     - Enter your desired **Stage name** (eg. `prod`)
     - Click **Deploy** button and you will be redirected to **Stages** tab
 5. **Fix** the `NEXT_PUBLIC_API_BASE_URL` environment variable in **Amplify** with correct url
