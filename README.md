@@ -1,7 +1,9 @@
 <div align="center">
-  <span style="font-size: 2rem;"><b>🌟 Order Food</b></span><br/>
-  🚀 <a href="https://main.d3vq2tufq59s1m.amplifyapp.com/" target="_blank"><b>Live App</b></a> &nbsp;|&nbsp;
-  📂 <a href="https://github.com/EvanHuang7/order-food" target="_blank"><b>Source Code</b></a>
+  <h3 align="center">🌟 Order Food</h3>
+  <p align="center">
+    🚀 <a href="https://main.d3vq2tufq59s1m.amplifyapp.com/" target="_blank"><b>Live App</b></a> &nbsp;|&nbsp;
+    📂 <a href="https://github.com/EvanHuang7/order-food" target="_blank"><b>Source Code</b></a>
+  </p>
 </div>
 
 ## 📚 <a name="table">Table of Contents</a>
