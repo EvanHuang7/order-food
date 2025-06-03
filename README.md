@@ -752,6 +752,7 @@ Hi! I'm Evan Huang — a full-stack software developer with 4+ years of experien
 This food delivery app project was completed on **June 2, 2025**, and reflects my focus on blending AI, cloud infrastructure, and responsive design into real-world solutions.
 
 Feel free to connect with me in LinkedIn or GitHub!
+
 <a href="https://www.linkedin.com/in/evan-huang-97336b1a9/" target="_blank">
   <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748924322/LI-Logo_lnnxau.png" alt="LinkedIn" width="150" />
 </a>
