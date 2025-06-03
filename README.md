@@ -93,7 +93,7 @@
 
 Follow these steps to set up the project locally on your machine.
 
-**⭐ Prerequisites**
+### <a name="prerequisites">⭐ Prerequisites</a>
 
 Make sure you have the following installed on your machine:
 
@@ -289,7 +289,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ---
 
-**⭐ Set up VPC for secure Networking**
+### <a name="set-up-vpc">⭐ Set up VPC for secure Networking</a>
 
 1. Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. `us-east-1`) by checking the top right of dashboard
 2. Create a **new VPC**
