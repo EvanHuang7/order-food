@@ -16,7 +16,7 @@
       - [🗂️ Set up S3](#set-up-s3)
       - [🔑 Set up IAM](#set-up-iam)
       - [✉️ Set up SES](#set-up-ses)
-      - [📣 Set up AWS SNS](#set-up-sns)
+      - [📣 Set up SNS](#set-up-sns)
     - [⭐ Set Up Environment Variables](#set-up-env-variables)
     - [⭐ Create Tables, Add Event Trigger, and Seed Mock Data](#create-table)
     - [⭐ Upload Images of Mock Data to AWS S3 Bucket](#upload-images-s3)
@@ -754,7 +754,7 @@ This food delivery app project was completed on **June 2, 2025**, and reflects m
 Feel free to connect or contribute!
 
 <a href="https://www.linkedin.com/in/evan-huang-97336b1a9/" target="_blank">
-  <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn Logo" width="40" height="40" />My LinkedIn
+  <img src="https://iconduck.com/icons/116258/linkedin-rectangle" alt="LinkedIn" width="150" />
 </a>
 
 🔗 [LinkedIn](https://www.linkedin.com/in/evan-huang-97336b1a9/)  
