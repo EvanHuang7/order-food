@@ -754,9 +754,9 @@ This food delivery app project was completed on **June 2, 2025**, and reflects m
 Feel free to connect with me in LinkedIn or GitHub!
 
 <a href="https://www.linkedin.com/in/evan-huang-97336b1a9/" target="_blank">
-  <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748925657/Screenshot_2025-06-02_at_22.40.32_mxzsbh.png" alt="LinkedIn" width="150" />
+  <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748926619/Screenshot_2025-06-02_at_22.40.32_mxzsbh.png" alt="LinkedIn" width="150" />
 </a>
 <br/>
 <a href="https://github.com/EvanHuang7" target="_blank">
-  <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748926384/Screenshot_2025-06-02_at_22.52.45_jtlfww.png" alt="GitHub" width="150" />
+  <img src="https://res.cloudinary.com/dapo3wc6o/image/upload/v1748926611/Screenshot_2025-06-02_at_22.52.45_jtlfww.png" alt="GitHub" width="150" />
 </a>
