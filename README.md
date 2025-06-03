@@ -32,11 +32,14 @@
 
 ## <a name="introduction">📋 Introduction</a>
 
-🍔 Oder Food is a full-stack food delivery platform that connects customers, restaurants, and delivery drivers in a unified system.
+**🍔 Oder Food** is a full-stack food delivery platform that connects customers, restaurants, and delivery drivers in a unified system.
 
 - **👤 Customers** can browse local restaurants, place food orders, track deliveries in real-time, and even **talk to an AI assistant to place orders via voice calls**.
 - **🍽️ Restaurants** can manage their menus, orders, and business operations directly through the platform.
 - **🛵 Drivers** can accept delivery requests and earn money by delivering food to customers efficiently.
+
+**🚀 Live App**: [OrderFood](https://main.d3vq2tufq59s1m.amplifyapp.com/)
+**📂 Source Code**: [GitHub Repository](https://github.com/EvanHuang7/order-food)
 
 ## <a name="tech-stack">🛠️ Tech Stack</a>
 
