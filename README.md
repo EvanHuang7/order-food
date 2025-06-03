@@ -7,7 +7,9 @@
 3. 🚀 [Features](#features)
 4. 🧩 [Diagram and Screenshots](#diagram-screenshots)
 5. ⚙️ [Installation and Start Project](#installation-start-project)
+    - [⭐ Prerequisites](#prerequisites)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
+    - [⭐ Set up VPC for secure Networking](#set-up-vpc)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
 8. 👨‍💼 [About the Author](#about-the-author)
 
@@ -143,7 +145,7 @@ Create an AWS account and ensure you qualify for the 12-month Free Tier if you'r
 2. Create a User Pool
     - Click **Create User pool** button
     - Choose **"Single-page application"** as the application type
-    - Enter your desired **application name** (eg. appName-cognito-userpool)
+    - Enter your desired **application name** (eg. `appName-cognito-userpool`)
     - Under **Options for sign-in identifiers**, select both **"Email"** and **"Username"**
     - Under **Required attributes for sign-up**, choose **"email"**
     - Click **Create user directory** button
@@ -588,107 +590,110 @@ Follow these steps to deploy app in AWS Cloud:
 
 **⭐ Set up API Gateway**
 
-Our front-end clint is currently hosted on "HTTPS", but our back-end server in EC2 instance is hosted on "HTTP". If client makes a request to back-end, it will run into an error called blocked mixed content fro browsers. The easy way to solve it is to use API Gateway if you don't want to do complicated way with "HTTPS" certificate and manage it by yourself. API Gateway allows us to automatically set up the "HTTPS", and we can set up back-end routes via API Gateway, which connects HTTPS client with HTTP server.
+Our **front-end client** is currently hosted over **HTTPS**, while the **back-end server** on the EC2 instance is served over **HTTP**. When the client tries to make requests to the server, modern browsers will block them due to **mixed content** restrictions. 
 
-- Go to AWS API Gateway service
-- Create an API
-  - Go to **APIs** tab and click "Create API" button
-  - Select "REST API" and click "Build" button
-  - Select "New API" for "API details"
-  - Enter your desired **API name** (eg. appName-api-gateway)
-  - Click "Create API" button and you will be redirected to **Resources** tab of this created API info page
-- Create resources for API
-  - Create and config Proxy resource
-    - Click "Create resource" button
-    - Enable "Proxy resource"
-    - Keep "/" path default selected option for "Resource path"
-    - Enter "{proxy+}" for "Resource name"
-    - Enable CORS(Cross Origin Resrouce Sharing)
-    - Click "Create resource" button and you will be redirected to **Resources** tab
-    - Now, you can see a "/{proxy+}" path under "/" path
-    - Select "ANY" inside of "/{proxy+}" path and click "Edit integration" button
-    - Select "HTTP" for "Integration type"
-    - Enable "HTTP proxy integration"
-    - Select "ANY" for "HTTP method"
-    - Set value for "Endpoint URL"
-      - Click the new EC2 instance you just created in **Instances > Instances** page to go to "EC2 instance info" page
-      - Click copy button under "Public IPV4 address" to copy the IP address value
-      - Use `http://IPAddressYouJustCopied/{proxy}` for the value of "Endpoint URL"
-    - Keep the rest of things by default in this page
-    - Click "Save" button
-  - Create a Cognito authorizer
-    - Click **Authorizers** tab and click "Create authorizer" button
-    - Enter your desired **Authorizer name** (eg. appName-api-gateway-cognito-authorizer)
-    - Select "Cognito" for "Authorizer type"
-    - Selec the correct Cognito user pool that you are using for this app
-    - Enter "Authorization" for "Token source" and leave "Token validation" empty
-    - Click "Create authorizer" button
-  - Attach Cognito authorizer to Proxy resource
-    - Click **Resources** tab and select "ANY" inside of "/{proxy+}" path
-    - Select "Method request" tab and click "Edit" button
-    - Selec the Cognito authorizer we just created (eg. appName-api-gateway-cognito-authorizer) for "Authorization"
-    - Leave the rest of things by default in this page and click "Save" button
-  - Create resource for public API, getRestaurants endpoint
-    - Select "/" path and click "Create resource" button
-    - Disable "Proxy resource"
-    - Keep "/" path default selected option for "Resource path"
-    - Enter "restaurant" for "Resource name"
-    - Enable CORS(Cross Origin Resrouce Sharing)
-    - Click "Create resource" button and you will be redirected to **Resources** tab
-    - Select "/restaurant" path and click "Create method" button
-    - Select "GET" for "Method type"
-    - Select "HTTP" for "Integration type"
-    - Enable "HTTP proxy integration"
-    - Select "GET" for "HTTP method"
-    - Enter `http://IPAddressYouJustCopied/restaurant` for "Endpoint URL" by following the same steps before in creating Proxy resource section
-    - Keep the rest of things by default in this page
-    - Click "Create method" button
-  - Create resource for public API, getRestaurantMenuItems endpoint
-    - Select "/" path and click "Create resource" button
-    - Disable "Proxy resource"
-    - Keep "/" path default selected option for "Resource path"
-    - Enter "menuItem" for "Resource name"
-    - Enable CORS(Cross Origin Resrouce Sharing)
-    - Click "Create resource" button and you will be redirected to **Resources** tab
-    - Select "/menuItem" path inside "/" path and click "Create resource" button
-    - Disable "Proxy resource"
-    - Keep "/menuItem" path default selected option for "Resource path"
-    - Enter "{restaurantId}" for "Resource name"
-    - Enable CORS(Cross Origin Resrouce Sharing)
-    - Click "Create resource" button and you will be redirected to **Resources** tab
-    - Select "/{restaurantId}" path inside "/menuItem" path and click "Create resource" button
-    - Disable "Proxy resource"
-    - Keep "/menuItem/{restaurantId}" path default selected option for "Resource path"
-    - Enter "menuItems" for "Resource name"
-    - Enable CORS(Cross Origin Resrouce Sharing)
-    - Click "Create resource" button and you will be redirected to **Resources** tab
-    - Select "/menuItems" path inside "/{restaurantId}" path and click "Create method" button
-    - Select "GET" for "Method type"
-    - Select "HTTP" for "Integration type"
-    - Enable "HTTP proxy integration"
-    - Select "GET" for "HTTP method"
-    - Enter `http://IPAddressYouJustCopied/menuItem/{restaurantId}/menuItems` for "Endpoint URL" by following the same steps before in creating Proxy resource section
-    - Keep the rest of things by default in this page
-    - Click "Create method" button and you will be redirected to **Resources** tab
-- Deploy API
-  - Click "Deploy API" button
-  - Select "New stage" for "Stage"
-  - Enter your desired **Stage name** (eg. prod)
-  - Click "Deploy" button and you will be redirected to **Stages** tab
-- Update the `NEXT_PUBLIC_API_BASE_URL` environment variable in Amplify with correct url
-  - Click the copy button for the "Invoke URL" of your stage (eg. prod)
-  - Go to AWS Amplify service and select your app
-  - Click **Hosting > Environment variables** tab
-  - Click "Manage variables" button
-  - Replace the value of `NEXT_PUBLIC_API_BASE_URL` to the "Invoke URL" you just copied
-  - Click "Save" button
-- Redeploy app client after changing environment variable
-  - Click **Overview** tab and click main or master branch
-  - Click "Redeploy this version" button in **Deployments** tab
-  - Click the URL of "Domain" to view your application after deployment is finished.
-- You should be able to view all restaurants in home page and menu items of any restaurant in sigle restaurang page without sign in as a user
-- You can test all features by sign in as a customer, restaurant and driver roles.
-- If everything works well, you deploy the app to AWS cloud successfully. Congratulation 🎉🎉🎉
+The simplest solution is to use **API Gateway**, which automatically provides an HTTPS endpoint. This way, instead of manually setting up and managing HTTPS certificates on the server, you can configure API Gateway to define backend routes that securely connect the HTTPS client to your HTTP-based server.
+
+1. Go to AWS API Gateway service
+2. Create an **API**
+    - Go to **APIs** tab and click **Create API** button
+    - Select **REST API** and click **Build** button
+    - Select **New API** for **API details**
+    - Enter your desired **API name** (eg. `appName-api-gateway`)
+    - Click **Create API** button and you will be redirected to **Resources** tab of this created API info page
+3. Create **resources for API**
+    - Create and config **Proxy resource**
+      - Click **Create resource** button
+      - **Enable** Proxy resource
+      - Keep `/` path default selected option for **Resource path**
+      - Enter **{proxy+}** for **Resource name**
+      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Click **Create resource** button and you will be redirected to **Resources** tab
+      - Now, you can see a `/{proxy+}` path under `/` path
+      - Select `ANY` inside of `/{proxy+}` path and click **Edit integration** button
+      - Select `HTTP` for **Integration type**
+      - **Enable** HTTP proxy integration
+      - Select `ANY` for **HTTP method**
+      - Set value for **Endpoint URL**
+        - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
+        - Click copy button under **Public IPV4 address** to copy the IP address value
+        - Use `http://IPAddressYouJustCopied/{proxy}` for the value of **Endpoint URL**
+      - Keep the rest of things by default in this page
+      - Click **Save** button
+    - Create a **Cognito authorizer**
+      - Click **Authorizers** tab and click **Create authorizer** button
+      - Enter your desired **Authorizer name** (eg. `appName-api-gateway-cognito-authorizer`)
+      - Select **Cognito** for **Authorizer type**
+      - Selec the correct Cognito user pool (eg. `appName-cognito-userpool`) that you are using for this app
+      - Enter **Authorization** for **Token source** and leave **Token validation** empty
+      - Click **Create authorizer** button
+    - **Attach Cognito authorizer to Proxy resource**
+      - Click **Resources** tab and select **ANY** inside of `/{proxy+}` path
+      - Select **Method request** tab and click **Edit** button
+      - Selec the Cognito authorizer we just created (eg. `appName-api-gateway-cognito-authorizer`) for **Authorization**
+      - Leave the rest of things by default in this page and click **Save** button
+    - Create **resource for public API, getRestaurants endpoint**
+      - Select `/` path and click **Create resource** button
+      - **Disable** Proxy resource
+      - Keep `/` path default selected option for **Resource path**
+      - Enter **restaurant** for **Resource name**
+      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Click **Create resource** button and you will be redirected to **Resources** tab
+      - Select `/restaurant` path and click **Create method** button
+      - Select `GET` for **Method type**
+      - Select `HTTP` for **Integration type**
+      - **Enable** HTTP proxy integration
+      - Select `GET` for **HTTP method**
+      - Enter `http://IPAddressYouJustCopied/restaurant` for **Endpoint URL** by following the same steps before in creating Proxy resource section
+      - Keep the rest of things by default in this page
+      - Click **Create method** button
+    - Create **resource for public API, getRestaurantMenuItems endpoint**
+      - Select `/` path and click **Create resource** button
+      - **Disable** Proxy resource
+      - Keep `/` path default selected option for **Resource path**
+      - Enter **menuItem** for **Resource name**
+      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Click **Create resource** button and you will be redirected to **Resources** tab
+      - Select `/menuItem` path inside `/` path and click **Create resource** button
+      - **Disable** Proxy resource
+      - Keep `/menuItem` path default selected option for **Resource path**
+      - Enter `{restaurantId}` for **Resource name**
+      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Click **Create resource** button and you will be redirected to **Resources** tab
+      - Select `/{restaurantId}` path inside `/menuItem` path and click **Create resource** button
+      - **Disable** Proxy resource
+      - Keep `/menuItem/{restaurantId}` path default selected option for **Resource path**
+      - Enter `menuItems` for **Resource name**
+      - **Enable CORS**(Cross Origin Resrouce Sharing)
+      - Click **Create resource** button and you will be redirected to **Resources** tab
+      - Select `/menuItems` path inside `/{restaurantId}` path and click **Create method** button
+      - Select `GET` for **Method type**
+      - Select `HTTP` for **Integration type**
+      - **Enable** HTTP proxy integration
+      - Select `GET` for **HTTP method**
+      - Enter `http://IPAddressYouJustCopied/menuItem/{restaurantId}/menuItems` for **Endpoint URL** by following the same steps before in creating Proxy resource section
+      - Keep the rest of things by default in this page
+      - Click **Create method** button and you will be redirected to **Resources** tab
+4. **Deploy API**
+    - Click **Deploy API** button
+    - Select **New stage** for **Stage**
+    - Enter your desired **Stage name** (eg. `prod`)
+    - Click **Deploy** button and you will be redirected to **Stages** tab
+5. **Fix** the `NEXT_PUBLIC_API_BASE_URL` environment variable in **Amplify** with correct url
+    - Click the copy button for the **Invoke URL** of your stage (eg. `prod`)
+    - Go to AWS Amplify service and select your app
+    - Click **Hosting > Environment variables** tab
+    - Click **Manage variables** button
+    - Replace the value of `NEXT_PUBLIC_API_BASE_URL` to the **Invoke URL** value you just **copied**
+    - Click **Save** button
+6. **Redeploy app client** after changing environment variable
+    - Click **Overview** tab and click `main` or `master` branch
+    - Click **Redeploy this version** button in **Deployments** tab
+    - Click the URL of **Domain** to view your application after deployment is finished.
+7. 🎉🎉🎉 Check Your Deployed App 🎉🎉🎉  
+    - You should be able to view all restaurants on the homepage and see the menu items of any restaurant on its individual page—**no sign-in required**.  
+    - To test full functionality, **sign in** as a **Customer**, **Restaurant**, or **Driver** user.  
+    - If everything is working correctly, **congratulations**—you’ve successfully deployed your app to the AWS cloud! 🥳🥳🥳
 
 ---
 
