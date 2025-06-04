@@ -68,42 +68,42 @@
 
 ## <a name="features">🚀 Features</a>
 
-**👉 Authentication**: Secure Sign Up and Sign In using email and password, handled by **AWS Cognito**.
+**🔐 Authentication**: Secure Sign Up and Sign In using email and password, handled by **AWS Cognito**.
 
-**👉 Favorite & Filter Restaurants**: Customers can favorite restaurants and filter them by category or price range. Restaurant cards display useful info such as address, average price per person, rating, and review history — all powered by **Prisma SQL**.
+**❤️ Favorite & Filter Restaurants**: Customers can favorite restaurants and filter them by category or price range. Restaurant cards display useful info such as address, average price per person, rating, and review history — all powered by **Prisma SQL**.
 
-**👉 Place Order**: Customers can either add menu items to a shopping cart and place an order manually, or use voice to order directly through a call with our **AI assistant**, powered by **Vapi AI and Google Gemini**.
+**🛒 Place Order**: Customers can either add menu items to a shopping cart and place an order manually, or use voice to order directly through a call with our **AI assistant**, powered by **Vapi AI and Google Gemini**.
 
-**👉 Notification**: Customers can enable notifications to receive:
+**🔔 Notification**: Customers can enable notifications to receive:
 
 - Order delivery status updates via **AWS SES** email
 - New menu alerts from favorited restaurants via **AWS SES** email
 - Promotional emails via **AWS SNS**
 
-**👉 Customer Dashboard**:
+**👤 Customer Dashboard**:
 
 - **Orders Tab**: View order details, cancel pending orders, filter by status, and rate/comment after delivery
 - **Favorites Tab**: Manage favorite restaurants and get notified about new items by emails
 - **Payments Tab**: Add or update payment methods and view transaction history
 - **Settings Tab**: Edit personal contact and address information
 
-**👉 Restaurant Dashboard**:
+**🍽️ Restaurant Dashboard**:
 
 - **Orders Tab**: View, filter, and manage order statuses
 - **Earnings Tab**: View earnings from completed orders
 - **Manage Restaurant Tab**: Add or update menu items
 - **Settings Tab**: Edit restaurant profile, location, contact, categories, and hours etc
 
-**👉 Driver Dashboard**:
+**🛵 Driver Dashboard**:
 
 - **Available Orders Tab**: View and accept available delivery jobs
 - **My Orders Tab**: Track and update your delivery progress
 - **Earnings Tab**: View total income from completed deliveries
 - **Settings Tab**: Update driver contact and location info
 
-**👉 Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity
+**🎨 Modern UI/UX**: Sleek, intuitive design optimized for usability and visual clarity
 
-**👉 Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices
+**📱 Responsiveness**: Fully responsive layout that adapts seamlessly across all screen sizes and devices
 
 ## <a name="diagram-screenshots">🧩 Diagram and 📸 Screenshots</a>
 
