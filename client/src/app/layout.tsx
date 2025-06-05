@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Order Food",
   description: "Order Food application built by Evan Huang",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
