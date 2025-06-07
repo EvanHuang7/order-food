@@ -29,6 +29,7 @@
     - [⭐ Running the Project](#running-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
     - [🌐 Set up VPC](#set-up-vpc)
+      - [⭐ Create a new VPC](#create-new-vpc)
     - [📡 Set up EC2](#set-up-ec2)
     - [🗃️ Set up RDS](#set-up-rds)
     - [🖥️ Set up Amplify](#set-up-amplify)
@@ -318,7 +319,7 @@ Follow these steps to deploy app in AWS Cloud:
 ### <a name="set-up-vpc">🌐 Set up VPC for secure Networking</a>
 
 1. Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. `us-east-1`) by checking the top right of dashboard
-2. Create a **new VPC**
+2. <a name="create-new-vpc"></a>⭐ Create a **new VPC**
     - Go to the **Virtual Private Cloud > Your VPCs** tab and click **Create VPC** button
     - Select `VPC only` under **Resource to create** section
     - Enter your desired **Name tag** (eg. `appName-vpc`)
