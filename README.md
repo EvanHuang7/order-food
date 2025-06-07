@@ -29,7 +29,10 @@
     - [⭐ Running the Project](#running-project)
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
     - [🌐 Set up VPC](#set-up-vpc)
-      - [⭐ Create a new VPC](#create-new-vpc)
+      - [⭐ Create new VPC](#create-new-vpc)
+      - [⭐ Create Subnets](#create-subnets)
+      - [⭐ Create Internet Gateway](#create-internet-gateway)
+      - [⭐ Create Route Tables](#create-route-tables)
     - [📡 Set up EC2](#set-up-ec2)
     - [🗃️ Set up RDS](#set-up-rds)
     - [🖥️ Set up Amplify](#set-up-amplify)
@@ -318,7 +321,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ### <a name="set-up-vpc">🌐 Set up VPC for secure Networking</a>
 
-1. Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. `us-east-1`) by checking the top right of dashboard
+1. ⭐ Go to AWS VPC service and make sure you are in the correct **AWS region** closest to you (eg. `us-east-1`) by checking the top right of dashboard
 2. <a name="create-new-vpc"></a>⭐ Create a **new VPC**
     - Go to the **Virtual Private Cloud > Your VPCs** tab and click **Create VPC** button
     - Select `VPC only` under **Resource to create** section
@@ -328,7 +331,7 @@ Follow these steps to deploy app in AWS Cloud:
       - 📌 Note: This number indicates that the first two variables are fixed (locked), while only the last two variables can change. As a result, the IP address range spans from "10.0.0.0" to "10.0.255.255," providing a total of 256 × 256 possible IP addresses that can be assigned within the VPC.
     - Keep the default selected option for **No IPv6 CIDR block** under **IPv6 CIDR block** section
     - Keep the rest of things by default and click **Create VPC** button
-3. Create **1 public subnet and 2 private subnets** (2 private subnets are required for RDS)
+3. <a name="create-subnets"></a>⭐ Create **1 public subnet and 2 private subnets** (2 private subnets are required for RDS)
     - Go to the **Virtual Private Cloud > Subnets** tab and click **Create subnet** button
     - Select the VPC (eg. `appName-vpc`) you just created under **VPC ID** section
     - Create **1st public subnet** under **Subnet Settings** section
@@ -349,7 +352,7 @@ Follow these steps to deploy app in AWS Cloud:
       - Keep the default `10.0.0.0/16` under **IPV4 VPC CIDR block** section
       - Enter `10.0.2.0/24` under **IPV4 subnet CIDR block** section
     - Click **Create subnet** button
-4. Create an **Internet gateway**
+4. <a name="create-internet-gateway"></a>⭐ Create an **Internet gateway**
     - Go to the **Virtual Private Cloud > Internet gateways** tab and click **Create Internet gateway** button
     - Enter your desired **Name tag** (eg. `appName-internet-gateway`)
     - Click **Create internet gateway** button
@@ -357,7 +360,7 @@ Follow these steps to deploy app in AWS Cloud:
     - Click the **Attach to a VPC** button inside top banner
     - Select the VPC (eg. `appName-vpc`) you just created under **Available VPCs** section
     - Click **Attach internet gateway** button
-5. Create **1 public route table and 2 privates route tables**
+5. <a name="create-route-tables"></a>⭐ Create **1 public route table and 2 privates route tables**
     - 📌 Note: A route table acts like a whitelist of IP address routes and is associated either at the VPC or subnet level. The VPC has a main route table, while each subnet can have its own public or private route table. The public route table for a public subnet allows access from anywhere, whereas the private route table for a private subnet restricts access, permitting connections only from the associated public subnet.
     - Go to the **Virtual Private Cloud > Route tables** tab
     - Create **1st public route table**
