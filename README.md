@@ -35,7 +35,9 @@
       - [⭐ Create Route Tables](#create-route-tables)
     - [📡 Set up EC2](#set-up-ec2)
       - [⭐ Create EC2 Instance](#create-ec2)
-      - [](#)
+      - [⭐ Connect to EC2](#connect-ec2)
+      - [⭐ Config EC2 Instance](#config-ec2)
+      - [⭐ Test Server in EC2](#test-server-in-ec2)
     - [🗃️ Set up RDS](#set-up-rds)
     - [🖥️ Set up Amplify](#set-up-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
@@ -399,7 +401,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ### <a name="set-up-ec2">📡 Set up EC2 and deploy server</a>
 
-1. Go to AWS EC2 service
+1. ⭐ Go to AWS EC2 service
 2. <a name="create-ec2"></a>⭐ Create a **new EC2 instance**
     - Go to the **Instances > Instances** tab and click **Launch instances** button
     - Enter your desired **Name tag** (eg. `appName-ec2`)
@@ -415,11 +417,11 @@ Follow these steps to deploy app in AWS Cloud:
     - Keep `Create security group` defualt selected option under **Firewall** section
     - Enter your desired **Security group name** (eg. `appName-ec2-sg`) and update the security group name under **Description** section to be same as your desired name (eg. `appName-ec2-sg`)
     - Keep the rest of things with default set up and click **Launch instance** button
-3. **Connect to the cloud computer** of EC2 instance
+3. <a name="connect-ec2"></a>⭐ **Connect to the cloud computer** of EC2 instance
     - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
     - Click **Connect** button on the top right of EC2 instance info page to go to **Connect to instance** page
     - Keep everything under **EC2 Instance Connect** tab by default selected option and click **Connect** button to open cloud computer terminal
-4. **Config the cloud computer** of EC2 instance 
+4. <a name="config-ec2"></a>⭐ **Config the cloud computer** of EC2 instance 
     - 📌 **Note:** Check the `aws-ec2-instructions.md` file located in the `order-food/server` directory for detailed explanations of the command lines
 
     - Switch to **superuser** in cloud computer terminal by running 
@@ -497,7 +499,7 @@ Follow these steps to deploy app in AWS Cloud:
         pm2 monit
         ```
 
-5. **Test whether the server is running successfully on the EC2 instance**
+5. <a name="test-server-in-ec2"></a>⭐ **Test whether the server is running successfully on the EC2 instance**
     - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
     - Click copy button under **Auto-assigned IP address** to copy the IP address value
     - Paste the `http://IPAddressYouJustCopied` url to Chrome broswer
