@@ -34,6 +34,8 @@
       - [⭐ Create Internet Gateway](#create-internet-gateway)
       - [⭐ Create Route Tables](#create-route-tables)
     - [📡 Set up EC2](#set-up-ec2)
+      - [⭐ Create EC2 Instance](#create-ec2)
+      - [](#)
     - [🗃️ Set up RDS](#set-up-rds)
     - [🖥️ Set up Amplify](#set-up-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
@@ -398,7 +400,7 @@ Follow these steps to deploy app in AWS Cloud:
 ### <a name="set-up-ec2">📡 Set up EC2 and deploy server</a>
 
 1. Go to AWS EC2 service
-2. Create a **new EC2 instance**
+2. <a name="create-ec2"></a>⭐ Create a **new EC2 instance**
     - Go to the **Instances > Instances** tab and click **Launch instances** button
     - Enter your desired **Name tag** (eg. `appName-ec2`)
     - Selelct **Quick Start** and keep the `Amazon Linux` defualt selected option under **Application and OS images** section
