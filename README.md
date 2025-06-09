@@ -40,10 +40,11 @@
       - [⭐ Test Server in EC2](#test-server-in-ec2)
     - [🗃️ Set up RDS](#set-up-rds)
       - [⭐ Create RDS Database](#create-rds-database)
-      - [⭐ ](#)
-      - [⭐ ](#)
-      - [⭐ ](#)
-      - [⭐ ](#)
+      - [⭐ Config RDS Inbound Rule](#set-rds-inbound-rule)
+      - [⭐ Config EC2 Outbound Rule](#set-ec2-outbound-rule)
+      - [⭐ Build RDS Database Url](#build-database-url)
+      - [⭐ Config Database in EC2](#set-up-rds-in-ec2)
+      - [⭐ Test Db Connection in EC2](#test-database-in-ec2)
     - [🖥️ Set up Amplify](#set-up-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
@@ -544,7 +545,7 @@ Follow these steps to deploy app in AWS Cloud:
     - **Disable** both "automated backups" and "encryption" for **Backup** and **Encryption**
     - Keep the rest of things under **Additional configuration** section by default
     - Click **Create database** button
-3. Allow EC2 access to RDS database by **setting inbound rules of RDS security group**
+3. <a name="set-rds-inbound-rule"></a>⭐ Allow EC2 access to RDS database by **setting inbound rules of RDS security group**
     - Go to the **Databases** tab and click the new database we just created to go to database info page
     - Click the **VPC security groups** under **Connectivity & security** tab to go to **Security Groups** page
     - Click the created security group during RDS database creation process to go to this security group page
@@ -553,7 +554,7 @@ Follow these steps to deploy app in AWS Cloud:
     - Select `PostgreSQL` for **Type** field and keep the `Custom` as default for **Source** field
     - Select the security group of EC2 (eg. `appName-ec2-sg`) for **the field between Source and Description fields**
     - Click **Save rules** button
-4. Allow EC2 access to RDS database by **setting outbound rules of EC2 security group**
+4. <a name="set-ec2-outbound-rule"></a>⭐ Allow EC2 access to RDS database by **setting outbound rules of EC2 security group**
     - Go to AWS EC2 service and go to the **Instances > Instances** tab
     - Click our EC2 instance (eg. `appName-ec2`) to go to instance info page
     - Click the **Security groups** under **Security** tab to go to EC2 security group info page
@@ -562,17 +563,17 @@ Follow these steps to deploy app in AWS Cloud:
     - Select `PostgreSQL` for **Type** field and keep the `Custom` as default for **Destination** field
     - Select the security group of RDS (eg. `appName-rds-sg`) for **the field between Destination and Description fields**
     - Click **Save rules** button
-5. Build `DATABASE_URL` for RDS PostgreSQL database
+5. <a name="build-database-url"></a>⭐ Build `DATABASE_URL` for RDS PostgreSQL database
     - Go to the **Databases** tab and click the new database we just created to go to database info page
     - Copy the the value of **Endpoint** under **Connectivity & security** tab and we will use the value as `urlForRDS` in `DATABASE_URL`
     - You already noted down `masterUsername`, `password` and `databasename` values during RDS database creation
     - Now, you can build `DATABASE_URL="postgresql://masterUsername:password@urlForRDS:5432/databasename?schema=public"`
-6. Add `DATABASE_URL` env variable to EC2 app project server `.env` file
+6. <a name="set-up-rds-in-ec2"></a>⭐ Add `DATABASE_URL` env variable to EC2 app project server `.env` file
     - Connect to the cloud computer terminal of EC2 instance
     - **Switch to supser user** and **delete** the exsting PM2 running app
     - Cd to `server` folder, run `nano .env` command line to open `.env` file and copy paste the whole `DATABASE_URL` variable into `.env` file
     - Press `control + X`, `Y`, `Enter key` to save the file change
-7. **Set up RDS database in EC2 server** by running
+7. ⭐ **Set up RDS database in EC2 server** by running
 
     ```
     cd order-food/server
@@ -581,13 +582,13 @@ Follow these steps to deploy app in AWS Cloud:
     npm run seed
     ```
 
-8. **Start PM2 project again**
+8. ⭐ **Start PM2 project again**
 
     ```
     pm2 start ecosystem.config.js
     ```
 
-9. **Test whether the EC2 instance can successfully connect to the RDS database**
+9. <a name="test-database-in-ec2"></a>⭐ **Test whether the EC2 instance can successfully connect to the RDS database**
     - Click the new EC2 instance you just created in **Instances > Instances** page to go to **EC2 instance info** page
     - Click copy button under **Auto-assigned IP address** to copy the IP address value
     - Paste the `http://IPAddressYouJustCopied/restaurant` url to Chrome broswer
