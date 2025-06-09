@@ -39,6 +39,11 @@
       - [⭐ Config EC2 Instance](#config-ec2)
       - [⭐ Test Server in EC2](#test-server-in-ec2)
     - [🗃️ Set up RDS](#set-up-rds)
+      - [⭐ Create RDS Database](#create-rds-database)
+      - [⭐ ](#)
+      - [⭐ ](#)
+      - [⭐ ](#)
+      - [⭐ ](#)
     - [🖥️ Set up Amplify](#set-up-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
@@ -509,8 +514,8 @@ Follow these steps to deploy app in AWS Cloud:
 
 ### <a name="set-up-rds">🗃️ Set up RDS for PostgreSQL Database</a>
 
-1. Go to AWS RDS service
-2. Create a **new RDS database**
+1. ⭐ Go to AWS RDS service
+2. <a name="create-rds-database"></a>⭐ Create a **new RDS database**
     - Go to the **Databases** tab and click **Create database** button
     - Select the `Standard create` option to ensure you avoid any potential charges from default settings.
     - Select `PostgreSQL` for **Engine type** under **Engine Options** section
