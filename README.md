@@ -599,7 +599,7 @@ Follow these steps to deploy app in AWS Cloud:
 
 ### <a name="set-up-amplify">🖥️ Set up Amplify and deploy client</a>
 
-1. Go to AWS Amplify service
+1. ⭐ Go to AWS Amplify service
 2. <a name="deploy-app-in-amplify"></a>⭐ **Deploy App**
     - Click **Deploy an app** button
     - **Choose source code provider** Step
@@ -624,7 +624,7 @@ Follow these steps to deploy app in AWS Cloud:
       - Click **Next** button
     - **Review** Step
       - Click **Save and deploy** button
-3. View deployed app
+3. ⭐ View deployed app
     - Click **Visit deployed URL** button to view your app once client deployment is finished
 
 ---
