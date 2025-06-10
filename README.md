@@ -46,6 +46,7 @@
       - [⭐ Config Database in EC2](#set-up-rds-in-ec2)
       - [⭐ Test Db Connection in EC2](#test-database-in-ec2)
     - [🖥️ Set up Amplify](#set-up-amplify)
+      - [⭐ Deploy App in Amplify](#deploy-app-in-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
 8. 👨‍💼 [About the Author](#about-the-author)
@@ -599,7 +600,7 @@ Follow these steps to deploy app in AWS Cloud:
 ### <a name="set-up-amplify">🖥️ Set up Amplify and deploy client</a>
 
 1. Go to AWS Amplify service
-2. **Deploy App**
+2. <a name="deploy-app-in-amplify"></a>⭐ **Deploy App**
     - Click **Deploy an app** button
     - **Choose source code provider** Step
       - Select `GitHub`
