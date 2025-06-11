@@ -49,11 +49,9 @@
       - [⭐ Deploy App in Amplify](#deploy-app-in-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
       - [⭐ Create an API](#create-an-api)
-      - [⭐ ](#)
-      - [⭐ ](#)
-      - [⭐ ](#)
-      - [⭐ ](#)
-      - [⭐ ](#)
+      - [⭐ Create Resources for API](#create-resources-for-api)
+      - [⭐ Deploy API & Redeploy Amplify](#deploy-api-and-redeploy-amplify)
+      - [🎉 Check Deployed App](#check-deployed-app)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
 8. 👨‍💼 [About the Author](#about-the-author)
 
@@ -648,7 +646,7 @@ The simplest solution is to use **API Gateway**, which automatically provides an
     - Select `New API` for **API details**
     - Enter your desired **API name** (eg. `appName-api-gateway`)
     - Click **Create API** button and you will be redirected to **Resources** tab of this created API info page
-3. Create **resources for API**
+3. <a name="create-resources-for-api"></a>⭐ Create **resources for API**
     - Create and config **Proxy resource**
       - Click **Create resource** button
       - **Enable** "Proxy resource"
@@ -721,23 +719,23 @@ The simplest solution is to use **API Gateway**, which automatically provides an
       - Enter `http://IPAddressYouJustCopied/menuItem/{restaurantId}/menuItems` for **Endpoint URL** by following the same steps before in creating Proxy resource section
       - Keep the rest of things by default in this page
       - Click **Create method** button and you will be redirected to **Resources** tab
-4. **Deploy API**
+4. <a name="deploy-api-and-redeploy-amplify"></a>⭐ **Deploy API**
     - Click **Deploy API** button
     - Select `New stage` for **Stage**
     - Enter your desired **Stage name** (eg. `prod`)
     - Click **Deploy** button and you will be redirected to **Stages** tab
-5. **Fix** the `NEXT_PUBLIC_API_BASE_URL` environment variable in **Amplify** with correct url
+5. ⭐ **Fix** the `NEXT_PUBLIC_API_BASE_URL` environment variable in **Amplify** with correct url
     - Click the copy button for the **Invoke URL** of your stage (eg. `prod`)
     - Go to AWS Amplify service and select your app
     - Click **Hosting > Environment variables** tab
     - Click **Manage variables** button
     - Replace the value of `NEXT_PUBLIC_API_BASE_URL` to the **Invoke URL** value you just **copied**
     - Click **Save** button
-6. **Redeploy app client** after changing environment variable
+6. ⭐ **Redeploy app client** after changing environment variable
     - Click **Overview** tab and click `main` or `master` branch
     - Click **Redeploy this version** button in **Deployments** tab
     - Click the URL of **Domain** to view your application after deployment is finished.
-7. 🎉🎉🎉 Check Your Deployed App 🎉🎉🎉  
+7. <a name="check-deployed-app"></a>🎉🎉🎉 Check Your Deployed App 🎉🎉🎉  
     - You should be able to view all restaurants on the homepage and see the menu items of any restaurant on its individual page—**no sign-in required**.  
     - To test full functionality, **sign in** as a **Customer**, **Restaurant**, or **Driver** user.  
     - If everything is working correctly, **congratulations**—you’ve successfully deployed your app to the AWS cloud! 🥳🥳🥳
