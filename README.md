@@ -48,6 +48,12 @@
     - [🖥️ Set up Amplify](#set-up-amplify)
       - [⭐ Deploy App in Amplify](#deploy-app-in-amplify)
     - [🔗 Set up API Gateway](#set-up-api-gateway)
+      - [⭐ Create an API](#create-an-api)
+      - [⭐ ](#)
+      - [⭐ ](#)
+      - [⭐ ](#)
+      - [⭐ ](#)
+      - [⭐ ](#)
 7. 📌 [Note for Schemas Update](#note-schemas-update)
 8. 👨‍💼 [About the Author](#about-the-author)
 
@@ -635,8 +641,8 @@ Our **front-end client** is currently hosted over **HTTPS**, while the **back-en
 
 The simplest solution is to use **API Gateway**, which automatically provides an HTTPS endpoint. This way, instead of manually setting up and managing HTTPS certificates on the server, you can configure API Gateway to define backend routes that securely connect the HTTPS client to your HTTP-based server.
 
-1. Go to AWS API Gateway service
-2. Create an **API**
+1. ⭐ Go to AWS API Gateway service
+2. <a name="create-an-api"></a>⭐ Create an **API**
     - Go to **APIs** tab and click **Create API** button
     - Select `REST API` and click **Build** button
     - Select `New API` for **API details**
