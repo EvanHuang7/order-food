@@ -12,7 +12,9 @@
 2. 🛠️ [Tech Stack](#tech-stack)
 3. 🚀 [Features](#features)
 4. 🧩 [Diagram and Screenshots](#diagram-screenshots)
-5. ⚙️ [Installation and Start Project](#installation-start-project)
+<details>
+<summary>5. ⚙️ [Installation and Start Project](#installation-start-project)</summary>
+
     - [⭐ Prerequisites](#prerequisites)
     - [⭐ Cloning the Repository](#clone-repo)
     - [⭐ Installation](#install)
@@ -27,6 +29,8 @@
     - [⭐ Create Tables, Add Event Trigger, and Seed Mock Data](#create-table)
     - [⭐ Upload Images of Mock Data to AWS S3 Bucket](#upload-images-s3)
     - [⭐ Running the Project](#running-project)
+    
+</details>
 6. ☁️ [Deploy App in AWS Cloud](#deploy-app)
     - [🌐 Set up VPC](#set-up-vpc)
       - [⭐ Create new VPC](#create-new-vpc)
