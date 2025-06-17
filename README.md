@@ -472,17 +472,29 @@ Follow these steps to deploy app in AWS Cloud:
       ```
 
     - Install pm2 (Production Process Manager for Node.js) and set pm2 to restart automatically on VM (system) reboot by running
-      - Note: PM2 by default will auto-restart the app if app crashes or stops unexpectedly.
+      - Note: PM2 by default will auto-restart the app if app **crashes or stops unexpectedly**.
+      - 2nd cli is to create and enable a systemd service file for PM2, so that PM2 would auto-restart and load dump file to restart all saved apps after VM reboots.
+      - 3rd cli is to verify if the systemd service file for PM2 was correctly created and enabled or not.
 
       ```
       npm i pm2 -g
+
       sudo env PATH=$PATH:$(which node) $(which pm2) startup systemd -u $USER --hp $(eval echo ~$USER)
+
+      sudo systemctl status pm2-$USER
       ```
 
     - Start the application using the pm2 ecosystem configuration by running
 
       ```
       pm2 start ecosystem.config.js
+      ```
+
+    - Save the current running processes of PM2, so that the running apps under PM2 will restart automatically after VM (system) reboots (PM2 knows what to restore after VM reboots) 
+      - Note: The cli will save the current list of running apps under PM2 (their configs, paths, arguments, etc.) to the dump file that used by PM2 to restart all saved apps after VM reboots
+
+      ```
+      pm2 save
       ```
 
     - Manage pm2 project with these command lines below:
