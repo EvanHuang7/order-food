@@ -471,7 +471,8 @@ Follow these steps to deploy app in AWS Cloud:
       npm run dev
       ```
 
-    - Install pm2 (Production Process Manager for Node.js) and set pm2 to restart automatically on system reboot by running
+    - Install pm2 (Production Process Manager for Node.js) and set pm2 to restart automatically on VM (system) reboot by running
+      - Note: PM2 by default will auto-restart the app if app crashes or stops unexpectedly.
 
       ```
       npm i pm2 -g
