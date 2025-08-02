@@ -57,7 +57,7 @@
 
 ## <a name="introduction">📋 Introduction</a>
 
-**🍔 Oder Food** is a full-stack food delivery platform, **integrated with AWS**, that connects customers, restaurants, and delivery drivers in a unified system.
+**🍔 Oder Food** is a full-stack food delivery platform, **integrated with ☁️ AWS**, that connects customers, restaurants, and delivery drivers in a unified system.
 
 - **👤 Customers** can browse local restaurants, place food orders, track deliveries in real-time, and even **talk to an AI assistant to place orders via voice calls**.
 - **🍽️ Restaurants** can manage their menus, orders, and business operations directly through the platform.
